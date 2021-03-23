@@ -41,13 +41,13 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('list') }}">{{ __('Devices') }}</a>
+                            <a class="nav-link" href="{{ route('devices_list') }}">{{ __('Devices') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('list') }}">{{ __('Automations') }}</a>
+                            <a class="nav-link" href="{{ route('devices_list') }}">{{ __('Automations') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('list') }}">{{ __('Users') }}</a>
+                            <a class="nav-link" href="{{ route('users_list') }}">{{ __('Users') }}</a>
                         </li>
                         @endif
                     </ul>

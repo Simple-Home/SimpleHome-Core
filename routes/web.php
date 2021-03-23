@@ -20,5 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/devices', [App\Http\Controllers\DevicesController::class, 'list'])->name('list');
+Route::get('/devices', [App\Http\Controllers\DevicesController::class, 'list'])->name('devices_list');
+Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
+
 
