@@ -43,6 +43,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('list') }}">{{ __('Devices') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('list') }}">{{ __('Automations') }}</a>
+                        </li>
                         @endif
                     </ul>
 
