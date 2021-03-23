@@ -46,6 +46,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('list') }}">{{ __('Automations') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('list') }}">{{ __('Users') }}</a>
+                        </li>
                         @endif
                     </ul>
 
