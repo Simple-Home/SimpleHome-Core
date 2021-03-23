@@ -1,0 +1,4 @@
+RewriteEngine on
+
+# route everything else to /public/index.php
+RewriteRule ^ /public/index.php [L]
