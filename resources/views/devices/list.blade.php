@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Device List') }}</div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>

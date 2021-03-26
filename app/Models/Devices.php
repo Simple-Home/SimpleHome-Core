@@ -13,5 +13,9 @@ class Devices extends Model
         'Blocked',
     ];
 
+    public function getProperties(){
+        return $this->hasMany('App\Models\properties');
+    }
+
     use HasFactory;
 }
