@@ -19,12 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/devices', [App\Http\Controllers\DevicesController::class, 'list'])->name('devices_list');
-Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
-Route::get('/properties', [App\Http\Controllers\PropertiesController::class, 'list'])->name('properties_list');
-Route::get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
-Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
+Route::middleware(['auth', 'verified'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth', 'verified'])->get('/devices', [App\Http\Controllers\DevicesController::class, 'list'])->name('devices_list');
+Route::middleware(['auth', 'verified'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
+Route::middleware(['auth', 'verified'])->get('/user', [App\Http\Controllers\UsersController::class, 'edit'])->name('user');
+Route::middleware(['auth', 'verified'])->post('/user/update', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
+Route::middleware(['auth', 'verified'])->post('/user/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('user.changePassword');
+Route::middleware(['auth', 'verified'])->post('/user/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('user.verifyDelete');
+Route::middleware(['auth', 'verified'])->post('/user/delete', [App\Http\Controllers\UsersController::class, 'delete'])->name('user.delete');
+Route::middleware(['auth', 'verified'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'list'])->name('properties_list');
+Route::middleware(['auth', 'verified'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
+Route::middleware(['auth', 'verified'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
 
 
 

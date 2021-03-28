@@ -36,3 +36,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+smart-home.code-workspace
+/.vscode/sftp.json
