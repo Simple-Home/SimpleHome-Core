@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->post('/auth', function(){
+
+});
+
+Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->post('/properties', [App\Http\Controllers\PropertiesController::class, 'save']);
+Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'save']);
