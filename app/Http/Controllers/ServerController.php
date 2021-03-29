@@ -25,20 +25,91 @@ class ServerController extends Controller
      */
     public function index()
     {
-        return view('server', [
-            "server_info" => [
-                "timezone" => ((new DateTime())->getTimezone())->getName(),
-                "ram" => $this->ram_stat(),
-                "cpu" => $this->cpu_stat(),
-                "services" => [
-                    "apache2" => $this->service_status("apache2"),
-                    "mysql" => $this->service_status("mysql"),
+        $chartDisk = app()->chartjs
+            ->name('chartDisk')
+            ->type('doughnut')
+            ->size(['width' => 300, 'height' => 300])
+            ->labels([__('Free'), __('Used')])
+            ->datasets([
+                [
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
+                    'data' => [$this->disk_stat()["used"], $this->disk_stat()["total"]]
                 ]
-            ]
-        ]);
+            ])
+            ->optionsRaw("{
+                tooltips: {
+                    callbacks: {
+                        label: function(t, d) {
+                            console.log(d);
+                            t.yLabel = d.datasets[0].data[t.index];
+                            var yLabel = t.yLabel >= 1000 ?
+                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
+                            return d.labels[t.index] + ' ' + yLabel + 'GB';
+                        }
+                    },
+                }
+            }");
+
+        $chartRam = app()->chartjs
+            ->name('chartRam')
+            ->type('doughnut')
+            ->size(['width' => 300, 'height' => 300])
+            ->labels([__('Free'), __('Used')])
+            ->datasets([
+                [
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
+                    'data' => [$this->ram_stat()["used"], $this->ram_stat()["total"]]
+                ]
+            ])
+            ->optionsRaw("{
+                tooltips: {
+                    callbacks: {
+                        label: function(t, d) {
+                            console.log(d);
+                            t.yLabel = d.datasets[0].data[t.index];
+                            var yLabel = t.yLabel >= 1000 ?
+                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
+                            return d.labels[t.index] + ' ' + yLabel + 'GB';
+                        }
+                    },
+                }
+            }");
+
+
+        $chartCpu = app()->chartjs
+            ->name('chartCpu')
+            ->type('doughnut')
+            ->size(['width' => 300, 'height' => 300])
+            ->labels([__('Free'), __('Used')])
+            ->datasets([
+                [
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
+                    'data' => [$this->cpu_stat(), 1]
+                ]
+            ])
+            ->optionsRaw("{
+                tooltips: {
+                    callbacks: {
+                        label: function(t, d) {
+                            console.log(d);
+                            t.yLabel = d.datasets[0].data[t.index];
+                            var yLabel = t.yLabel >= 1000 ?
+                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
+                            return d.labels[t.index] + ' ' + yLabel + 'GB';
+                        }
+                    },
+                }
+            }");
+        $services['apache2'] = $this->service_status('apache2');
+        $services['mysql'] = $this->service_status('mysql');
+
+        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services'));
     }
 
-    private function ram_stat(){
+
+
+    private function ram_stat()
+    {
         //RAM usage
         $free = shell_exec('free');
         $free = (string) trim($free);
@@ -67,14 +138,16 @@ class ServerController extends Controller
         ];
     }
 
-    private function cpu_stat(){
+    private function cpu_stat()
+    {
         //cpu usage
         $cpu_load = sys_getloadavg();
         $load = $cpu_load[0];
         return $load;
     }
 
-    private function service_status($service_name){
+    private function service_status($service_name)
+    {
         //service
         $serviceStatus = shell_exec('service ' . $service_name . ' status');
         $serviceStatus = (string) trim($serviceStatus);
@@ -84,7 +157,13 @@ class ServerController extends Controller
         return ($status[6] == "active" ? true : false);
     }
 
-    private function disk_stat(){
-        $df = disk_free_space("/");
+    private function disk_stat()
+    {
+        $df = round(disk_free_space("/var/www") / 1024 / 1024 / 1024);
+        $dt = round(disk_total_space("/var/www") / 1024 / 1024 / 1024);
+        return [
+            "used" => ($dt - $df),
+            "total" => $dt,
+        ];
     }
 }
