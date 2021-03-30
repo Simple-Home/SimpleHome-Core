@@ -166,7 +166,8 @@ return [
         * Package Service Providers...
         */
         App\Providers\BroadcastServiceProvider::class, // uncomment this
-        Spatie\ServerMonitor\ServerMonitorServiceProvider::class, // add this
+        //Spatie\ServerMonitor\ServerMonitorServiceProvider::class, // add this
+        //Illuminate\Database\DatabaseServiceProvider::class,
 
         /*
          * Application Service Providers...
