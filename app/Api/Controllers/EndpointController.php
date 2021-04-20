@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Devices;
 use App\Models\Properties;
 use App\Http\Controllers\Controller;
+use App\Models\Records;
 use Illuminate\Support\Facades\Auth;
 
 class EndpointController extends Controller
@@ -28,7 +29,14 @@ class EndpointController extends Controller
             if (!empty($request->$propertyType)) {
                 dump($propertyType);
                 dump($request->$propertyType);
-                $device->getProperties->getRecords->create(['value' => $request->$propertyType]);
+
+                $record = new Records;
+                $record->value = $request->$propertyType;
+                $record->property_id = $property->id;
+                $record->save();
+
+                dump($property->values);
+                #$device->getProperties->values->create(['value' => $request->$propertyType]);
             }
         }
         die(1);

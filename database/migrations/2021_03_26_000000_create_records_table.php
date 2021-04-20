@@ -15,7 +15,6 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('records_id')->constrained();
             $table->dateTime('time')->useCurrent();
             $table->string('value');
         });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TimestampPropertiesTable extends Migration
+class TimestampRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class TimestampPropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('properties', function (Blueprint $table) {
+        Schema::table('records', function (Blueprint $table) {
             $table->timestamps();
         });
     }
@@ -25,8 +25,9 @@ class TimestampPropertiesTable extends Migration
      */
     public function down()
     {
-
-        Schema::drop('updated_at');
-        Schema::drop('created_at');
+        Schema::table('records', function (Blueprint $table) {
+            $table->drop('updated_at');
+            $table->drop('created_at');
+        });
     }
 }

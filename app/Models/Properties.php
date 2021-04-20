@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Devices;
+use App\Models\Records;
+
 
 class Properties extends Model
 {
@@ -15,9 +17,8 @@ class Properties extends Model
         return $this->belongsTo(Devices::class);
     }
 
-    public function add(){
-
+    public function values(){
+        return $this->hasMany(Records::class, 'property_id');
     }
-
     use HasFactory;
 }
