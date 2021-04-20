@@ -27,14 +27,16 @@ class EndpointController extends Controller
         $device->setHeartbeat();
 
         foreach ($request->properties as $key => $propertyItem) {
-            $property = new Properties;
-            $property->type = $propertyItem;
-            $property->nick_name = $propertyItem;
-            $property->icon = "fas fa-robot";
-            $property->device_id = $device->id;
-            $property->room_id = 1;
-            $property->history = 90;
-            $property->save();
+            if (empty($request->$propertyItem)) {
+                $property = new Properties;
+                $property->type = $propertyItem;
+                $property->nick_name = $propertyItem;
+                $property->icon = "fas fa-robot";
+                $property->device_id = $device->id;
+                $property->room_id = 1;
+                $property->history = 90;
+                $property->save();
+            }
         }
 
         echo json_encode([
@@ -60,7 +62,6 @@ class EndpointController extends Controller
                 #$device->getProperties->values->create(['value' => $request->$propertyType]);
             }
         }
-        die(1);
     }
 
     public function ota()
