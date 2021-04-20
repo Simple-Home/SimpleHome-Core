@@ -47,6 +47,11 @@ return [
             'storage_key' => 'token',
             'hash' => false,
         ],
+
+        'oauth' => [
+            'driver' => 'passport',
+            'provider' => 'user',
+        ],
     ],
 
     /*

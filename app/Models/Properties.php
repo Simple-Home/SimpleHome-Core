@@ -8,8 +8,15 @@ use App\Models\Devices;
 
 class Properties extends Model
 {
+    protected $fillable = [
+    ];
+
     public function device(){
         return $this->belongsTo(Devices::class);
+    }
+
+    public function add(){
+
     }
 
     use HasFactory;

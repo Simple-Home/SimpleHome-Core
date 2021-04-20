@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->post('/auth', function(){
+// Route::middleware(['prefix' => 'v1', 'middleware' => 'auth:api'])->post('/auth', function(){
 
-});
+// });
 
-Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->post('/properties', [App\Http\Controllers\PropertiesController::class, 'save']);
-Route::middleware(['prefix' => 'api/v1', 'middleware' => 'auth:api'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'save']);
+Route::middleware(['middleware' => 'auth:api'])->post('/data', [App\Api\Controllers\EndpointController::class, 'data']);
+Route::middleware(['middleware' => 'auth:api'])->get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
+
+//Oauthentication
+Route::middleware(['middleware' => 'auth:api'])->get('/authenticate', [App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::middleware(['middleware' => 'auth:oauth'])->post('/token', [App\Http\Controllers\Auth\AuthController::class, 'login']);
