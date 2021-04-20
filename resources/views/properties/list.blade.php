@@ -8,9 +8,18 @@
         <div class="col mb-4">
             <div class="card">
                 <div class="card-body">
-                    <i class="card-img-top fas {{$property->icon}}"></i>
-                    <h5 class="card-title">{{$property->type}}</h5>
-                    <h4>{{$property->device->hostname}}</h5>
+                    <div class="row">
+                        <div class="col-sm">
+                            <i class="card-img-top fas {{$property->icon}}"></i>
+                            <h5 class="card-title">{{$property->type}}</h5>
+                            <h4>{{$property->device->hostname}}</h5>
+                        </div>
+                        <div class="col-sm">
+                            @if (!empty ($property->lastValue))
+                            <h4 class="text-right">{{$property->lastValue->value}}</h4>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">

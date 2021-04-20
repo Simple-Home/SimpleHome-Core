@@ -22,8 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 // });
 
-Route::middleware(['middleware' => 'auth:api'])->post('/data', [App\Api\Controllers\EndpointController::class, 'data']);
-Route::middleware(['middleware' => 'auth:api'])->get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
+Route::middleware(['middleware' => 'auth:api'])->post('/setup', [App\Api\Controllers\EndpointController::class, 'setup']);
+Route::middleware(['middleware' => 'auth:api'])->post('/data',  [App\Api\Controllers\EndpointController::class, 'data']);
+Route::middleware(['middleware' => 'auth:api'])->get('/ota',    [App\Api\Controllers\EndpointController::class, 'ota']);
 
 //Oauthentication
 Route::middleware(['middleware' => 'auth:api'])->get('/authenticate', [App\Http\Controllers\Auth\AuthController::class, 'login']);

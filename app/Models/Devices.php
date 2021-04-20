@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use app\Models\Properties;
+use DateTime;
 
 class Devices extends Model
 {
@@ -16,6 +17,11 @@ class Devices extends Model
 
     public function getProperties(){
         return $this->hasMany('App\Models\Properties', 'device_id');
+    }
+
+    public function setHeartbeat(){
+        $this->heartbeat = new DateTime();
+        $this->save();
     }
 
     use HasFactory;

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Devices;
 use App\Models\Records;
+use Illuminate\Support\Facades\DB;
 
 
 class Properties extends Model
@@ -20,5 +21,10 @@ class Properties extends Model
     public function values(){
         return $this->hasMany(Records::class, 'property_id');
     }
+
+    public function lastValue(){
+        return $this->hasOne(Records::class, 'property_id')->latest('time');
+    }
+
     use HasFactory;
 }
