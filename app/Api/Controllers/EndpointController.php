@@ -3,11 +3,11 @@
 namespace App\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Models\Devices;
 use App\Models\Properties;
-use App\Http\Controllers\Controller;
 use App\Models\Records;
-use Illuminate\Support\Facades\Auth;
 
 class EndpointController extends Controller
 {
@@ -27,7 +27,7 @@ class EndpointController extends Controller
         $device->setHeartbeat();
 
         foreach ($request->properties as $key => $propertyItem) {
-            if (empty($request->$propertyItem)) {
+            if (!$device->getPropertiesExistence($propertyItem)) {
                 $property = new Properties;
                 $property->type = $propertyItem;
                 $property->nick_name = $propertyItem;
@@ -40,7 +40,7 @@ class EndpointController extends Controller
         }
 
         echo json_encode([
-            "hostname" => "sada",
+            "hostname" => $device->getHostname(),
             "ip" => "x.x.x.x"
         ]);
     }
@@ -49,19 +49,22 @@ class EndpointController extends Controller
     {
         $device = Auth::user();
         $device->setHeartbeat();
+        $response = [];
+
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
             if (!empty($request->$propertyType)) {
-                dump($propertyType);
-                dump($request->$propertyType);
                 $record = new Records;
                 $record->value = $request->$propertyType;
                 $record->property_id = $property->id;
                 $record->save();
-                dump($property->values);
-                #$device->getProperties->values->create(['value' => $request->$propertyType]);
+            }
+            if (!empty($property->lastValue)){
+                $response[$property->type] = $property->lastValue->id;
             }
         }
+
+        echo json_encode($response);
     }
 
     public function ota()

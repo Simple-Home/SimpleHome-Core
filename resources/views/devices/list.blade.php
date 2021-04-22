@@ -22,7 +22,7 @@
                         <tbody>
                             @foreach ($devices as $device)
                             <tr>
-                                <th scope="row">1</th>
+                                <th scope="row">{{$device->id}}</th>
                                 <td>{{$device->hostname}}</td>
                                 <td>{{$device->token}}</td>
                                 <td>{{$device->heartbeat}}</td>
