@@ -55,22 +55,23 @@ class EndpointController extends Controller
 
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
-            $lastValue = $property->lastValue->value;
+            if (empty($request->$propertyType)) {
+                continue;
+            }
 
-            if (!empty($request->$propertyType) && ($request->$propertyType != Cache::get($device->id . ":" . $property->id))) {
+            if (!Cache::has($property->id)) {
+                Cache::put($property->id, $request->$propertyType, 1800);
+            }
+
+            if ($request->$propertyType != Cache::get($property->id)) {
                 $record                 = new Records;
                 $record->value          = $request->$propertyType;
                 $record->property_id    = $property->id;
                 $record->save();
-                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 1800);
+                Cache::put($property->id, $request->$propertyType, 1800);
             }
 
-            if (Cache::has($device->id . ":" . $property->id)) {
-                $response[$property->type] = Cache::get($device->id . ":" . $property->id);
-            } else {
-                $response[$property->type] = $lastValue;
-                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 1800);
-            }
+            $response[$property->type] = Cache::get($property->id);
         }
 
         echo json_encode($response);
