@@ -26,4 +26,17 @@ class DevicesController extends Controller
     {
         return view('devices.list', ["devices" => Devices::all()]);
     }
+
+    public function search(Request $request){
+        $search = $request->input('search');
+
+        $devices = Devices::query()
+        ->where('id', 'LIKE', "%{$search}%")
+        ->orWhere('hostname', 'LIKE', "%{$search}%")
+        ->orWhere('token', 'LIKE', "%{$search}%")
+        ->orWhere('type', 'LIKE', "%{$search}%")
+        ->get();
+
+        return view('devices.list', ["devices" => $devices]);
+    }
 }

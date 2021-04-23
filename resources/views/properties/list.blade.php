@@ -4,6 +4,7 @@
 <div class="container">
     @include('components.search')
     <div class="row row-cols-1 row-cols-md-3">
+        @if (!empty($properties) && count($properties) > 0)
         @foreach ($properties as $property)
         <div class="col mb-4">
             <div class="card">
@@ -29,6 +30,9 @@
             </div>
         </div>
         @endforeach
+        @else
+        <p class="text-center">{{ __('Nothing Found') }}</p>
+        @endif
     </div>
 </div>
 @endsection

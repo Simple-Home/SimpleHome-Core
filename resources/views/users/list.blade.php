@@ -4,14 +4,13 @@
 <div class="container">
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Users List') }}</div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Hostname</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">MFA</th>
@@ -21,7 +20,6 @@
                         <tbody>
                             @foreach ($users as $user)
                             <tr>
-                                <th scope="row">#</td>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->MFA}}</td>

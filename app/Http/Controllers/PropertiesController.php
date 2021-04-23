@@ -46,4 +46,16 @@ class PropertiesController extends Controller
 
         return view('properties.list', ["properties" => $properties]);
     }
+
+    public function search(Request $request){
+        $search = $request->input('search');
+
+        $properties = Properties::query()
+        ->where('id', 'LIKE', "%{$search}%")
+        ->orWhere('nick_name', 'LIKE', "%{$search}%")
+        ->orWhere('type', 'LIKE', "%{$search}%")
+        ->get();
+
+        return view('properties.list', ["properties" => $properties]);
+    }
 }

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::namespace('version-depricated')->prefix('depricated')->group(function () {
-
+    Route::post('/endpoint', [App\Api\Controllers\EndpointController::class, 'depricatedData']);
 });
 
 Route::namespace('version-1')->prefix('v1')->group(function () {
