@@ -2,12 +2,13 @@
 
 namespace App\Api\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use App\Models\Devices;
-use App\Models\Properties;
 use App\Models\Records;
+use App\Models\Properties;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class EndpointController extends Controller
 {
@@ -28,20 +29,20 @@ class EndpointController extends Controller
 
         foreach ($request->properties as $key => $propertyItem) {
             if (!$device->getPropertiesExistence($propertyItem)) {
-                $property = new Properties;
-                $property->type = $propertyItem;
-                $property->nick_name = $propertyItem;
-                $property->icon = "fas fa-robot";
-                $property->device_id = $device->id;
-                $property->room_id = 1;
-                $property->history = 90;
+                $property               = new Properties;
+                $property->type         = $propertyItem;
+                $property->nick_name    = $propertyItem;
+                $property->icon         = "fas fa-robot";
+                $property->device_id    = $device->id;
+                $property->room_id      = 1;
+                $property->history      = 90;
                 $property->save();
             }
         }
 
         echo json_encode([
-            "hostname" => $device->getHostname(),
-            "ip" => "x.x.x.x"
+            "hostname"  => $device->getHostname(),
+            "sleep"     => $device->sleep,
         ]);
     }
 
@@ -54,15 +55,22 @@ class EndpointController extends Controller
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
             if (!empty($request->$propertyType)) {
-                $record = new Records;
-                $record->value = $request->$propertyType;
-                $record->property_id = $property->id;
+                $record                 = new Records;
+                $record->value          = $request->$propertyType;
+                $record->property_id    = $property->id;
                 $record->save();
+                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 600);
             }
-            if (!empty($property->lastValue)){
-                $response[$property->type] = $property->lastValue->id;
+            if (!empty($property->lastValue)) {
+                if (Cache::has($device->id . ":" . $property->id)) {
+                    $response[$property->type] = Cache::get($device->id . ":" . $property->id);
+                } else {
+                    $response[$property->type] = $request->$propertyType;
+                    Cache::put($device->id . ":" . $property->id, $request->$propertyType, 600);
+                }
             }
         }
+
 
         echo json_encode($response);
     }
