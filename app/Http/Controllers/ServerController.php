@@ -32,11 +32,14 @@ class ServerController extends Controller
             ->labels([__('Free'), __('Used')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
-                    'data' => [$this->disk_stat()["used"], $this->disk_stat()["total"]]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
+                    'data' => [$this->disk_stat()["used"], ($this->disk_stat()["total"] - $this->disk_stat()["used"])]
                 ]
             ])
             ->optionsRaw("{
+                legend: {
+                    display: false
+                },
                 tooltips: {
                     callbacks: {
                         label: function(t, d) {
@@ -57,11 +60,14 @@ class ServerController extends Controller
             ->labels([__('Free'), __('Used')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
-                    'data' => [$this->ram_stat()["used"], $this->ram_stat()["total"]]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
+                    'data' => [$this->ram_stat()["used"], ($this->ram_stat()["total"] - $this->ram_stat()["used"])]
                 ]
             ])
             ->optionsRaw("{
+                legend: {
+                    display: false
+                },
                 tooltips: {
                     callbacks: {
                         label: function(t, d) {
@@ -83,11 +89,14 @@ class ServerController extends Controller
             ->labels([__('Free'), __('Used')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(0, 129, 255)'],
-                    'data' => [$this->cpu_stat(), 1]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
+                    'data' => [$this->cpu_stat(), (1 - $this->cpu_stat())]
                 ]
             ])
             ->optionsRaw("{
+                legend: {
+                    display: false
+                },
                 tooltips: {
                     callbacks: {
                         label: function(t, d) {
@@ -95,7 +104,7 @@ class ServerController extends Controller
                             t.yLabel = d.datasets[0].data[t.index];
                             var yLabel = t.yLabel >= 1000 ?
                             t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + 'GB';
+                            return d.labels[t.index] + ' ' + yLabel;
                         }
                     },
                 }

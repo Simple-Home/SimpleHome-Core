@@ -28,16 +28,17 @@ class EndpointController extends Controller
         $device->setHeartbeat();
 
         foreach ($request->properties as $key => $propertyItem) {
-            if (!$device->getPropertiesExistence($propertyItem)) {
-                $property               = new Properties;
-                $property->type         = $propertyItem;
-                $property->nick_name    = $propertyItem;
-                $property->icon         = "fas fa-robot";
-                $property->device_id    = $device->id;
-                $property->room_id      = 1;
-                $property->history      = 90;
-                $property->save();
+            if ($device->getPropertiesExistence($propertyItem)) {
+                continue;
             }
+            $property               = new Properties;
+            $property->type         = $propertyItem;
+            $property->nick_name    = $propertyItem;
+            $property->icon         = "fas fa-robot";
+            $property->device_id    = $device->id;
+            $property->room_id      = 1;
+            $property->history      = 90;
+            $property->save();
         }
 
         echo json_encode([
@@ -54,28 +55,28 @@ class EndpointController extends Controller
 
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
-            if (!empty($request->$propertyType)) {
+            $lastValue = $property->lastValue->value;
+
+            if (!empty($request->$propertyType) && ($request->$propertyType != Cache::get($device->id . ":" . $property->id))) {
                 $record                 = new Records;
                 $record->value          = $request->$propertyType;
                 $record->property_id    = $property->id;
                 $record->save();
-                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 600);
+                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 1800);
             }
-            if (!empty($property->lastValue)) {
-                if (Cache::has($device->id . ":" . $property->id)) {
-                    $response[$property->type] = Cache::get($device->id . ":" . $property->id);
-                } else {
-                    $response[$property->type] = $request->$propertyType;
-                    Cache::put($device->id . ":" . $property->id, $request->$propertyType, 600);
-                }
+
+            if (Cache::has($device->id . ":" . $property->id)) {
+                $response[$property->type] = Cache::get($device->id . ":" . $property->id);
+            } else {
+                $response[$property->type] = $lastValue;
+                Cache::put($device->id . ":" . $property->id, $request->$propertyType, 1800);
             }
         }
-
 
         echo json_encode($response);
     }
 
-    public function ota()
+    public function ota(Request $request)
     {
     }
 }
