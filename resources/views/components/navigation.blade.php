@@ -12,7 +12,7 @@
         <a class="nav-link" href="{{ route('users_list') }}">{{ __('Users') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('users_list') }}">{{ __('Rooms') }}</a>
+        <a class="nav-link" href="{{ route('rooms_list') }}">{{ __('Rooms') }}</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('server_info') }}">{{ __('Server') }}</a>

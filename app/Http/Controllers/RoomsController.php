@@ -24,6 +24,17 @@ class RoomsController extends Controller
      */
     public function list()
     {
-        return view('rooms.list', ["devices" => Rooms::all()]);
+        return view('rooms.list', ["rooms" => Rooms::all()]);
+    }
+
+    public function search(Request $request){
+        $search = $request->input('search');
+
+        $devices = Rooms::query()
+        ->where('id', 'LIKE', "%{$search}%")
+        ->orWhere('name', 'LIKE', "%{$search}%")
+        ->get();
+
+        return view('rooms.list', ["rooms" => $devices]);
     }
 }

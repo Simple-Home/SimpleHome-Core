@@ -42,8 +42,8 @@
                     @endif
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        @auth
+                    @auth
+                    <ul class="disabled navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <b>Domov</b>
@@ -61,8 +61,8 @@
                                 </form>
                             </div>
                         </li>
-                        @endauth
                     </ul>
+                    @endauth
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav">
                         <!-- Authentication Links -->
