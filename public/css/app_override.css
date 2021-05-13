@@ -1,8 +1,16 @@
 .row {
-    display: flex;
-    flex-wrap: wrap;
- }
+  display: flex;
+  flex-wrap: wrap;
+}
 
- .row > div[class*='col-'] {
-   display: flex;
- }
+.row > div[class*='col-'] {
+  display: flex;
+}
+
+a.card{
+  text-decoration : none;
+}
+
+a.card:hover{
+  text-decoration : none;
+}

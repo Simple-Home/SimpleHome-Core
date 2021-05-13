@@ -43,19 +43,50 @@ class PropertiesController extends Controller
             $property->connection_ago = Carbon::parse($heardbeath, 'Europe/Prague')->diffForHumans();
         }
 
+        return view('properties.list', ["properties" => $properties]);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $properties = Properties::query()
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('nick_name', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%")
+            ->get();
 
         return view('properties.list', ["properties" => $properties]);
     }
 
-    public function search(Request $request){
-        $search = $request->input('search');
+    public function detail($property_id)
+    {
+        $properti = Properties::find($property_id);
 
-        $properties = Properties::query()
-        ->where('id', 'LIKE', "%{$search}%")
-        ->orWhere('nick_name', 'LIKE', "%{$search}%")
-        ->orWhere('type', 'LIKE', "%{$search}%")
-        ->get();
+        $dataset["data"] = [];
+        $labels = [];
 
-        return view('properties.list', ["properties" => $properties]);
+        foreach ($properti->values  as $key => $item) {
+            $dataset["data"][] += $item->value;
+            $labels[] = $item->created_at->diffForHumans();
+        }
+
+        $propertyDetailChart = app()->chartjs
+            ->name('propertyDetailChart')
+            ->type('line')
+            ->labels($labels)
+            ->datasets([$dataset])
+            ->optionsRaw("{
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: Math.min.apply(this, ". json_encode($dataset["data"]).") - 5,
+                            max: Math.max.apply(this, ".json_encode($dataset["data"]).") + 5
+                        }
+                    }]
+                }
+            }");
+
+        return view('properties.detail', ["properti" => $properti, "propertyDetailChart" => $propertyDetailChart]);
     }
 }

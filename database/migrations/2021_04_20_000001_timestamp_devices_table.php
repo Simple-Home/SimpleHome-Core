@@ -26,8 +26,8 @@ class TimestampDevicesTable extends Migration
     public function down()
     {
         Schema::table('devices', function (Blueprint $table) {
-            $table->drop('updated_at');
-            $table->drop('created_at');
+            $table->dropColumn('updated_at');
+            $table->dropColumn('created_at');
         });
     }
 }

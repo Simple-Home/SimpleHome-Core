@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->get('/devices/search/', [App\Http\Contr
 
 Route::middleware(['auth', 'verified'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'list'])->name('properties_list');
 Route::middleware(['auth', 'verified'])->get('/properties/search/', [App\Http\Controllers\PropertiesController::class, 'search'])->name('properties_search');
+Route::middleware(['auth', 'verified'])->get('/properties/detail/{property_id}', [App\Http\Controllers\PropertiesController::class, 'detail'])->name('properties_detail');
 
 Route::middleware(['auth', 'verified'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
 Route::middleware(['auth', 'verified'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

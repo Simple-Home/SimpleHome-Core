@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TimestampPropertiesTable extends Migration
+class AddTokenDevicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class TimestampPropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('properties', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('devices', function (Blueprint $table) {
+            $table->string('token');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -25,9 +25,8 @@ class TimestampPropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn('updated_at');
-            $table->dropColumn('created_at');
+        Schema::create('devices', function (Blueprint $table) {
+            $table->dropColumn('token');
         });
     }
 }

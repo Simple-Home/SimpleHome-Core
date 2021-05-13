@@ -7,7 +7,7 @@
         @if (!empty($properties) && count($properties) > 0)
         @foreach ($properties as $property)
         <div class="col mb-4">
-            <div class="card">
+            <a href="{{ route('properties_detail', $property->id) }}" class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm">
@@ -27,7 +27,7 @@
                         <p class="mb-0 {{ $property->connection_error ? 'text-danger' : 'text-success' }} ">Last updated {{$property->connection_ago}}</p>
                     </small>
                 </div>
-            </div>
+            </a>
         </div>
         @endforeach
         @else

@@ -19,7 +19,6 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -129,6 +128,19 @@ class UsersController extends Controller
         $this->middleware('auth:sanctum');
         return redirect()->back()
             ->with(['verifyDelete' => true]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function api(Request $request, User $user)
+    {
+        $user = $request->user();
+        return view('users.api', ["user" => $user]);
     }
 
     /**

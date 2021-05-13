@@ -20,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta name="color-scheme" content="dark light">
 </head>
 
 <body>
@@ -42,6 +43,28 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        @auth
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <b>Domov</b>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="">
+                                    Home 1
+                                </a>
+                                <a class="dropdown-item" href="">
+                                    Home 2
+                                </a>
+                                <form id="home-form" action="{{ route('home') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        @endauth
+                    </ul>
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav">
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
@@ -66,7 +89,7 @@
                                     My account
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                    document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 

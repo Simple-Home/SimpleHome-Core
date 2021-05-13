@@ -38,3 +38,4 @@ npm-debug.log
 yarn-error.log
 smart-home.code-workspace
 */sftp.json
+composer.lock
