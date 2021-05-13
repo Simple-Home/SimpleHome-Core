@@ -15,6 +15,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">MFA</th>
                                 <th scope="col">Permission</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,6 +25,7 @@
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->MFA}}</td>
                                 <td>{{$user->Permission}}</td>
+                                <td><a href="{{ route('user.delete') }}" class="btn btn-danger"><i class="fas fa-times"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>
