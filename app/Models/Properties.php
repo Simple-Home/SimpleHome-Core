@@ -20,7 +20,7 @@ class Properties extends Model
     }
 
     public function values(){
-        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(2))->orderBy('created_at', 'DESC');
+        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(1))->orderBy('created_at', 'DESC');
     }
 
     public function lastValue(){
