@@ -36,6 +36,7 @@
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-check"></i></a>
                                     @endif
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+                                    <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
                                 </td>
                             </tr>
                             @endforeach

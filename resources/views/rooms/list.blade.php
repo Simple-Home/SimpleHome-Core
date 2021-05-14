@@ -8,7 +8,12 @@
         <div class="col-md-12">
             @if(!empty($rooms) && count($rooms) > 0)
             <div class="card">
-                <div class="card-header">{{ __('Rooms List') }}</div>
+                <div class="card-header">{{ __('Rooms List') }}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Launch demo modal
+                    </button>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped mb-0">
                         <thead>
@@ -29,9 +34,19 @@
                 </div>
             </div>
             @else
-                <p class="text-center">{{ __('Nothing Found') }}</p>
+            <p class="text-center">{{ __('Nothing Found') }}</p>
             @endif
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            test
+        </div>
+    </div>
+</div>
+
 @endsection
