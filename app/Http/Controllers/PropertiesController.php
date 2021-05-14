@@ -32,7 +32,6 @@ class PropertiesController extends Controller
             $property->connection_error = true;
 
             $heardbeath = new DateTime($property->device->heartbeat);
-            $heardbeath->modify('- 1 hour');
             $interval = $heardbeath->diff(new DateTime());
             $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
 
