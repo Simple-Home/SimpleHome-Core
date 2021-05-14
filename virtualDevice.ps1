@@ -8,6 +8,12 @@ while ($True) {
     $response = Invoke-WebRequest -Uri "$baseUrl/setup" -Method POST -Headers $headers -ContentType 'application/json' -Body '{
         "properties": ["humi","wifi","temp"]
     }'
+
+    if ($response.StatusCode -ne 200) {
+        Write-Host $response.Content -ForegroundColor Red
+    } else {
+        Write-Host $response.Content -ForegroundColor Green
+    }
     $configuration = $response.Content | ConvertFrom-Json
 
     while ($True) {
@@ -17,7 +23,12 @@ while ($True) {
 			"temp": '+(Get-Random -Minimum -5 -Maximum 70)+'
         }')
 
-        Write-Host $response.Content
+        if ($response.StatusCode -ne 200) {
+            Write-Host $response.Content -ForegroundColor Red
+        } else {
+            Write-Host $response.Content -ForegroundColor Green
+        }
+
         if (($response.Content | ConvertFrom-Json).commands){
             switch (($response.Content | ConvertFrom-Json).commands) {
                 'reboot' {
