@@ -12,14 +12,18 @@ while ($True) {
 
     while ($True) {
         $response = Invoke-WebRequest -Uri "$baseUrl/data" -Method POST -Headers $headers -ContentType 'application/json' -Body ('{
-            "humi": '+(Get-Random -Minimum -100 -Maximum 100)+',
-			"wifi": '+(Get-Random -Minimum -100 -Maximum 100)+',
-			"temp": '+(Get-Random -Minimum -100 -Maximum 100)+'
+            "humi": '+(Get-Random -Minimum 0 -Maximum 100)+',
+			"wifi": '+(Get-Random -Minimum -100 -Maximum 0)+',
+			"temp": '+(Get-Random -Minimum -5 -Maximum 70)+'
         }')
 
-        Write-Host $response.Conten
-        if (($response.Content | ConvertFrom-Json).commands -and ($response.Content | ConvertFrom-Json).commands -eq 'reboot'){
-            break
+        Write-Host $response.Content
+        if (($response.Content | ConvertFrom-Json).commands){
+            switch (($response.Content | ConvertFrom-Json).commands) {
+                'reboot' {
+                    break
+                }
+            }
         }
 
         Start-Sleep -Seconds $configuration.sleep

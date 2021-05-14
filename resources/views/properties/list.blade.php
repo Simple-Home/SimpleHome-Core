@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">
-                        <p class="mb-0 {{ $property->connection_error ? 'text-danger' : 'text-success' }} ">Last updated {{$property->connection_ago}}</p>
+                        <p class="mb-0 {{ $property->connection_error ? 'text-danger' : 'text-success' }}">Last updated {{$property->connection_ago}}</p>
                     </small>
                 </div>
             </a>

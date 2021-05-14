@@ -55,6 +55,20 @@ class PropertiesController extends Controller
             ->orWhere('type', 'LIKE', "%{$search}%")
             ->get();
 
+        foreach ($properties as $key => $property) {
+            $property->connection_error = true;
+
+            $heardbeath = new DateTime($property->device->heartbeat);
+            $interval = $heardbeath->diff(new DateTime());
+            $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
+
+            if ($totalSeconds < $property->device->sleep) {
+                $property->connection_error = false;
+            }
+
+            $property->connection_ago = Carbon::parse($heardbeath, 'Europe/Prague')->diffForHumans();
+        }
+
         return view('properties.list', ["properties" => $properties]);
     }
 

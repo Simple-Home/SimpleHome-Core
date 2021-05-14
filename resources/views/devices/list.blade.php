@@ -25,7 +25,7 @@
                             <tr>
                                 <td>{{$device->hostname}}</td>
                                 <td>{{$device->token}}</td>
-                                <td>{{$device->heartbeat}}</td>
+                                <td class="{{ $device->connection_error ? 'text-danger' : 'text-success' }}">{{$device->heartbeat}}</td>
                                 <td>{{$device->sleep}} ms</td>
                                 <td>
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-upload"></i></a>
