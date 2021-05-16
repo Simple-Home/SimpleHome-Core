@@ -16,6 +16,7 @@
                                 <th scope="col">Hostname</th>
                                 <th scope="col">Token</th>
                                 <th scope="col">Heartbeat</th>
+                                <th scope="col">Signal</th>
                                 <th scope="col">Sleep</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -26,6 +27,7 @@
                                 <td>{{$device->hostname}}</td>
                                 <td>{{$device->token}}</td>
                                 <td class="{{ $device->connection_error ? 'text-danger' : 'text-success' }}">{{$device->heartbeat}}</td>
+                                <td>{{$device->signal_strength}} %</td>
                                 <td>{{$device->sleep}} ms</td>
                                 <td>
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-upload"></i></a>

@@ -28,6 +28,7 @@ class DevicesController extends Controller
     {
         $devices = Devices::all();
 
+        #https://www.metageek.com/training/resources/understanding-rssi.html
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
@@ -38,9 +39,17 @@ class DevicesController extends Controller
             if ($totalSeconds < $device->sleep) {
                 $device->connection_error = false;
             }
+
+            foreach ($device->getProperties as $key => $property) {
+                if ($property->type != 'wifi') {
+                    continue;
+                }
+                $device->signal_strength = 2 * ($property->lastValue->value + 100);
+                break;
+            }
         }
 
-        return view('devices.list', ["devices" => Devices::all()]);
+        return view('devices.list', ["devices" => $devices]);
     }
 
     public function search(Request $request){
@@ -62,6 +71,14 @@ class DevicesController extends Controller
 
             if ($totalSeconds < $device->sleep) {
                 $device->connection_error = false;
+            }
+
+            foreach ($device->getProperties as $key => $property) {
+                if ($property->type != 'wifi') {
+                    continue;
+                }
+                $device->signal_strength = 2 * ($property->lastValue->value + 100);
+                break;
             }
         }
 
