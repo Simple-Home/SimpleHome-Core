@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'verified'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
+Route::middleware(['auth', 'verified'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('users_search');
 Route::middleware(['auth', 'verified'])->get('/user', [App\Http\Controllers\UsersController::class, 'edit'])->name('user');
 Route::middleware(['auth', 'verified'])->post('/user/update', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
 Route::middleware(['auth', 'verified'])->post('/user/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('user.changePassword');
@@ -40,6 +41,3 @@ Route::middleware(['auth', 'verified'])->get('/properties/detail/{property_id}',
 
 Route::middleware(['auth', 'verified'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
 Route::middleware(['auth', 'verified'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
-
-
-

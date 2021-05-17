@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Devices;
+use App\Models\Properties;
 
 class DashboardController extends Controller
 {
@@ -24,6 +25,38 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $properties = Properties::all();
+        $graphs = [];
+
+        foreach ($properties as $key => $property) {
+            $graphDataset['data'] = [];
+            foreach ($property->values as $key => $value) {
+                $graphDataset['data'][] = $value->value;
+            }
+            $graphs[] = $this->getGraph($graphDataset);
+        }
+
+        return view('dashboard.dashboard', ["graphs" => $graphs]);
+    }
+
+    private function getGraph($dataset, $labels = [])
+    {
+        $graph = app()->chartjs
+            ->name('propertyDetailChart' . rand(1, 999))
+            ->type('line')
+            ->labels($labels)
+            ->datasets([$dataset])
+            ->optionsRaw("{
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: Math.min.apply(this, " . json_encode($dataset["data"]) . ") - 5,
+                            max: Math.max.apply(this, " . json_encode($dataset["data"]) . ") + 5
+                        }
+                    }]
+                }
+            }");
+
+        return $graph;
     }
 }

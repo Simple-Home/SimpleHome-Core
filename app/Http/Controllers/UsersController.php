@@ -76,7 +76,7 @@ class UsersController extends Controller
         }
         $user = $request->user();
 
-        $user->name=$request->input('name');
+        $user->name = $request->input('name');
 
         $user->save();
         return redirect()->route('user');
@@ -157,5 +157,18 @@ class UsersController extends Controller
         $user->delete();
         $request->session()->flush();
         return redirect()->route('user');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $users = User::query()
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('name', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->get();
+
+        return view('users.list', ["users" => $users]);
     }
 }
