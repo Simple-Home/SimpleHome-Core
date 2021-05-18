@@ -32,9 +32,9 @@
                             <td>{{$room->name}}</td>
                             <td>
                                 @if ($room->default)
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-toggle-on"></i></a>
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-on"></i></a>
                                 @else
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-toggle-off"></i></a>
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-off"></i></a>
                                 @endif
                             </td>
                         </tr>

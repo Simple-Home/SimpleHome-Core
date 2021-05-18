@@ -26,13 +26,14 @@ Route::middleware(['auth', 'verified'])->get('/user', [App\Http\Controllers\User
 Route::middleware(['auth', 'verified'])->post('/user/update', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
 Route::middleware(['auth', 'verified'])->post('/user/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('user.changePassword');
 Route::middleware(['auth', 'verified'])->post('/user/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('user.verifyDelete');
-Route::middleware(['auth', 'verified'])->post('/user/delete', [App\Http\Controllers\UsersController::class, 'delete'])->name('user.delete');
+Route::middleware(['auth', 'verified'])->any('/user/delete/{user?}', [App\Http\Controllers\UsersController::class, 'delete'])->name('user.delete');
 
 
 Route::middleware(['auth', 'verified'])->get('/devices', [App\Http\Controllers\DevicesController::class, 'list'])->name('devices_list');
 Route::middleware(['auth', 'verified'])->get('/devices/search/', [App\Http\Controllers\DevicesController::class, 'search'])->name('devices_search');
 
 Route::middleware(['auth', 'verified'])->get('/rooms', [App\Http\Controllers\RoomsController::class, 'list'])->name('rooms_list');
+Route::middleware(['auth', 'verified'])->get('/rooms/default/{room_id}', [App\Http\Controllers\RoomsController::class, 'default'])->name('rooms_default');
 Route::middleware(['auth', 'verified'])->get('/rooms/search/', [App\Http\Controllers\RoomsController::class, 'search'])->name('rooms_search');
 
 Route::middleware(['auth', 'verified'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'list'])->name('properties_list');

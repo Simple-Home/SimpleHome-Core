@@ -27,16 +27,20 @@ class DashboardController extends Controller
     {
         $properties = Properties::all();
         $graphs = [];
+        $rooms = [];
 
         foreach ($properties as $key => $property) {
+            if (count($property->values) == 0) continue;
+            $graphDataset = [];
             $graphDataset['data'] = [];
+            $graphDataset['label'][] = $property->type;
             foreach ($property->values as $key => $value) {
                 $graphDataset['data'][] = $value->value;
             }
-            $graphs[] = $this->getGraph($graphDataset);
+            $graphs[$property->room->id][] = $this->getGraph($graphDataset);
+            $rooms[$property->room->id] = $property->room->name;
         }
-
-        return view('dashboard.dashboard', ["graphs" => $graphs]);
+        return view('dashboard.dashboard', ["graphs" => $graphs, "rooms" => $rooms]);
     }
 
     private function getGraph($dataset, $labels = [])
@@ -56,7 +60,6 @@ class DashboardController extends Controller
                     }]
                 }
             }");
-
         return $graph;
     }
 }
