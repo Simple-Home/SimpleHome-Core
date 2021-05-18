@@ -29,7 +29,7 @@
                             <th>Heartbeat</th>
                             <th>Sleep</th>
                             <th>Signal</th>
-                            <th style="width: 25%">Actions</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +50,7 @@
                                 @endif
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-cog"></i></a>
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
+                                <a href="{{ route('devices_detail', $device->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
                         @endforeach

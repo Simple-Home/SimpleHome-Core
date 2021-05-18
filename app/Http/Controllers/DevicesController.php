@@ -89,4 +89,9 @@ class DevicesController extends Controller
 
         return view('devices.list', ["devices" => $devices]);
     }
+
+    public function detail($device_id)
+    {
+        return view('devices.detail');
+    }
 }
