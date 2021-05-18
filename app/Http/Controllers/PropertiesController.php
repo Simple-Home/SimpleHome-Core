@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Properties;
@@ -93,13 +94,23 @@ class PropertiesController extends Controller
                 scales: {
                     yAxes: [{
                         ticks: {
-                            min: Math.min.apply(this, ". json_encode($dataset["data"]).") - 5,
-                            max: Math.max.apply(this, ".json_encode($dataset["data"]).") + 5
+                            min: Math.min.apply(this, " . json_encode($dataset["data"]) . ") - 5,
+                            max: Math.max.apply(this, " . json_encode($dataset["data"]) . ") + 5
                         }
                     }]
                 }
             }");
 
         return view('properties.detail', ["properti" => $properti, "propertyDetailChart" => $propertyDetailChart]);
+    }
+
+    public function edit(Properties $property, FormBuilder $formBuilder)
+    {
+        $propertyEditForm = $formBuilder->create(\App\Forms\EditPropertyForm::class, [
+            'model' => $property,
+            'method' => 'POST',
+            'url' => route('user.update', ['user' => []])
+        ]);
+        return view('properties.edit', ['property' => $property] + compact('propertyEditForm'));
     }
 }
