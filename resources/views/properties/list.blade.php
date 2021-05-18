@@ -16,8 +16,8 @@
                             <h4>{{$property->device->hostname}}</h5>
                         </div>
                         <div class="col-sm">
-                            @if (!empty ($property->lastValue))
-                            <h4 class="text-right">{{$property->lastValue->value}}</h4>
+                            @if (!empty($property->last_value->value))
+                            <h4 class="text-right">{{$property->last_value->value}}</h4>
                             @endif
                         </div>
                     </div>

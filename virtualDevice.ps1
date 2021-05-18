@@ -34,7 +34,6 @@ while ($True) {
             Write-Host $response.Content -ForegroundColor Green
         }
 
-
         if (($response.Content | ConvertFrom-Json).commands) {
             switch (($response.Content | ConvertFrom-Json).commands) {
                 'reboot' {
@@ -43,7 +42,7 @@ while ($True) {
             }
         }
 
-        if (($response.Content | ConvertFrom-Json).mute -and ($response.Content | ConvertFrom-Json).mute -ne $mute) {
+        if (($response.Content | ConvertFrom-Json).mute -eq 1) {
             $obj = new-object -com wscript.shell
             $obj.SendKeys([char]173)
             $mute = ($response.Content | ConvertFrom-Json).mute

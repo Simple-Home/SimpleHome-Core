@@ -4,6 +4,7 @@ namespace App\Api\Controllers;
 
 use App\Models\Devices;
 use App\Models\Properties;
+use App\Models\Records;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -55,12 +56,12 @@ class EndpointController extends Controller
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
 
-            if ($request->$propertyType && $request->$propertyType != null) {
+            if (isset($request->$propertyType) && !is_null($request->$propertyType)) {
                 if (!Cache::has($property->id)) {
                     Cache::put($property->id, $request->$propertyType, 1800);
                 }
 
-                if ($request->$propertyType != Cache::get($property->id)) {
+                if ($request->$propertyType != Cache::get($property->id) || !isset($property->last_value)) {
                     $record                 = new Records;
                     $record->value          = $request->$propertyType;
                     $record->property_id    = $property->id;
@@ -69,13 +70,7 @@ class EndpointController extends Controller
                 }
             }
 
-
-            foreach ($property->last_value as $key => $value) {
-                # code...
-                var_dump($value->value);
-            }
-
-            if (true) {
+            if (!isset($property->last_value->done) || $property->last_value->done == 0) {
                 $response[$property->type] = Cache::get($property->id);
             }
         }
