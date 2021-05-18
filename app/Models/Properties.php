@@ -30,9 +30,9 @@ class Properties extends Model
         return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(1))->orderBy('created_at', 'DESC');
     }
 
-    public function lastValue()
+    public function last_value()
     {
-        return $this->hasOne(Records::class, 'property_id')->latest();
+        return $this->hasOne(Records::class, 'property_id', 'id')->latest();
     }
 
     use HasFactory;

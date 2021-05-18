@@ -3,7 +3,6 @@
 namespace App\Api\Controllers;
 
 use App\Models\Devices;
-use App\Models\Records;
 use App\Models\Properties;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -71,8 +70,10 @@ class EndpointController extends Controller
             }
 
 
-            dump($property->lastValue->id);
-
+            foreach ($property->last_value as $key => $value) {
+                # code...
+                var_dump($value->value);
+            }
 
             if (true) {
                 $response[$property->type] = Cache::get($property->id);
