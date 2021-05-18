@@ -35,10 +35,14 @@ Route::middleware(['auth', 'verified'])->get('/devices/search/', [App\Http\Contr
 Route::middleware(['auth', 'verified'])->get('/rooms', [App\Http\Controllers\RoomsController::class, 'list'])->name('rooms_list');
 Route::middleware(['auth', 'verified'])->get('/rooms/default/{room_id}', [App\Http\Controllers\RoomsController::class, 'default'])->name('rooms_default');
 Route::middleware(['auth', 'verified'])->get('/rooms/search/', [App\Http\Controllers\RoomsController::class, 'search'])->name('rooms_search');
+Route::middleware(['auth', 'verified'])->post('/room/store', [App\Http\Controllers\RoomsController::class, 'store'])->name('rooms.store');
+Route::middleware(['auth', 'verified'])->any('/room/{id}/update', [App\Http\Controllers\RoomsController::class, 'update'])->name('rooms.update');
+Route::middleware(['auth', 'verified'])->any('/room/{id}/delete', [App\Http\Controllers\RoomsController::class, 'destroy'])->name('rooms.delete');
 
 Route::middleware(['auth', 'verified'])->get('/properties', [App\Http\Controllers\PropertiesController::class, 'list'])->name('properties_list');
 Route::middleware(['auth', 'verified'])->get('/properties/search/', [App\Http\Controllers\PropertiesController::class, 'search'])->name('properties_search');
 Route::middleware(['auth', 'verified'])->get('/properties/detail/{property_id}', [App\Http\Controllers\PropertiesController::class, 'detail'])->name('properties_detail');
+Route::middleware(['auth', 'verified'])->get('/properties/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
 
 Route::middleware(['auth', 'verified'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
 Route::middleware(['auth', 'verified'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

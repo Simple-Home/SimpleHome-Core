@@ -29,13 +29,14 @@
                     <tbody>
                         @foreach ($rooms as $room)
                         <tr>
-                            <td>{{$room->name}}</td>
+                            <td>{!! form($roomsForm[$room->id]) !!}</td>
                             <td>
                                 @if ($room->default)
                                 <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-on"></i></a>
                                 @else
                                 <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-off"></i></a>
                                 @endif
+                                <a href="{{route('rooms.delete', $room->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -53,7 +54,13 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            test
+            <div class="card">
+                <div class="card-header">Create room</div>
+
+                <div class="card-body">
+                    {!! form($roomForm) !!}
+                </div>
+            </div>
         </div>
     </div>
 </div>
