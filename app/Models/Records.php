@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Records extends Model
 {
+    public $incrementing = false;
+    protected $table = 'records';
+    protected $primaryKey = 'id';
     public $fillable = [
-        "value"
+        "value",
+        "done",
     ];
     use HasFactory;
 }

@@ -32,7 +32,7 @@ class Properties extends Model
 
     public function lastValue()
     {
-        return $this->hasOne(Records::class, 'property_id')->latest('created_at');
+        return $this->hasOne(Records::class, 'property_id')->latest();
     }
 
     use HasFactory;

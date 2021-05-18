@@ -2,11 +2,12 @@ $headers = @{}
 $headers.Add("Content-Type", "application/json")
 $headers.Add("Authorization", "Bearer 4f285s8mam89")
 $baseUrl = 'https://dev.steelants.cz/vasek/simple-home-v4/public/api/v1'
+$mute = 0
 
 while ($True) {
 
     $response = Invoke-WebRequest -Uri "$baseUrl/setup" -Method POST -Headers $headers -ContentType 'application/json' -Body '{
-        "properties": ["humi","wifi","temp"]
+        "properties": ["humi","wifi","temp","mute","ligth"]
     }'
 
     if ($response.StatusCode -ne 200) {
@@ -33,12 +34,19 @@ while ($True) {
             Write-Host $response.Content -ForegroundColor Green
         }
 
+
         if (($response.Content | ConvertFrom-Json).commands) {
             switch (($response.Content | ConvertFrom-Json).commands) {
                 'reboot' {
                     break
                 }
             }
+        }
+
+        if (($response.Content | ConvertFrom-Json).mute -and ($response.Content | ConvertFrom-Json).mute -ne $mute) {
+            $obj = new-object -com wscript.shell
+            $obj.SendKeys([char]173)
+            $mute = ($response.Content | ConvertFrom-Json).mute
         }
 
         Start-Sleep -Seconds $configuration.sleep
