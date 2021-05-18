@@ -44,7 +44,9 @@ class DevicesController extends Controller
                 if ($property->type != 'wifi') {
                     continue;
                 }
-                $device->signal_strength = 2 * ($property->lastValue->value + 100);
+                if (isset($property->last_value->value)) {
+                    $device->signal_strength = 2 * ($property->last_value->value + 100);
+                }
                 break;
             }
         }
@@ -52,15 +54,16 @@ class DevicesController extends Controller
         return view('devices.list', ["devices" => $devices]);
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search = $request->input('search');
 
         $devices = Devices::query()
-        ->where('id', 'LIKE', "%{$search}%")
-        ->orWhere('hostname', 'LIKE', "%{$search}%")
-        ->orWhere('token', 'LIKE', "%{$search}%")
-        ->orWhere('type', 'LIKE', "%{$search}%")
-        ->get();
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('hostname', 'LIKE', "%{$search}%")
+            ->orWhere('token', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%")
+            ->get();
 
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
@@ -77,7 +80,9 @@ class DevicesController extends Controller
                 if ($property->type != 'wifi') {
                     continue;
                 }
-                $device->signal_strength = 2 * ($property->lastValue->value + 100);
+                if (isset($property->last_value->value)) {
+                    $device->signal_strength = 2 * ($property->last_value->value + 100);
+                }
                 break;
             }
         }
