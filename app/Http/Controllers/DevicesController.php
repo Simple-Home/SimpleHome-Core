@@ -92,6 +92,7 @@ class DevicesController extends Controller
 
     public function detail($device_id)
     {
-        return view('devices.detail');
+        $device = Devices::find($device_id);
+        return view('devices.detail', ['device' => $device]);
     }
 }
