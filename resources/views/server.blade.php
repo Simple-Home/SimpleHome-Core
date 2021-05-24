@@ -49,6 +49,16 @@
                 </div>
             </div>
         </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('Connectivity') }}</div>
+                <div class="card-body">
+                    Public IP: <p><a href="https://{{$services["public_ip"]}}">{{$services["public_ip"]}}</a></p><br>
+                    Internal IP: <p><a href="https://{{$services["internal_ip"]}}">{{$services["internal_ip"]}}</a></p><br>
+                    Hostname: <p><a href="https://{{$services["hostname"]}}">{{$services["hostname"]}}</a></p><br>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
