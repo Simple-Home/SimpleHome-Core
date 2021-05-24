@@ -49,5 +49,9 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified'])->get('/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
 });
 
+Route::namespace('automations')->prefix('automations')->group(function () {
+    Route::middleware(['auth', 'verified'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
+});
+
 Route::middleware(['auth', 'verified'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
 Route::middleware(['auth', 'verified'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
