@@ -2,11 +2,17 @@
 
 @section('content')
 <div class="container">
-    test
-    {{$device->hostname}}
-    {{$device->type}}
-    {{$device->sleep}}
-    {{$device->token}}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Device</div>
+
+                <div class="card-body">
+                    {!! form($deviceForm) !!}
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{$device->heartbeat}}
     {{$device->created}}

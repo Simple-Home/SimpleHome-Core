@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Devices;
+use Kris\LaravelFormBuilder\FormBuilder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use DateTime;
 
 
@@ -90,9 +94,40 @@ class DevicesController extends Controller
         return view('devices.list', ["devices" => $devices]);
     }
 
-    public function detail($device_id)
+    public function detail($device_id, FormBuilder $formBuilder)
     {
         $device = Devices::find($device_id);
-        return view('devices.detail', ['device' => $device]);
+
+        $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'model' => $device,
+            'method' => 'POST',
+            'url' => route('devices_update', ['device_id' => $device_id])
+        ]);
+
+        return view('devices.detail', compact("device", "deviceForm"));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $device_id, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\DeviceForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $device = Devices::find($id);
+
+        $device->hostname = $request->input('hostname');
+        $device->type = $request->input('type');
+        $device->sleep = $request->input('sleep');
+        $device->token = $request->input('token');
+
+        $device->save();
+        return redirect()->route('devices_detail', ['device_id' => $id]);
     }
 }

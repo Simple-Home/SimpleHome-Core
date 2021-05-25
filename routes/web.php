@@ -33,6 +33,7 @@ Route::namespace('devices')->prefix('devices')->group(function () {
     Route::middleware(['auth', 'verified'])->get('/search', [App\Http\Controllers\DevicesController::class, 'search'])->name('devices_search');
     Route::middleware(['auth', 'verified'])->get('/detail/{device_id}', [App\Http\Controllers\DevicesController::class, 'detail'])->name('devices_detail');
     Route::middleware(['auth', 'verified'])->get('/edit/{device_id}', [App\Http\Controllers\DevicesController::class, 'edit'])->name('devices_edit');
+    Route::middleware(['auth', 'verified'])->post('/update/{device_id}', [App\Http\Controllers\DevicesController::class, 'update'])->name('devices_update');
 });
 
 Route::namespace('rooms')->prefix('rooms')->group(function () {
