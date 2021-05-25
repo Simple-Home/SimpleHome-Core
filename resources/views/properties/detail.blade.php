@@ -41,7 +41,7 @@
                     <tbody>
                         @foreach ($properti->values as $value)
                         <tr>
-                            <td>{{$value->created_at->format('d') }}</td>
+                            <td>{{$value->created_at->diffForHumans() }}</td>
                             <td>{{$value->value}}</td>
                             <td>{{$value->done}}</td>
                         </tr>
