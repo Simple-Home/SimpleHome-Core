@@ -15,6 +15,7 @@ class Devices extends Model
         'Blocked',
     ];
 
+
     public function getProperties()
     {
         return $this->hasMany('App\Models\Properties', 'device_id');
@@ -37,6 +38,19 @@ class Devices extends Model
 
     public function getHostname(){
         return str_replace(" ", "_", strtolower($this->hostname));
+    }
+
+    public function getAuthIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getRateLimitAttribute($value)
+    {
+        $rate = 1000;
+        if (!empty($this->sleep) && $this->sleep > 0){
+            $rate = (60 / ($this->sleep / 1000));
+        }
+        return $rate;
     }
 
     use HasFactory;
