@@ -71,7 +71,10 @@ class EndpointController extends Controller
             }
 
             if (!isset($property->last_value->done) || $property->last_value->done == 0) {
-                $response[$property->type] = Cache::get($property->id);
+                $value = Cache::get($property->id);
+                if (!is_null($value)) {
+                    $response[$property->type] = $value;
+                }
             }
         }
 

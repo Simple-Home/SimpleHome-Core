@@ -27,14 +27,16 @@ while ($True) {
 			"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + '
         }'
 
-        $response = Invoke-WebRequest -Uri "$baseUrl/data" -Method POST -Headers $headers -ContentType 'application/json' -Body ($body)
+        $timeTaken = Measure-Command -Expression {
+            $response = Invoke-WebRequest -Uri "$baseUrl/data" -Method POST -Headers $headers -ContentType 'application/json' -Body ($body)
+        }
         Write-Host "->" ($body.Replace(" ", "" ).Replace("`t", "" ).Replace("`n", "" )) -ForegroundColor Blue
 
         if ($response.StatusCode -ne 200) {
-            Write-Host "<-" $response.Content -ForegroundColor Red
+            Write-Host ("<- "+$response.Content+" - $([Math]::Round($timeTaken.TotalMilliseconds, 1)) ms") -ForegroundColor Red
         }
         else {
-            Write-Host "<-" $response.Content -ForegroundColor Green
+            Write-Host ("<- "+$response.Content+" - $([Math]::Round($timeTaken.TotalMilliseconds, 1)) ms") -ForegroundColor Green
         }
 
         if (($response.Content | ConvertFrom-Json).commands) {
