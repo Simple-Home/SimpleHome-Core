@@ -15,4 +15,14 @@ class Rooms extends Authenticatable
     protected $fillable = [
         'name',
     ];
+
+    public function getProperties(){
+        return $this->hasMany('App\Models\Properties', 'room_id');
+    }
+
+    public function getPropertiesCountAttribute(){
+        $properties = $this->getProperties();
+        return $properties->count();
+    }
+
 }

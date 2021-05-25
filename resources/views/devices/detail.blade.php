@@ -18,15 +18,15 @@
             <div class="card">
                 <div class="card-header">Diagnostic Information</div>
                 <div class="card-body">
-                    {{ __('First Seen') }}{{$device->created}}</br>
-                    {{ __('Last Seen') }}{{$device->heartbeat}}</br>
+                    {{ __('First Seen') }}: {{$device->created}}</br>
+                    {{ __('Last Seen') }}: {{$device->heartbeat}}</br>
 
-                    {{ __('Ip Address') }}</br>
-                    {{ __('Gatevay') }}</br>
-                    {{ __('subnet') }}</br>
+                    {{ __('Ip Address') }}:</br>
+                    {{ __('Gatevay') }}:</br>
+                    {{ __('subnet') }}:</br>
 
-                    {{ __('Signal') }} {{$device->signal_strength}} %</br>
-                    {{ __('Battery') }} {{$device->battery_level}} v</br>
+                    {{ __('Signal') }}: {{$device->signal_strength}} %</br>
+                    {{ __('Battery') }}: {{$device->battery_level}} v</br>
 
                 </div>
             </div>
@@ -44,7 +44,9 @@
                         <table class="table table-striped mb-0">
                             <thead>
                                 <tr>
+                                    <th>Icon</th>
                                     <th>Name</th>
+
                                     <th>Type</th>
                                     <th>Last Value</th>
                                     <th></th>
@@ -53,7 +55,8 @@
                             <tbody>
                                 @foreach ($device->getProperties as $property)
                                     <tr>
-                                        <td>{{$property->name}}</td>
+                                        <td><i class="card-img-top fas {{$property->icon}}"></i></td>
+                                        <td>{{$property->nick_name}}</td>
                                         <td>{{$property->type}}</td>
                                         <td>
                                             @if (!empty($property->last_value))

@@ -80,9 +80,9 @@ class PropertiesController extends Controller
         $dataset["data"] = [];
         $labels = [];
 
-        foreach ($properti->values  as $key => $item) {
-            $dataset["data"][] += $item->value;
-            $labels[] = $item->created_at->diffForHumans();
+        foreach ($properti->agregated_values  as $key => $item) {
+            $dataset["data"][] += $item['value'];
+            $labels[] = $item['created_at']->diffForHumans();
         }
 
         $propertyDetailChart = app()->chartjs
@@ -101,7 +101,7 @@ class PropertiesController extends Controller
                 }
             }");
 
-        return view('properties.detail', ["properti" => $properti, "propertyDetailChart" => $propertyDetailChart]);
+        return view('properties.detail', ["table" => $properti->agregated_values, "properti" => $properti, "propertyDetailChart" => $propertyDetailChart]);
     }
 
     public function edit(Properties $property, FormBuilder $formBuilder)

@@ -39,8 +39,9 @@ class DashboardController extends Controller
             }
             $graphs[$property->room->id][] = $this->getGraph($graphDataset);
             $rooms[$property->room->id] = $property->room->name;
+            $propertiesCount[$property->room->id] = $property->room->properties_count;
         }
-        return view('dashboard.dashboard', ["graphs" => $graphs, "rooms" => $rooms]);
+        return view('dashboard.dashboard', ["propertiesCount" => $propertiesCount, "graphs" => $graphs, "rooms" => $rooms]);
     }
 
     private function getGraph($dataset, $labels = [])

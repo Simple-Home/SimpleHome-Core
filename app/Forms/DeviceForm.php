@@ -21,7 +21,7 @@ class DeviceForm extends Form
             ])
             ->add('sleep', Field::NUMBER, [
                 'rules' => 'required|max:255',
-                'label' => "Sleep time (min)"
+                'label' => "Sleep time (ms)"
             ])
             ->add('token', Field::TEXT, [
                 'rules' => 'required|max:255',

@@ -10,7 +10,7 @@
             <div class="card-header" id="heading-{{$room_id}}">
                 <h5 class="mb-0">
                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-{{$room_id}}" aria-expanded="true" aria-controls="collapse-{{$room_id}}">
-                        {{ $rooms[$room_id]}}
+                        {{ $rooms[$room_id]}}: {{$propertiesCount[$room_id]}} Properties
                     </button>
                 </h5>
             </div>

@@ -31,6 +31,26 @@ class Properties extends Model
         return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(1))->orderBy('created_at', 'DESC');
     }
 
+    public function getAgregatedValuesAttribute()
+    {
+        $format = 'Y-m-d H';
+        $agregation = [];
+        $result = [];
+        $records = $this->values;
+        foreach ($records as $key => $record) {
+            $agregation[$record->created_at->format($format)][] = $record->value;
+        }
+
+        foreach ($agregation as $key => $groupedValues) {
+            $result[] = [
+                'value' => array_sum($groupedValues) / count($groupedValues),
+                'created_at' => Carbon::createFromFormat($format,$key),
+                'done' => '',
+            ];
+        }
+        return $result;
+    }
+
     public function last_value()
     {
         return $this->hasOne(Records::class, 'property_id', 'id')->latest();
