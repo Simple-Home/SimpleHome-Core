@@ -49,10 +49,10 @@ class DevicesController extends Controller
                     continue;
                 }
                 if (isset($property->last_value->value)) {
-                    $device->signal_strength = 2 * ($property->last_value->value + 100);
                 }
                 break;
             }
+            $device->signal_strength = 2 * ($property->last_value->value + 100);
         }
 
         return view('devices.list', ["devices" => $devices]);
@@ -79,16 +79,6 @@ class DevicesController extends Controller
             if ($totalSeconds < $device->sleep) {
                 $device->connection_error = false;
             }
-
-            foreach ($device->getProperties as $key => $property) {
-                if ($property->type != 'wifi') {
-                    continue;
-                }
-                if (isset($property->last_value->value)) {
-                    $device->signal_strength = 2 * ($property->last_value->value + 100);
-                }
-                break;
-            }
         }
 
         return view('devices.list', ["devices" => $devices]);
@@ -97,7 +87,6 @@ class DevicesController extends Controller
     public function detail($device_id, FormBuilder $formBuilder)
     {
         $device = Devices::find($device_id);
-
         $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'model' => $device,
             'method' => 'POST',

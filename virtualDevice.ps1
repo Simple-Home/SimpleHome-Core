@@ -7,7 +7,7 @@ $mute = 0
 while ($True) {
 
     $response = Invoke-WebRequest -Uri "$baseUrl/setup" -Method POST -Headers $headers -ContentType 'application/json' -Body '{
-        "properties": ["humi","wifi","temp","mute","ligth"]
+        "properties": ["humi","wifi","temp","mute","ligth","batt"]
     }'
 
     if ($response.StatusCode -ne 200) {
@@ -24,7 +24,9 @@ while ($True) {
 			"wifi": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
 			"light": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
 			"co2": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
-			"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + '
+			"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + ',
+			"batt": '+ (Get-Random -Minimum -1 -Maximum 4.7) + '
+
         }'
 
         $timeTaken = Measure-Command -Expression {

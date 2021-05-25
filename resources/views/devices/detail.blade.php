@@ -25,8 +25,8 @@
                     {{ __('Gatevay') }}</br>
                     {{ __('subnet') }}</br>
 
-                    {{ __('Signal') }}{{$device->signal_strength}}%</br>
-                    {{ __('Battery') }}</br>
+                    {{ __('Signal') }} {{$device->signal_strength}} %</br>
+                    {{ __('Battery') }} {{$device->battery_level}} v</br>
 
                 </div>
             </div>
@@ -56,7 +56,7 @@
                                         <td>{{$property->name}}</td>
                                         <td>{{$property->type}}</td>
                                         <td>
-                                            @if (!empty($property->last_value->value))
+                                            @if (!empty($property->last_value))
                                             {{$property->last_value->value}}
                                             @endif
                                         </td>

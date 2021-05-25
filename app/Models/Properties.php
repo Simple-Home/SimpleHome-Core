@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 class Properties extends Model
 {
     protected $fillable = [];
+    protected $table = 'properties';
 
     public function device()
     {
