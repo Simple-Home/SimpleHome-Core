@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
