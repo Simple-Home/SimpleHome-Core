@@ -26,10 +26,13 @@ Route::namespace('version-depricated')->prefix('depricated')->group(function () 
     Route::post('/endpoint', [App\Api\Controllers\EndpointController::class, 'depricatedData']);
 });
 
-Route::namespace('version-1')->prefix('v1')->group(function () {
-    Route::middleware(['middleware' => 'auth:api'])->post('/setup', [App\Api\Controllers\EndpointController::class, 'setup']);
-    Route::middleware(['middleware' => 'auth:api'])->post('/data', [App\Api\Controllers\EndpointController::class, 'data']);
-    Route::middleware(['middleware' => 'auth:api'])->get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:60,1']], function () {
+    Route::post('/setup', [App\Api\Controllers\EndpointController::class, 'setup']);
+});
+
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limit,1']], function () {
+    Route::post('/data', [App\Api\Controllers\EndpointController::class, 'data']);
+    Route::get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
 });
 
 //Oauthentication

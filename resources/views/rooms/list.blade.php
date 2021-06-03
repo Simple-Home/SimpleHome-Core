@@ -7,31 +7,41 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if(!empty($rooms) && count($rooms) > 0)
-            <div class="card">
-                <div class="card-header">{{ __('Rooms List') }}
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Launch demo modal
-                    </button>
+            <div class="row">
+                <div class="col">
+                    <h2>{{ __('Rooms List') }}</h2>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">name</th>
-                                <th scope="col">is Default</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($rooms as $room)
-                            <tr>
-                                <td>{{$room->name}}</td>
-                                <td>{{$room->default}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="col">
+                    <div class="float-right">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+                    </div>
                 </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">name</th>
+                            <th style="width: 10%">is Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($rooms as $room)
+                        <tr>
+                            <td>{!! form($roomsForm[$room->id]) !!}</td>
+                            <td>
+                                @if ($room->default)
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-on"></i></a>
+                                @else
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-off"></i></a>
+                                @endif
+                                <a href="{{route('rooms.delete', $room->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
             @else
             <p class="text-center">{{ __('Nothing Found') }}</p>
@@ -44,7 +54,13 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            test
+            <div class="card">
+                <div class="card-header">Create room</div>
+
+                <div class="card-body">
+                    {!! form($roomForm) !!}
+                </div>
+            </div>
         </div>
     </div>
 </div>

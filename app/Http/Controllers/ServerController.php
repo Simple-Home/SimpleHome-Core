@@ -111,11 +111,13 @@ class ServerController extends Controller
             }");
         $services['apache2'] = $this->service_status('apache2');
         $services['mysql'] = $this->service_status('mysql');
+        $services['public_ip'] = $this->public_ip();
+        $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
+        $services['hostname'] = gethostname();
+
 
         return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services'));
     }
-
-
 
     private function ram_stat()
     {
@@ -174,5 +176,20 @@ class ServerController extends Controller
             "used" => ($dt - $df),
             "total" => $dt,
         ];
+    }
+
+    private function public_ip()
+    {
+        $cURLConnection = curl_init();
+        curl_setopt($cURLConnection, CURLOPT_URL, 'https://api.ipify.org/?format=json');
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+        $phoneList = curl_exec($cURLConnection);
+        $httpcode = curl_getinfo($cURLConnection, CURLINFO_HTTP_CODE);
+        curl_close($cURLConnection);
+        $jsonArrayResponse = json_decode($phoneList);
+        if ($httpcode != 200){
+            return false;
+        }
+        return $jsonArrayResponse->ip;
     }
 }

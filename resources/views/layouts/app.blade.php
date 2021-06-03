@@ -20,6 +20,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app_override.css') }}" rel="stylesheet">
+
     <meta name="color-scheme" content="dark light">
 </head>
 

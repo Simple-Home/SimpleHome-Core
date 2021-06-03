@@ -28,7 +28,7 @@
                 {!! $propertyDetailChart->render() !!}
             </div>
         @endif
-        @if(!empty($properti->values) && count($properti->values) > 0)
+        @if(!empty($table) && count($table) > 0)
             <div class="table-responsive">
                 <table class="table table-striped mb-0">
                     <thead>
@@ -39,12 +39,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($properti->values as $value)
+                        @foreach ($table as $value)
                         <tr>
-                            <td>{{$value->created_at->diffForHumans() }}</td>
-                            <td>{{$value->value}}</td>
-                            <td>{{$value->done}}</td>
-                        </tr>  
+                            <td>{{$value['created_at']->diffForHumans()}}</td>
+                            <td>{{$value['value']}}</td>
+                            <td>{{$value['done']}}</td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DateTime;
 
-class HomeController extends Controller
+
+class AutomationsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,8 +23,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function list()
     {
-        return view('home.home');
+        return view('automations.list', ["automations" => "test"]);
     }
 }

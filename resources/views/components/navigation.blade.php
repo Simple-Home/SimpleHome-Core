@@ -6,7 +6,7 @@
         <a class="nav-link" href="{{ route('properties_list') }}">{{ __('Properties') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('devices_list') }}">{{ __('Automations') }}</a>
+        <a class="nav-link" href="{{ route('automations_list') }}">{{ __('Automations') }}</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('users_list') }}">{{ __('Users') }}</a>

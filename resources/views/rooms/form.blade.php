@@ -2,15 +2,13 @@
 
 @section('content')
 <div class="container">
-    <div class="container-fluid"></div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard 2 ') }}</div>
+                <div class="card-header">Create room</div>
 
                 <div class="card-body">
-
-                    {{ __('You are logged in!') }}
+                    {!! form($roomForm) !!}
                 </div>
             </div>
         </div>

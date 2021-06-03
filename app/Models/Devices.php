@@ -35,8 +35,42 @@ class Devices extends Model
         return false;
     }
 
-    public function getHostname(){
+    public function getHostname()
+    {
         return str_replace(" ", "_", strtolower($this->hostname));
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getRateLimitAttribute()
+    {
+        $rate = 1000;
+        if (!empty($this->sleep) && $this->sleep > 0) {
+            $rate = (60 / ($this->sleep / 1000));
+        }
+        return $rate;
+    }
+
+    public function getSignalStrengthAttribute()
+    {
+        $RSSI = ($this->getProperties->where('type','==','wifi')->first());
+        if ($RSSI){
+            return (2 * ($RSSI->last_value->value + 100));
+        }
+
+        return false;
+    }
+
+    public function getBatteryLevelAttribute()
+    {
+        $BatteryValue = ($this->getProperties->where('type','==','batt')->first());
+        if ($BatteryValue){
+            return $BatteryValue->last_value->value;
+        }
+        return false;
     }
 
     use HasFactory;

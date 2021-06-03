@@ -1,16 +1,6 @@
-.row {
-  display: flex;
-  flex-wrap: wrap;
+a.card:hover {
+    background-color: #727475;
 }
-
-.row > div[class*='col-'] {
-  display: flex;
-}
-
-a.card{
-  text-decoration : none;
-}
-
-a.card:hover{
-  text-decoration : none;
+tr.card:hover {
+    background-color: #727475;
 }
