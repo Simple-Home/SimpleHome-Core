@@ -31,6 +31,7 @@ class RoomsController extends Controller
     public function list(FormBuilder $formBuilder)
     {
         $rooms = Rooms::all();
+        $roomsForm = [];
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
             'method' => 'POST',
             'url' => route('rooms.store'),

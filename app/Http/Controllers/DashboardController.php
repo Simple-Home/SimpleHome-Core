@@ -28,6 +28,7 @@ class DashboardController extends Controller
         $properties = Properties::all();
         $graphs = [];
         $rooms = [];
+        $propertiesCount = [];
 
         foreach ($properties as $key => $property) {
             if (count($property->values) == 0) continue;

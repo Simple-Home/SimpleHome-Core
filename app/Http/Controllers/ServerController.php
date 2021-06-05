@@ -165,7 +165,7 @@ class ServerController extends Controller
         $service_arr = explode("\n", $serviceStatus);
         $status = explode(" ", $service_arr[2]);
 
-        return ($status[6] == "active" ? true : false);
+        return (array_key_exists(6, $status) ? ($status[6] == "active" ? true : false) : false);
     }
 
     private function disk_stat()
