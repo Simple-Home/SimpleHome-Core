@@ -3,8 +3,21 @@
 @section('content')
 <div class="container">
     @include('components.search')
-    <div class="row row-cols-1 row-cols-md-3">
-        @if (!empty($properties) && count($properties) > 0)
+    <div class="container-fluid"></div>
+    <div class="row justify-content-center">
+        <div class="col-md-12"> 
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col">
+                        <h2>{{ __('Properties List') }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+         
+    @if (!empty($properties) && count($properties) > 0)         
+    <div class="row row-cols-1 row-cols-md-3">  
         @foreach ($properties as $property)
         <div class="col mb-4">
             <a href="{{ route('properties_detail', $property->id) }}" class="card">
@@ -30,9 +43,9 @@
             </a>
         </div>
         @endforeach
-        @else
-        <p class="text-center">{{ __('Nothing Found') }}</p>
-        @endif
     </div>
+    @else
+        <p class="text-center">{{ __('No Properties Found') }}</p>
+    @endif
 </div>
 @endsection

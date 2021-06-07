@@ -5,8 +5,7 @@
     @include('components.search')
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            @if(!empty($devices) && count($devices) > 0)
+        <div class="col-md-12"> 
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
@@ -15,11 +14,12 @@
                     <div class="col">
                         <div class="float-right">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="Add Device">+</button>
                         </div>
                     </div>
                 </div>
             </div>
+            @if(!empty($devices) && count($devices) > 0)
             <div class="table-responsive">
                 <table class="table table-striped mb-0">
                     <thead>
@@ -58,7 +58,7 @@
                 </table>
             </div>
             @else
-            <p class="text-center">{{ __('Nothing Found') }}</p>
+            <p class="text-center">{{ __('No Devices Found') }}</p>
             @endif
         </div>
     </div>

@@ -20,4 +20,8 @@
 * Visit the webserver URL and register an account
 
 
+## Contributors
+* [TheBradleySanders](https://github.com/thebradleysanders)
+* [GamerClassN7](https://git.steelants.cz/)
+
 

@@ -3,6 +3,15 @@
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col">
+                    <h2>{{ __('Server') }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row row-cols-1 row-cols-md-3">
         <div class="col mb-4">
             <div class="card">
@@ -44,8 +53,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Services') }}</div>
                 <div class="card-body">
-                    APACHE: <p class="{{ !$services['apache2'] ? 'text-danger' : 'text-success' }}">{{($services["apache2"] ? "Active" : "Notactive")}}</p><br>
-                    MYSQL: <p class="{{ !$services['mysql'] ? 'text-danger' : 'text-success' }}">{{($services["mysql"] ? "Active" : "Notactive")}}</p><br>
+                    APACHE: <p class="{{ !$services['apache2'] ? 'text-danger' : 'text-success' }}">{{($services["apache2"] ? "Active" : "Not Active")}}</p><br>
+                    MYSQL: <p class="{{ !$services['mysql'] ? 'text-danger' : 'text-success' }}">{{($services["mysql"] ? "Active" : "Not Active")}}</p><br>
                 </div>
             </div>
         </div>

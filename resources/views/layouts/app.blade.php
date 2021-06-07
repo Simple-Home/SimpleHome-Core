@@ -29,7 +29,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/') }}" title="Home">
                     <img src="{{ asset('images/logo.png') }}">
                 </a>
 
@@ -48,7 +48,7 @@
                     <ul class="disabled navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <b>Domov</b>
+                                <b>Home/Domov</b>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -35,6 +35,14 @@
             </div>
         </div>
         @endforeach
+        @else
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-secondary" role="alert">
+                   You do not have any rooms yet, visit the <a href="rooms/" title="go to rooms">Rooms page</a> to add one.
+                </div>
+            </div>
+        </div>
         @endif
     </div>
 </div>
