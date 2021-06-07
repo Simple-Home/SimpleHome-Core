@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Devices;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use DateTime;
 
 class ServerController extends Controller
@@ -114,9 +116,9 @@ class ServerController extends Controller
         $services['public_ip'] = $this->public_ip();
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
+        $valuesPerMinute = $this->values_per_minute();
 
-
-        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services'));
+        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute'));
     }
 
     private function ram_stat()
@@ -187,9 +189,19 @@ class ServerController extends Controller
         $httpcode = curl_getinfo($cURLConnection, CURLINFO_HTTP_CODE);
         curl_close($cURLConnection);
         $jsonArrayResponse = json_decode($phoneList);
-        if ($httpcode != 200){
+        if ($httpcode != 200) {
             return false;
         }
         return $jsonArrayResponse->ip;
+    }
+
+    private function values_per_minute()
+    {
+        return (DB::table('records')
+            ->where(
+                'created_at',
+                '>',
+                Carbon::now()->subMinutes(1)->toDateTimeString()
+            ))->count();
     }
 }
