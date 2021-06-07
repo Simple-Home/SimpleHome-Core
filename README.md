@@ -1,5 +1,5 @@
 # Simple Home V4
-
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
 ## Server Requirements
 * PHP 7.4 or greater.
@@ -19,9 +19,14 @@
 * Run the command: ```php artisan migrate```
 * Visit the webserver URL and register an account
 
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contributors
-* [TheBradleySanders](https://github.com/thebradleysanders)
-* [GamerClassN7](https://git.steelants.cz/)
+* [GamerClassN7](https://github.com/GamerClassN7) - Lead developer
+* [TheBradleySanders](https://github.com/thebradleysanders) - Developer
+* [Silentis](https://github.com/Silentis) - Developer
+* [Xinatorus](https://github.com/Xinatorus) - Developer
+* [revoxhere](https://github.com/revoxhere/) - ReadMe & Wikis
 
 
