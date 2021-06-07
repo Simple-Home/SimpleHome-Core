@@ -1,5 +1,5 @@
 # Simple Home V4
-![Image of Yaktocat](https://git.steelants.cz/SH/LAR_v4_Simple_Home_Server/src/commit/d913fcea5b1d390f2febb6358c563758837ebfc3/public/images/logo.png)
+![Simple-Home](https://git.steelants.cz/SH/LAR_v4_Simple_Home_Server/raw/commit/d913fcea5b1d390f2febb6358c563758837ebfc3/public/images/logo.png)
 
 ## Server Requirements
 * PHP 7.4 or greater.
