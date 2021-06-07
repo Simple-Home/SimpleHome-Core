@@ -68,6 +68,14 @@
                 </div>
             </div>
         </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('Metrics') }}</div>
+                <div class="card-body">
+                    values/minute: {{$valuesPerMinute}}<br>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
