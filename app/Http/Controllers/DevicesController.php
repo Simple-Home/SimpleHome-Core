@@ -31,6 +31,7 @@ class DevicesController extends Controller
     public function list()
     {
         $devices = Devices::all();
+        
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
         foreach ($devices as $key => $device) {

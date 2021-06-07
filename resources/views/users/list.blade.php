@@ -14,7 +14,7 @@
                 <div class="col">
                     <div class="float-right">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+                        <button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="Add User">+</button>
                     </div>
                 </div>
             </div>
@@ -34,10 +34,10 @@
                     @foreach ($users as $user)
                     <tr>
                         <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
+                        <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
                         <td>{{$user->MFA}}</td>
                         <td>{{$user->Permission}}</td>
-                        <td><a href="{{ route('user.delete') }}" class="btn btn-danger"><i class="fas fa-times"></i></a></td>
+                        <td><a href="{{ route('user.delete') }}" class="btn btn-danger" title="Delete User"><i class="fas fa-times"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>

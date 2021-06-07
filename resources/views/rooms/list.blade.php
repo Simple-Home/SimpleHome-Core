@@ -5,8 +5,7 @@
     @include('components.search')
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            @if(!empty($rooms) && count($rooms) > 0)
+        <div class="col-md-12"> 
             <div class="row">
                 <div class="col">
                     <h2>{{ __('Rooms List') }}</h2>
@@ -14,16 +13,17 @@
                 <div class="col">
                     <div class="float-right">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="Create room">+</button>
                     </div>
                 </div>
             </div>
+            @if(!empty($rooms) && count($rooms) > 0)
             <div class="table-responsive">
                 <table class="table table-striped mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">name</th>
-                            <th style="width: 10%">is Default</th>
+                            <th scope="col">Name</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,11 +32,11 @@
                             <td>{!! form($roomsForm[$room->id]) !!}</td>
                             <td>
                                 @if ($room->default)
-                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-on"></i></a>
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary" title="Remove Default"><i class="fas fa-toggle-on"></i></a>
                                 @else
-                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary"><i class="fas fa-toggle-off"></i></a>
+                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary" title="Make Default"><i class="fas fa-toggle-off"></i></a>
                                 @endif
-                                <a href="{{route('rooms.delete', $room->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                                <a href="{{route('rooms.delete', $room->id)}}" class="btn btn-danger" title="Delete"><i class="fas fa-times"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -44,7 +44,7 @@
                 </table>
             </div>
             @else
-            <p class="text-center">{{ __('Nothing Found') }}</p>
+            <p class="text-center">{{ __('No Rooms Found') }}</p>
             @endif
         </div>
     </div>
