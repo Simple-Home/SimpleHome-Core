@@ -45,6 +45,10 @@ class UsersController extends Controller
             'method' => 'POST',
             'url' => route('user.update', ['user' => $user])
         ]);
+        $settingForm = $formBuilder->create(\App\Forms\SettingForm::class, [
+            'method' => 'POST',
+            'url' => route('user.setting', ['user' => $user])
+        ]);
         $changePasswordForm = $formBuilder->create(\App\Forms\ChangePasswordForm::class, [
             'method' => 'POST',
             'url' => route('user.changePassword', ['user' => $user])
@@ -57,7 +61,7 @@ class UsersController extends Controller
             'method' => 'POST',
             'url' => route('user.delete', ['user' => $user])
         ]);
-        return view('profile.administration', ['user' => $user] + compact('profileInformationForm') + compact('changePasswordForm') + compact('deleteProfileForm') + compact('realyDeleteProfileForm'));
+        return view('profile.administration', ['user' => $user] + compact('profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
     }
 
     /**
@@ -80,6 +84,28 @@ class UsersController extends Controller
 
         $user->save();
         return redirect()->route('user');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function setting(Request $request, User $user, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\SettingForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $user = $request->user();
+
+        $user->language = $request->input('language');
+
+        $user->save();
+        return redirect()->route('user',['#settings'])->with('success', __('web.settingsSaved'));;
     }
 
     /**

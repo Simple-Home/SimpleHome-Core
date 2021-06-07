@@ -14,6 +14,18 @@
         </div>
     </div>
     <br />
+    <div class="row justify-content-center" id="settings">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('user.setting') }}</div>
+
+                <div class="card-body">
+                    {!! form($settingForm) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
