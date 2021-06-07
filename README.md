@@ -1,6 +1,6 @@
 # Simple Home V4
 <p align="center">
-  <img src="https://git.steelants.cz/SH/LAR_v4_Simple_Home_Server/raw/commit/d913fcea5b1d390f2febb6358c563758837ebfc3/public/images/logo.png" />
+  <img  height="100" width="100" src="https://git.steelants.cz/SH/LAR_v4_Simple_Home_Server/raw/commit/d913fcea5b1d390f2febb6358c563758837ebfc3/public/images/logo.png" />
 </p>
 
 ## Server Requirements
