@@ -1,7 +1,25 @@
 # Simple Home V4
+
 <p align="center">
-  <img  height="100" width="100" src="https://git.steelants.cz/SH/LAR_v4_Simple_Home_Server/raw/commit/d913fcea5b1d390f2febb6358c563758837ebfc3/public/images/logo.png" />
+  <a href="https://github.com/GamerClassN7/Smart_Home">
+    <img src=".public/images/logo.png" height="100" width="100">
+  </a>
+  <h3 align="center">Make your own Smart Home automation system</h3>
+  <p align="center">
+    <br>
+    <a href="#">Explore wikis</a>
+    <sub><sup>•</sub></sup>
+    <a href="#">Report bugs</a>
+    <br>
+  </p>
+    [![PHP](https://img.shields.io/badge/PHP-brightgreen.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=php)
+    [![JS](https://img.shields.io/badge/JS-red.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=js)
+    [![HTML](https://img.shields.io/badge/HTML-blue.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=html)
+    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+    [![Discord](https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord)](https://discord.gg/XJpT3UQ)
 </p>
+
+
 
 ## Server Requirements
 * PHP 7.4 or greater.
