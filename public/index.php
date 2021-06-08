@@ -35,6 +35,25 @@ require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
+| Check If The Application Needs Installed
+|--------------------------------------------------------------------------
+|
+| This will check if we are currently installing and if we are not
+| it will the check if the .env file is present. If it does not exists
+| the installer page will be presented.
+*/
+$explodedURI = explode("/", $_SERVER['REQUEST_URI']);
+if(array_key_exists(1, $explodedURI)){
+    if($explodedURI[1] != "install") {
+        if(!file_exists(".env")){
+            header("Location: /install");
+            exit;
+        }
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 |
