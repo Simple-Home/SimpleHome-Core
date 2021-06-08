@@ -35,3 +35,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=GamerClassN7&show_icons=true)
 ![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=GamerClassN7&theme=blue-green)
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=GamerClassN7/Simple-Home)
+
+<a href = "https://github.com/Simple-Home/Simple-Home/graphs/contributors">
+<img src = "https://contrib.rocks/image?repo = Simple-Home/Simple-Home"/>
+</a>
+Made with [contributors-img](https://contrib.rocks).
