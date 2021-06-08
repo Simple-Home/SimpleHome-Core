@@ -10002,18 +10002,3 @@ h3 {
     border-color: #dee2e6;
   }
 }
-
-
-a.card{
-  text-decoration : none;
-  color: black;
-}
-
-a.card:hover{
-  text-decoration : none;
-  color: black;
-}
-
-:root {
-  color-scheme: light dark; /* both supported */
-}
