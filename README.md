@@ -13,6 +13,9 @@
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
         <img src="https://img.shields.io/badge/PHP-brightgreen.svg"/>
     </a>
+    <a href="https://laravel.com/">
+        <img src="https://img.shields.io/badge/framework-Laravel-red.svg"/>
+    </a>
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=js">
         <img src="https://img.shields.io/badge/JS-red.svg"/>
     </a>
@@ -22,13 +25,11 @@
     <a href="https://discord.gg/XJpT3UQ">
         <img src="https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord"/>
     </a>
-    <a href="https://opensource.org/licenses/MIT">
+    <a href="./LICENSE">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
     </a>
   </p>
 </p>
-
-
 
 ## Server Requirements
 * PHP 7.4 or greater.
