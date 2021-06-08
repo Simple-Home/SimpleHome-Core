@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/GamerClassN7/Smart_Home">
-    <img src=".public/images/logo.png" height="100" width="100">
+    <img src="./public/images/logo.png" height="100" width="100">
   </a>
   <h3 align="center">Make your own Smart Home automation system</h3>
   <p align="center">
@@ -12,9 +12,15 @@
     <a href="#">Report bugs</a>
     <br>
   </p>
-    [![PHP](https://img.shields.io/badge/PHP-brightgreen.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=php)
-    [![JS](https://img.shields.io/badge/JS-red.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=js)
-    [![HTML](https://img.shields.io/badge/HTML-blue.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=html)
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
+        <img src="https://img.shields.io/badge/PHP-brightgreen.svg"/>
+    </a>
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=js">
+        <img src="https://img.shields.io/badge/JS-red.svg"/>
+    </a>
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=html">
+        <img src="https://img.shields.io/badge/HTML-blue.svg"/>
+    </a>
     [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
     [![Discord](https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord)](https://discord.gg/XJpT3UQ)
 </p>
