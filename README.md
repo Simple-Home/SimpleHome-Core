@@ -1,22 +1,31 @@
-# Simple Home V4
-
 <p align="center">
-  <a href="https://github.com/GamerClassN7/Smart_Home">
-    <img src=".public/images/logo.png" height="100" width="100">
+  <a href="https://github.com/Simple-Home/Simple-Home">
+    <img src="./public/images/logo.png" height="100" width="100">
   </a>
+  <h1 align="center">Simple Home V4</h3>
   <h3 align="center">Make your own Smart Home automation system</h3>
   <p align="center">
-    <br>
-    <a href="#">Explore wikis</a>
+    <a href="https://github.com/">Explore wikis</a>
     <sub><sup>•</sub></sup>
-    <a href="#">Report bugs</a>
-    <br>
+    <a href="https://github.com/">Report bugs</a>
   </p>
-    [![PHP](https://img.shields.io/badge/PHP-brightgreen.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=php)
-    [![JS](https://img.shields.io/badge/JS-red.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=js)
-    [![HTML](https://img.shields.io/badge/HTML-blue.svg)](https://github.com/GamerClassN7/Smart_Home/search?l=html)
-    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-    [![Discord](https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord)](https://discord.gg/XJpT3UQ)
+  <p align="center">
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
+        <img src="https://img.shields.io/badge/PHP-brightgreen.svg"/>
+    </a>
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=js">
+        <img src="https://img.shields.io/badge/JS-red.svg"/>
+    </a>
+    <a href="https://github.com/Simple-Home/Simple-Home/search?l=html">
+        <img src="https://img.shields.io/badge/HTML-blue.svg"/>
+    </a>
+    <a href="https://discord.gg/XJpT3UQ">
+        <img src="https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord"/>
+    </a>
+    <a href="https://opensource.org/licenses/MIT">
+        <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
+    </a>
+  </p>
 </p>
 
 
