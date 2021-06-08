@@ -1,16 +1,13 @@
-# Simple Home V4
-
 <p align="center">
   <a href="https://github.com/Simple-Home/Simple-Home">
     <img src="./public/images/logo.png" height="100" width="100">
   </a>
+  <h1 align="center">Simple Home V4</h3>
   <h3 align="center">Make your own Smart Home automation system</h3>
   <p align="center">
-    <br>
     <a href="https://github.com/">Explore wikis</a>
     <sub><sup>•</sub></sup>
     <a href="https://github.com/">Report bugs</a>
-    <br>
   </p>
   <p align="center">
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
