@@ -20,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dark-mode.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app_override.css') }}" rel="stylesheet">
 
     <meta name="color-scheme" content="dark light">
@@ -101,6 +102,13 @@
                             </div>
                         </li>
                         @endguest
+                        <li>
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="darkSwitch" />
+                                <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                            </div>
+                            <script src="dark-mode-switch.min.js"></script>
+                        </li>
                     </ul>
                 </div>
             </div>
