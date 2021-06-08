@@ -13,6 +13,9 @@
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
         <img src="https://img.shields.io/badge/PHP-brightgreen.svg"/>
     </a>
+     <a href="https://laravel.com/">
+        <img src="https://img.shields.io/badge/framework-Laravel-red.svg"/>
+    </a>
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=js">
         <img src="https://img.shields.io/badge/JS-red.svg"/>
     </a>
