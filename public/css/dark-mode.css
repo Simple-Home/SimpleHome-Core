@@ -42,7 +42,11 @@
     background-color: #313131;
 }
 
-[data-theme="dark"] .dropdown-item{
+[data-theme="dark"] .dropdown-item, .table{
     color: #a1a5a9 !important;
+}
+
+[data-theme="dark"] .form-control{
+    background-color: #000;
 }
 
