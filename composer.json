@@ -42,10 +42,14 @@
         }
     },
     "autoload": {
+        "exclude-from-classmap": [
+            "vendor\\laravel\\framework\\src\\Illuminate\\Routing\\CompiledRouteCollection.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Illuminate\\": "app/Overrides/"
         }
     },
     "autoload-dev": {

@@ -3,7 +3,7 @@
     <img src="./public/images/logo.png" height="100" width="100">
   </a>
   <h1 align="center">Simple Home V4</h3>
-  <h3 align="center">Make your own Smart Home automation system</h3>
+  <h3 align="center">Make your own simple smart home & automation system</h3>
   <p align="center">
     <a href="https://github.com/">Explore wikis</a>
     <sub><sup>•</sub></sup>
@@ -56,5 +56,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <a href="https://github.com/Simple-Home/SimpleHome-Server/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Simple-Home/SimpleHome-Server" />
 </a>
-
-# Text
