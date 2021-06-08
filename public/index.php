@@ -43,13 +43,11 @@ require __DIR__.'/../vendor/autoload.php';
 | the installer page will be presented.
 */
 $explodedURI = explode("/", $_SERVER['REQUEST_URI']);
-if(array_key_exists(1, $explodedURI)){
-    if($explodedURI[1] != "install") {
-        if(!file_exists(".env")){
-            header("Location: /install");
-            exit;
-        }
-    }
+if(!in_array("install", $explodedURI)){ 
+    if(!file_exists(".env")){
+        header("Location: ./install"); 
+        exit;
+    } 
 }
 
 /*
