@@ -57,4 +57,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
   <img src="https://contrib.rocks/image?repo=Simple-Home/SimpleHome-Server" />
 </a>
 
-# Text
+# Text 2
