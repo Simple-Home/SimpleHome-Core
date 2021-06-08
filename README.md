@@ -1,17 +1,18 @@
 # Simple Home V4
 
 <p align="center">
-  <a href="https://github.com/GamerClassN7/Smart_Home">
+  <a href="https://github.com/Simple-Home/Simple-Home">
     <img src="./public/images/logo.png" height="100" width="100">
   </a>
   <h3 align="center">Make your own Smart Home automation system</h3>
   <p align="center">
     <br>
-    <a href="#">Explore wikis</a>
+    <a href="https://github.com/">Explore wikis</a>
     <sub><sup>•</sub></sup>
-    <a href="#">Report bugs</a>
+    <a href="https://github.com/">Report bugs</a>
     <br>
   </p>
+  <p align="center">
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=php">
         <img src="https://img.shields.io/badge/PHP-brightgreen.svg"/>
     </a>
@@ -27,6 +28,7 @@
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
     </a>
+  </p>
 </p>
 
 
