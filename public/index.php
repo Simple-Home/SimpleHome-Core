@@ -39,7 +39,7 @@ require __DIR__.'/../vendor/autoload.php';
 |--------------------------------------------------------------------------
 |
 | This will check if we are currently installing and if we are not
-| it will the check if the .env file is present. If it does not exists
+| it will the check if the .env file is present. If it does not exist
 | the installer page will be presented.
 */
 $explodedURI = explode("/", $_SERVER['REQUEST_URI']);
