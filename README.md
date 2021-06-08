@@ -42,12 +42,11 @@
 * MySQL Server
 
 ## Installation
-* Add the Simple Home Project to your web server (/var/www)
-* Rename the file ```.env.example``` to ```.env``` and change the config options
-* cd to the Simple Home project path on your server
+* Download the Simple Home Project to your web server (/var/www/) 
+  ```git clone https://github.com/Simple-Home/Simple-Home.git```
+* cd into the LAR_v4_Simple_Home_Server-master
 * Run the command: ```composer install```
-* Run the command: ```php artisan migrate```
-* Visit the webserver URL and register an account
+* Visit your webservers URL and proceed with setup
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
