@@ -31,4 +31,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [Xinatorus](https://github.com/Xinatorus) - Developer
 * [revoxhere](https://github.com/revoxhere/) - ReadMe & Wikis
 
-
+# Text
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=GamerClassN7&show_icons=true)
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=GamerClassN7&theme=blue-green)
+![GitHub Contributors Image](https://contrib.rocks/image?repo=GamerClassN7/Simple-Home)
