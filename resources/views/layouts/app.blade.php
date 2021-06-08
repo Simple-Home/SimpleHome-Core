@@ -10,9 +10,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -20,8 +17,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/dark-mode.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app_override.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dark-mode.css') }}" rel="stylesheet">
 
     <meta name="color-scheme" content="dark light">
 </head>
@@ -99,16 +96,16 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
+                            
+                                <div class="dropdown-item">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                                        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         @endguest
-                        <li>
-                            <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" id="darkSwitch" />
-                                <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
-                            </div>
-                            <script src="dark-mode-switch.min.js"></script>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -120,4 +117,7 @@
     </div>
 </body>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/dark-mode-switch.min.js') }}" defer></script>
 </html>
