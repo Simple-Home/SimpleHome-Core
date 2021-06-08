@@ -21,8 +21,12 @@
     <a href="https://github.com/Simple-Home/Simple-Home/search?l=html">
         <img src="https://img.shields.io/badge/HTML-blue.svg"/>
     </a>
-    [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-    [![Discord](https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord)](https://discord.gg/XJpT3UQ)
+    <a href="https://discord.gg/XJpT3UQ">
+        <img src="https://img.shields.io/discord/604697675430101003.svg?color=Blue&label=Discord&logo=Discord"/>
+    </a>
+    <a href="https://opensource.org/licenses/MIT">
+        <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
+    </a>
 </p>
 
 
