@@ -117,12 +117,21 @@ class ServerController extends Controller
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
         $valuesPerMinute = $this->values_per_minute();
+        $uptime = $this->last_boot_time();
+        $ssl = $this->get_https();
 
-        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute'));
+        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
     }
 
     private function ram_stat()
     {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return [
+                "used" => 0,
+                "total" => 0,
+            ];
+        }
+
         //RAM usage
         $free = shell_exec('free');
         $free = (string) trim($free);
@@ -153,6 +162,10 @@ class ServerController extends Controller
 
     private function cpu_stat()
     {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return 0;
+        }
+
         //cpu usage
         $cpu_load = sys_getloadavg();
         $load = $cpu_load[0];
@@ -161,6 +174,10 @@ class ServerController extends Controller
 
     private function service_status($service_name)
     {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return false;
+        }
+
         //service
         $serviceStatus = shell_exec('service ' . $service_name . ' status');
         $serviceStatus = (string) trim($serviceStatus);
@@ -172,8 +189,15 @@ class ServerController extends Controller
 
     private function disk_stat()
     {
-        $df = round(disk_free_space("/var/www") / 1024 / 1024 / 1024);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return [
+                "used" => 0,
+                "total" => 0,
+            ];
+        }
+        
         $dt = round(disk_total_space("/var/www") / 1024 / 1024 / 1024);
+        $df = round(disk_free_space("/var/www") / 1024 / 1024 / 1024);
         return [
             "used" => ($dt - $df),
             "total" => $dt,
@@ -203,5 +227,17 @@ class ServerController extends Controller
                 '>',
                 Carbon::now()->subMinutes(1)->toDateTimeString()
             ))->count();
+    }
+
+    private function last_boot_time(){
+        $info = exec('systeminfo | find /i "Boot Time"');
+        return Carbon::parse(trim(str_replace("System Boot Time:", "", $info)))->diffForHumans();;
+    }
+
+    private function get_https(){
+        if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
+            return false;
+        }
+        return true;
     }
 }
