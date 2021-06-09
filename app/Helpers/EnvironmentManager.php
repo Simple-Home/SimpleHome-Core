@@ -43,26 +43,11 @@ class EnvironmentManager extends \RachidLaasri\LaravelInstaller\Helpers\Environm
         if (! file_exists($this->envPath)) {
             if (file_exists($this->envExamplePath)) {
                 copy($this->envExamplePath, $this->envPath);
-                $this->writeAppKey();
             } else {
                 touch($this->envPath);
             }
         }
         return file_get_contents($this->envPath);
-    }
-
-    /**
-     * Generate App Key
-     *
-     * @return string
-     */
-    public function writeAppKey()
-    {
-        if (file_exists($this->envPath)) {
-            file_put_contents($this->envPath, preg_replace(
-                '/APP_KEY=/', 'APP_KEY='.'base64:'.base64_encode(Str::random(32)), file_get_contents($this->envPath), 1
-            ));
-        }
     }
    
     /**

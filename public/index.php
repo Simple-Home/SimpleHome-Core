@@ -45,6 +45,8 @@ require __DIR__.'/../vendor/autoload.php';
 $explodedURI = explode("/", $_SERVER['REQUEST_URI']);
 if(!in_array("install", $explodedURI)){ 
     if(!file_exists(".env")){
+        $randomString = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(32/strlen($x)) )),1,32);
+        $status = file_put_contents(".env", "APP_KEY=base64:".base64_encode($randomString)."\n");
         header("Location: ./install"); 
         exit;
     } 
