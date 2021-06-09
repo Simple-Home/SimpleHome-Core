@@ -53,6 +53,6 @@
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contributors
-<a href="https://github.com/Simple-Home/SimpleHome-Server/graphs/contributors">
+<a href="https://github.com/Simple-Home/Simple-Home/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Simple-Home/SimpleHome-Server" />
 </a>
