@@ -1,1 +1,1 @@
-* Fix APP_KEY in .env, needs to be random prior to install.
+* Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
