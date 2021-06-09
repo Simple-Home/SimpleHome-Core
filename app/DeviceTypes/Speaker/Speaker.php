@@ -11,7 +11,7 @@ use App\DeviceTypes\DeviceTypes;
 abstract class Speaker extends DeviceTypes
 {
     private $speaker;
-    abstract public function power();
+    abstract public function state();
     abstract public function play();
     abstract public function pause();
     abstract public function forward();

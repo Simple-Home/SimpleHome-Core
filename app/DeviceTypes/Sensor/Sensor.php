@@ -11,8 +11,8 @@ use App\DeviceTypes\DeviceTypes;
 abstract class Sensor extends DeviceTypes
 {
     private $sensor;
-    abstract public function battery();
-    abstract public function values();
+    abstract public function state();
+    abstract public function battery();  
 }
 
 ?>

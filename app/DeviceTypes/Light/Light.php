@@ -11,8 +11,7 @@ use App\DeviceTypes\DeviceTypes;
  */
 abstract class Light extends DeviceTypes
 {
-    abstract public function on();
-    abstract public function off();
+    abstract public function state();
     abstract public function brightness();
     abstract public function color();
     abstract public function colorTemp();
