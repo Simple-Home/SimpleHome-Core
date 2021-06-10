@@ -1,1 +1,7 @@
 * Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
+
+
+# Resources:
+http://developers.sonoff.tech/
+https://shelly-api-docs.shelly.cloud/
+https://developers.meethue.com/develop/get-started-2/
