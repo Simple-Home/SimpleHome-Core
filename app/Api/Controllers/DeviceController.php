@@ -4,7 +4,7 @@ namespace App\Api\Controllers;
 use App\Http\Controllers\Controller;
 use App\Rule;
 use Illuminate\Http\Request;
-
+use App\Models\Device;
 /**
  * Class DeviceController
  * @package App\Http\Controllers\Bindings
@@ -45,7 +45,7 @@ class DeviceController extends Controller
         $feature = strtolower($feature);
 
         // Get all the metadata of the device to be controlled.
-        $this->meta = Device::where('device', $deviceName)->first();
+        $this->meta = Device::where('hostname', $deviceName)->first();
 
         // If no device was found, an error message is issued.
         if (empty($this->meta)) {
@@ -64,7 +64,7 @@ class DeviceController extends Controller
         }
     
         // Send Input
-        $this->device->setInput($this->input);
+        //$this->device->setInput($this->input);
 
         // Call the Feature/Method of class if the feature exists.
         if ($this->device->hasFeature($this->device, $feature) === true) {
@@ -87,11 +87,11 @@ class DeviceController extends Controller
             }
 
             if(!is_null($this->device->getStatus())){
-                Device::where('device', $deviceName)
-                    ->update(['state' => $this->device->getStatus()]);
+                Device::where('hostname', $deviceName)
+                    ->update(['status' => $this->device->getStatus()]);
             } 
-            $lv_device = Device::where('device', $deviceName)->first();
-            $this->device->setStatus($lv_device->state);
+            $lv_device = Device::where('hostname', $deviceName)->first();
+            $this->device->setStatus($feature, $lv_device->state);
             
             return $this->device->getStatus();
         }
