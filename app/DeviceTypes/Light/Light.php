@@ -20,7 +20,7 @@ abstract class Light extends DeviceTypes
         return [
                 "state"=>["on","off"], 
                 "brightness"=>["1","2","3","4","5","6","7","8","9","10"],
-                "color"=>["red","green","blue","orange","yellow","purple","white"],
+                "color"=>["*"],
                 "colorTemp"=>["warm","cool"],
                 "effect"=>["flash", "colorloop"],
                 ];

@@ -67,8 +67,9 @@ abstract class DeviceTypes
      */
     public function allowedValue($classObject, $feature, $value = null)
     {
+        //if value is allowed or *, if not allowed show allowed options
         $allowedValues = $classObject->allowedValues()[$feature];
-        return ($value==null) ? implode(", ", $allowedValues) : (in_array($value, $allowedValues) ? "allowed" : "");
+        return ($value==null) ? implode(", ", $allowedValues) : (in_array($value, $allowedValues) || $allowedValues[0] == "*" ? "allowed" : "");
     }
 
     /**
@@ -143,7 +144,7 @@ abstract class DeviceTypes
             $this->properties[$name] = $value;
             $this->state["properties"] = $this->properties;   
         }else{
-            return "Error: property not supported";
+            return '{"status":"error", "message":"property not supported"}';
         }
     }
 }

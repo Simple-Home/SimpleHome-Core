@@ -31,14 +31,14 @@ class DeviceController extends Controller
     /**
      * control
      *
-     * @param mixed $deviceName
+     * @param mixed $hostname
      * @param mixed $feature
      * @param mixed $value
      * @return void
      */
-    public function control(Request $request, $deviceName, $feature = null, $value = null)
+    public function control(Request $request, $hostname, $feature = null, $value = null)
     {
-        // Set input if it's not NULL
+        // Set value if it's not NULL
         if (!is_null($value)) {
             $this->value = strtolower($value);
         }
@@ -46,11 +46,11 @@ class DeviceController extends Controller
         $this->request = $request;
 
         // Get all the metadata of the device to be controlled.
-        $this->meta = Device::where('hostname', $deviceName)->first();
+        $this->meta = Device::where('hostname', $hostname)->first();
 
         // If no device was found, an error message is issued.
         if (empty($this->meta)) {
-            return 'Error: device "' . $deviceName . '" not found';
+            return '{"status":"error", "message":"device "'.$hostname.'" not found"}';
         }
 
         // If no feature was found, display all state
@@ -72,7 +72,6 @@ class DeviceController extends Controller
         // Send Request
         $this->device->setRequest(["request"=>$this->request, "value"=>$value]);
 
-
         // Call the Feature/Method of class if the feature exists.
         if ($this->device->hasFeature($this->device, $feature) === true) {
 
@@ -91,7 +90,7 @@ class DeviceController extends Controller
                             $this->device->$feature($value);
                         } 
                     }else{
-                        return "Error: only these values are allowed: ".$this->device->allowedValue($this->device, $feature);
+                        return '{"status":"error", "message":"Error: only these values are allowed: '.$this->device->allowedValue($this->device, $feature).'"}';
                     }       
                 } catch (\Exception $ex) {
                     $msg = $ex->getMessage();
@@ -105,12 +104,13 @@ class DeviceController extends Controller
             }      
 
             if(!empty($this->device->getState()) ){
-                Device::where('hostname', $deviceName)
+                Device::where('hostname', $hostname)
                     ->update(['state' => $this->device->getState()]);
             }   
-            return $this->device->getState($feature);
+            $success = ($this->device->getState($feature) == $value ? "success" : "error");
+            return '{"status": "'.$success.'", "value": "'.$this->device->getState($feature).'"}';
         }
-        return 'Error: feature not defined';
+        return '{"status":"error", "message":"feature not defined"}';
     }
 
     /**
@@ -122,14 +122,14 @@ class DeviceController extends Controller
     public function create(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-                    'devicename' => 'required|unique:devices,device|max:191',
+                    'hostname' => 'required|unique:devices,device|max:191',
                     'binding' => 'required',
                     'room' => 'exists:rooms,id',
                     'json' => 'json'
                 ])->validate();
         
         $data = [
-            "devicename" => $request->devicename,
+            "hostname" => $request->hostname,
             "binding" => $request->binding,
             "room" => $request->room,
             "json" => $request->json
@@ -155,14 +155,14 @@ class DeviceController extends Controller
         if (is_null($request->json)) {
             $validator = \Validator::make($request->all(), [
                 'deviceID' => 'required|exists:devices,id',
-               // 'devicename' => 'required|unique:devices,device|max:191',
+               // 'hostname' => 'required|unique:devices,device|max:191',
                 'binding' => 'required',
                 'room' => 'exists:rooms,id'
             ])->validate();
         } else {
             $validator = \Validator::make($request->all(), [
                 'deviceID' => 'required|exists:devices,id',
-               // 'devicename' => 'required|unique:devices,device|max:191',
+               // 'hostname' => 'required|unique:devices,device|max:191',
                 'binding' => 'required',
                 'room' => 'exists:rooms,id',
                 'json' => 'sometimes|json'
@@ -171,10 +171,10 @@ class DeviceController extends Controller
 
         $data = [
                 "deviceID" => $request->deviceID,
-                "devicename" => $request->devicename,
+                "hostname" => $request->hostname,
                 "binding" => $request->binding,
                 "room" => $request->room,
-                "json" => json_decode($request->json, true)
+                "json" => $request->json
             ];
         
             
