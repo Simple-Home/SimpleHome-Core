@@ -1,17 +1,17 @@
 <?php
-namespace App\DeviceTypes;
+namespace App\PropertyTypes;
 
 /**
- * Class DeviceTypes
- * @package App\DeviceTypes
+ * Class PropertyTypes
+ * @package App\PropertyTypes
  */
-abstract class DeviceTypes
+abstract class PropertyTypes
 {
-    protected $deviceTypes;
+    protected $propertyTypes;
     protected $meta;
     public $features;
     private $state = array();
-    private $properties = array();
+    private $attributes = array();
 
     /**
      * getFeatures
@@ -38,7 +38,7 @@ abstract class DeviceTypes
 
     /**
      * hasFeature
-     * Check if an device has the requested feature
+     * Check if an property has the requested feature
      * 
      * @param mixed $classObject
      * @param mixed $feature
@@ -58,7 +58,7 @@ abstract class DeviceTypes
 
     /**
      * allowedValue
-     * Check if an device feature supports the requested value
+     * Check if an property feature supports the requested value
      * 
      * @param $classObject
      * @param $feature
@@ -91,7 +91,7 @@ abstract class DeviceTypes
      */
     public function getRequest()
     {
-        return $this->device->hasFeature($this->device, $feature);
+        return $this->property->hasFeature($this->property, $feature);
     }
     
     /**
@@ -132,19 +132,19 @@ abstract class DeviceTypes
     }
 
     /**
-     * setProperties
+     * setAttributes
      * 
      * @param mixed name
      * @param mixed value
      * @return void
      */
-    public function setProperties($name, $value)
+    public function setAttributes($name, $value)
     {
-        if (in_array($name, $this->supportedProperties)){
-            $this->properties[$name] = $value;
-            $this->state["properties"] = $this->properties;   
+        if (in_array($name, $this->supportedAttributes)){
+            $this->attributes[$name] = $value;
+            $this->state["attributes"] = $this->attributes;   
         }else{
-            return '{"status":"error", "message":"property not supported"}';
+            return '{"status":"error", "message":"attribute not supported"}';
         }
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Properties;
 
 class Records extends Model
 {
-    public $incrementing = false;
+    public $incrementing = true;
     protected $table = 'records';
     protected $primaryKey = 'id';
     public $fillable = [
