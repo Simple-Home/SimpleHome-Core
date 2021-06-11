@@ -1,5 +1,4 @@
 <?php
-
 namespace App\DeviceTypes;
 
 /**
@@ -37,7 +36,6 @@ abstract class DeviceTypes
         return $features;
     }
 
-
     /**
      * hasFeature
      * Check if an device has the requested feature
@@ -73,22 +71,36 @@ abstract class DeviceTypes
         return ($value==null) ? implode(", ", $allowedValues) : (in_array($value, $allowedValues) ? "allowed" : "");
     }
 
+    /**
+     * setRequest
+     * Set request from HTTP request
+     * 
+     * @param $$request
+     * @return void
+     */
     public function setRequest($request)
     {
         $this->request = $request;
     }
 
-    public function getRequest(){
+     /**
+     * getRequest
+     * 
+     * @return void
+     */
+    public function getRequest()
+    {
         return $this->device->hasFeature($this->device, $feature);
     }
     
     /**
      * getState
      * 
-     * @param mixed feature
+     * @param mixed $feature
      * @return void
      */
-    public function getState($feature = null){  
+    public function getState($feature = null)
+    {  
         if(isset($feature)){
             if(array_key_exists($feature, $this->state)) {
                 return $this->state[$feature];
@@ -108,8 +120,7 @@ abstract class DeviceTypes
      * @return void
      */
     public function setState($feature, $state)
-    {   
-        
+    { 
         if(empty($state)) return "nul";
 
         if ($feature == "All"){
@@ -126,13 +137,13 @@ abstract class DeviceTypes
      * @param mixed value
      * @return void
      */
-    public function setProperties($name, $value){
+    public function setProperties($name, $value)
+    {
         if (in_array($name, $this->supportedProperties)){
             $this->properties[$name] = $value;
             $this->state["properties"] = $this->properties;   
         }else{
-            return "Property Not Supported";
+            return "Error: property not supported";
         }
     }
-
 }
