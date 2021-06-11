@@ -38,7 +38,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limi
 
 // v2 Device Controller
 Route::group(['prefix' => 'v2', 'middleware' => []], function () {
-    Route::get('/device/{deviceID}/{feature}/{input?}', [App\Api\Controllers\DeviceController::class, 'control']);
+    Route::get('/device/{deviceID}/{feature?}/{value?}', [App\Api\Controllers\DeviceController::class, 'control']);
+    Route::post('/device/{deviceID}/{feature}/{value?}', [App\Api\Controllers\DeviceController::class, 'control']);
     Route::post('/device/create', [App\Api\Controllers\DeviceController::class, 'create']);
     Route::post('/device/update', [App\Api\Controllers\DeviceController::class, 'update']);
     Route::post('/device/delete', [App\Api\Controllers\DeviceController::class, 'delete']);

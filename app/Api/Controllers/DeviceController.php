@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Rule;
 use Illuminate\Http\Request;
 use App\Models\Device;
+use Illuminate\Support\Str;
 /**
  * Class DeviceController
  * @package App\Http\Controllers\Bindings
@@ -32,24 +33,29 @@ class DeviceController extends Controller
      *
      * @param mixed $deviceName
      * @param mixed $feature
-     * @param mixed $input
+     * @param mixed $value
      * @return void
      */
-    public function control($deviceName, $feature, $input = null)
+    public function control(Request $request, $deviceName, $feature = null, $value = null)
     {
         // Set input if it's not NULL
-        if (!is_null($input)) {
-            $this->input = $input;
+        if (!is_null($value)) {
+            $this->value = strtolower($value);
         }
-        
-        $feature = strtolower($feature);
+        $feature = STR::camel($feature);
+        $this->request = $request;
 
         // Get all the metadata of the device to be controlled.
         $this->meta = Device::where('hostname', $deviceName)->first();
 
         // If no device was found, an error message is issued.
         if (empty($this->meta)) {
-            return 'Device "' . $deviceName . '" not found';
+            return 'Error: device "' . $deviceName . '" not found';
+        }
+
+        // If no feature was found, display all state
+        if (empty($feature)) {
+            return json_decode( $this->meta->state, true);
         }
 
         // Concatenate the module's namespace with its binder.
@@ -62,19 +68,31 @@ class DeviceController extends Controller
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
-    
-        // Send Input
-        //$this->device->setInput($this->input);
+
+        // Send Request
+        $this->device->setRequest(["request"=>$this->request, "value"=>$value]);
+
 
         // Call the Feature/Method of class if the feature exists.
         if ($this->device->hasFeature($this->device, $feature) === true) {
 
+            //load device state from database
+            $this->device->setState("All", json_decode( $this->meta->state, true)); 
+            
             // Certain Modules create .env variables. For such cases, we repeat the feature execution 2 times
             $msg = NULL;
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
                 try {
-                    $this->device->$feature();
+                    if($this->device->allowedValue($this->device, $feature, $value) == "allowed") {
+                        if($feature == "state"){
+                            $this->device->$feature($value, $this->request->input());   
+                        }else{
+                            $this->device->$feature($value);
+                        } 
+                    }else{
+                        return "Error: only these values are allowed: ".$this->device->allowedValue($this->device, $feature);
+                    }       
                 } catch (\Exception $ex) {
                     $msg = $ex->getMessage();
                     sleep(1);   
@@ -84,18 +102,15 @@ class DeviceController extends Controller
                     return $msg;
                 }
                 break;
-            }
+            }      
 
-            if(!is_null($this->device->getStatus())){
+            if(!empty($this->device->getState()) ){
                 Device::where('hostname', $deviceName)
-                    ->update(['status' => $this->device->getStatus()]);
-            } 
-            $lv_device = Device::where('hostname', $deviceName)->first();
-            $this->device->setStatus($feature, $lv_device->state);
-            
-            return $this->device->getStatus();
+                    ->update(['state' => $this->device->getState()]);
+            }   
+            return $this->device->getState($feature);
         }
-        return 'Feature <b>"' . $feature . '"</b> not defined';
+        return 'Error: feature not defined';
     }
 
     /**

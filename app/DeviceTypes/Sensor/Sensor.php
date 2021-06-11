@@ -12,7 +12,7 @@ abstract class Sensor extends DeviceTypes
 {
     private $sensor;
     abstract public function state();
-    abstract public function battery();  
+    public function allowedValues(){ return array("state"=>array("ON","OFF")); }
 }
 
 ?>

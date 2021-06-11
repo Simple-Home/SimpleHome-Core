@@ -18,6 +18,16 @@ abstract class Speaker extends DeviceTypes
     abstract public function reverse();
     abstract public function mute();
     abstract public function volume();
+    public function allowedValues(){ 
+        return [
+                "state"=>["on","off"], 
+                "play"=>[],
+                "pause"=>[],
+                "forward"=>[],
+                "reverse"=>[],
+                "mute"=>["on", "off"],
+                "volume"=>["1","2","3","4","5","6","7","8","9","10"],
+                ];
 }
 
 ?>
