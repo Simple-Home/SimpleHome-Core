@@ -42,6 +42,7 @@ class ControlController extends Controller
         // Catch Error Messages from Property Constructor
         try {
             // Instantiate the class.
+            if(!class_exists($classString)){ return '{"status":"error", "message":"binding not found"';}
             $this->property = new $classString($this->meta['property']);
         } catch (\Exception $ex) {
             return $ex->getMessage();

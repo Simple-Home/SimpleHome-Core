@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< Updated upstream
     "content-hash": "720f0d3d7827d40abe7badfa95a9949e",
+=======
+    "content-hash": "c99dc91d52ec3f45d950b0a461f7832f",
+>>>>>>> Stashed changes
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2433,6 +2437,87 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.5"
             },
             "time": "2021-05-03T19:11:20+00:00"
+        },
+        {
+            "name": "nwidart/laravel-modules",
+            "version": "8.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nWidart/laravel-modules.git",
+                "reference": "6ade5ec19e81a0e4807834886a2c47509d069cb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/6ade5ec19e81a0e4807834886a2c47509d069cb7",
+                "reference": "6ade5ec19e81a0e4807834886a2c47509d069cb7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "laravel/framework": "^8.0",
+                "mockery/mockery": "~1.0",
+                "orchestra/testbench": "^6.2",
+                "phpstan/phpstan": "^0.12.14",
+                "phpunit/phpunit": "^8.5",
+                "spatie/phpunit-snapshot-assertions": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Nwidart\\Modules\\LaravelModulesServiceProvider"
+                    ],
+                    "aliases": {
+                        "Module": "Nwidart\\Modules\\Facades\\Module"
+                    }
+                },
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nwidart\\Modules\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Widart",
+                    "email": "n.widart@gmail.com",
+                    "homepage": "https://nicolaswidart.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Module management",
+            "keywords": [
+                "laravel",
+                "module",
+                "modules",
+                "nwidart",
+                "rad"
+            ],
+            "support": {
+                "issues": "https://github.com/nWidart/laravel-modules/issues",
+                "source": "https://github.com/nWidart/laravel-modules/tree/8.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/nwidart",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-11T09:24:22+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -6127,26 +6212,43 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thebradleysanders/SimpleHome-Example.git",
+<<<<<<< Updated upstream
                 "reference": "d82413200b2092e013748fb633528ca8dca02138"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/thebradleysanders/SimpleHome-Example/zipball/d82413200b2092e013748fb633528ca8dca02138",
                 "reference": "d82413200b2092e013748fb633528ca8dca02138",
+=======
+                "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thebradleysanders/SimpleHome-Example/zipball/77c009b65cae7f7bb87d152b656f0cd3fa941f01",
+                "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "type": "laravel-module",
             "extra": {
                 "laravel": {
                     "providers": [
+<<<<<<< Updated upstream
                         "Modules\\ExampleLight\\Providers\\ExampleLightServiceProvider"
+=======
+                        "Modules\\ExampleBinding\\Providers\\ExampleBindingServiceProvider"
+>>>>>>> Stashed changes
                     ],
                     "aliases": []
                 }
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< Updated upstream
                     "Modules\\ExampleLight\\": ""
+=======
+                    "Modules\\ExampleBinding\\": ""
+>>>>>>> Stashed changes
                 }
             },
             "authors": [
@@ -6158,7 +6260,11 @@
             "support": {
                 "source": "https://github.com/thebradleysanders/SimpleHome-Example/tree/dev-v1"
             },
+<<<<<<< Updated upstream
             "time": "2021-06-10T21:14:42+00:00"
+=======
+            "time": "2021-06-11T20:23:21+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
