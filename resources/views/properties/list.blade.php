@@ -25,17 +25,20 @@
                     <div class="row">
                         <div class="col-md">
                             <h5 class="card-title">
-                                <i class="fas {{$property->icon}}"></i> {{strtoupper($property->device->hostname)}}: {{ucwords($property->nick_name)}}
+                                <a href="{{ route('properties_detail', $property->id) }}">
+                                    <i class="fas {{$property->icon}}"></i> {{strtoupper($property->device->hostname)}}: {{ucwords($property->nick_name)}}
+                                </a>
                             </h5>
                         </div>
+                    
                         <div class="col-xs">
                             @if (!empty($property->last_value->value))
                                 <h5 class="text-right">State: {{json_decode($property->last_value->value,true)['state']}}</h5>
                                 @if (json_decode($property->last_value->value,true)['state'] == "on")
-                                    @if ($property->type == "Light")
+                                    @if ($property->type == "light")
                                         <h6 class="text-right">Brightness: {{json_decode($property->last_value->value,true)['brightness']}}</h6>
                                     @endif
-                                    @if ($property->type == "Speaker")
+                                    @if ($property->type == "speaker")
                                         <h6 class="text-right">Volume: {{json_decode($property->last_value->value,true)['volume']}}</h6>
                                     @endif
                                 @endif
@@ -49,12 +52,12 @@
                         <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'off');" class="btn btn-danger">Turn Off</button>
                         @endif
                         &nbsp;
-                        @if ($property->type == "Light")
+                        @if ($property->type == "light")
                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '10');" class="btn btn-primary">Max Brightness</button>
                            &nbsp;
                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '1');" class="btn btn-primary">Min Brightness</button>
                         @endif
-                        @if ($property->type == "Speaker")
+                        @if ($property->type == "speaker")
                             <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '10');" class="btn btn-primary">Max Volume</button>
                             &nbsp;
                             <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '1');" class="btn btn-primary">Min Volume</button>

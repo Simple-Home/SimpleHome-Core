@@ -1,13 +1,13 @@
 <?php
-namespace App\PropertyTypes\Sensor;
+namespace App\PropertyTypes\sensor;
 
 use App\PropertyTypes\PropertyTypes;
 
 /**
- * Class Sensor
- * @package App\PropertyTypes\Sensor
+ * Class sensor
+ * @package App\PropertyTypes\sensor
  */
-abstract class Sensor extends PropertyTypes
+abstract class sensor extends PropertyTypes
 {
     private $sensor;
     abstract public function state($value);
