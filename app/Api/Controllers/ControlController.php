@@ -35,6 +35,9 @@ class ControlController extends Controller
         }
         if ($this->meta['property'] == null) {
             return '{"status":"error", "message":"property "'.$propertyID.'" not found"}';
+        }else{
+            //Format settings into an array
+            $this->meta['property']->settings = json_decode($this->meta['property']->settings, true);
         }
 
         // Concatenate the module's namespace with its binder.
@@ -44,7 +47,7 @@ class ControlController extends Controller
         try {
             // Instantiate the class.
             if(!class_exists($classString)){ return '{"status":"error", "message":"binding not found"';}
-            $this->property = new $classString($this->meta['property']);
+            $this->property = new $classString($this->meta);
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }

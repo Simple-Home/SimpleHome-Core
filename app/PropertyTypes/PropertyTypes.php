@@ -91,7 +91,7 @@ abstract class PropertyTypes
      */
     public function getRequest()
     {
-        return $this->property->hasFeature($this->property, $feature);
+        return $this->request;
     }
     
     /**

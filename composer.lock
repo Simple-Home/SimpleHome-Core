@@ -9504,12 +9504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thebradleysanders/examplebinding-module.git",
-                "reference": "19d4974b79ffd7ff35591a5c79a6ea79c364b394"
+                "reference": "dacf63fc42b585f3687e81517454bdbab386eeaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thebradleysanders/examplebinding-module/zipball/19d4974b79ffd7ff35591a5c79a6ea79c364b394",
-                "reference": "19d4974b79ffd7ff35591a5c79a6ea79c364b394",
+                "url": "https://api.github.com/repos/thebradleysanders/examplebinding-module/zipball/dacf63fc42b585f3687e81517454bdbab386eeaa",
+                "reference": "dacf63fc42b585f3687e81517454bdbab386eeaa",
                 "shasum": ""
             },
             "default-branch": true,
@@ -9538,7 +9538,7 @@
                 "issues": "https://github.com/thebradleysanders/examplebinding-module/issues",
                 "source": "https://github.com/thebradleysanders/examplebinding-module/tree/dev-v1"
             },
-            "time": "2021-06-12T05:36:33+00:00"
+            "time": "2021-06-12T18:20:51+00:00"
         },
         {
             "name": "theseer/tokenizer",
