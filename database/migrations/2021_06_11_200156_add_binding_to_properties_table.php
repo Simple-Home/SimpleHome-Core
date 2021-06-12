@@ -14,7 +14,7 @@ class AddBindingToPropertiesTable extends Migration
     public function up()
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('binding')
+            $table->string('binding');
         });
     }
 

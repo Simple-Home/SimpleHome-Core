@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff27096dda297b1347a635e1db396160",
+    "content-hash": "c210153590ae09065023578774f7a1e4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1138,6 +1138,48 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
             "time": "2021-04-26T09:17:50+00:00"
+        },
+        {
+            "name": "joshbrw/laravel-module-installer",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshbrw/laravel-module-installer.git",
+                "reference": "667820efd0652df8ed61420cd0dec8df1b3ecdd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshbrw/laravel-module-installer/zipball/667820efd0652df8ed61420cd0dec8df1b3ecdd2",
+                "reference": "667820efd0652df8ed61420cd0dec8df1b3ecdd2",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": "7.* || 8.*"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~8.0 || ~9.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Joshbrw\\LaravelModuleInstaller\\LaravelModuleInstallerPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joshbrw\\LaravelModuleInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "issues": "https://github.com/joshbrw/laravel-module-installer/issues",
+                "source": "https://github.com/joshbrw/laravel-module-installer/tree/v2.0.1"
+            },
+            "time": "2021-01-17T21:51:00+00:00"
         },
         {
             "name": "kris/laravel-form-builder",
@@ -6203,45 +6245,6 @@
             "time": "2021-05-27T12:28:50+00:00"
         },
         {
-            "name": "thebradleysanders/SimpleHome-Example",
-            "version": "dev-dev-v1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thebradleysanders/SimpleHome-Example.git",
-                "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thebradleysanders/SimpleHome-Example/zipball/77c009b65cae7f7bb87d152b656f0cd3fa941f01",
-                "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01",
-                "shasum": ""
-            },
-            "type": "laravel-module",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Modules\\ExampleBinding\\Providers\\ExampleBindingServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Modules\\ExampleBinding\\": ""
-                }
-            },
-            "authors": [
-                {
-                    "name": "Brad Sanders",
-                    "email": ""
-                }
-            ],
-            "support": {
-                "source": "https://github.com/thebradleysanders/SimpleHome-Example/tree/dev-v1"
-            },
-            "time": "2021-06-11T20:23:21+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.3",
             "source": {
@@ -9496,6 +9499,48 @@
             "time": "2020-09-28T06:39:44+00:00"
         },
         {
+            "name": "thebradleysanders/examplebinding-module",
+            "version": "dev-dev-v1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thebradleysanders/examplebinding-module.git",
+                "reference": "79f2b290edee0dfdcc8c39074e8b33e9bd98bf75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thebradleysanders/examplebinding-module/zipball/79f2b290edee0dfdcc8c39074e8b33e9bd98bf75",
+                "reference": "79f2b290edee0dfdcc8c39074e8b33e9bd98bf75",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "laravel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ExampleBinding\\Providers\\ExampleBindingServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ExampleBinding\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Brad Sanders",
+                    "email": "thebradleysanders@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/thebradleysanders/examplebinding-module/issues",
+                "source": "https://github.com/thebradleysanders/examplebinding-module/tree/dev-v1"
+            },
+            "time": "2021-06-12T04:53:27+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.2.0",
             "source": {
@@ -9549,7 +9594,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "thebradleysanders/simplehome-example": 20
+        "thebradleysanders/examplebinding-module": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
