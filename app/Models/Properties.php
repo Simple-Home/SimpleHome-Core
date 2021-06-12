@@ -28,7 +28,7 @@ class Properties extends Model
 
     public function values()
     {
-        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(1))->orderBy('created_at', 'DESC');
+        return $this->hasMany(Records::class, 'property_id')->orderBy('id', 'DESC');
     }
 
     public function getAgregatedValuesAttribute()
@@ -53,7 +53,7 @@ class Properties extends Model
 
     public function last_value()
     {
-        return $this->hasOne(Records::class, 'property_id', 'id')->latest();
+        return $this->hasOne(Records::class, 'property_id', 'id')->orderBy('id', 'DESC');;
     }
 
     use HasFactory;

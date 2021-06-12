@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\Property;
 use App\Models\Records;
 use Illuminate\Support\Str;
+
 /**
  * Class DeviceController
  * @package App\Http\Controllers\Bindings

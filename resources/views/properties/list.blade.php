@@ -20,19 +20,45 @@
     <div class="row row-cols-1 row-cols-md-3">  
         @foreach ($properties as $property)
         <div class="col mb-4">
-            <a href="{{ route('properties_detail', $property->id) }}" class="card">
+          <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm">
-                            <i class="card-img-top fas {{$property->icon}}"></i>
-                            <h5 class="card-title">{{$property->type}}</h5>
-                            <h4>{{$property->device->hostname}}</h5>
+                        <div class="col-md">
+                            <h5 class="card-title">
+                                <i class="fas {{$property->icon}}"></i> {{strtoupper($property->device->hostname)}}: {{ucwords($property->nick_name)}}
+                            </h5>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-xs">
                             @if (!empty($property->last_value->value))
-                            <h4 class="text-right">{{$property->last_value->value}}</h4>
+                                <h5 class="text-right">State: {{json_decode($property->last_value->value,true)['state']}}</h5>
+                                @if (json_decode($property->last_value->value,true)['state'] == "on")
+                                    @if ($property->type == "Light")
+                                        <h6 class="text-right">Brightness: {{json_decode($property->last_value->value,true)['brightness']}}</h6>
+                                    @endif
+                                    @if ($property->type == "Speaker")
+                                        <h6 class="text-right">Volume: {{json_decode($property->last_value->value,true)['volume']}}</h6>
+                                    @endif
+                                @endif
                             @endif
                         </div>
+                    </div>
+                    <div class="row">
+                        @if (json_decode($property->last_value->value,true)['state'] == "off")
+                        <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'on');" class="btn btn-success">Turn On</button>
+                        @else
+                        <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'off');" class="btn btn-danger">Turn Off</button>
+                        @endif
+                        &nbsp;
+                        @if ($property->type == "Light")
+                           <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '10');" class="btn btn-primary">Max Brightness</button>
+                           &nbsp;
+                           <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '1');" class="btn btn-primary">Min Brightness</button>
+                        @endif
+                        @if ($property->type == "Speaker")
+                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '10');" class="btn btn-primary">Max Volume</button>
+                            &nbsp;
+                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '1');" class="btn btn-primary">Min Volume</button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer">
@@ -40,7 +66,7 @@
                         <p class="mb-0 {{ $property->connection_error ? 'text-danger' : 'text-success' }}">Last updated {{$property->connection_ago}}</p>
                     </small>
                 </div>
-            </a>
+            </div>
         </div>
         @endforeach
     </div>
