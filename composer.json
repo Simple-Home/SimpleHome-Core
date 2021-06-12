@@ -7,15 +7,9 @@
         "laravel"
     ],
     "license": "MIT",
-<<<<<<< Updated upstream
-  "repositories": [
-    { "type": "vcs", "url": "https://github.com/thebradleysanders/simplehome-example" }
-  ],
-=======
     "repositories": [
         { "type": "vcs", "url": "https://github.com/thebradleysanders/SimpleHome-Example" }
     ],
->>>>>>> Stashed changes
     "require": {
         "php": "^7.3|^8.0",
         "authlete/authlete-laravel": "^1.1",
@@ -31,12 +25,7 @@
         "pusher/pusher-php-server": "^6.0",
         "rachidlaasri/laravel-installer": "^4.1",
         "ycs77/laravel-form-builder-bs4": "^1.0",
-<<<<<<< Updated upstream
-		"thebradleysanders/simplehome-example":"dev-dev-v1"
-=======
-        "nwidart/laravel-modules": "^8.0",
-        "thebradleysanders/simplehome-example":"dev-dev-v1"
->>>>>>> Stashed changes
+        "nwidart/laravel-modules": "^8.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

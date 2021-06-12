@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< Updated upstream
-    "content-hash": "720f0d3d7827d40abe7badfa95a9949e",
-=======
-    "content-hash": "c99dc91d52ec3f45d950b0a461f7832f",
->>>>>>> Stashed changes
+    "content-hash": "ff27096dda297b1347a635e1db396160",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6212,43 +6208,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thebradleysanders/SimpleHome-Example.git",
-<<<<<<< Updated upstream
-                "reference": "d82413200b2092e013748fb633528ca8dca02138"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thebradleysanders/SimpleHome-Example/zipball/d82413200b2092e013748fb633528ca8dca02138",
-                "reference": "d82413200b2092e013748fb633528ca8dca02138",
-=======
                 "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/thebradleysanders/SimpleHome-Example/zipball/77c009b65cae7f7bb87d152b656f0cd3fa941f01",
                 "reference": "77c009b65cae7f7bb87d152b656f0cd3fa941f01",
->>>>>>> Stashed changes
                 "shasum": ""
             },
             "type": "laravel-module",
             "extra": {
                 "laravel": {
                     "providers": [
-<<<<<<< Updated upstream
-                        "Modules\\ExampleLight\\Providers\\ExampleLightServiceProvider"
-=======
                         "Modules\\ExampleBinding\\Providers\\ExampleBindingServiceProvider"
->>>>>>> Stashed changes
                     ],
                     "aliases": []
                 }
             },
             "autoload": {
                 "psr-4": {
-<<<<<<< Updated upstream
-                    "Modules\\ExampleLight\\": ""
-=======
                     "Modules\\ExampleBinding\\": ""
->>>>>>> Stashed changes
                 }
             },
             "authors": [
@@ -6260,11 +6239,7 @@
             "support": {
                 "source": "https://github.com/thebradleysanders/SimpleHome-Example/tree/dev-v1"
             },
-<<<<<<< Updated upstream
-            "time": "2021-06-10T21:14:42+00:00"
-=======
             "time": "2021-06-11T20:23:21+00:00"
->>>>>>> Stashed changes
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
