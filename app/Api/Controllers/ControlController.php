@@ -64,15 +64,19 @@ class ControlController extends Controller
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
                 try {
-                    if($this->property->allowedValue($this->property, $feature, $value) == "allowed") {
-                        if($feature == "state"){
-                            $this->property->$feature($value, $this->request->input());   
+                    if($value != null){
+                        if($this->property->allowedValue($this->property, $feature, $value) == "allowed" ) {
+                            if($feature == "state"){
+                                $this->property->$feature($value, $this->request->input());   
+                            }else{
+                                $this->property->$feature($value);
+                            } 
                         }else{
-                            $this->property->$feature($value);
-                        } 
+                            return '{"status":"error", "message":"only these values are allowed: '.$this->property->allowedValue($this->property, $feature).'"}';
+                        }
                     }else{
-                        return '{"status":"error", "message":"only these values are allowed: '.$this->property->allowedValue($this->property, $feature).'"}';
-                    }       
+                        $this->property->$feature();
+                    }     
                 } catch (\Exception $ex) {
                     $msg = $ex->getMessage();
                     sleep(1);   
@@ -90,6 +94,6 @@ class ControlController extends Controller
             $success = ($this->property->getState($feature) == $value ? "success" : "error");
             return '{"status": "'.$success.'", "value": "'.$this->property->getState($feature).'"}';
         }
-        return '{"status":"error", "message":"feature not defined"}';
+        return '{"status":"error", "message":"feature not found"}';
     }
 }

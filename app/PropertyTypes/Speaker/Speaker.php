@@ -29,8 +29,7 @@ abstract class Speaker extends PropertyTypes
                 "next"=>[],
                 "back"=>[],
                 "mute"=>["on", "off"],
-                "volume"=>["1","2","3","4","5","6","7","8","9","10"],
-                ];
+                "volume"=>["1","2","3","4","5","6","7","8","9","10"]
+                ]; 
+    }
 }
-
-?>
