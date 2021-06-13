@@ -37,8 +37,8 @@ class DevicesController extends Controller
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
-            $heardbeath = new DateTime($device->heartbeat);
-            $interval = $heardbeath->diff(new DateTime());
+            $heartbeat = new DateTime($device->heartbeat);
+            $interval = $heartbeat->diff(new DateTime());
             $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
 
             if ($totalSeconds < $device->sleep) {
@@ -46,14 +46,11 @@ class DevicesController extends Controller
             }
 
             foreach ($device->getProperties as $key => $property) {
-                if ($property->type != 'wifi') {
-                    continue;
-                }
                 if (isset($property->last_value->value)) {
                 }
                 break;
             }
-            $device->signal_strength = 2 * ($property->last_value->value + 100);
+
         }
 
         return view('devices.list', ["devices" => $devices]);

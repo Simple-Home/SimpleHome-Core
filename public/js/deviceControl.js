@@ -1,16 +1,12 @@
-/** BEGIN: Config **/
-function getCsrf(){
-    return $('meta[name="csrfToken"]').attr('content');
-}
-/* END: Config **/
 
-function deviceControl(hostname, property, deviceFunction, newValue){
+function deviceControl(hostname, property, feature, newValue){
 
     $.ajax({
         method: "GET",
-        url: "/api/v2/device/" + hostname + "/" + property + "/" + deviceFunction + "/" + newValue,
+        url: "/properties/control/" + property,
         data: {
-           "_token": getCsrf(),
+           "feature": feature,
+           "value": newValue
         },
         success: function(data){
            window.location.reload();
