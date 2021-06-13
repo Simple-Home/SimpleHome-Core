@@ -19,7 +19,8 @@ class Property extends Model
 		'nick_name',
 		'device_id',
 		'room_id',
-		'history'
+		'history',
+		'settings'
 	];
 	use HasFactory;
 }

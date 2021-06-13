@@ -14,14 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// Route::middleware(['prefix' => 'v1', 'middleware' => 'auth:api'])->post('/auth', function(){
-
-// });
-
 Route::namespace('version-depricated')->prefix('depricated')->group(function () {
     Route::post('/endpoint', [App\Api\Controllers\EndpointController::class, 'depricatedData']);
 });
@@ -37,27 +29,32 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limi
     Route::get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
 });
 
-// v2 Device Controller
-Route::group(['prefix' => 'v2', 'middleware' => []], function () {
+// OAuth, rate limit 60 requests/min
+Route::group(['prefix' => 'v2', 'middleware' => ['cors','throttle:10,1']], function () {
+    Route::post('/login', [App\Http\Controllers\Auth\ApiAuthenticationController::class, 'login']);
+    //Route::post('/register',[App\Http\Controllers\Auth\ApiAuthenticationController::class, 'register']);
+});
+Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth']], function () {
+    Route::post('/logout', [App\Http\Controllers\Auth\ApiAuthenticationController::class, 'logout']);
+});
+
+// v2 Device Controller, rate limit 60 requests/min
+Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle:60,1']], function () {
     //Device Controller
     Route::get('/devices', [App\Api\Controllers\DeviceController::class, 'getAll']);
     Route::get('/device/{hostname}', [App\Api\Controllers\DeviceController::class, 'getDevice']);
     Route::get('/device/{hostname}/{propertyID}', [App\Api\Controllers\DeviceController::class, 'getProperty']); 
-    Route::post('/device/create', [App\Api\Controllers\DeviceController::class, 'create']);
-    Route::post('/device/update', [App\Api\Controllers\DeviceController::class, 'update']);
-    Route::post('/device/delete', [App\Api\Controllers\DeviceController::class, 'delete']);
+    Route::post('/device', [App\Api\Controllers\DeviceController::class, 'create']);
+    Route::put('/device', [App\Api\Controllers\DeviceController::class, 'update']);
+    Route::delete('/device', [App\Api\Controllers\DeviceController::class, 'delete']);
 
     //Property Controller
     Route::get('/properties', [App\Api\Controllers\PropertyController::class, 'getAll']);
     Route::get('/property/{propertyID}', [App\Api\Controllers\PropertyController::class, 'getProperty']);
-    Route::post('/device/{hostname}/property/create', [App\Api\Controllers\PropertyController::class, 'create']);
-    Route::post('/device/{hostname}/property/update', [App\Api\Controllers\PropertyController::class, 'update']);
-    Route::post('/device/{hostname}/property/delete', [App\Api\Controllers\PropertyController::class, 'delete']);
+    Route::post('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'create']);
+    Route::put('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'update']);
+    Route::delete('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'delete']);
 
     //Control Controller
     Route::get('/device/{hostname}/{propertyID}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty']);
 });
-
-//Oauthentication
-Route::middleware(['middleware' => 'auth:api'])->get('/authenticate', [App\Http\Controllers\Auth\AuthController::class, 'login']);
-Route::middleware(['middleware' => 'auth:oauth'])->post('/token', [App\Http\Controllers\Auth\AuthController::class, 'login']);

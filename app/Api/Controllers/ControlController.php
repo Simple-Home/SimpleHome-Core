@@ -27,7 +27,7 @@ class ControlController extends Controller
         // Get all the metadata of the property to be controlled.
         $this->meta['device'] = Device::where('hostname', $hostname)->first();
         $this->meta['property'] = Property::where('id', (int)$propertyID)->where('device_id', $this->meta['device']->id)->first();
-        $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(10)->first();
+        $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(1)->first();
 
         // If no device was found, an error message is issued.
         if ($this->meta['device'] == null) {

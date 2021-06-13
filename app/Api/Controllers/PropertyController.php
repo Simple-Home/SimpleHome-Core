@@ -44,12 +44,14 @@ class PropertyController extends Controller
                 'binding' => 'required|max:255',
                 'icon' => 'nullable|max:255',
                 'nick_name' => 'nullable|max:255',
-                'room_id' => 'nullable|max:255'
+                'room_id' => 'nullable|max:255',
+                'settings' => 'nullable|max:255',
             ])->validate();
 
             $property = new Property;
             $property->type = $request->type;
             $property->binding = $request->binding;
+            $property->settings = $request->settings;
             $property->icon = $request->icon;
             $property->nick_name = $request->nick_name;
             $property->room_id = (int)$request->room_id;
@@ -57,6 +59,15 @@ class PropertyController extends Controller
             $property->history = mt_rand(100,600);
         
             $property->save();
+            
+            //notify the module a new property has been added
+            if (\Module::find($request->binding)) {
+                $classString = 'Modules\\'.$request->binding.'\\Properties\\Create'.$request->binding;
+                // Instantiate the class.
+                $creator = new $classString($property);
+                $creator->create();
+                return back();
+            }
         }else{
             return '{"status":"error", "message":"device hostname not found"}';
         }

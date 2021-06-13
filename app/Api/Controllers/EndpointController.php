@@ -130,5 +130,7 @@ class EndpointController extends Controller
 
     public function ota(Request $request)
     {
+        $data["error"] = "Not yet supported";
+        return response()->json($data, 200);
     }
 }
