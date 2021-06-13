@@ -53,8 +53,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Services') }}</div>
                 <div class="card-body">
-                    APACHE: <p class="{{ !$services['apache2'] ? 'text-danger' : 'text-success' }}">{{($services["apache2"] ? "Active" : "Not Active")}}</p><br>
-                    MYSQL: <p class="{{ !$services['mysql'] ? 'text-danger' : 'text-success' }}">{{($services["mysql"] ? "Active" : "Not Active")}}</p><br>
+                    APACHE: <span class="{{ !$services['apache2'] ? 'text-danger' : 'text-success' }}">{{($services["apache2"] ? "Active" : "Not Active")}}</span><br>
+                    MYSQL: <span class="{{ !$services['mysql'] ? 'text-danger' : 'text-success' }}">{{($services["mysql"] ? "Active" : "Not Active")}}</span><br>
                 </div>
             </div>
         </div>
@@ -62,9 +62,10 @@
             <div class="card">
                 <div class="card-header">{{ __('Connectivity') }}</div>
                 <div class="card-body">
-                    Public IP: <p><a href="https://{{$services["public_ip"]}}">{{$services["public_ip"]}}</a></p><br>
-                    Internal IP: <p><a href="https://{{$services["internal_ip"]}}">{{$services["internal_ip"]}}</a></p><br>
-                    Hostname: <p><a href="https://{{$services["hostname"]}}">{{$services["hostname"]}}</a></p><br>
+                    Public IP: <a href="https://{{$services["public_ip"]}}">{{$services["public_ip"]}}</a><br>
+                    Internal IP: <a href="https://{{$services["internal_ip"]}}">{{$services["internal_ip"]}}</a><br>
+                    Hostname: <a href="https://{{$services["hostname"]}}">{{$services["hostname"]}}</a><br>
+                    SSL: <span class="{{ !$ssl ? 'text-danger' : 'text-success' }}">{{($ssl ? "on" : "off")}}</span><br>
                 </div>
             </div>
         </div>
@@ -73,6 +74,7 @@
                 <div class="card-header">{{ __('Metrics') }}</div>
                 <div class="card-body">
                     values/minute: {{$valuesPerMinute}}<br>
+                    Uptime: {{$uptime}}<br>
                 </div>
             </div>
         </div>
