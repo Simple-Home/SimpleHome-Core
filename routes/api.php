@@ -51,10 +51,17 @@ Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle
     //Property Controller
     Route::get('/properties', [App\Api\Controllers\PropertyController::class, 'getAll']);
     Route::get('/property/{propertyID}', [App\Api\Controllers\PropertyController::class, 'getProperty']);
-    Route::post('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'create']);
-    Route::put('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'update']);
-    Route::delete('/device/{hostname}/property', [App\Api\Controllers\PropertyController::class, 'delete']);
+    Route::post('/property', [App\Api\Controllers\PropertyController::class, 'create']);
+    Route::put('/property', [App\Api\Controllers\PropertyController::class, 'update']);
+    Route::delete('/property', [App\Api\Controllers\PropertyController::class, 'delete']);
 
     //Control Controller
     Route::get('/device/{hostname}/{propertyID}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty']);
+
+    //Rooms Controller
+    Route::get('/rooms', [App\Api\Controllers\RoomController::class, 'getAll']);
+    Route::get('/room/{name}', [App\Api\Controllers\RoomController::class, 'getRoom']);
+    Route::post('/room', [App\Api\Controllers\RoomController::class, 'create']);
+    Route::put('/room', [App\Api\Controllers\RoomController::class, 'update']);
+    Route::delete('/room', [App\Api\Controllers\RoomController::class, 'delete']);
 });

@@ -7,6 +7,8 @@ use App\Models\Device;
 use App\Models\Property;
 use App\Models\Records;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+
 /**
  * Class PropertyController
  * @package App\Http\Controllers\Bindings
@@ -35,17 +37,19 @@ class PropertyController extends Controller
         return $properties;
     }
 
-    public function create(Request $request, $hostname)
+    public function create(Request $request)
     {
-        $device = Device::where('hostname', $hostname)->first();
+        $device = Device::where('id', $request->device_id)->first();
         if((int)$device->id > 0){
             $validator = \Validator::make($request->all(), [
+                
+                'nick_name' => 'nullable|max:255',
                 'type' => 'required|max:255',
                 'binding' => 'required|max:255',
-                'icon' => 'nullable|max:255',
-                'nick_name' => 'nullable|max:255',
-                'room_id' => 'nullable|max:255',
                 'settings' => 'nullable|max:255',
+                'icon' => 'nullable|max:255',
+                'room_id' => 'required|numeric|max:20',
+                'device_id' => 'required|numeric|max:20',         
             ])->validate();
 
             $property = new Property;
@@ -66,20 +70,56 @@ class PropertyController extends Controller
                 // Instantiate the class.
                 $creator = new $classString($property);
                 $creator->create();
-                return back();
             }
+            return "{}";
         }else{
             return '{"status":"error", "message":"device hostname not found"}';
         }
     }
 
-    public function update(Request $request, $hostname)
+    public function update(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'id' => 'nullable|numeric|max:20',
+            'nick_name' => 'nullable|max:255',
+            'type' => 'required|max:255',
+            'settings' => 'nullable|max:255',
+            'icon' => 'nullable|max:255',
+            'room_id' => 'nullable|max:255'  
+        ])->validate();
 
+        Property::where('nick_name', $request->nick_name)->orwhere('id', $request->id)->update(
+            [
+                'nick_name' => $request->new-nick_name,
+                'type' => $request->type,
+                'settings' => $request->settings,
+                'icon' => $request->icon,
+                'room_id' => $request->room_id,
+            ]
+        );
+
+        //notify the module a new property has been added
+        //if (\Module::find($request->binding)) {
+        //    $classString = 'Modules\\'.$request->binding.'\\Properties\\Update'.$request->binding;
+        //    // Instantiate the class.
+        //    $creator = new $classString($property);
+        //    $creator->update();
+        //}
+        return "{}";
     }
 
-    public function delete(Request $request, $hostname)
+    public function delete(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'id' => 'nullable|numeric|max:20',
+            'nick_name' => 'nullable|max:255' 
+        ])->validate();
 
+        try {
+            $status = Property::where('nick_name', $request->nick_name)->orwhere('id', $request->id)->delete();
+            return '{"status": "'.($status ? "successful" : "error" ).'"}';
+        } catch (\Illuminate\Database\QueryException $e) {
+            return '{"status":"error", "message":"'.$e.'"}';
+        }
     }
 }

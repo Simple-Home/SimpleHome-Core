@@ -26,7 +26,7 @@ class ControlController extends Controller
 
         // Get all the metadata of the property to be controlled.
         $this->meta['device'] = Device::where('hostname', $hostname)->first();
-        $this->meta['property'] = Property::where('id', (int)$propertyID)->where('device_id', $this->meta['device']->id)->first();
+        $this->meta['property'] = Property::where('id', $propertyID)->where('device_id', $this->meta['device']->id)->first();
         $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(1)->first();
 
         // If no device was found, an error message is issued.
@@ -63,7 +63,7 @@ class ControlController extends Controller
                 $this->property->setState("All", json_decode($this->meta['record']->value, true));
             }
             
-            // Certain modules create .env variables. For such cases, we repeat the feature execution 2 times
+            // for reliable execution we repeat the feature execution 2 times
             $msg = NULL;
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
@@ -83,7 +83,7 @@ class ControlController extends Controller
                     }     
                 } catch (\Exception $ex) {
                     $msg = $ex->getMessage();
-                    sleep(1);   
+                    sleep(.5);   
                     continue;
                 }
                 if ($try == $retries) {
