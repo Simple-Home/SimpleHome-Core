@@ -53,7 +53,7 @@ class Properties extends Model
 
     public function last_value()
     {
-        return $this->hasOne(Records::class, 'property_id', 'id')->latest();
+        return $this->hasOne(Records::class, 'property_id', 'id')->orderBy('id', 'DESC');
     }
 
     use HasFactory;

@@ -50,7 +50,7 @@ return [
 
         'oauth' => [
             'driver' => 'passport',
-            'provider' => 'user',
+            'provider' => 'users',
         ],
     ],
 

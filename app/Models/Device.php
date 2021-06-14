@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Properties;
 
-class Records extends Model
+class Device extends Model
 {
-    public $incrementing = true;
-    protected $table = 'records';
+	public $incrementing = true;
+    protected $table = 'devices';
     protected $primaryKey = 'id';
-    public $fillable = [
-        "value",
-        "done",
-    ];
-    use HasFactory;
+	protected $fillable = [
+		'hostname',
+		'type',
+		'approved'
+	];
+	use HasFactory;
 }
