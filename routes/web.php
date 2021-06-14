@@ -56,6 +56,7 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/search', [App\Http\Controllers\PropertiesController::class, 'search'])->name('properties_search');
     Route::middleware(['auth', 'verified', 'language'])->get('/detail/{property_id}', [App\Http\Controllers\PropertiesController::class, 'detail'])->name('properties_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
+    Route::middleware(['auth', 'verified', 'language'])->get('/control/{property_id}', [App\Http\Controllers\PropertiesController::class, 'control']);
 });
 
 Route::namespace('automations')->prefix('automations')->group(function () {
