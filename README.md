@@ -57,3 +57,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <a href="https://github.com/Simple-Home/Simple-Home/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Simple-Home/Simple-Home" />
 </a>
+
+## Comunity
+<iframe src="https://discord.com/widget?id=604697675430101003&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
