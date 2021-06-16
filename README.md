@@ -59,4 +59,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 </a>
 
 ## Comunity
-![Dark theme preview](http://invidget.switchblade.xyz/XJpT3UQ)
+[![Join our Discord server!](https://invidget.switchblade.xyz/XJpT3UQ)](http://discord.gg/XJpT3UQ)

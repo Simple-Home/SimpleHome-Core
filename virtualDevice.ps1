@@ -1,7 +1,7 @@
 $headers = @{}
 $headers.Add("Content-Type", "application/json")
 $headers.Add("Authorization", "Bearer 4f285s8mam")
-$baseUrl = 'https://dev.steelants.cz/vasek/simple-home-v4/public/api/v1'
+$baseUrl = 'http://localhost/smarthome/api/v1'
 $mute = 0
 
 while ($True) {
