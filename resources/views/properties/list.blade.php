@@ -33,23 +33,15 @@
                     
                         <div class="col-xs">
                             @if (!empty($property->last_value->value))
-                                <h5 class="text-right">State: {{json_decode($property->last_value->value,true)['state']}}</h5>
-                                @if (json_decode($property->last_value->value,true)['state'] == "on")
-                                    @if ($property->type == "light")
-                                        <h6 class="text-right">Brightness: {{json_decode($property->last_value->value,true)['brightness']}}</h6>
-                                    @endif
-                                    @if ($property->type == "speaker")
-                                        <h6 class="text-right">Volume: {{json_decode($property->last_value->value,true)['volume']}}</h6>
-                                    @endif
-                                @endif
+                                <h5 class="text-right">State: {{$property->last_value->value}}</h5>
                             @endif
                         </div>
                     </div>
                     <div class="row">
-                        @if (json_decode($property->last_value->value,true)['state'] == "off")
-                        <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'on');" class="btn btn-success">Turn On</button>
+                        @if ($property->last_value->value == "off")
+                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'on');" class="btn btn-success">Turn On</button>
                         @else
-                        <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'off');" class="btn btn-danger">Turn Off</button>
+                            <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'off');" class="btn btn-danger">Turn Off</button>
                         @endif
                         &nbsp;
                         @if ($property->type == "light")
