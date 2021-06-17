@@ -27,7 +27,6 @@ class ControlController extends Controller
         // Get all the metadata of the property to be controlled.
         $this->meta['device'] = Device::where('hostname', $hostname)->first();
         $this->meta['property'] = Property::where('id', $propertyID)->where('device_id', $this->meta['device']->id)->first();
-        $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(1)->first();
 
         // If no device was found, an error message is issued.
         if ($this->meta['device'] == null) {
@@ -35,9 +34,6 @@ class ControlController extends Controller
         }
         if ($this->meta['property'] == null) {
             return '{"status":"error", "message":"property "'.$propertyID.'" not found"}';
-        }else{
-            //Format settings into an array
-            $this->meta['property']->settings = json_decode($this->meta['property']->settings, true);
         }
 
         // Concatenate the module's namespace with its binder.
@@ -57,11 +53,6 @@ class ControlController extends Controller
 
         // Call the Feature/Method of class if the feature exists.
         if ($this->property->hasFeature($this->property, $feature) === true) {
-
-            //load property value from database
-            if($this->meta['record'] != null){
-                $this->property->setState("All", json_decode($this->meta['record']->value, true));
-            }
             
             // for reliable execution we repeat the feature execution 2 times
             $msg = NULL;
@@ -93,10 +84,11 @@ class ControlController extends Controller
             }      
 
             if(!empty($this->property->getState())){
-                Records::insert(['property_id' => $propertyID, 'value' => json_encode($this->property->getState())]);
+                //Records::insert(['property_id' => $propertyID, 'feature' => $feature, 'value' => $this->property->getState()]);
+                Records::insert(['property_id' => $propertyID, 'value' => $this->property->getState()]);
             }   
-            $success = ($this->property->getState($feature) == $value ? "success" : "error");
-            return '{"status": "'.$success.'", "value": "'.$this->property->getState($feature).'"}';
+            $success = ($this->property->getState() == $value ? "success" : "error");
+            return '{"status": "'.$success.'", "value": "'.$this->property->getState().'"}';
         }
         return '{"status":"error", "message":"feature not found"}';
     }
