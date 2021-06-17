@@ -76,7 +76,7 @@ abstract class PropertyTypes
      * setRequest
      * Set request from HTTP request
      * 
-     * @param $request
+     * @param $$request
      * @return void
      */
     public function setRequest($request)
@@ -97,23 +97,34 @@ abstract class PropertyTypes
     /**
      * getState
      * 
+     * @param mixed $feature
      * @return void
      */
-    public function getState()
-    {
-        return $this->state;  
+    public function getState($feature = null)
+    {  
+        if(isset($feature)){
+            if(array_key_exists($feature, $this->state)) {
+                return $this->state[$feature];
+            }else{
+                return null;
+            }
+        }else{
+            return $this->state;
+        }
     }
 
     /**
      * setStatus
      * 
+     * @param mixed feature
      * @param mixed state
      * @return void
      */
-    public function setState($state)
+    public function setState($feature, $state)
     { 
-        if(empty($state)) return "null";
-        $this->state = $state;
+        if(empty($state)) return "nul";
+            $this->state[$feature] = $state;
+        }
     }
 
     /**

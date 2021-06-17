@@ -54,7 +54,7 @@ class ControlController extends Controller
         // Call the Feature/Method of class if the feature exists.
         if ($this->property->hasFeature($this->property, $feature) === true) {
             
-            // for reliable execution we repeat the feature execution 2 times
+            // For reliable execution we repeat the feature execution 2 times
             $msg = NULL;
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
@@ -83,10 +83,15 @@ class ControlController extends Controller
                 break;
             }      
 
+            // Save the state the module set
             if(!empty($this->property->getState())){
-                //Records::insert(['property_id' => $propertyID, 'feature' => $feature, 'value' => $this->property->getState()]);
-                Records::insert(['property_id' => $propertyID, 'value' => $this->property->getState()]);
+                $states = $this->property->getState();
+                foreach ($states as $feature->$value){
+                    Records::insert(['property_id' => $propertyID, 'feature' => $feature, 'value' => $value]);
+                }
             }   
+
+            // Report
             $success = ($this->property->getState() == $value ? "success" : "error");
             return '{"status": "'.$success.'", "value": "'.$this->property->getState().'"}';
         }
