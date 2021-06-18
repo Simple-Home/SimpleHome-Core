@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8000:80"   # apache
+      - "5858:5858" # npm debug
+      - "7000:7000" # npm debug
+    links:
+      - db
+      - smtp
+    networks:
+      default:
+        ipv4_address: 173.20.0.2
+    volumes:
+      - ./:/app
+
+    environment:
+      PHP_IDE_CONFIG: "serverName=simplehome"
+      XDEBUG_SESSION: "PHPSTORM"
+      XDEBUG_CONFIG: "client_host=173.20.0.1 idekey=PHPSTORM"
+
+    extra_hosts:
+      - "dockerhost:173.20.0.1"
+  db:
+    image: mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: simplehome
+      MYSQL_DATABASE: simplehome
+      MYSQL_USER: simplehome
+      MYSQL_PASSWORD: simplehome
+    ports:
+      - "3308:3306"
+    networks:
+      default:
+        ipv4_address: 173.20.0.3
+    volumes:
+      - simpleHomeData:/var/lib/mysql
+  smtp:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      default:
+        ipv4_address: 173.20.0.4
+
+
+networks:
+  default:
+    name: simple_home_network
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.20.0.0/16
+
+volumes:
+  simpleHomeData:
