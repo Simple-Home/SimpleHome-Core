@@ -55,7 +55,7 @@ class RoomsController extends Controller
             ->where('id', 'LIKE', "%{$search}%")
             ->orWhere('name', 'LIKE', "%{$search}%")
             ->get();
-        
+
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
             'method' => 'POST',
             'url' => route('rooms.store'),
@@ -67,8 +67,8 @@ class RoomsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, FormBuilder $formBuilder)
@@ -92,8 +92,8 @@ class RoomsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id, FormBuilder $formBuilder)
@@ -114,17 +114,21 @@ class RoomsController extends Controller
         return redirect()->route('rooms_list');
     }
 
-    public function default($roomId)
+    /**
+     * @param int $roomId
+     * @param int $default
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function default($roomId, $default): \Illuminate\Http\RedirectResponse
     {
-        DB::table('rooms')->update(array('default' => 0));
-        DB::table('rooms')->where('id', '=', $roomId)->update(array('default' => 1));
+        DB::table('rooms')->where('id', '=', $roomId)->update(array('default' => (int)$default));
         return redirect()->route('rooms_list');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
