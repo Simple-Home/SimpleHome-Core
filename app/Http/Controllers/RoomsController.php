@@ -121,7 +121,7 @@ class RoomsController extends Controller
      */
     public function default($roomId, $default): \Illuminate\Http\RedirectResponse
     {
-        DB::table('rooms')->where('id', '=', $roomId)->update(array('default' => (int)$default));
+        DB::table('rooms')->where('id', '=', $roomId)->update(array('default' => (bool)$default));
         return redirect()->route('rooms_list');
     }
 
