@@ -109,8 +109,8 @@ class ServerController extends Controller
                     },
                 }
             }");
-        $services['apache2'] = true;
-        $services['mysql'] = true;
+        $services['apache2'] = $this->service_status('apache2');
+        $services['mysql'] = $this->checkDatabase();
         $services['public_ip'] = $this->public_ip();
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
@@ -121,9 +121,12 @@ class ServerController extends Controller
         return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
     }
 
-    private function ram_stat()
+    /**
+     * @return array|int[]
+     */
+    private function ram_stat(): array
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return [
                 "used" => 0,
                 "total" => 0,
@@ -158,22 +161,69 @@ class ServerController extends Controller
         ];
     }
 
+    /**
+     * @return int|mixed
+     */
     private function cpu_stat()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return 0;
         }
 
         //cpu usage
         $cpu_load = sys_getloadavg();
-        $load = $cpu_load[0];
-        return $load;
+        return $cpu_load[0] ?? 0;
     }
 
-
-    private function disk_stat()
+    /**
+     * @param string $service_name
+     * @return bool
+     */
+    private function service_status(string $service_name): bool
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
+            return 0;
+        }
+
+        //service
+        $serviceStatus = shell_exec('sudo service ' . $service_name . ' status');
+        $serviceStatus = (string)trim($serviceStatus);
+        $service_arr = explode("\n", $serviceStatus);
+
+        if (isset($service_arr[2])) {
+            $status = explode(" ", $service_arr[2]);
+            return (array_key_exists(6, $status) ? ($status[6] == "active" ? true : false) : false);
+        }
+
+        $status = array_values(array_filter(explode(' ', $serviceStatus)));
+
+        if (isset($status[1]) && $status[1] === 'RUNNING') {
+            return true;
+        }
+
+        return 0;
+
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkDatabase(): bool
+    {
+        try {
+            DB::select('SHOW TABLES;');
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return array|int[]
+     */
+    private function disk_stat(): array
+    {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return [
                 "used" => 0,
                 "total" => 0,
@@ -188,7 +238,11 @@ class ServerController extends Controller
         ];
     }
 
-    private function public_ip()
+
+    /**
+     * @return string|null
+     */
+    private function public_ip(): ?string
     {
         $cURLConnection = curl_init();
         curl_setopt($cURLConnection, CURLOPT_URL, 'https://api.ipify.org/?format=json');
@@ -203,6 +257,9 @@ class ServerController extends Controller
         return $jsonArrayResponse->ip;
     }
 
+    /**
+     * @return int
+     */
     private function values_per_minute()
     {
         return (DB::table('records')
@@ -213,9 +270,12 @@ class ServerController extends Controller
             ))->count();
     }
 
+    /**
+     * @return int|string
+     */
     private function last_boot_time()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return 0;
         }
 
@@ -225,11 +285,11 @@ class ServerController extends Controller
         return Carbon::parse($now)->diffForHumans();
     }
 
-    private function get_https()
+    /**
+     * @return bool
+     */
+    private function get_https(): bool
     {
-        if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
-            return false;
-        }
-        return true;
+        return !(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on');
     }
 }
