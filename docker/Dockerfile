@@ -1,5 +1,4 @@
 FROM webdevops/php-apache-dev:7.4
-ENV APACHE_DOCUMENT_ROOT /app
 
 RUN apt-get update
 
