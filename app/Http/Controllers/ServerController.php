@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Devices;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
-use DateTime;
 
 class ServerController extends Controller
 {
@@ -111,8 +109,8 @@ class ServerController extends Controller
                     },
                 }
             }");
-        $services['apache2'] = $this->service_status('apache2');
-        $services['mysql'] = $this->service_status('mysql');
+        $services['apache2'] = true;
+        $services['mysql'] = true;
         $services['public_ip'] = $this->public_ip();
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
@@ -134,7 +132,7 @@ class ServerController extends Controller
 
         //RAM usage
         $free = shell_exec('free');
-        $free = (string) trim($free);
+        $free = (string)trim($free);
         $free_arr = explode("\n", $free);
         $mem = explode(" ", $free_arr[1]);
         $mem = array_filter($mem);
@@ -172,20 +170,6 @@ class ServerController extends Controller
         return $load;
     }
 
-    private function service_status($service_name)
-    {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            return false;
-        }
-
-        //service
-        $serviceStatus = shell_exec('service ' . $service_name . ' status');
-        $serviceStatus = (string) trim($serviceStatus);
-        $service_arr = explode("\n", $serviceStatus);
-        $status = explode(" ", $service_arr[2]);
-
-        return (array_key_exists(6, $status) ? ($status[6] == "active" ? true : false) : false);
-    }
 
     private function disk_stat()
     {
@@ -195,7 +179,7 @@ class ServerController extends Controller
                 "total" => 0,
             ];
         }
-        
+
         $dt = round(disk_total_space("/var/www") / 1024 / 1024 / 1024);
         $df = round(disk_free_space("/var/www") / 1024 / 1024 / 1024);
         return [
@@ -229,12 +213,20 @@ class ServerController extends Controller
             ))->count();
     }
 
-    private function last_boot_time(){
-        $info = exec('systeminfo | find /i "Boot Time"');
-        return Carbon::parse(trim(str_replace("System Boot Time:", "", $info)))->diffForHumans();;
+    private function last_boot_time()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return 0;
+        }
+
+        $str = @file_get_contents('/proc/uptime');
+        $num = (float)$str;
+        $now = CarbonImmutable::now()->change('- ' . (int)round($num, 0) . ' seconds');
+        return Carbon::parse($now)->diffForHumans();
     }
 
-    private function get_https(){
+    private function get_https()
+    {
         if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
             return false;
         }
