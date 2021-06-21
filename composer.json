@@ -23,9 +23,12 @@
         "nwidart/laravel-modules": "^8.0",
         "pusher/pusher-php-server": "^6.0",
         "rachidlaasri/laravel-installer": "^4.1",
-        "ycs77/laravel-form-builder-bs4": "^1.0"
+        "ycs77/laravel-form-builder-bs4": "^1.0",
+        "ext-curl": "*",
+        "ext-json": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
@@ -33,7 +36,7 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "reliese/laravel": "^1.1",
-        "thebradleysanders/examplebinding-module":"dev-dev-v1"
+        "thebradleysanders/examplebinding-module": "dev-dev-v1"
     },
     "config": {
         "optimize-autoloader": true,
