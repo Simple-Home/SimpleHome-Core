@@ -17,6 +17,7 @@ class ControlController extends Controller
     protected $property;
     protected $meta;
    
+    //TODO: Break appart this function into smaller functions
     public function controlProperty(Request $request, $hostname, $propertyID, $feature, $value = null)
     {
         $value = strtolower($value);
@@ -27,7 +28,6 @@ class ControlController extends Controller
         // Get all the metadata of the property to be controlled.
         $this->meta['device'] = Device::where('hostname', $hostname)->first();
         $this->meta['property'] = Property::where('id', $propertyID)->where('device_id', $this->meta['device']->id)->first();
-        $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(1)->first();
 
         // If no device was found, an error message is issued.
         if ($this->meta['device'] == null) {
@@ -35,9 +35,6 @@ class ControlController extends Controller
         }
         if ($this->meta['property'] == null) {
             return '{"status":"error", "message":"property "'.$propertyID.'" not found"}';
-        }else{
-            //Format settings into an array
-            $this->meta['property']->settings = json_decode($this->meta['property']->settings, true);
         }
 
         // Concatenate the module's namespace with its binder.
@@ -46,39 +43,37 @@ class ControlController extends Controller
         // Catch Error Messages from Property Constructor
         try {
             // Instantiate the class.
-            if(!class_exists($classString)){ return '{"status":"error", "message":"binding not found"';}
+            if (!class_exists($classString)) return '{"status":"error", "message":"binding not found"';
             $this->property = new $classString($this->meta);
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
 
-        // Send Request
-        $this->property->setRequest(["request"=>$this->request, "value"=>$value]);
-
         // Call the Feature/Method of class if the feature exists.
         if ($this->property->hasFeature($this->property, $feature) === true) {
 
-            //load property value from database
-            if($this->meta['record'] != null){
-                $this->property->setState("All", json_decode($this->meta['record']->value, true));
-            }
+            // Format settings into an array
+            $this->meta['property']->settings = json_decode($this->meta['property']->settings, true);
             
-            // for reliable execution we repeat the feature execution 2 times
+            // Send Request
+           $this->property->setRequest(["request" => $this->request, "value" => $value]);
+
+            // For reliable execution we repeat the feature execution 2 times
             $msg = NULL;
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
                 try {
-                    if($value != null){
-                        if($this->property->allowedValue($this->property, $feature, $value) == "allowed" ) {
-                            if($feature == "state"){
+                    if ($value != null){
+                        if ($this->property->allowedValue($this->property, $feature, $value) == "allowed" ) {
+                            if ($feature == "state"){
                                 $this->property->$feature($value, $this->request->input());   
-                            }else{
+                            } else {
                                 $this->property->$feature($value);
                             } 
-                        }else{
+                        } else {
                             return '{"status":"error", "message":"only these values are allowed: '.$this->property->allowedValue($this->property, $feature).'"}';
                         }
-                    }else{
+                    } else {
                         $this->property->$feature();
                     }     
                 } catch (\Exception $ex) {
@@ -92,11 +87,17 @@ class ControlController extends Controller
                 break;
             }      
 
-            if(!empty($this->property->getState())){
-                Records::insert(['property_id' => $propertyID, 'value' => json_encode($this->property->getState())]);
+            // Save the state the module set
+            if (!empty($this->property->getState())){
+                $states = $this->property->getState();
+                foreach ($states as $feature->$newValue){
+                    Records::insert(['property_id' => $propertyID, 'feature' => $feature, 'value' => $newValue]);
+                }
             }   
-            $success = ($this->property->getState($feature) == $value ? "success" : "error");
-            return '{"status": "'.$success.'", "value": "'.$this->property->getState($feature).'"}';
+
+            // Report
+            $success = ($this->property->getState() == $value ? "success" : "error");
+            return '{"status": "'.$success.'", "value": "'.$this->property->getState().'"}';
         }
         return '{"status":"error", "message":"feature not found"}';
     }

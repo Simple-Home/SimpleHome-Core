@@ -123,12 +123,8 @@ abstract class PropertyTypes
     public function setState($feature, $state)
     { 
         if(empty($state)) return "nul";
-
-        if ($feature == "All"){
-            $this->state = $state;
-        }else{
             $this->state[$feature] = $state;
-        } 
+        }
     }
 
     /**
