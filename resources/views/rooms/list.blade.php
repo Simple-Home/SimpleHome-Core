@@ -32,9 +32,9 @@
                             <td>{!! form($roomsForm[$room->id]) !!}</td>
                             <td>
                                 @if ($room->default)
-                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary" title="Remove Default"><i class="fas fa-toggle-on"></i></a>
+                                <a href="{{route('rooms_default', ['room_id' => $room->id,'default' => 0])}}" class="btn btn-primary" title="Remove Default"><i class="fas fa-toggle-on"></i></a>
                                 @else
-                                <a href="{{route('rooms_default', $room->id)}}" class="btn btn-primary" title="Make Default"><i class="fas fa-toggle-off"></i></a>
+                                <a href="{{route('rooms_default',['room_id' => $room->id,'default' =>1])}}" class="btn btn-primary" title="Make Default"><i class="fas fa-toggle-off"></i></a>
                                 @endif
                                 <a href="{{route('rooms.delete', $room->id)}}" class="btn btn-danger" title="Delete"><i class="fas fa-times"></i></a>
                             </td>
