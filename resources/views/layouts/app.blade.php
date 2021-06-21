@@ -7,8 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/dark-mode-switch.min.js') }}" defer></script>
