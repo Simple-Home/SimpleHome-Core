@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.devices.list.pageTitle') )
 @section('content')
 <div class="container">
     @include('components.search')
