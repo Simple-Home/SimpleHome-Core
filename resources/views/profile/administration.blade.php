@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.profile.administration.pageTitle') )
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

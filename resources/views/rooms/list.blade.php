@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.rooms.list.pageTitle') )
 @section('content')
 <div class="container">
     @include('components.search')
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12"> 
+        <div class="col-md-12">
             <div class="row">
                 <div class="col">
                     <h2>{{ __('Rooms List') }}</h2>
