@@ -62,9 +62,9 @@ class EndpointController extends Controller
                 }
 
                 if ($request->$propertyType != Cache::get($property->id) || !isset($property->last_value)) {
-                    $record                 = new Records;
-                    $record->value          = $request->$propertyType;
-                    $record->property_id    = $property->id;
+                    $record              = new Records;
+                    $record->value       = $request->$propertyType;
+                    $record->property_id = $property->id;
                     $record->save();
                     Cache::put($property->id, $request->$propertyType, 1800);
                 }
@@ -77,7 +77,6 @@ class EndpointController extends Controller
                 }
             }
         }
-
         echo json_encode($response);
     }
 

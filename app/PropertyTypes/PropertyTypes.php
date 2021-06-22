@@ -10,7 +10,7 @@ abstract class PropertyTypes
     protected $propertyTypes;
     protected $meta;
     public $features;
-    private $state = array();
+    private $propertyArray = array();
     private $attributes = array();
 
     /**
@@ -103,13 +103,13 @@ abstract class PropertyTypes
     public function getState($feature = null)
     {  
         if(isset($feature)){
-            if(array_key_exists($feature, $this->state)) {
-                return $this->state[$feature];
+            if(array_key_exists($feature, $this->propertyArray)) {
+                return $this->propertyArray[$feature];
             }else{
                 return null;
             }
         }else{
-            return $this->state;
+            return $this->propertyArray;
         }
     }
 
@@ -122,9 +122,8 @@ abstract class PropertyTypes
      */
     public function setState($feature, $state)
     { 
-        if(empty($state)) return "nul";
-            $this->state[$feature] = $state;
-        }
+        if(empty($state)) return null;
+        $this->propertyArray[$feature] = $state;
     }
 
     /**
@@ -138,7 +137,7 @@ abstract class PropertyTypes
     {
         if (in_array($name, $this->supportedAttributes)){
             $this->attributes[$name] = $value;
-            $this->state["attributes"] = $this->attributes;   
+            $this->propertyArray["attributes"] = $this->attributes;   
         }else{
             return '{"status":"error", "message":"attribute not supported"}';
         }
