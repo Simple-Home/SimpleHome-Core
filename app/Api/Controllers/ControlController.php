@@ -97,10 +97,9 @@ class ControlController extends Controller
         $retries = 2;
         for ($try = 0; $try < $retries; $try++) {
             try {
-                if ($this->value != null){
+                if ($this->value != null && method_exists($this->property, $this->feature)){
                     if ($this->property->allowedValue($this->property, $this->feature, $this->value) == "allowed" ) {
                         $feature = $this->feature;
-
                         if ($this->feature == "state"){
                             $this->property->state($this->value, $this->request);
                         } else {
@@ -141,7 +140,9 @@ class ControlController extends Controller
             
             foreach ($propertyValue as $feature => $value){
                 if($feature == "attributes") continue;
-                Records::insert(['property_id' => $propertyID[$feature], 'value' => $value]);
+                if(array_key_exists($feature, $propertyID)){
+                    Records::insert(['property_id' => $propertyID[$feature], 'value' => $value]);
+                }
             }
         }  
     }

@@ -33,7 +33,8 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "reliese/laravel": "^1.1",
-        "thebradleysanders/examplebinding-module":"dev-dev-v1"
+        "thebradleysanders/examplebinding-module": "dev-dev-v1",
+        "thebradleysanders/mqtt-module": "dev-main"
     },
     "config": {
         "optimize-autoloader": true,

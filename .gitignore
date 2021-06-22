@@ -41,3 +41,4 @@ smart-home.code-workspace
 composer.lock
 storage/installed
 Modules/
+modules_statuses.json
