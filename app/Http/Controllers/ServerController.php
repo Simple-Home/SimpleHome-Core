@@ -29,10 +29,10 @@ class ServerController extends Controller
             ->name('chartDisk')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
                     'data' => [$this->disk_stat()["used"], ($this->disk_stat()["total"] - $this->disk_stat()["used"])]
                 ]
             ])
@@ -57,11 +57,11 @@ class ServerController extends Controller
             ->name('chartRam')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
-                    'data' => [$this->ram_stat()["used"], ($this->ram_stat()["total"] - $this->ram_stat()["used"])]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
+                    'data' => [round($this->ram_stat()["used"], 2), round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)]
                 ]
             ])
             ->optionsRaw("{
@@ -86,11 +86,11 @@ class ServerController extends Controller
             ->name('chartCpu')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
-                    'data' => [$this->cpu_stat(), (1 - $this->cpu_stat())]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
+                    'data' => [$this->cpu_stat(),100 - $this->cpu_stat() ]
                 ]
             ])
             ->optionsRaw("{
@@ -104,7 +104,7 @@ class ServerController extends Controller
                             t.yLabel = d.datasets[0].data[t.index];
                             var yLabel = t.yLabel >= 1000 ?
                             t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel;
+                            return d.labels[t.index] + ' ' + yLabel + '%';
                         }
                     },
                 }
@@ -144,7 +144,7 @@ class ServerController extends Controller
         $usedmemInGB = number_format($usedmem / 1048576, 2);
         $memory1 = $mem[2] / $mem[1] * 100;
         $memory = round($memory1) . '%';
-        $fh = fopen('/proc/meminfo', 'r');
+        $fh = fopen('/proc/meminfo', 'rb');
         $mem = 0;
         while ($line = fgets($fh)) {
             $pieces = array();
@@ -171,8 +171,10 @@ class ServerController extends Controller
         }
 
         //cpu usage
-        $cpu_load = sys_getloadavg();
-        return $cpu_load[0] ?? 0;
+        $loads = sys_getloadavg();
+        $core_nums = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
+        $load = round($loads[0] / ($core_nums + 1) * 100, 2);
+        return $load ?? 0;
     }
 
     /**
