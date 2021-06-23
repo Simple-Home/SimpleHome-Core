@@ -24,6 +24,7 @@ services:
       PHP_MAX_EXECUTION_TIME: 3600
     extra_hosts:
       - "dockerhost:173.20.0.1"
+
   db:
     image: mysql
     restart: on-failure
@@ -39,6 +40,7 @@ services:
         ipv4_address: 173.20.0.3
     volumes:
       - simpleHomeData:/var/lib/mysql
+
   smtp:
     image: mailhog/mailhog:latest
     ports:
@@ -47,6 +49,21 @@ services:
     networks:
       default:
         ipv4_address: 173.20.0.4
+
+  broker:
+    image: eclipse-mosquitto
+    command: mosquitto -c /mosquitto-no-auth.conf
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - simpleHomeData:/mosquitto/config
+      - simpleHomeData:/mosquitto/data
+      - simpleHomeData:/mosquitto/log
+      #- ./docker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      default:
+        ipv4_address: 173.20.0.5
 
 
 networks:
