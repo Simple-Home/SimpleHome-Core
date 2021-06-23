@@ -7,13 +7,13 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
-                        <h2>{{ __('Automations') }}</h2>
+                        <h2>{{ __('simplehome.automations.list.pageTitle') }}</h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
          
-    <p class="text-center">{{ __('No Automations Found, This feature has not been created.') }}</p>
+    <p class="text-center">{{ __('simplehome.automations.notFound') }}</p>
 </div>
 @endsection

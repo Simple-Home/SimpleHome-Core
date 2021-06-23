@@ -9,12 +9,12 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
-                        <h2>{{ __('Device List') }}</h2>
+                        <h2>{{ __('simplehome.deviceList') }}</h2>
                     </div>
                     <div class="col">
                         <div class="float-right">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="Add Device">+</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="{{ __('simplehome.addDevice') }}">+</button>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 </table>
             </div>
             @else
-            <p class="text-center">{{ __('No Devices Found') }}</p>
+            <p class="text-center">{{ __('simplehome.noDevices') }}</p>
             @endif
         </div>
     </div>

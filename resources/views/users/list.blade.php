@@ -9,12 +9,12 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col">
-                    <h2>{{ __('Users List') }}</h2>
+                    <h2>{{ __('simplehome.users.list.pageTitle') }}</h2>
                 </div>
                 <div class="col">
                     <div class="float-right">
                         <!-- Button trigger modal -->
-                        <button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="Add User">+</button>
+                        <button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title={{__('simplehome.users.add')}}>+</button>
                     </div>
                 </div>
             </div>
@@ -23,11 +23,11 @@
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
-                        <th scope="col">Hostname</th>
-                        <th>Email</th>
-                        <th>MFA</th>
-                        <th>Permission</th>
-                        <th style="width: 25%">Actions</th>
+                        <th scope="col">{{__('simplehome.hostname')}}</th>
+                        <th>{{__('simplehome.email')}}</th>
+                        <th>{{__('simplehome.mfa')}}</th>
+                        <th>{{__('simplehome.permissions')}}</th>
+                        <th style="width: 25%">{{__('simplehome.actions')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,14 +37,14 @@
                         <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
                         <td>{{$user->MFA}}</td>
                         <td>{{$user->Permission}}</td>
-                        <td><a href="{{ route('user.delete') }}" class="btn btn-danger" title="Delete User"><i class="fas fa-times"></i></a></td>
+                        <td><a href="{{ route('user.delete') }}" class="btn btn-danger" title="{{__('simplehome.users.delete')}}"><i class="fas fa-times"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
         @else
-        <p class="text-center">{{ __('Nothing Found') }}</p>
+        <p class="text-center">{{__('simplehome.users.notFound')}}</p>
         @endif
     </div>
 </div>

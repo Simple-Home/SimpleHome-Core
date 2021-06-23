@@ -13,11 +13,11 @@ class RealyDeleteProfileForm extends Form
             ->add("text", Field::STATIC, [
                 'tag' => 'label',
                 'attr' => ['class' => 'form-control-static'],
-                'value' => "Realy want delete your account?",
+                'value' =>  __('simplehome.users.deleteConfirmMessage'),
                 'label_show' => FALSE
             ])
             ->add('deleteProfile', Field::BUTTON_SUBMIT, [
-                'label' => "Realy delete account"
+                'label' => __('simplehome.users.delete')
             ]);
     }
 }

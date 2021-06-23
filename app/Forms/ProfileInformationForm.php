@@ -16,14 +16,14 @@ class ProfileInformationForm extends Form
         $this
             ->add('name', Field::TEXT, [
                 'rules' => 'required|max:255',
-                'label' => "Username"
+                'label' => __('simplehome.username')
             ])
             ->add('email', Field::EMAIL, [
                 'attr' => ['disabled' => true],
-                'label' => "Email"
+                'label' => __('simplehome.password')
             ])
             ->add('saveProfile', Field::BUTTON_SUBMIT, [
-                'label' => "Save"
+                'label' => __('simplehome.save')
             ]);
     }
 }
