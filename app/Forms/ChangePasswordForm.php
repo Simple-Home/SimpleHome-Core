@@ -13,18 +13,18 @@ class ChangePasswordForm extends Form
         $this
             ->add('oldPassword', Field::PASSWORD, [
                 'rules' => 'required|max:255',
-                'label' => "Old password"
+                'label' => __('simplehome.oldPassword')
             ])
             ->add('newPassword', Field::PASSWORD, [
                 'rules' => 'required|max:255',
-                'label' => "New password"
+                'label' =>  __('simplehome.newPassword')
             ])
             ->add('confirmPassword', Field::PASSWORD, [
                 'rules' => 'required|max:255',
-                'label' => "Confirm password"
+                'label' => __('simplehome.passwordConfirm')
             ])
             ->add('changePassword', Field::BUTTON_SUBMIT, [
-                'label' => "Change"
+                'label' =>  __('simplehome.changePassword')
             ]);
     }
 }

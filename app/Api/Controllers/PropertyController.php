@@ -65,7 +65,7 @@ class PropertyController extends Controller
             $property->save();
             
             //notify the module a new property has been added
-            if (\Module::find($request->binding)) {
+            if (\Module::has($request->binding)) {
                 $classString = 'Modules\\'.$request->binding.'\\Properties\\Create'.$request->binding;
                 // Instantiate the class.
                 $creator = new $classString($property);
@@ -99,7 +99,7 @@ class PropertyController extends Controller
         );
 
         //notify the module a new property has been added
-        //if (\Module::find($request->binding)) {
+        //if (\Module::has($request->binding)) {
         //    $classString = 'Modules\\'.$request->binding.'\\Properties\\Update'.$request->binding;
         //    // Instantiate the class.
         //    $creator = new $classString($property);

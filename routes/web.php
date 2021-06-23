@@ -41,7 +41,7 @@ Route::namespace('devices')->prefix('devices')->group(function () {
 Route::namespace('rooms')->prefix('rooms')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\RoomsController::class, 'list'])->name('rooms_list');
     Route::middleware(['auth', 'verified', 'language'])->get('/search', [App\Http\Controllers\RoomsController::class, 'search'])->name('rooms_search');
-    Route::middleware(['auth', 'verified', 'language'])->get('/default/{room_id}', [App\Http\Controllers\RoomsController::class, 'default'])->name('rooms_default');
+    Route::middleware(['auth', 'verified', 'language'])->get('/default/{room_id}/{default}', [App\Http\Controllers\RoomsController::class, 'default'])->name('rooms_default');
 });
 
 Route::namespace('room')->prefix('room')->group(function () {

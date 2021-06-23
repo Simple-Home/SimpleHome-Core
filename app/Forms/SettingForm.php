@@ -18,11 +18,15 @@ class SettingForm extends Form
             ->add('language', Field::SELECT, [
                 'rules' => 'required',
                 'label' => __('user.language'),
-                'choices' => [1 => 'English', 2 => 'Čeština'],
-                'selected' => (!empty ($user->language) ? $user->language : 1)
+                'choices' => [
+                    'en' => 'English',
+                    'cs' => 'Čeština',
+                    'de' => 'German',
+                ],
+                'selected' => (!empty ($user->language) ? $user->language : 'en')
             ])
             ->add('saveSetting', Field::BUTTON_SUBMIT, [
-                'label' => __('web.save')
+                'label' => __('simplehome.save')
             ]);
     }
 }

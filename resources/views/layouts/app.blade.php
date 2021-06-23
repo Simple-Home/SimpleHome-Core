@@ -7,8 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/dark-mode-switch.min.js') }}" defer></script>
@@ -32,7 +31,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}" title="Home">
-                    <img src="{{ asset('images/logo.png') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -73,13 +72,13 @@
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('simplehome.login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('simplehome.register') }}</a>
                         </li>
                         @endif
                         @else
@@ -90,11 +89,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('user') }}">
-                                    My account
+                                    {{ __('simplehome.myaccount') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{ __('simplehome.logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -104,7 +103,7 @@
                                 <div class="dropdown-item">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                                        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                                        <label class="custom-control-label" for="darkSwitch"> {{ __('simplehome.darkMode') }}</label>
                                     </div>
                                 </div>
                             </div>

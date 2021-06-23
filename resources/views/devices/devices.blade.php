@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.devices.devices.pageTitle') )
 @section('content')
 <div class="container">
     <div class="container-fluid"></div>
