@@ -72,13 +72,13 @@
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('simplehome.login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('simplehome.register') }}</a>
                         </li>
                         @endif
                         @else
@@ -89,11 +89,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('user') }}">
-                                    My account
+                                    {{ __('simplehome.myaccount') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{ __('simplehome.logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -103,7 +103,7 @@
                                 <div class="dropdown-item">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                                        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                                        <label class="custom-control-label" for="darkSwitch"> {{ __('simplehome.darkMode') }}</label>
                                     </div>
                                 </div>
                             </div>

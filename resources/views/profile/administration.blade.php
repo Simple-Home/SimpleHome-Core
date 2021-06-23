@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Profile informations</div>
+                <div class="card-header">{{__('simplehome.profile.informations')}}</div>
 
                 <div class="card-body">
                     {!! form($profileInformationForm) !!}
@@ -29,7 +29,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Password change</div>
+                <div class="card-header">{{ __('simplehome.changePassword') }}</div>
 
                 <div class="card-body">
                     {!! form($changePasswordForm) !!}
@@ -41,7 +41,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Delete account</div>
+                <div class="card-header">{{ __('simplehome.users.delete') }}</div>
 
                 <div class="card-body">
                     <?php if (Session::get('verifyDelete')): ?>
@@ -57,8 +57,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">MFA - Muti Factor Authentication</div>
-
+                <div class="card-header">{{__('simplehome.mfaLong')}}</div>
                 <div class="card-body">
                 </div>
             </div>
@@ -68,7 +67,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Private API Tokens</div>
+                <div class="card-header">{{__('simplehome.privateToken')}}</div>
 
                 <div class="card-body">
                 </div>
