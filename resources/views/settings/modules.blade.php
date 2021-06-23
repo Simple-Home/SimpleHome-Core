@@ -7,7 +7,24 @@
             @include('settings.components.subnavigation')
         </div>
         <div class="col">
-            Modules
+            @if(!empty($modulesList) && count($modulesList) > 0)
+            <div class="col">
+                <div class="row row-cols-1 row-cols-md-3">
+                    @foreach ($modulesList as $module)
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-header">{{ $module }}</div>
+                            <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @else
+                <p class="text-center">{{ __('No Modules Found') }}</p>
+            @endif
         </div>
     </div>
 </div>
+@endsection

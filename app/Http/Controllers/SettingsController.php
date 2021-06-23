@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
-use App\Http\Controllers\Module;
+use Nwidart\Modules\Module;
 
 class SettingsController extends Controller
 {
@@ -125,7 +125,12 @@ class SettingsController extends Controller
 
     public function modules()
     {
-        var_dump(Module::all());
+        $modules = \Module::all();
+        $modulesList = [];
+        foreach ($modules as $key => $module) {
+            $modulesList[] = $key;
+        }
+        return view('settings.modules', compact('modulesList'));
     }
     /**
      * @return array|int[]
