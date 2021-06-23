@@ -1,6 +1,6 @@
 FROM webdevops/php-apache-dev:7.4
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y sudo systemd w3m
+RUN apt-get update && apt-get upgrade -y && apt-get install -y sudo systemd w3m mariadb-client
 RUN systemctl enable apache2
 
 # install nodejs
