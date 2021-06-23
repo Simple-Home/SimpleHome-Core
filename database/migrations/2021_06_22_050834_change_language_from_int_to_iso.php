@@ -20,11 +20,11 @@ class ChangeLanguageFromIntToIso extends Migration
         });
 
         DB::table('users')
-            ->where('language', '=', 1)
+            ->where('language', '=', '1')
             ->update(["language" => 'en']);
 
         DB::table('users')
-            ->where('language', '=', 2)
+            ->where('language', '=', '2')
             ->update(["language" => 'cs']);
     }
 
