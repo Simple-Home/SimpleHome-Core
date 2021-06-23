@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Module;
 
 class SettingsController extends Controller
 {
@@ -121,6 +122,11 @@ class SettingsController extends Controller
         return view('settings.dashboard', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
     }
 
+
+    public function modules()
+    {
+        var_dump(Module::all());
+    }
     /**
      * @return array|int[]
      */

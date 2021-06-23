@@ -8,4 +8,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('server_info') }}">{{ __('Backups') }}</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('modules_list') }}">{{ __('Modules') }}</a>
+    </li>
 </ul>
