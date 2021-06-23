@@ -6,7 +6,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-class ServerController extends Controller
+class SettingsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,7 +23,7 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function dashboard()
     {
         $chartDisk = app()->chartjs
             ->name('chartDisk')
@@ -118,7 +118,7 @@ class ServerController extends Controller
         $uptime = $this->last_boot_time();
         $ssl = $this->get_https();
 
-        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
+        return view('settings.dashboard', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
     }
 
     /**

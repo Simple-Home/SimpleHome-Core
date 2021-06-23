@@ -63,5 +63,5 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
 });
 
-Route::middleware(['auth', 'verified', 'language'])->get('/server', [App\Http\Controllers\ServerController::class, 'index'])->name('server_info');
+Route::middleware(['auth', 'verified', 'language'])->get('/settings/', [App\Http\Controllers\SettingsController::class, 'dashboard'])->name('server_info');
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

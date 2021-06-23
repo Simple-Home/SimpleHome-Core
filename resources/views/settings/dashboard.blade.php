@@ -1,17 +1,13 @@
 @extends('layouts.app')
-@section('pageTitle', trans('simplehome.server.detail.pageTitle') )
+
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col">
-                        <h2>{{ __('simplehome.server.detail.pageTitle') }}</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<div class="container">
+<div class="row">
+    <div class="col-md-2">
+      @include('settings.components.subnavigation')
+    </div>
+    <div class="col">
         <div class="row row-cols-1 row-cols-md-3">
             <div class="col mb-4">
                 <div class="card">
@@ -82,4 +78,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
