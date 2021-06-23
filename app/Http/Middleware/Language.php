@@ -27,25 +27,29 @@ class Language
             $lang = $user->language;
             App::setLocale($lang);
         } else {
-            $lang = $this->getBrowserLanguage();
-            App::setLocale(array_key_first($lang));
+            $lang = $this->getBrowserLanguage($request);
+            App::setLocale($lang);
         }
 
 
         return $next($request);
     }
 
-    private function getBrowserLanguage()
+    private function getBrowserLanguage(Request $request)
     {
-        $prefLocales = array_reduce(
-            explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']),
-            function ($res, $el) {
-                list($l, $q) = array_merge(explode(';q=', $el), [1]);
-                $res[$l] = (float)$q;
-                return $res;
-            }, []);
-        arsort($prefLocales);
+        $browserLanguage = $request->header('accept-language', 'en');
 
-        return $prefLocales;
+        if($browserLanguage !== 'en'){
+            $browserLanguage = array_reduce(
+                explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']),
+                function ($res, $el) {
+                    list($l, $q) = array_merge(explode(';q=', $el), [1]);
+                    $res[$l] = (float)$q;
+                    return $res;
+                }, []);
+            arsort($browserLanguage);
+            $browserLanguage = array_key_first($browserLanguage);
+        }
+        return $browserLanguage;
     }
 }
