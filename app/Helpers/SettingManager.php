@@ -13,7 +13,7 @@ class SettingManager
             return $found_indexes;
         } else {
             $this->set($index, 0);
-            return User::where('name', '===', $index);
+            return Settings::where('name', '===', $index);
         }
     }
     
@@ -35,7 +35,7 @@ class SettingManager
     }
     
     public function getGroup($group){
-        $found_indexes = Settings::where('group', '===', $group);
+        $found_indexes = Settings::where('group', '===', $group)->get();
         return $found_indexes;
     }
 }
