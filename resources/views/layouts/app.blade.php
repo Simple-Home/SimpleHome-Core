@@ -116,6 +116,10 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        @env('local')
+            <script src="http://localhost:8000/livereload.js"></script>
+        @endenv
     </div>
 </body>
 </html>
