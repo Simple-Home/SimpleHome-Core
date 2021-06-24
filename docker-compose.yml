@@ -5,6 +5,7 @@ services:
       context: ./docker
       dockerfile: Dockerfile
     restart: on-failure
+    command: /home/application/start.sh
     ports:
       - "8000:80"   # apache
       - "5858:5858" # npm debug
