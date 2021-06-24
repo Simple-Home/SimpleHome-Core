@@ -75,6 +75,20 @@ return [
     'noRooms' => 'Es wurden noch keine Räume hinzugefügt',
     'gotoRooms' => 'Gehe zu den Räumen',
     'roomsPage' => 'unter Räume',
-    'toAddRoom' => 'kannst du einen Raum anlegen.'
-
+    'toAddRoom' => 'kannst du einen Raum anlegen.',
+    'path' => 'Pfad',
+    'cancel' => 'Abbrechen',
+    'createdAt' => 'Erstellt am',
+    'size' => 'Größe',
+    'backup.panelTitle' => 'SimpleHome Sicherungen',
+    'backup.create' => 'Erstellen',
+    'backup.healty.backup' => 'Zustand',
+    'backup.amounts' => 'Anzahl',
+    'backup.newestBackup' => 'Neueste Sicherung',
+    'backup.usedStorage' => 'Benutzer Speicherplatz',
+    'backup.database.backup' => 'Datenbank Sichern',
+    'backup.files.backup' => 'Dateien Sichern',
+    'backup.delete' => 'Sicherung löschen',
+    'backup.background' => 'Sicherung wird im Hintergrund erstellt',
+    'backup.deleteConfirm' => 'Bist du sicher das du die Sicherung unwiderruflich löschen willst erstellt am',
 ];

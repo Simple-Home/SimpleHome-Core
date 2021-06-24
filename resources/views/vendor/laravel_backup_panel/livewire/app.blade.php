@@ -1,11 +1,11 @@
 <div class="container mb-5">
     <div class="d-flex align-items-end pt-4">
         <h5 class="mb-0">
-            Laravel Backup Panel
+            {{__('simplehome.backup.panelTitle')}}
         </h5>
 
         <button id="create-backup" class="btn btn-primary btn-sm ml-auto px-3">
-            Create Backup
+            {{__('simplehome.backup.create')}}
         </button>
         <div class="dropdown ml-3">
             <button class="btn btn-primary btn-sm dropdown-toggle px-3" id="dropdownMenuButton"
@@ -17,10 +17,10 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#" id="create-backup-only-db" wire:click.prevent="">
-                    Create database backup
+                    {{__('simplehome.backup.database.backup')}}
                 </a>
                 <a class="dropdown-item" href="#" id="create-backup-only-files" wire:click.prevent="">
-                    Create files backup
+                    {{__('simplehome.backup.files.backup')}}
                 </a>
             </div>
         </div>
@@ -44,11 +44,11 @@
                 <table class="table table-hover mb-0">
                     <thead>
                     <tr>
-                        <th scope="col">Disk</th>
-                        <th scope="col">Healthy</th>
-                        <th scope="col">Amount of backups</th>
-                        <th scope="col">Newest backup</th>
-                        <th scope="col">Used storage</th>
+                        <th scope="col">{{__('simplehome.server.disk')}}</th>
+                        <th scope="col">{{__('simplehome.backup.healty.backup')}}</th>
+                        <th scope="col">{{__('simplehome.backup.amounts')}}</th>
+                        <th scope="col">{{__('simplehome.backup.newestBackup')}}</th>
+                        <th scope="col">{{__('simplehome.backup.usedStorage')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -105,9 +105,9 @@
                 <table class="table table-hover mb-0">
                     <thead>
                     <tr>
-                        <th scope="col">Path</th>
-                        <th scope="col">Created at</th>
-                        <th scope="col">Size</th>
+                        <th scope="col">{{__('simplehome.path')}}</th>
+                        <th scope="col"> {{__('simplehome.createdAt')}}</th>
+                        <th scope="col"> {{__('simplehome.size')}}</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -135,7 +135,7 @@
                     @if(!count($files))
                         <tr>
                             <td class="text-center" colspan="4">
-                                {{ 'No backups present' }}
+                                {{__('simplehome.backup.noBackups')}}
                             </td>
                         </tr>
                     @endif
@@ -148,16 +148,17 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="modal-title mb-3">Delete backup</h5>
+                                <h5 class="modal-title mb-3">{{__('simplehome.backup.delete')}}</h5>
                                 @if($deletingFile)
                                 <span class="text-muted">
-                                    Are you sure you want to delete the backup created at {{ $deletingFile['date'] }} ?
+                                    {{__('simplehome.backup.deleteConfirm')}} {{ $deletingFile['date'] }} ?
+
                                 </span>
                                 @endif
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary cancel-button" data-dismiss="modal">
-                                    Cancel
+                                    {{__('simplehome.cancel')}}
                                 </button>
                                 <button type="button" class="btn btn-danger delete-button" wire:click="deleteFile">Delete</button>
                             </div>
@@ -189,7 +190,7 @@
 
             const backupFun = function (option = '') {
                 Toastify({
-                    text: 'Creating a new backup in the background...' + (option ? ' (' + option + ')' : ''),
+                    text: '{{__('simplehome.backup.background')}}' + (option ? ' (' + option + ')' : ''),
                     duration: 5000,
                     gravity: 'bottom',
                     position: 'right',
