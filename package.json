@@ -12,6 +12,7 @@
     "devDependencies": {
         "axios": "^0.21",
         "bootstrap": "^4.0.0",
+        "dark-mode-switch": "^1.0.0",
         "jquery": "^3.2",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
@@ -19,7 +20,10 @@
         "postcss": "^8.1.14",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.15.2",
-        "sass-loader": "^8.0.0",
-        "dark-mode-switch": "^1.0.0"
+        "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.3",
+        "chart.js": "^3.3.2"
     }
 }

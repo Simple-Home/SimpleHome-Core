@@ -9,17 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/dark-mode-switch.min.js') }}" defer></script>
-    <script src="{{ asset('js/deviceControl.js') }}" defer></script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" defer></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-iconpicker.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->

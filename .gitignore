@@ -43,3 +43,5 @@ storage/installed
 Modules/
 .idea
 /storage/debugbar/.gitignore
+/public/js/app.js.map
+/public/css/app.css.map
