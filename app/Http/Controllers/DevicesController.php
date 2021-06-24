@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Devices;
+use App\Models\Property;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -90,8 +91,16 @@ class DevicesController extends Controller
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
+        $propertyForms = [];
+        foreach ($device->getProperties as $property) {
+            $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
+                'model' => ['id' => $property->id],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ],['icon' => $property->icon]);
+        }
 
-        return view('devices.detail', compact("device", "deviceForm"));
+        return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
     /**
@@ -116,5 +125,26 @@ class DevicesController extends Controller
 
         $device->save();
         return redirect()->route('devices_detail', ['device_id' => $id]);
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProperty(Request $request, $device_id, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $property = Property::find($request->input('id'));
+        $property->icon = $request->input('icon');
+        $property->save();
+
+        return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
 }
