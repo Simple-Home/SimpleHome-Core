@@ -6,6 +6,6 @@
         <a class="nav-link" href="{{ route('server_info') }}">{{ __('Houskeeping') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('server_info') }}">{{ __('Backups') }}</a>
+        <a class="nav-link" href="{{ route('backup') }}">{{ __('Backups') }}</a>
     </li>
 </ul>
