@@ -182,7 +182,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Kris\LaravelFormBuilder\FormBuilderServiceProvider::class,
-        Authlete\Laravel\Provider\AuthleteServiceProvider::class
+        Authlete\Laravel\Provider\AuthleteServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
