@@ -3,10 +3,13 @@
 namespace App\Helpers;
 
 use Exception;
+use App\Models\Settings;
 
 class SettingManager
 {
     public function get($index) {
+
+
         $found_indexes = User::where('name', '===', $index);
         if ($found_indexes->count() > 0) {
             return $found_indexes;
@@ -17,12 +20,20 @@ class SettingManager
     }
     
     public function set($index, $value, $group = "system") {
-        $setting_value              = new Settings;
-        $setting_value->group       = $group;
-        $setting_value->name        = $index;
-        $setting_value->type        = 90;
-        $setting_value->value       = $value;
-        $setting_value->save();
+        $option = Page::find($id);
+
+        // Make sure you've got the Page model
+        if($option) {
+            $option->value       = $value;
+            $option->save();
+        } else {
+            $option              = new Settings;
+            $option->group       = $group;
+            $option->name        = $index;
+            $option->type        = 90;
+            $option->value       = $value;
+            $option->save();
+        }
     }
     
     public function getGroup($group){
