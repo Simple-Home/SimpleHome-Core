@@ -29,9 +29,13 @@ class DevicesController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list()
+    public function list(FormBuilder $formBuilder)
     {
         $devices = Devices::all();
+        $addDeviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'method' => 'POST',
+            'url' => route('devices.store'),
+        ], ['edit' => false]);
         
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
@@ -54,7 +58,7 @@ class DevicesController extends Controller
 
         }
 
-        return view('devices.list', ["devices" => $devices]);
+        return view('devices.list', ["devices" => $devices, "addDeviceForm" => $addDeviceForm]);
     }
 
     public function search(Request $request)
@@ -103,6 +107,35 @@ class DevicesController extends Controller
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
+
+    /**
+     * Store the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'method' => 'POST',
+            'url' => route('devices.store'),
+        ], ['edit' => false]);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $device = new Devices();
+        $device->hostname = $request->input('hostname');
+        $device->type = $request->input('type');
+        $device->integration = $request->input('integration');
+        $device->approved = "1";
+        $device->token = "";
+        $device->save();
+
+        return redirect()->route('devices_list');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -116,15 +149,16 @@ class DevicesController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        $device = Devices::find($id);
+        $device = Devices::find($device_id);
 
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');
+        $device->integration = $request->input('integration');
         $device->sleep = $request->input('sleep');
         $device->token = $request->input('token');
 
         $device->save();
-        return redirect()->route('devices_detail', ['device_id' => $id]);
+        return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
 
      /**

@@ -14,7 +14,7 @@
                     <div class="col">
                         <div class="float-right">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="{{ __('simplehome.addDevice') }}">+</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeviceModal" title="{{ __('simplehome.addDevice') }}">+</button>
                         </div>
                     </div>
                 </div>
@@ -63,4 +63,20 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header">{{ __('simplehome.addDevice') }}</div>
+
+                <div class="card-body">
+                    {!! form($addDeviceForm) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
