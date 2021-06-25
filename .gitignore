@@ -41,4 +41,5 @@ smart-home.code-workspace
 composer.lock
 storage/installed
 Modules/
-modules_statuses.json
+.idea
+/storage/debugbar/.gitignore

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.devices.detail.pageTitle') )
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Device</div>
+                <div class="card-header">{{__('simplehome.devices.devices.pageTitle')}}</div>
                 <div class="card-body">
                     {!! form($deviceForm) !!}
                 </div>
@@ -36,7 +36,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Properties List') }}</div>
+                <div class="card-header">{{ __('simplehome.deviceList') }}</div>
                 <div class="card-body">
 
                     @if (!empty($device->getProperties) && count($device->getProperties) > 0)
@@ -46,7 +46,6 @@
                                 <tr>
                                     <th>Icon</th>
                                     <th>Name</th>
-
                                     <th>Type</th>
                                     <th>Last Value</th>
                                     <th></th>
@@ -55,7 +54,9 @@
                             <tbody>
                                 @foreach ($device->getProperties as $property)
                                     <tr>
-                                        <td><i class="card-img-top fas {{$property->icon}}"></i></td>
+                                        <td>
+                                            {!! form($propertyForms[$property->id]) !!}
+                                        </td>
                                         <td>{{$property->nick_name}}</td>
                                         <td>{{$property->type}}</td>
                                         <td>
@@ -80,4 +81,6 @@
     </div>
     </br>
 </div>
+<script type="text/javascript" src="{{ asset('js/bootstrap-Iconspicker-laravel.js') }}" defer>
+</script>
 @endsection

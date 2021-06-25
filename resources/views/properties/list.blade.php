@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.properties.list.pageTitle') )
 @section('content')
 <div class="container">
     @include('components.search')
@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
-                        <h2>{{ __('Properties List') }}</h2>
+                        <h2>{{ __('simplehome.properties.list.pageTitle') }}</h2>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             @endforeach
         </div>
     @else
-        <p class="text-center">{{ __('No Properties Found') }}</p>
+        <p class="text-center">{{ __('simplehome.properties.notFound') }}</p>
     @endif
 </div>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('pageTitle', trans('simplehome.dashboard.dashboard.pagetTitle') )
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="container">
@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-secondary" role="alert">
-                   You do not have any rooms yet, visit the <a href="rooms/" title="go to rooms">Rooms page</a> to add one.
+                    {{__('simplehome.noRooms')}} <a href="rooms/" title="{{__('simplehome.gotoRooms')}}">  {{__('simplehome.roomsPage')}}</a> {{__('simplehome.toAddRoom')}}
                 </div>
             </div>
         </div>

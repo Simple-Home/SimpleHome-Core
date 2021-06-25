@@ -11,7 +11,7 @@ class DeleteProfileForm extends Form
     {
         $this
             ->add('deleteProfile', Field::BUTTON_SUBMIT, [
-                'label' => "Delete account",
+                'label' => __('simplehome.users.delete'),
                 'attr' => ['class' => 'btn btn-danger']
             ]);
     }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Devices;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
-use DateTime;
 
-class ServerController extends Controller
+class SettingsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,16 +23,16 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function dashboard()
     {
         $chartDisk = app()->chartjs
             ->name('chartDisk')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
                     'data' => [$this->disk_stat()["used"], ($this->disk_stat()["total"] - $this->disk_stat()["used"])]
                 ]
             ])
@@ -59,11 +57,11 @@ class ServerController extends Controller
             ->name('chartRam')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
-                    'data' => [$this->ram_stat()["used"], ($this->ram_stat()["total"] - $this->ram_stat()["used"])]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
+                    'data' => [round($this->ram_stat()["used"], 2), round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)]
                 ]
             ])
             ->optionsRaw("{
@@ -88,11 +86,11 @@ class ServerController extends Controller
             ->name('chartCpu')
             ->type('doughnut')
             ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Free'), __('Used')])
+            ->labels([__('Used'), __('Free')])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(255, 255, 255)'],
-                    'data' => [$this->cpu_stat(), (1 - $this->cpu_stat())]
+                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
+                    'data' => [$this->cpu_stat(),100 - $this->cpu_stat() ]
                 ]
             ])
             ->optionsRaw("{
@@ -106,13 +104,13 @@ class ServerController extends Controller
                             t.yLabel = d.datasets[0].data[t.index];
                             var yLabel = t.yLabel >= 1000 ?
                             t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel;
+                            return d.labels[t.index] + ' ' + yLabel + '%';
                         }
                     },
                 }
             }");
         $services['apache2'] = $this->service_status('apache2');
-        $services['mysql'] = $this->service_status('mysql');
+        $services['mysql'] = $this->checkDatabase();
         $services['public_ip'] = $this->public_ip();
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
@@ -120,12 +118,15 @@ class ServerController extends Controller
         $uptime = $this->last_boot_time();
         $ssl = $this->get_https();
 
-        return view('server', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
+        return view('settings.dashboard', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
     }
 
-    private function ram_stat()
+    /**
+     * @return array|int[]
+     */
+    private function ram_stat(): array
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return [
                 "used" => 0,
                 "total" => 0,
@@ -134,7 +135,7 @@ class ServerController extends Controller
 
         //RAM usage
         $free = shell_exec('free');
-        $free = (string) trim($free);
+        $free = (string)trim($free);
         $free_arr = explode("\n", $free);
         $mem = explode(" ", $free_arr[1]);
         $mem = array_filter($mem);
@@ -143,7 +144,7 @@ class ServerController extends Controller
         $usedmemInGB = number_format($usedmem / 1048576, 2);
         $memory1 = $mem[2] / $mem[1] * 100;
         $memory = round($memory1) . '%';
-        $fh = fopen('/proc/meminfo', 'r');
+        $fh = fopen('/proc/meminfo', 'rb');
         $mem = 0;
         while ($line = fgets($fh)) {
             $pieces = array();
@@ -160,42 +161,77 @@ class ServerController extends Controller
         ];
     }
 
+    /**
+     * @return int|mixed
+     */
     private function cpu_stat()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return 0;
         }
 
         //cpu usage
-        $cpu_load = sys_getloadavg();
-        $load = $cpu_load[0];
-        return $load;
+        $loads = sys_getloadavg();
+        $core_nums = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
+        $load = round($loads[0] / ($core_nums + 1) * 100, 2);
+        return $load ?? 0;
     }
 
-    private function service_status($service_name)
+    /**
+     * @param string $service_name
+     * @return bool
+     */
+    private function service_status(string $service_name): bool
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            return false;
+        if (PHP_OS_FAMILY !== 'Linux') {
+            return 0;
         }
 
         //service
-        $serviceStatus = shell_exec('service ' . $service_name . ' status');
-        $serviceStatus = (string) trim($serviceStatus);
+        $serviceStatus = shell_exec('sudo service ' . $service_name . ' status');
+        $serviceStatus = (string)trim($serviceStatus);
         $service_arr = explode("\n", $serviceStatus);
-        $status = explode(" ", $service_arr[2]);
 
-        return (array_key_exists(6, $status) ? ($status[6] == "active" ? true : false) : false);
+        if (isset($service_arr[2])) {
+            $status = explode(" ", $service_arr[2]);
+            return (array_key_exists(6, $status) ? ($status[6] == "active" ? true : false) : false);
+        }
+
+        $status = array_values(array_filter(explode(' ', $serviceStatus)));
+
+        if (isset($status[1]) && $status[1] === 'RUNNING') {
+            return true;
+        }
+
+        return 0;
+
     }
 
-    private function disk_stat()
+    /**
+     * @return bool
+     */
+    private function checkDatabase(): bool
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        try {
+            DB::select('SHOW TABLES;');
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return array|int[]
+     */
+    private function disk_stat(): array
+    {
+        if (PHP_OS_FAMILY !== 'Linux') {
             return [
                 "used" => 0,
                 "total" => 0,
             ];
         }
-        
+
         $dt = round(disk_total_space("/var/www") / 1024 / 1024 / 1024);
         $df = round(disk_free_space("/var/www") / 1024 / 1024 / 1024);
         return [
@@ -204,7 +240,11 @@ class ServerController extends Controller
         ];
     }
 
-    private function public_ip()
+
+    /**
+     * @return string|null
+     */
+    private function public_ip(): ?string
     {
         $cURLConnection = curl_init();
         curl_setopt($cURLConnection, CURLOPT_URL, 'https://api.ipify.org/?format=json');
@@ -219,6 +259,9 @@ class ServerController extends Controller
         return $jsonArrayResponse->ip;
     }
 
+    /**
+     * @return int
+     */
     private function values_per_minute()
     {
         return (DB::table('records')
@@ -229,15 +272,26 @@ class ServerController extends Controller
             ))->count();
     }
 
-    private function last_boot_time(){
-        $info = exec('systeminfo | find /i "Boot Time"');
-        return Carbon::parse(trim(str_replace("System Boot Time:", "", $info)))->diffForHumans();;
+    /**
+     * @return int|string
+     */
+    private function last_boot_time()
+    {
+        if (PHP_OS_FAMILY !== 'Linux') {
+            return 0;
+        }
+
+        $str = @file_get_contents('/proc/uptime');
+        $num = (float)$str;
+        $now = CarbonImmutable::now()->change('- ' . (int)round($num, 0) . ' seconds');
+        return Carbon::parse($now)->diffForHumans();
     }
 
-    private function get_https(){
-        if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
-            return false;
-        }
-        return true;
+    /**
+     * @return bool
+     */
+    private function get_https(): bool
+    {
+        return !(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on');
     }
 }

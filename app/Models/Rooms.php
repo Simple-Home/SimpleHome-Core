@@ -16,6 +16,11 @@ class Rooms extends Authenticatable
         'name',
     ];
 
+    protected $attributes = [
+        'default' => false,
+    ];
+
+
     public function getProperties(){
         return $this->hasMany('App\Models\Properties', 'room_id');
     }

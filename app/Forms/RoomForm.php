@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Forms;
+
 use Kris\LaravelFormBuilder\Field;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +15,7 @@ class RoomForm extends Form
             $this
                 ->add('name', Field::TEXT, [
                     'rules' => 'required|max:255',
-                    'label' => 'Room name'
+                    'label' => __('simplehome.room.name')
                 ])
                 ->add('add', Field::BUTTON_SUBMIT, [
                     'label' => "Save"
