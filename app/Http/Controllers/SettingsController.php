@@ -36,22 +36,21 @@ class SettingsController extends Controller
                     'data' => [$this->disk_stat()["used"], ($this->disk_stat()["total"] - $this->disk_stat()["used"])]
                 ]
             ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
+            ->optionsRaw("
+            {          
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || ''
+                                return label + ' ' + context.formattedValue + ' GB';
+                            }
+                        },
+                    }
                 },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + 'GB';
-                        }
-                    },
-                }
-            }");
+            }"
+            );
 
         $chartRam = app()->chartjs
             ->name('chartRam')
@@ -64,23 +63,21 @@ class SettingsController extends Controller
                     'data' => [round($this->ram_stat()["used"], 2), round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)]
                 ]
             ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
+            ->optionsRaw("
+             {          
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || ''
+                                return label + ' ' + context.formattedValue + ' GB';
+                            }
+                        },
+                    }
                 },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + 'GB';
-                        }
-                    },
-                }
-            }");
-
+            }
+            ");
 
         $chartCpu = app()->chartjs
             ->name('chartCpu')
@@ -90,25 +87,25 @@ class SettingsController extends Controller
             ->datasets([
                 [
                     'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
-                    'data' => [$this->cpu_stat(),100 - $this->cpu_stat() ]
+                    'data' => [$this->cpu_stat(), 100 - $this->cpu_stat()]
                 ]
             ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
+            ->optionsRaw("
+             {          
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || ''
+                                return label + ' ' + context.formattedValue + ' %';
+                            }
+                        },
+                    }
                 },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + '%';
-                        }
-                    },
-                }
-            }");
+            }
+            ");
+
         $services['apache2'] = $this->service_status('apache2');
         $services['mysql'] = $this->checkDatabase();
         $services['public_ip'] = $this->public_ip();
