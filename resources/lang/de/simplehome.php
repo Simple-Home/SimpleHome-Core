@@ -75,6 +75,11 @@ return [
     'noRooms' => 'Es wurden noch keine Räume hinzugefügt',
     'gotoRooms' => 'Gehe zu den Räumen',
     'roomsPage' => 'unter Räume',
-    'toAddRoom' => 'kannst du einen Raum anlegen.'
-
+    'toAddRoom' => 'kannst du einen Raum anlegen.',
+    'free' => 'Unbenutzt',
+    'used' => 'In verwendung',
+    'seconds' => 'sekunden',
+    'minutes' => 'minuten',
+    'hours' => 'Stunden',
+    'server.refreshChart' => 'Statistik aktualisieren'
 ];

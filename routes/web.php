@@ -65,4 +65,5 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'language'])->get('/settings/', [App\Http\Controllers\SettingsController::class, 'dashboard'])->name('server_info');
+Route::middleware(['auth', 'verified', 'language'])->get('/settings/chart/data', [App\Http\Controllers\SettingsController::class, 'chartData'])->name('server_chart_data');
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
