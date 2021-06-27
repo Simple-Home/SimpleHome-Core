@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-iconpicker.min.css') }}"/>
 
     <meta name="color-scheme" content="dark light">
+
+   @yield('customHead')
 </head>
 
 <body>
@@ -124,5 +126,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('beforeBodyEnd')
 </body>
 </html>
