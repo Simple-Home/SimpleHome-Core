@@ -76,6 +76,12 @@ return [
     'gotoRooms' => 'Go to the rooms',
     'roomsPage' => 'under rooms',
     'toAddRoom' => 'you can create a room.',
+    'free' => 'Free',
+    'used' => 'Used',
+    'seconds' => 'seconds',
+    'minutes' => 'minutes',
+    'hours' => 'minutes',
+    'server.refreshChart' => 'Refresh Chart'
     'path' => 'Path',
     'cancel' => 'Cancel',
     'createdAt' => 'Created at',

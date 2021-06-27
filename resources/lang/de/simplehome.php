@@ -96,4 +96,11 @@ return [
     'housekeeping.interval' => 'Records Tabelle Daten behalten in Sekunden',
     'housekeeping.runJob' => 'Jetzt aufräumen',
     'housekeeping.runJob.triggert' => 'Aufgabe wird im Hintergrund ausgeführt...'
+    'toAddRoom' => 'kannst du einen Raum anlegen.',
+    'free' => 'Unbenutzt',
+    'used' => 'In verwendung',
+    'seconds' => 'sekunden',
+    'minutes' => 'minuten',
+    'hours' => 'Stunden',
+    'server.refreshChart' => 'Statistik aktualisieren'
 ];
