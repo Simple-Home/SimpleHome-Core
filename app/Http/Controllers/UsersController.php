@@ -105,7 +105,7 @@ class UsersController extends Controller
         $user->language = $request->input('language');
 
         $user->save();
-        return redirect()->route('user',['#settings'])->with('success', __('web.settingsSaved'));;
+        return redirect()->route('user',['#settings'])->with('success', __('web.settingsSaved'));
     }
 
     /**

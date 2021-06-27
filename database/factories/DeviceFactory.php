@@ -26,7 +26,7 @@ class DeviceFactory extends Factory
         $rand_key = array_rand($types);
         return [
             'hostname' => $this->faker->words(3, true),
-            'type' => $types[$rand_key[0]],
+            'type' => $types[$rand_key],
             'heartbeat' => now(),
             'approved' => '1',
             'sleep' => '0',

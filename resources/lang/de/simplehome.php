@@ -91,4 +91,9 @@ return [
     'backup.delete' => 'Sicherung löschen',
     'backup.background' => 'Sicherung wird im Hintergrund erstellt',
     'backup.deleteConfirm' => 'Bist du sicher das du die Sicherung unwiderruflich löschen willst erstellt am',
+    'active' => 'Aktiv',
+    'records' => 'Records Einträge',
+    'housekeeping.interval' => 'Records Tabelle Daten behalten in Sekunden',
+    'housekeeping.runJob' => 'Jetzt aufräumen',
+    'housekeeping.runJob.triggert' => 'Aufgabe wird im Hintergrund ausgeführt...'
 ];
