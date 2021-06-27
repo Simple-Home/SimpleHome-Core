@@ -13,6 +13,10 @@
     <script src="{{ asset('js/dark-mode-switch.min.js') }}" defer></script>
     <script src="{{ asset('js/deviceControl.js') }}" defer></script>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" defer></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-iconpicker.bundle.min.js') }}" defer></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -23,7 +27,11 @@
     <link href="{{ asset('css/app_override.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dark-mode.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-iconpicker.min.css') }}"/>
+
     <meta name="color-scheme" content="dark light">
+
+   @yield('customHead')
 </head>
 
 <body>
@@ -118,5 +126,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('beforeBodyEnd')
 </body>
 </html>
