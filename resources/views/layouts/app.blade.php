@@ -20,6 +20,8 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <meta name="color-scheme" content="dark light">
+
+    @yield('customHead')
 </head>
 
 <body>
@@ -120,5 +122,6 @@
     </main>
 </div>
 <script src="{{ mix('js/app.js') }}"></script>
+@yield('beforeBodyEnd')
 </body>
 </html>

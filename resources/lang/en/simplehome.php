@@ -82,5 +82,24 @@ return [
     'minutes' => 'minutes',
     'hours' => 'minutes',
     'server.refreshChart' => 'Refresh Chart'
-
+    'path' => 'Path',
+    'cancel' => 'Cancel',
+    'createdAt' => 'Created at',
+    'size' => 'Size',
+    'backup.panelTitle' => 'SimpleHome Backup Panel',
+    'backup.create' => ' Create Backup',
+    'backup.healty.backup' => 'Healthy',
+    'backup.amounts' => 'Amount of backups',
+    'backup.newestBackup' => 'Newest backup',
+    'backup.usedStorage' => 'Used storage',
+    'backup.database.backup' => 'Create database backup',
+    'backup.files.backup' => ' Create files backup',
+    'backup.delete' => 'Delete backup',
+    'backup.background' => 'Creating a new backup in the background...',
+    'backup.deleteConfirm' => 'Are you sure you want to delete the backup created at',
+    'active' => 'Active',
+    'records' => 'Total Records',
+    'housekeeping.interval' => 'Records table keep data in seconds',
+    'housekeeping.runJob' => 'Run cleanup job',
+    'housekeeping.runJob.triggert' => 'Job runs in the background...'
 ];
