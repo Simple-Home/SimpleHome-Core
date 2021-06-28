@@ -27,12 +27,13 @@ class EndpointController extends Controller
     {
         /** @var Devices $device */
         $device = Auth::user();
+        $token = explode(' ', $request->header('Authorization'))[1];
 
-        $device = Devices::where('token', '=', $request->header('Authorization'))->first();
+        $device = Devices::where('token', '=', $token)->first();
         if (!$device){
             $devices            = new Devices;
-            $devices->token     = $request->header('Authorization');
-            $devices->hostname  = $request->header('Authorization');
+            $devices->token     = $token;
+            $devices->hostname  = $token;
             $devices->type      = 'custome';
             $devices->save();
             die();
