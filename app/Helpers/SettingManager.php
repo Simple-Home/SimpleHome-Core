@@ -5,20 +5,21 @@ namespace App\Helpers;
 use Exception;
 use App\Models\Settings;
 
+
 class SettingManager
 {
     public static function get($index) {
-        $found_indexes = Settings::where('name', '===', $index)->firstOrFail();
+        $found_indexes = Settings::where('name', '=', $index)->firstOrFail();
         if ($found_indexes->count() > 0) {
             return $found_indexes;
         } else {
             $this->set($index, 0);
-            return Settings::where('name', '===', $index);
+            return Settings::where('name', '=', $index);
         }
     }
     
     public static function set($index, $value, $group = "system") {
-        $option =  Settings::where('name', '===', $index)->firstOrFail();
+        $option =  Settings::where('name', '=', $index)->firstOrFail();
 
         // Make sure you've got the Page model
         if($option) {

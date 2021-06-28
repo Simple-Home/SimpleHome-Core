@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Http\Request;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Nwidart\Modules\Module;
 use App\Helpers\SettingManager;
+use Kris\LaravelFormBuilder\FormBuilder;
+
 
 class SettingsController extends Controller
 {
@@ -76,9 +80,38 @@ class SettingsController extends Controller
     {
         $settings = SettingManager::getGroup($moduleSlug);
 
+        $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('system_settings'),
+            'variables' => $settings,
+        ]);
+
+        return view('settings.modules.detail', compact('settings', 'systemSettingsForm'));
+    }
+
+    public function saveSettings(Request $request, FormBuilder $formBuilder){
+        foreach ($request->input() as $key => $value) {
+            if ($key == '_token') {
+                continue;
+            }
+            SettingManager::set($key, $value);
+        }
+
+        return redirect()->route('system_settings');
+    }
+
+    public function system(FormBuilder $formBuilder){
+        $settings = SettingManager::getGroup('system');
+
+        $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('settings_update'),
+            'variables' => $settings,
+        ]);
+
         //Build Custome Form
 
-        return view('settings.modules.detail', compact('settings'));
+        return view('settings.system', compact('settings', 'systemSettingsForm'));
     }
 
     /**
