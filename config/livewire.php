@@ -1,5 +1,7 @@
 <?php
 
 return[
-    'asset_url' => url('/'),
+    'asset_url' => app()->runningInConsole() ? '' : url('')
 ];
+
+
