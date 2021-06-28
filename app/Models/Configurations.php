@@ -13,9 +13,5 @@ class Configurations extends Model
         'configuration_key',
         'configuration_value',
     ];
-
-    protected $casts = [
-        'configuration_value' => 'array'
-    ];
     use HasFactory;
 }

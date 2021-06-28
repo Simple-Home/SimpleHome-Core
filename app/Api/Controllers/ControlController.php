@@ -62,6 +62,7 @@ class ControlController extends Controller
             $this->saveProperty();
 
             // Report
+            print_r($this->meta['settings']['integration']);
             $status = $this->getSuccessOrFail();
             return '{"status": "'.$status.'", "value": "'.json_encode($this->property->getState()).'"}';
         }
@@ -99,26 +100,20 @@ class ControlController extends Controller
         $configuration_key = "simplehome.integrations.".$this->meta['device']->integration.".";
         $settings = Configurations::query()
             ->where('configuration_key', 'like', $configuration_key."%")
-            ->get();
-
-        foreach ($settings as $item) {
-            $tmp[$item->getAttribute('configuration_key')] = $item->getAttribute('configuration_value');
-        }
+            ->get()
+            ->toArray();
+        $this->meta['settings']['integration'] = $settings;
         unset($settings);
-        $this->meta['settings']['integration'] = $tmp;
-        unset($tmp);
 
         //Device Settings
         $configuration_key = "simplehome.device.".$this->meta['device']->id.".";
         $settings = Configurations::query()
             ->where('configuration_key', 'like', $configuration_key."%")
-            ->get();
+            ->get()
+            ->toArray();
 
-        foreach ($settings as $item) {
-            $tmp[$item->getAttribute('configuration_key')] = $item->getAttribute('configuration_value');
-        }
+        $this->meta['settings']['device'] = $settings;
         unset($settings);
-        $this->meta['settings']['device'] = $tmp;
     }
 
     /**
