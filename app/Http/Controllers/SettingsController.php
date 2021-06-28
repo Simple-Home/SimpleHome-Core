@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Nwidart\Modules\Module;
@@ -26,90 +27,7 @@ class SettingsController extends Controller
      */
     public function dashboard()
     {
-        $chartDisk = app()->chartjs
-            ->name('chartDisk')
-            ->type('doughnut')
-            ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Used'), __('Free')])
-            ->datasets([
-                [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
-                    'data' => [$this->disk_stat()["used"], ($this->disk_stat()["total"] - $this->disk_stat()["used"])]
-                ]
-            ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + 'GB';
-                        }
-                    },
-                }
-            }");
 
-        $chartRam = app()->chartjs
-            ->name('chartRam')
-            ->type('doughnut')
-            ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Used'), __('Free')])
-            ->datasets([
-                [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
-                    'data' => [round($this->ram_stat()["used"], 2), round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)]
-                ]
-            ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + 'GB';
-                        }
-                    },
-                }
-            }");
-
-
-        $chartCpu = app()->chartjs
-            ->name('chartCpu')
-            ->type('doughnut')
-            ->size(['width' => 300, 'height' => 300])
-            ->labels([__('Used'), __('Free')])
-            ->datasets([
-                [
-                    'backgroundColor' => ['rgb(234, 84, 85)', 'rgb(58, 228, 131)'],
-                    'data' => [$this->cpu_stat(),100 - $this->cpu_stat() ]
-                ]
-            ])
-            ->optionsRaw("{
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(t, d) {
-                            console.log(d);
-                            t.yLabel = d.datasets[0].data[t.index];
-                            var yLabel = t.yLabel >= 1000 ?
-                            t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : t.yLabel;
-                            return d.labels[t.index] + ' ' + yLabel + '%';
-                        }
-                    },
-                }
-            }");
         $services['apache2'] = $this->service_status('apache2');
         $services['mysql'] = $this->checkDatabase();
         $services['public_ip'] = $this->public_ip();
@@ -119,7 +37,27 @@ class SettingsController extends Controller
         $uptime = $this->last_boot_time();
         $ssl = $this->get_https();
 
-        return view('settings.dashboard', compact('chartDisk', 'chartRam', 'chartCpu', 'services', 'valuesPerMinute', 'uptime', 'ssl'));
+        return view('settings.dashboard', compact('services', 'valuesPerMinute', 'uptime', 'ssl'));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function chartData(): JsonResponse
+    {
+        return response()->json([
+            'disk' => [
+                __('simplehome.used') => $this->disk_stat()["used"],
+                __('simplehome.free') => ($this->disk_stat()["total"] - $this->disk_stat()["used"])
+            ],
+            'cpu' => [
+                __('simplehome.used') => $this->cpu_stat(),
+                __('simplehome.free') => 100 - $this->cpu_stat()],
+            'memory' => [
+                __('simplehome.used') => round($this->ram_stat()["used"], 2),
+                __('simplehome.free') => round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)
+            ]
+        ]);
     }
 
 

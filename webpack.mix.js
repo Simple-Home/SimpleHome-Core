@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,6 +10,20 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+mix
+    .js('resources/js/app.js', 'public/js').version().extract([
+    'jquery',
+    'bootstrap',
+    'icon-picker',
+    'fontawesome-free',
+    'dark-mode-switch',
+    'bootstrap-iconpicker',
+    'chart',
+])
+    .sass('resources/sass/app.scss', 'public/css').version()
+    .copyDirectory('resources/img', 'public/images')
+    .browserSync({
+        proxy: 'http://localhost/',
+        open: false,
+    })
     .sourceMaps();

@@ -16,15 +16,15 @@ class ChangeLanguageFromIntToIso extends Migration
     {
         // change to ISO 639-1
         Schema::table('users', function (Blueprint $table) {
-            $table->string('language',5)->change()->default('en');
+            $table->string('language', 5)->change()->default('en');
         });
 
         DB::table('users')
-            ->where('language', 1)
+            ->where('language', '=', '1')
             ->update(["language" => 'en']);
 
         DB::table('users')
-            ->where('language', 2)
+            ->where('language', '=', '2')
             ->update(["language" => 'cs']);
     }
 
@@ -35,16 +35,21 @@ class ChangeLanguageFromIntToIso extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('language')->change()->default(1);
-        });
-
         DB::table('users')
-            ->where('language', 'en')
+            ->where('language', '=', 'en')
             ->update(["language" => 1]);
 
         DB::table('users')
-            ->where('language', 'cs')
+            ->where('language', '=', 'cs')
             ->update(["language" => 2]);
+
+        DB::table('users')
+            ->where('language', '=', 'de')
+            ->update(["language" => 1]);
+
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('language')->change()->default(1);
+        });
     }
 }

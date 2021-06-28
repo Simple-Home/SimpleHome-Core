@@ -54,7 +54,9 @@
                             <tbody>
                                 @foreach ($device->getProperties as $property)
                                     <tr>
-                                        <td><i class="card-img-top fas {{$property->icon}}"></i></td>
+                                        <td>
+                                            {!! form($propertyForms[$property->id]) !!}
+                                        </td>
                                         <td>{{$property->nick_name}}</td>
                                         <td>{{$property->type}}</td>
                                         <td>

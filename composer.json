@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
         "authlete/authlete-laravel": "^1.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -21,11 +23,11 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "nwidart/laravel-modules": "^8.0",
+        "pavel-mironchik/laravel-backup-panel": "^2.1",
         "pusher/pusher-php-server": "^6.0",
         "rachidlaasri/laravel-installer": "^4.1",
-        "ycs77/laravel-form-builder-bs4": "^1.0",
-        "ext-curl": "*",
-        "ext-json": "*"
+        "spatie/laravel-backup": "^6.16",
+        "ycs77/laravel-form-builder-bs4": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
