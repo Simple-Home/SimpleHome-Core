@@ -62,7 +62,6 @@ class ControlController extends Controller
             $this->saveProperty();
 
             // Report
-            print_r($this->meta['settings']['integration']);
             $status = $this->getSuccessOrFail();
             return '{"status": "'.$status.'", "value": "'.json_encode($this->property->getState()).'"}';
         }
