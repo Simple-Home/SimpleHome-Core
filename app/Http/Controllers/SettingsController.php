@@ -76,7 +76,7 @@ class SettingsController extends Controller
         return view('settings.modules', compact('modulesList'));
     }
 
-    public function detail($moduleSlug)
+    public function detail($moduleSlug, FormBuilder $formBuilder)
     {
         $settings = SettingManager::getGroup($moduleSlug);
 
