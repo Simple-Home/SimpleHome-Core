@@ -17,4 +17,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('backup') }}">{{ __('Backups') }}</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('system_settings') }}">{{ __('System') }}</a>
+    </li>
 </ul>
