@@ -1,10 +1,11 @@
 $headers = @{}
 $headers.Add("Content-Type", "application/json")
-$headers.Add("Authorization", "Bearer 4f285s8mam")
+$headers.Add("Authorization", "Bearer token")
 $headers.Add("Accept", "application/json")
 $baseUrl = 'http://localhost/smarthome/api/v1'
 $mute = 0
 
+$registrationOk = $false;
 while ($True) {
 
     $response = Invoke-WebRequest -Uri "$baseUrl/setup" -Method POST -Headers $headers -ContentType 'application/json' -Body '{
@@ -16,10 +17,11 @@ while ($True) {
     }
     else {
         Write-Host $response.Content -ForegroundColor Green
+        $registrationOk = $true;
     }
     $configuration = $response.Content | ConvertFrom-Json
 
-    while ($True) {
+    while ($registrationOk) {
         $body = '{
             "humi": '+ (Get-Random -Minimum 0 -Maximum 100) + ',
 			"wifi": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
@@ -27,7 +29,6 @@ while ($True) {
 			"co2": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
 			"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + ',
 			"batt": '+ (Get-Random -Minimum -1 -Maximum 4.7) + '
-
         }'
 
         $timeTaken = Measure-Command -Expression {
@@ -58,4 +59,6 @@ while ($True) {
 
         Start-Sleep -Milliseconds ($configuration.sleep)
     }
+
+    Start-Sleep -Seconds 30
 }
