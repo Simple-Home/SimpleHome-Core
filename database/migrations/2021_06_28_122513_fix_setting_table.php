@@ -15,7 +15,7 @@ class FixSettingTable extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->timestamps();
-            $table->unique('group');
+            $table->unique(['group','name'],'group_name');
         });
     }
 
