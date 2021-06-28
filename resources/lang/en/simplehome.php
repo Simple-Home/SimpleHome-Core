@@ -81,7 +81,7 @@ return [
     'seconds' => 'seconds',
     'minutes' => 'minutes',
     'hours' => 'minutes',
-    'server.refreshChart' => 'Refresh Chart'
+    'server.refreshChart' => 'Refresh Chart',
     'path' => 'Path',
     'cancel' => 'Cancel',
     'createdAt' => 'Created at',
