@@ -70,6 +70,8 @@ Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('housekeeping');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/saveForm', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('housekeeping_saveform');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/runJob', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('housekeeping_runjob');
+    Route::middleware(['auth', 'verified', 'language'])->get('/chart/data', [App\Http\Controllers\SettingsController::class, 'chartData'])->name('server_chart_data');
+
 });
 
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

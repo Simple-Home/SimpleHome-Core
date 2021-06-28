@@ -1,6 +1,7 @@
 $headers = @{}
 $headers.Add("Content-Type", "application/json")
 $headers.Add("Authorization", "Bearer 4f285s8mam")
+$headers.Add("Accept", "application/json")
 $baseUrl = 'http://localhost/smarthome/api/v1'
 $mute = 0
 

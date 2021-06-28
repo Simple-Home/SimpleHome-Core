@@ -8,6 +8,8 @@ services:
     command: /home/application/start.sh
     ports:
       - "8000:80"   # apache
+      - "3000:3000" # browsersync
+      - "3001:3001" # browsersync ui
       - "5858:5858" # npm debug
       - "7000:7000" # npm debug
     links:
