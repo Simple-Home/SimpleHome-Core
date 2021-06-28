@@ -27,7 +27,13 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
+        "audit": "^0.0.6",
         "bootstrap-iconpicker": "^1.8.2",
-        "chart.js": "^3.3.2"
+        "chart.js": "^3.3.2",
+        "fix": "^0.0.6",
+        "npm": "^7.19.0",
+        "production": "^0.0.2",
+        "run": "^1.4.0",
+        "toastify-js": "^1.11.0"
     }
 }
