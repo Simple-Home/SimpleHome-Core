@@ -51,6 +51,6 @@ class ChangeRecordsAddConfiguration extends Migration
             $table->string('value')->change();
         });
 
-        Schema::drop('configurations');
+        Schema::dropIfExists('configurations');
     }
 }

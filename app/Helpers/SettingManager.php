@@ -12,10 +12,10 @@ class SettingManager
         $found_indexes = Settings::where('name', '=', $index)->firstOrFail();
         if ($found_indexes->count() > 0) {
             return $found_indexes;
-        } else {
-            $this->set($index, 0, $group);
-            return Settings::where('name', '=', $index);
         }
+
+        self::set($index, 0, $group);
+        return Settings::where('name', '=', $index);
     }
     
     public static function set($index, $value, $group = "system") {
@@ -36,7 +36,6 @@ class SettingManager
     }
     
     public static function getGroup($group){
-        $found_indexes = Settings::where('group', '=', $group)->get();
-        return $found_indexes;
+        return Settings::where('group', '=', $group)->get();
     }
 }
