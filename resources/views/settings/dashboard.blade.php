@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="server-dashboard" class="container">
+    <div id="server-dashboard" data-chart-endpoint="{{route('server_chart_data')}}" class="container">
         <div class="row">
             <div class="col-md-2">
                 @include('settings.components.subnavigation')
