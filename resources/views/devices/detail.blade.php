@@ -81,6 +81,4 @@
     </div>
     </br>
 </div>
-<script type="text/javascript" src="{{ asset('js/bootstrap-Iconspicker-laravel.js') }}" defer>
-</script>
 @endsection

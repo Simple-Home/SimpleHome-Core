@@ -2,6 +2,7 @@
 
 namespace App\Api\Controllers;
 
+use App\Events\DeviceSetupEvent;
 use App\Models\Devices;
 use App\Models\Properties;
 use App\Models\Records;
@@ -24,6 +25,7 @@ class EndpointController extends Controller
 
     public function setup(Request $request)
     {
+        /** @var Devices $device */
         $device = Auth::user();
         $device->setHeartbeat();
 

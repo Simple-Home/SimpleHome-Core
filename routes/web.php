@@ -66,5 +66,17 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
 });
 
-Route::middleware(['auth', 'verified', 'language'])->get('/settings/', [App\Http\Controllers\SettingsController::class, 'dashboard'])->name('server_info');
+Route::namespace('settings')->prefix('settings')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\SettingsController::class, 'dashboard'])->name('server_info');
+    Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('backup');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('housekeeping');
+    Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/saveForm', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('housekeeping_saveform');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/runJob', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('housekeeping_runjob');
+    Route::middleware(['auth', 'verified', 'language'])->get('/chart/data', [App\Http\Controllers\SettingsController::class, 'chartData'])->name('server_chart_data');
+    Route::middleware(['auth', 'verified', 'language'])->get('/settings/modules', [App\Http\Controllers\SettingsController::class, 'modules'])->name('modules_list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/settings/modules/detail/{module_slug}', [App\Http\Controllers\SettingsController::class, 'detail'])->name('modules_detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/settings/system/', [App\Http\Controllers\SettingsController::class, 'system'])->name('system_settings');
+    Route::middleware(['auth', 'verified', 'language'])->post('/settings/edit/', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('settings_update');
+});
+
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

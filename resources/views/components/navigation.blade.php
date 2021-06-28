@@ -6,7 +6,7 @@
         <a class="nav-link" href="{{ route('properties_list') }}">{{ __('simplehome.properties.list.pageTitle') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('automations_list') }}">{{ __('simplehome.automations.list.pageTitle') }}</a>
+        <a class="nav-link disabled" href="{{ route('automations_list') }}">{{ __('simplehome.automations.list.pageTitle') }}</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('users_list') }}">{{ __('simplehome.users.list.pageTitle') }}</a>
