@@ -28,15 +28,15 @@ class EndpointController extends Controller
         /** @var Devices $device */
         $device = Auth::user();
 
-        $device = Devices::where('token', '=', $request->header('Authorization'))->firstOrFail();
-        if (!$device && $device->approved == 1){
+        $device = Devices::where('token', '=', $request->header('Authorization'))->first();
+        if (!$device){
             $devices            = new Devices;
             $devices->token     = $request->header('Authorization');
             $devices->hostname  = $request->header('Authorization');
             $devices->type      = 'custome';
             $devices->save();
             die();
-        } else {
+        } elseif ($device->approved == 1) {
             foreach ($request->properties as $key => $propertyItem) {
                 if ($device->getPropertiesExistence($propertyItem)) {
                     continue;

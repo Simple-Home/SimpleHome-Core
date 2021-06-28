@@ -16,7 +16,7 @@ class FixPropertiesIssue extends Migration
         Schema::table('properties', function (Blueprint $table) {
             $table->dropColumn('settings');
             $table->dropColumn('feature');
-            $table->string('binding')->nullable()->change();;
+            $table->string('binding')->nullable()->change();
         });
     }
 
@@ -30,7 +30,7 @@ class FixPropertiesIssue extends Migration
         Schema::table('properties', function (Blueprint $table) {
             $table->string('settings');
             $table->string('feature');
-            $table->string('binding')->nullable(False)->change();;
+            $table->string('binding')->nullable(False)->change();
         });
     }
 }
