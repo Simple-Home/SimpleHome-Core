@@ -7,7 +7,7 @@ use App\Models\Settings;
 
 class SettingManager
 {
-    public function get($index) {
+    public static function get($index) {
         $found_indexes = Settings::where('name', '===', $index)->firstOrFail();
         if ($found_indexes->count() > 0) {
             return $found_indexes;
@@ -17,7 +17,7 @@ class SettingManager
         }
     }
     
-    public function set($index, $value, $group = "system") {
+    public static function set($index, $value, $group = "system") {
         $option =  Settings::where('name', '===', $index)->firstOrFail();
 
         // Make sure you've got the Page model
@@ -34,8 +34,8 @@ class SettingManager
         }
     }
     
-    public function getGroup($group){
-        $found_indexes = Settings::where('group', '===', $group)->get();
+    public static function getGroup($group){
+        $found_indexes = Settings::where('group', '=', $group)->get();
         return $found_indexes;
     }
 }

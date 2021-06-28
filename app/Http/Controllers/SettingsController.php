@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Nwidart\Modules\Module;
+use App\Helpers\SettingManager;
 
 class SettingsController extends Controller
 {
@@ -70,6 +71,16 @@ class SettingsController extends Controller
         }
         return view('settings.modules', compact('modulesList'));
     }
+
+    public function detail($moduleSlug)
+    {
+        $settings = SettingManager::getGroup($moduleSlug);
+
+        //Build Custome Form
+
+        return view('settings.modules.detail', compact('settings'));
+    }
+
     /**
      * @return array|int[]
      */

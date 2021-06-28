@@ -13,7 +13,11 @@
                     @foreach ($modulesList as $module)
                     <div class="col mb-4">
                         <div class="card">
-                            <div class="card-header">{{ $module }}</div>
+                            <div class="card-header">
+                                <a href="{{ route('modules_detail', strtolower($module)) }}">
+                                    {{ $module }}
+                                </a>
+                            </div>
                             <div class="card-body">
                             </div>
                         </div>

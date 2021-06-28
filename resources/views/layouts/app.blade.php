@@ -125,4 +125,3 @@
 @yield('beforeBodyEnd')
 </body>
 </html>
-(
