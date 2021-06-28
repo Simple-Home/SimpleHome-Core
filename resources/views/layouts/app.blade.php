@@ -9,8 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
     <!-- Scripts -->
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
+    <script src="{{ asset(mix('js/manifest.js')) }}"></script>
+    <script src="{{ asset(mix('js/vendor.js')) }}"></script>
 
 
     <!-- Fonts -->
@@ -18,7 +18,7 @@
     <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <meta name="color-scheme" content="dark light">
 
     @yield('customHead')
@@ -121,7 +121,8 @@
         @yield('content')
     </main>
 </div>
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset(mix('js/app.js')) }}"></script>
 @yield('beforeBodyEnd')
 </body>
 </html>
+(
