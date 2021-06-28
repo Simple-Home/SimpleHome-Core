@@ -97,6 +97,7 @@ return [
     'backup.delete' => 'Delete backup',
     'backup.background' => 'Creating a new backup in the background...',
     'backup.deleteConfirm' => 'Are you sure you want to delete the backup created at',
+    'backup.noBackups' => 'No backups present',
     'active' => 'Active',
     'records' => 'Total Records',
     'housekeeping.interval' => 'Records table keep data in seconds',
