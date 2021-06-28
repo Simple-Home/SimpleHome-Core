@@ -2,12 +2,11 @@ let diskChartSelector = 'server-disk-chart'
 let cpuChartSelector = 'server-cpu-chart'
 let memoryChartSelector = 'server-memory-chart'
 const Chart = require('chart.js/dist/chart')
-let chartRoute = '/settings/chart/data';
 
 $(document).ready(function () {
 
-    if (document.getElementById('server-dashboard') !== null) {
-
+    let dashboard = document.getElementById('server-dashboard');
+    if (dashboard !== null) {
 
         let diskElement = document.getElementById(diskChartSelector);
         if (diskElement != null) {
@@ -105,7 +104,7 @@ $(document).ready(function () {
         function getChartData() {
             $.ajax({
                 method: "GET",
-                url: chartRoute,
+                url: dashboard.dataset.chartEndpoint,
                 success: function (data) {
                     updateChart(window.chartDisk, data.disk)
                     updateChart(window.chartCpu, data.cpu)

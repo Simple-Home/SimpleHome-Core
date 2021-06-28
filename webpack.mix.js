@@ -19,6 +19,7 @@ mix
     'dark-mode-switch',
     'bootstrap-iconpicker',
     'chart',
+    'toastify-js'
 ])
     .sass('resources/sass/app.scss', 'public/css').version()
     .copyDirectory('resources/img', 'public/images')
