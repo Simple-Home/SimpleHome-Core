@@ -8,12 +8,12 @@ use App\Models\Settings;
 
 class SettingManager
 {
-    public static function get($index) {
+    public static function get($index, $group = null) {
         $found_indexes = Settings::where('name', '=', $index)->firstOrFail();
         if ($found_indexes->count() > 0) {
             return $found_indexes;
         } else {
-            $this->set($index, 0);
+            $this->set($index, 0, $group);
             return Settings::where('name', '=', $index);
         }
     }
