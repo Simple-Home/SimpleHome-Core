@@ -27,26 +27,35 @@ class EndpointController extends Controller
     {
         /** @var Devices $device */
         $device = Auth::user();
-        $device->setHeartbeat();
 
-        foreach ($request->properties as $key => $propertyItem) {
-            if ($device->getPropertiesExistence($propertyItem)) {
-                continue;
+        $device = Devices::where('token', '=', $request->header('Authorization'))->firstOrFail();
+        if (!$device && $device->approved == 1){
+            $devices            = new Devices;
+            $devices->token     = $request->header('Authorization');
+            $devices->hostname  = $request->header('Authorization');
+            $devices->type      = 'custome';
+            $devices->save();
+            die();
+        } else {
+            foreach ($request->properties as $key => $propertyItem) {
+                if ($device->getPropertiesExistence($propertyItem)) {
+                    continue;
+                }
+                $property               = new Properties;
+                $property->type         = $propertyItem;
+                $property->nick_name    = $propertyItem;
+                $property->icon         = "fas fa-robot";
+                $property->device_id    = $device->id;
+                $property->room_id      = 1;
+                $property->history      = 90;
+                $property->save();
             }
-            $property               = new Properties;
-            $property->type         = $propertyItem;
-            $property->nick_name    = $propertyItem;
-            $property->icon         = "fas fa-robot";
-            $property->device_id    = $device->id;
-            $property->room_id      = 1;
-            $property->history      = 90;
-            $property->save();
+            
+            echo json_encode([
+                "hostname"  => $device->getHostname(),
+                "sleep"     => $device->sleep,
+            ]);
         }
-
-        echo json_encode([
-            "hostname"  => $device->getHostname(),
-            "sleep"     => $device->sleep,
-        ]);
     }
 
     public function data(Request $request)
