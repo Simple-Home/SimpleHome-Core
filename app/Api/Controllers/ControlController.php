@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Device;
 use App\Models\Property;
 use App\Models\Records;
+use App\Models\Configurations;
 use Illuminate\Support\Str;
 
 /**
@@ -17,7 +18,7 @@ class ControlController extends Controller
 {
     protected $property;
     protected $meta;
-   
+
     /**
     * Function controlProperty
     * This is the main function
@@ -42,15 +43,15 @@ class ControlController extends Controller
             return '{"status":"error", "message":"device "'.$hostname.'" not found"}';
         }
 
+        // Get the device settings from database
+        $this->getSettings();
+
         // Instantiate the class.
         $this->instantiateClass();
 
         // Call the Feature/Method of class if the feature exists.
         if ($this->property->hasFeature($this->property, $this->feature) === true) {
 
-            // Format settings into an array
-            $this->meta['property']->settings = json_decode($this->meta['property']->settings, true);
-            
             // Save request and value
             $this->property->setRequest(["request" => $this->request, "value" => $this->value]);
 
@@ -58,7 +59,7 @@ class ControlController extends Controller
             $this->callIntegration();
 
             // Save the state the module set
-            $this->saveProperty(); 
+            $this->saveProperty();
 
             // Report
             $status = $this->getSuccessOrFail();
@@ -88,9 +89,42 @@ class ControlController extends Controller
     }
 
     /**
+    * Function getSettings
+    * Get the device settings from the database and format into array
+    */
+    private function getSettings()
+    {
+        //Integration Settings
+        $tmp = [];
+        $configuration_key = "simplehome.integrations.".$this->meta['device']->integration.".";
+        $settings = Configurations::query()
+            ->where('configuration_key', 'like', $configuration_key."%")
+            ->get();
+
+        foreach ($settings as $item) {
+            $tmp[$item->getAttribute('configuration_key')] = $item->getAttribute('configuration_value');
+        }
+        unset($settings);
+        $this->meta['settings']['integration'] = $tmp;
+        unset($tmp);
+
+        //Device Settings
+        $configuration_key = "simplehome.device.".$this->meta['device']->id.".";
+        $settings = Configurations::query()
+            ->where('configuration_key', 'like', $configuration_key."%")
+            ->get();
+
+        foreach ($settings as $item) {
+            $tmp[$item->getAttribute('configuration_key')] = $item->getAttribute('configuration_value');
+        }
+        unset($settings);
+        $this->meta['settings']['device'] = $tmp;
+    }
+
+    /**
     * Function callIntegration
     */
-    private function callIntegration() 
+    private function callIntegration()
     {
         // For reliable execution we repeat the feature execution 2 times
         $msg = NULL;
@@ -110,17 +144,17 @@ class ControlController extends Controller
                     }
                 } else {
                     $this->property->$feature();
-                }     
+                }
             } catch (\Exception $ex) {
                 $msg = $ex->getMessage();
-                sleep(.5);   
+                sleep(.5);
                 continue;
             }
             if ($try == $retries) {
                 exit($msg);
             }
             break;
-        }      
+        }
     }
 
     /**
@@ -137,18 +171,18 @@ class ControlController extends Controller
         // Save the state the module set
         if (!empty($this->property->getState())){
             $propertyValue = $this->property->getState();
-            
+
             foreach ($propertyValue as $feature => $value){
                 if($feature == "attributes") continue;
                 if(array_key_exists($feature, $propertyID)){
                     Records::insert(['property_id' => $propertyID[$feature], 'value' => $value]);
                 }
             }
-        }  
+        }
     }
 
     private function getSuccessOrFail()
-    {   
+    {
         // Fix this, needs real status
         return "success";
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CleanRecords;
 use App\Models\Configurations;
-use App\Models\Properties;
 use App\Models\Records;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
