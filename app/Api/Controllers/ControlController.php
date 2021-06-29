@@ -63,7 +63,7 @@ class ControlController extends Controller
 
             // Report
             $status = $this->getSuccessOrFail();
-            return '{"status": "'.$status.'", "value": "'.json_encode($this->property->getState()).'"}';
+            return '{"status": "'.$status.'", "value": '.json_encode($this->property->getState()).'}';
         }
         return '{"status":"error", "message":"feature not found"}';
     }
@@ -94,25 +94,32 @@ class ControlController extends Controller
     */
     private function getSettings()
     {
-        //Integration Settings
+        // Integration Settings
+        $keyBase = "simplehome.integrations.".$this->meta['device']->integration.".";
+        $this->meta['settings']['integration'] = $this->formatSettings($keyBase);
+
+        // Device Settings
+        $keyBase = "simplehome.device.".$this->meta['device']->id.".";
+        $this->meta['settings']['device'] = $this->formatSettings($keyBase);
+    }
+
+    /**
+    * Function formatSettings
+    * Get the settings from the database and format into a clean array
+    */
+    private function formatSettings($keyBase){
         $tmp = [];
-        $configuration_key = "simplehome.integrations.".$this->meta['device']->integration.".";
         $settings = Configurations::query()
-            ->where('configuration_key', 'like', $configuration_key."%")
-            ->get()
-            ->toArray();
-        $this->meta['settings']['integration'] = $settings;
+            ->where('configuration_key', 'like', $keyBase."%")
+            ->get();
+
+        foreach ($settings as $item) {
+            $keyName = str_replace($keyBase,'', $item->getAttribute('configuration_key'));
+            $tmp[$keyName] = $item->getAttribute('configuration_value');
+        }
         unset($settings);
 
-        //Device Settings
-        $configuration_key = "simplehome.device.".$this->meta['device']->id.".";
-        $settings = Configurations::query()
-            ->where('configuration_key', 'like', $configuration_key."%")
-            ->get()
-            ->toArray();
-
-        $this->meta['settings']['device'] = $settings;
-        unset($settings);
+        return $tmp;
     }
 
     /**
