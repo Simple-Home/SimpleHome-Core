@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\Records;
 use App\Models\Configurations;
 use Illuminate\Support\Str;
+use App\Helpers\SettingManager;
 
 /**
 * Class DeviceController
@@ -42,9 +43,6 @@ class ControlController extends Controller
         }else{
             return '{"status":"error", "message":"device "'.$hostname.'" not found"}';
         }
-
-        // Get the device settings from database
-        $this->getSettings();
 
         // Instantiate the class.
         $this->instantiateClass();
@@ -86,40 +84,6 @@ class ControlController extends Controller
         } catch (\Exception $ex) {
             exit($ex->getMessage());
         }
-    }
-
-    /**
-    * Function getSettings
-    * Get the device settings from the database and format into array
-    */
-    private function getSettings()
-    {
-        // Integration Settings
-        $keyBase = "simplehome.integrations.".$this->meta['device']->integration.".";
-        $this->meta['settings']['integration'] = $this->formatSettings($keyBase);
-
-        // Device Settings
-        $keyBase = "simplehome.device.".$this->meta['device']->id.".";
-        $this->meta['settings']['device'] = $this->formatSettings($keyBase);
-    }
-
-    /**
-    * Function formatSettings
-    * Get the settings from the database and format into a clean array
-    */
-    private function formatSettings($keyBase){
-        $tmp = [];
-        $settings = Configurations::query()
-            ->where('configuration_key', 'like', $keyBase."%")
-            ->get();
-
-        foreach ($settings as $item) {
-            $keyName = str_replace($keyBase,'', $item->getAttribute('configuration_key'));
-            $tmp[$keyName] = $item->getAttribute('configuration_value');
-        }
-        unset($settings);
-
-        return $tmp;
     }
 
     /**
