@@ -6,7 +6,7 @@
         <a class="nav-link" href="{{ route('housekeeping') }}">{{ __('Houskeeping') }}</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('modules_list') }}">{{ __('Modules') }}</a>
+        <a class="nav-link" href="{{ route('integrations_list') }}">{{ __('Integrations') }}</a>
     </li>
     <li class="nav-item">
         <a class="nav-link disabled" href="{{ route('server_info') }}">{{ __('Logs') }}</a>
