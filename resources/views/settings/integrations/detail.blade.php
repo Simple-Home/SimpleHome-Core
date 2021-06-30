@@ -6,9 +6,7 @@
     @if(!empty($settings) && count($settings) > 0)
     <div class="col">
         <div class="row row-cols-1 row-cols-md-3">
-            @foreach ($settings as $setting)
-                {{$setting}}
-            @endforeach
+            {!! form($systemSettingsForm) !!}
         </div>
     </div>
     @else
