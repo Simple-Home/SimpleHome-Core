@@ -18,7 +18,7 @@ class SettingManager
         }
     }
 
-    public static function set($index, $value, $group = "system") {
+    public static function set($index, $value) {
         $option =  Settings::where('name', '=', $index)->first();
 
         // Make sure you've got the Page model
@@ -26,13 +26,20 @@ class SettingManager
             $option->value       = $value;
             $option->save();
         } else {
-            $option              = new Settings;
-            $option->group       = $group;
-            $option->name        = $index;
-            $option->type        = 90;
-            $option->value       = $value;
-            $option->save();
+            SettingManager::register($index, $value, "string", "system");
         }
+
+        return true;
+    }
+
+    public static function register ($index, $value, $type="string", $group = "system") {
+        $option              = new Settings;
+        $option->group       = $group;
+        $option->name        = $index;
+        $option->type        = $type;
+        $option->value       = $value;
+        $option->save();
+        return true;
     }
 
     public static function getGroup($group){
