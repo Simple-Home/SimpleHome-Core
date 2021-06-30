@@ -19,7 +19,7 @@ Route::namespace('version-depricated')->prefix('depricated')->group(function () 
 });
 
 // v1 Device Controller
-Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:60,1']], function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['throttle:60,1']], function () {
     Route::post('/setup', [App\Api\Controllers\EndpointController::class, 'setup']);
 });
 
