@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('simplehome:clear:records')->daily();
+
+        // Dispatch the jobs that are contained in each integration
+        $schedule->command('simplehome:integrations:all')->everyTwoMinutes();
     }
 
     /**
