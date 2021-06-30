@@ -37,6 +37,8 @@ Route::namespace('devices')->prefix('devices')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/edit/{device_id}', [App\Http\Controllers\DevicesController::class, 'edit'])->name('devices_edit');
     Route::middleware(['auth', 'verified', 'language'])->post('/update/{device_id}', [App\Http\Controllers\DevicesController::class, 'update'])->name('devices_update');
     Route::middleware(['auth', 'verified', 'language'])->post('/update/property/{device_id}', [App\Http\Controllers\DevicesController::class, 'updateProperty'])->name('devices_update_property');
+    Route::middleware(['auth', 'verified', 'language'])->post('/store/', [App\Http\Controllers\DevicesController::class, 'store'])->name('devices.store');
+
 });
 
 Route::namespace('rooms')->prefix('rooms')->group(function () {
@@ -71,8 +73,8 @@ Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/saveForm', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('housekeeping_saveform');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/runJob', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('housekeeping_runjob');
     Route::middleware(['auth', 'verified', 'language'])->get('/chart/data', [App\Http\Controllers\SettingsController::class, 'chartData'])->name('server_chart_data');
-    Route::middleware(['auth', 'verified', 'language'])->get('/settings/modules', [App\Http\Controllers\SettingsController::class, 'modules'])->name('modules_list');
-    Route::middleware(['auth', 'verified', 'language'])->get('/settings/modules/detail/{module_slug}', [App\Http\Controllers\SettingsController::class, 'detail'])->name('modules_detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SettingsController::class, 'integrations'])->name('integrations_list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/integrations/detail/{integration_slug}', [App\Http\Controllers\SettingsController::class, 'detail'])->name('integration_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/settings/system/', [App\Http\Controllers\SettingsController::class, 'system'])->name('system_settings');
     Route::middleware(['auth', 'verified', 'language'])->post('/settings/edit/', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('settings_update');
 });

@@ -65,28 +65,27 @@ class SettingsController extends Controller
         ]);
     }
 
-
-    public function modules()
+    public function integrations()
     {
-        $modules = \Module::all();
-        $modulesList = [];
-        foreach ($modules as $key => $module) {
-            $modulesList[] = $key;
+        $integrations = \Module::all();
+        $integrationList = [];
+        foreach ($integrations as $key => $integration) {
+            $integrationList[] = $key;
         }
-        return view('settings.modules', compact('modulesList'));
+        return view('settings.integrations', compact('integrationList'));
     }
 
-    public function detail($moduleSlug, FormBuilder $formBuilder)
+    public function detail($integrationSlug, FormBuilder $formBuilder)
     {
-        $settings = SettingManager::getGroup($moduleSlug);
+        $settings = SettingManager::getGroup($integrationSlug);
 
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
             'url' => route('system_settings'),
-            'variables' => $settings,
+            'variables' => $settings
         ]);
 
-        return view('settings.modules.detail', compact('settings', 'systemSettingsForm'));
+        return view('settings.integrations.detail', compact('settings', 'systemSettingsForm'));
     }
 
     public function saveSettings(Request $request, FormBuilder $formBuilder){
@@ -106,11 +105,10 @@ class SettingsController extends Controller
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
             'url' => route('settings_update'),
-            'variables' => $settings,
+            'variables' => $settings
         ]);
 
-        //Build Custome Form
-
+        //Build Custom Form
         return view('settings.system', compact('settings', 'systemSettingsForm'));
     }
 

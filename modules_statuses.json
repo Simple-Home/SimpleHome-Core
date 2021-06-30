@@ -1,4 +1,5 @@
 {
     "Blog": true,
-    "ExampleBinding": true
+    "ExampleBinding": true,
+    "MQTT": true
 }

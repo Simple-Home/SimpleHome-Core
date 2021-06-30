@@ -1,9 +1,9 @@
 
-function deviceControl(hostname, property, feature, newValue){
+function deviceControl(hostname, feature, newValue){
 
     $.ajax({
         method: "GET",
-        url: "/properties/control/" + property,
+        url: "/properties/control/" ,
         data: {
            "feature": feature,
            "value": newValue

@@ -41,7 +41,7 @@ class ApiAuthenticationController extends Controller {
     /**
      * Client Login
      */
-    public function login (Request $request) { 
+    public function login (Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
@@ -54,7 +54,7 @@ class ApiAuthenticationController extends Controller {
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('v2 API Authentication Token')->accessToken;
-                $response = ['token' => $token];
+                $response = ['token' => "Bearer ".$token];
                 return response($response, 200);
             } else {
                 //invalid password

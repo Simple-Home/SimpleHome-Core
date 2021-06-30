@@ -31,33 +31,14 @@
                                 </h5>
                             </div>
                         
-                            <div class="col-xs">
-                                @if (!empty($property->last_value->value))
-                                    <h5 class="text-right">State: {{$property->last_value->value}}</h5>
-                                @endif
-                            </div>
+                            @if (!empty($property->last_value->value))
+                                <div class="col-xs">
+                                        <h5 class="text-right">{{round($property->last_value->value ,2)}}</h5>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
-                            @if (!empty($property->last_value->value) && ($property->type == "switch"))
-								@if (strtolower($property->last_value->value) == "off")
-									<button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'on');" class="btn btn-success">Turn On</button>
-								@else
-									<button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'state', 'off');" class="btn btn-danger">Turn Off</button>
-								@endif
-							@endif
-							
-                            &nbsp;
-                            @if (strtolower($property->type) == "light")
-                                <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '10');" class="btn btn-primary">Max Brightness</button>
-                                &nbsp;
-                                <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'brightness', '1');" class="btn btn-primary">Min Brightness</button>
-                            @endif
-							
-                            @if (strtolower($property->type) == "speaker")
-                                <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '10');" class="btn btn-primary">Max Volume</button>
-                                &nbsp;
-                                <button type="button" onclick="deviceControl('{{ $property->device->hostname }}', '{{ $property->id }}', 'volume', '1');" class="btn btn-primary">Min Volume</button>
-                            @endif
+                            @include('properties.components.controls', $property)
                         </div>
                     </div>
                     <div class="card-footer">
