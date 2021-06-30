@@ -21,13 +21,12 @@
                     {{ __('First Seen') }}: {{$device->created}}</br>
                     {{ __('Last Seen') }}: {{$device->heartbeat}}</br>
 
-                    {{ __('Ip Address') }}:</br>
-                    {{ __('Gatevay') }}:</br>
-                    {{ __('subnet') }}:</br>
+                    {{ __('IP Address') }}:</br>
+                    {{ __('Gateway') }}:</br>
+                    {{ __('Subnet') }}:</br>
 
                     {{ __('Signal') }}: {{$device->signal_strength}} %</br>
                     {{ __('Battery') }}: {{$device->battery_level}} v</br>
-
                 </div>
             </div>
         </div>
