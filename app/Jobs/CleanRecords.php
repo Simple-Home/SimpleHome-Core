@@ -2,11 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Models\Configurations;
+use App\Helpers\SettingManager;
 use App\Models\Records;
 use Carbon\CarbonImmutable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,18 +33,12 @@ class CleanRecords implements ShouldQueue
      */
     public function handle()
     {
-        /** @var Configurations $config */
-        $config = Configurations::query()
-            ->where('configuration_key', '=', "simplehome.housekeeping.active")
-            ->first();
 
-        $active = (bool)$config->getAttribute('configuration_value');
-        if ($active) {
-            $intervalConfig = Configurations::query()
-                ->where('configuration_key', '=', "simplehome.housekeeping.interval")
-                ->first();
+        $active = SettingManager::get('active', 'housekeeping');
+        if ($active->value) {
+            $intervalConfig = SettingManager::get('interval', 'housekeeping');
 
-            $interval = empty($intervalConfig) ? 432000 : $intervalConfig->getAttribute('configuration_value');
+            $interval = empty($intervalConfig) ? 432000 : $intervalConfig->value;
 
             $deleteTime = CarbonImmutable::now()->change('- ' . (int)round($interval, 0) . ' seconds');
 
