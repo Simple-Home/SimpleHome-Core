@@ -51,17 +51,27 @@ class DeviceController extends Controller
     public function create(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'hostname' => 'required|max:255',
-            'type' => 'required|max:255',
-            'approved' => 'nullable|max:255'
+            'hostname' => 'required|max:191',
+            'type' => 'required|max:191',
+            'integration' => 'required|max:35',
+            'approved' => 'nullable|max:1'
         ])->validate();
 
         $device = new Device;
         $device->hostname = $request->hostname;
         $device->type = $request->type;
-        $device->approved = '1'; 
-        $device->token = ''; 
+        $device->approved = '1';
+        $device->token = '';
         $device->save();
+
+        //notify the module a new device has been added
+        if (\Module::has($request->integration)) {
+            $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
+            // Instantiate the class.
+            $creator = new $classString($device);
+            $creator->create();
+        }
+
         return "{}";
     }
 
@@ -69,18 +79,29 @@ class DeviceController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'id' => 'nullable|numeric|max:20',
-            'hostname' => 'required|max:255',
-            'type' => 'required|max:255',
-            'approved' => 'nullable|max:255'
+            'hostname' => 'required|max:191',
+            'type' => 'required|max:191',
+            'integration' => 'required|max:35',
+            'approved' => 'nullable|max:1'
         ])->validate();
 
-        Rooms::where('hostname', $request->hostname)->orwhere('id', $request->id)->update(
+        $device = Device::where('hostname', $request->hostname)->orwhere('id', $request->id)->update(
             [
                 'hostname' => $request->new-hostname,
                 'type' => $request->type,
-                'approved' => $request->approved,
+                'integration' => $request->integration,
+                'approved' => $request->approved
             ]
         );
+
+        //notify the module a new property has been added
+        if (\Module::has($request->integration)) {
+            $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
+            // Instantiate the class.
+            $created = new $classString($device);
+            $created->update();
+        }
+
         return "{}";
     }
 
@@ -88,7 +109,7 @@ class DeviceController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'id' => 'nullable|numeric|max:20',
-            'hostname' => 'nullable|max:255' 
+            'hostname' => 'nullable|max:191'
         ])->validate();
 
         try {
@@ -96,6 +117,14 @@ class DeviceController extends Controller
             return '{"status": "'.($status ? "successful" : "error" ).'"}';
         } catch (\Illuminate\Database\QueryException $e) {
             return '{"status":"error", "message":"'.$e.'"}';
+        }
+
+        //notify the module a new device has been deleted
+        if (\Module::has($request->integration)) {
+            $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
+            // Instantiate the class.
+            $creator = new $classString($request);
+            $creator->delete();
         }
     }
 }
