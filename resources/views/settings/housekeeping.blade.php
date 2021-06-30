@@ -31,9 +31,9 @@
                         <form action="{{route('housekeeping_saveform')}}" method="post">
                             <div class="form-group row">
                                 <div class="form-check">
-                                    <input class="form-check-input" name="simplehome_housekeeping_active"
+                                    <input class="form-check-input" name="housekeeping_active"
                                            type="checkbox" value="1" id="active"
-                                           @if ($settings['simplehome.housekeeping.active'] != 0) checked="checked" @endif>
+                                           @if ($settings['active']->value != 0) checked="checked" @endif>
                                     <label class="form-check-label" for="active">
                                         {{__('simplehome.active')}}
                                     </label>
@@ -41,9 +41,9 @@
                             </div>
                             <div class="form-group row">
                                 <label for="interval">{{__('simplehome.housekeeping.interval')}}</label>
-                                <input type="number" name="simplehome_housekeeping_interval" class="form-control"
+                                <input type="number" name="housekeeping_interval" class="form-control"
                                        id="interval"
-                                       value="{{$settings['simplehome.housekeeping.interval']}}" placeholder="Password">
+                                       value="{{$settings['interval']->value}}" placeholder="Password">
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-primary">{{__('simplehome.save')}}</button>

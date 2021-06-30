@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SettingManager;
 use App\Jobs\CleanRecords;
-use App\Models\Configurations;
-use App\Models\Properties;
 use App\Models\Records;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -21,15 +20,8 @@ class HousekeepingController extends Controller
     {
 
         $records = Records::all();
-        $settings = Configurations::query()
-            ->where('configuration_key', 'like', "simplehome.housekeeping%")
-            ->get();
-
-        foreach ($settings as $item) {
-            $tmp[$item->getAttribute('configuration_key')] = $item->getAttribute('configuration_value');
-        }
-        unset($settings);
-        $settings = $tmp;
+        $settings['interval'] = SettingManager::get('interval', 'housekeeping');
+        $settings['active'] = SettingManager::get('active', 'housekeeping');
 
         $runJob = $request->get('runJob', false);
 
@@ -38,11 +30,11 @@ class HousekeepingController extends Controller
 
     public function saveForm(Request $request)
     {
-        $interval = $request->get('simplehome_housekeeping_interval', 432000);
-        $active = $request->get('simplehome_housekeeping_active', 0);
+        $interval = $request->get('housekeeping_interval', 432000);
+        $active = $request->get('housekeeping_active', 0);
 
-        Configurations::where('configuration_key', 'simplehome.housekeeping.interval')->update(['configuration_value' => $interval]);
-        Configurations::where('configuration_key', 'simplehome.housekeeping.active')->update(['configuration_value' => $active]);
+        SettingManager::set('active', $active, 'housekeeping');
+        SettingManager::set('interval', $interval, 'housekeeping');
 
         return redirect()->route('housekeeping');
     }

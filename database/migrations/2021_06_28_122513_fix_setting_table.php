@@ -14,8 +14,9 @@ class FixSettingTable extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
+            $table->dropUnique('settings_name_unique');
             $table->timestamps();
-            $table->unique(['group','name'],'group_name');
+            $table->unique(['group', 'name'], 'group_name');
         });
     }
 
@@ -27,9 +28,9 @@ class FixSettingTable extends Migration
     public function down()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('updated_at');
-            $table->dropColumn('created_at');
-            $table->dropUnique('group');
+            $table->dropTimestamps();
+            $table->dropUnique('group_name');
+            $table->unique('name');
         });
     }
 }
