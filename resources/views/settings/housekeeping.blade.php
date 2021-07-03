@@ -16,7 +16,7 @@
                 @endif
                 <div class="row">
                     <div class="col-2 p-0">
-                        {{__('simplehome.records')}} {{ count($records) }}
+                        {{__('simplehome.records')}}: {{ $totalRecords }}
                     </div>
 
                     <div class="col-3 ml-auto p-0">
@@ -46,7 +46,9 @@
                                        value="{{$settings['interval']->value}}" placeholder="Password">
                             </div>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                            <button type="submit" class="btn btn-primary">{{__('simplehome.save')}}</button>
+                            <div class="form-group row">
+                                <button type="submit" class="btn btn-primary">{{__('simplehome.save')}}</button>
+                            </div>
                         </form>
                     </div>
                 </div>
