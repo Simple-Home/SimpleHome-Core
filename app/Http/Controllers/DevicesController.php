@@ -44,7 +44,7 @@ class DevicesController extends Controller
 
             $heartbeat = new DateTime($device->heartbeat);
             $sleep = empty($device->sleep) ? 1 : $device->sleep;
-            $heartbeat->modify('+' . $sleep . ' seconds');
+            $heartbeat->modify('+' . $sleep . ' ms');
             $now = new DateTime();
 
             if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
