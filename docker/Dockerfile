@@ -13,6 +13,8 @@ RUN chmod +x /home/application/start.sh
 
 COPY ./supervisor.conf /etc/supervisord.conf
 
+RUN echo xdebug.log = /app/storage/logs/xdebug.log >> /opt/docker/etc/php/php.ini
+
 
 RUN echo 'application ALL=(ALL) NOPASSWD:/usr/local/bin/service apache2 status, /usr/local/bin/service mysql status' >> /etc/sudoers
 WORKDIR /app
