@@ -48,7 +48,11 @@
                                 @else
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-check"></i></a>
                                 @endif
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+
+                                @if (empty($device->settingsCount > 0))
+                                <a href="{{ route('devices_settings', $device->id) }}" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+                                @endif
+
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
                                 <a href="{{ route('devices_detail', $device->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                             </td>
