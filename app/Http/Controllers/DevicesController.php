@@ -37,21 +37,22 @@ class DevicesController extends Controller
             'method' => 'POST',
             'url' => route('devices.store'),
         ], ['edit' => false]);
-        
-        
+
+
         #https://www.metageek.com/training/resources/understanding-rssi.html
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
             
             $heartbeat = new DateTime($device->heartbeat);
-            $interval = $heartbeat->diff(new DateTime());
-            $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
-            
-            if ($totalSeconds < $device->sleep) {
+            $sleep = empty($device->sleep) ? 1 : $device->sleep;
+            $heartbeat->modify('+' . $sleep . ' ms');
+            $now = new DateTime();
+
+            if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
                 $device->connection_error = false;
             }
-            
-            foreach ($device->getProperties as $key => $property) {
+
+            foreach ($device->getProperties as $property) {
                 if (isset($property->last_value->value)) {
                 }
                 break;
@@ -102,7 +103,7 @@ class DevicesController extends Controller
                 'model' => ['id' => $property->id],
                 'method' => 'POST',
                 'url' => route('devices_update_property', ['device_id' => $device_id])
-            ],['icon' => $property->icon]);
+            ], ['icon' => $property->icon]);
         }
         
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
@@ -135,11 +136,11 @@ class DevicesController extends Controller
     }
     
     /**
-    * Store the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
+     * Store the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request, FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(\App\Forms\DeviceForm::class, [
@@ -163,11 +164,11 @@ class DevicesController extends Controller
     }
     
     /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $device_id, FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(\App\Forms\DeviceForm::class);
@@ -186,13 +187,13 @@ class DevicesController extends Controller
         $device->save();
         return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
-    
+
     /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateProperty(Request $request, $device_id, FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class);
