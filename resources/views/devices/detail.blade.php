@@ -26,7 +26,7 @@
                     {{ __('subnet') }}:</br>
 
                     {{ __('Signal') }}: {{$device->signal_strength}} %</br>
-                    {{ __('Battery') }}: {{$device->battery_level}} v</br>
+                    {{ __('Battery') }}: {{round($device->battery_level, 2)}} v</br>
 
                 </div>
             </div>
@@ -47,6 +47,7 @@
                                     <th>Icon</th>
                                     <th>Name</th>
                                     <th>Type</th>
+                                    <th>History</th>
                                     <th>Last Value</th>
                                     <th></th>
                                 </tr>
@@ -59,6 +60,7 @@
                                         </td>
                                         <td>{{$property->nick_name}}</td>
                                         <td>{{$property->type}}</td>
+                                        <td>{{$property->history}}</td>
                                         <td>
                                             @if (!empty($property->last_value))
                                             {{$property->last_value->value}}

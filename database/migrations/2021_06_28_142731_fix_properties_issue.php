@@ -14,9 +14,7 @@ class FixPropertiesIssue extends Migration
     public function up()
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn('settings');
-            $table->dropColumn('feature');
-            $table->string('binding')->nullable()->change();
+            $table->string('binding')->nullable();
         });
     }
 
@@ -28,9 +26,7 @@ class FixPropertiesIssue extends Migration
     public function down()
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('settings');
-            $table->string('feature');
-            $table->string('binding')->nullable(False)->change();
+            $table->string('binding')->nullable(False);
         });
     }
 }
