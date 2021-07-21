@@ -26,7 +26,7 @@
                     {{ __('subnet') }}:</br>
 
                     {{ __('Signal') }}: {{$device->signal_strength}} %</br>
-                    {{ __('Battery') }}: {{$device->battery_level}} v</br>
+                    {{ __('Battery') }}: {{round($device->battery_level, 2)}} v</br>
 
                 </div>
             </div>

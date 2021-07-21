@@ -29,7 +29,7 @@ class Devices extends Model
 
     public function getPropertiesExistence($type)
     {
-        $property = $this->getProperties->where('type', $type)->first();
+        $property = $this->getProperties()->where('type', $type)->first();
         if (isset($property->type) && $property->type == $type) {
             return true;
         }
