@@ -59,6 +59,7 @@
                                         </td>
                                         <td>{{$property->nick_name}}</td>
                                         <td>{{$property->type}}</td>
+                                        <td>{!! form($historyForms[$property->id]) !!}</td>
                                         <td>
                                             @if (!empty($property->last_value))
                                             {{$property->last_value->value}}

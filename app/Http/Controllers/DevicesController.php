@@ -92,12 +92,18 @@ class DevicesController extends Controller
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
         $propertyForms = [];
+        $historyForms = [];
         foreach ($device->getProperties as $property) {
             $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
                 'model' => ['id' => $property->id],
                 'method' => 'POST',
                 'url' => route('devices_update_property', ['device_id' => $device_id])
-            ],['icon' => $property->icon]);
+
+            $historyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyHistoryForm::class, [
+                'model' => ['id' => $property->id, 'history' => $property->history],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ]);
         }
 
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
@@ -142,7 +148,12 @@ class DevicesController extends Controller
         }
 
         $property = Property::find($request->input('id'));
+        if (!empty ($request->input('icon'))) {
         $property->icon = $request->input('icon');
+        }
+        if (!empty ($request->input('history'))) {
+            $property->history = $request->input('history');
+        }
         $property->save();
 
         return redirect()->route('devices_detail', ['device_id' => $device_id]);
