@@ -63,7 +63,7 @@
                                         <td>{{$property->history}}</td>
                                         <td>
                                             @if (!empty($property->last_value))
-                                            {{$property->last_value->value}}
+                                            {{round($property->last_value->value, 2)}}
                                             @endif
                                         </td>
                                         <td>
