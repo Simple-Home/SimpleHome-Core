@@ -50,3 +50,5 @@ Modules/
 /public/css/*
 /public/mix-manifest.json
 
+/storage/xdebug-profiles/
+.env copy

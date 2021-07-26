@@ -6,6 +6,7 @@ use App\Helpers\SettingManager;
 use App\Jobs\CleanRecords;
 use App\Models\Records;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Kris\LaravelFormBuilder\FormBuilder;
 
 class HousekeepingController extends Controller
@@ -19,13 +20,13 @@ class HousekeepingController extends Controller
     public function index(Request $request, FormBuilder $formBuilder)
     {
 
-        $records = Records::all();
+        $totalRecords =  DB::table('records')->count();
         $settings['interval'] = SettingManager::get('interval', 'housekeeping');
         $settings['active'] = SettingManager::get('active', 'housekeeping');
 
         $runJob = $request->get('runJob', false);
 
-        return view('settings.housekeeping', ['records' => $records, 'settings' => $settings, 'runJob' => $runJob]);
+        return view('settings.housekeeping', ['totalRecords' => $totalRecords, 'settings' => $settings, 'runJob' => $runJob]);
     }
 
     public function saveForm(Request $request)

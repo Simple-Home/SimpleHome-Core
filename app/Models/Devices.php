@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use app\Models\Properties;
+use App\Helpers\SettingManager;
 use DateTime;
 
 class Devices extends Model
@@ -28,7 +29,7 @@ class Devices extends Model
 
     public function getPropertiesExistence($type)
     {
-        $property = $this->getProperties->where('type', $type)->first();
+        $property = $this->getProperties()->where('type', $type)->first();
         if (isset($property->type) && $property->type == $type) {
             return true;
         }
@@ -69,6 +70,15 @@ class Devices extends Model
         $BatteryValue = ($this->getProperties->where('type','==','batt')->first());
         if ($BatteryValue){
             return $BatteryValue->last_value->value;
+        }
+        return false;
+    }
+
+    public function getSettingsCountAttribute()
+    {
+        $settings = Settings::where('group', '=', 'device-'.$this->id)->get();
+        if ($settings){
+            return $settings->count();
         }
         return false;
     }

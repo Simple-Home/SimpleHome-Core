@@ -129,18 +129,45 @@ class EndpointController extends Controller
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
-        $device = Devices::query()->where('token', '=', "{$request->input('token')}")->first();
+        $device = Devices::query()->where('token', '=', $data['token'])->first();
+        $device->setHeartbeat();
 
-        foreach ($data['values'] as $key => $propertyItem) {
-            if (!$device->getPropertiesExistence($key)) {
-                $property               = new Properties;
-                $property->type         = $key;
-                $property->nick_name    = $data['token'];
-                $property->icon         = "fas fa-robot";
-                $property->device_id    = $device->id;
-                $property->room_id      = 1;
-                $property->history      = 90;
-                $property->save();
+        if (!$device) {
+            $devices            = new Devices;
+            $devices->token     = $data['token'];
+            $devices->hostname  = $data['token'];
+            $devices->type      = 'custome';
+            $devices->save();
+            return response()->json(
+                [
+                  'setup' => true
+                ],
+                JsonResponse::HTTP_OK
+            );
+        }
+
+        if ($device->approved == 1) {
+            $defaultRoom = Rooms::query()->where('default',1)->first();
+            if($defaultRoom === null){
+
+                return response()->json(
+                    ['error' => __('No default room configured, please add a default room first')],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            foreach ($data['values'] as $key => $propertyItem) {
+                $propertyExit = $device->getPropertiesExistence($key);
+                if ($propertyExit = TRUE) {
+                    $property               = new Properties;
+                    $property->type         = $key;
+                    $property->nick_name    = $data['token'];
+                    $property->icon         = "fas fa-robot";
+                    $property->device_id    = $device->id;
+                    $property->room_id      = $defaultRoom->id;
+                    $property->history      = 90;
+                    $property->save();
+                }
             }
         }
 
@@ -167,7 +194,7 @@ class EndpointController extends Controller
         ];
 
         foreach ($device->getProperties as $key => $property) {
-            $response["values"][$property->type] = (int) $property->lastValue->value;
+            $response["values"][$property->type] = (int) $property->last_value->value;
         }
 
 

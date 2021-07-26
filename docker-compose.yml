@@ -25,6 +25,11 @@ services:
       XDEBUG_SESSION: "PHPSTORM"
       XDEBUG_CONFIG: "client_host=173.20.0.1 idekey=PHPSTORM"
       PHP_MAX_EXECUTION_TIME: 3600
+      #XDEBUG_MODE: "profile"
+      #XDEBUG_OUTPUT_DIR: "/app/storage/xdebug-profiles"
+      #XDEBUG_PROFILER_ENABLE: "true"
+      #XDEBUG_PROFILER_ENABLE_TRIGGER_VALUE: "PHPSTORM"
+
     extra_hosts:
       - "dockerhost:173.20.0.1"
   db:
