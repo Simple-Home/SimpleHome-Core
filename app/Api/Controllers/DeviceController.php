@@ -7,7 +7,6 @@ use App\Models\Device;
 use App\Models\Property;
 use App\Models\Records;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class DeviceController
