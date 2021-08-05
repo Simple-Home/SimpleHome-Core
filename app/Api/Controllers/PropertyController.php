@@ -19,6 +19,11 @@ class PropertyController extends Controller
     protected $meta;
     protected $input;
 
+    public function __construct()
+    {
+        $this->middleware('auth:oauth');
+    }
+
     public function getAll(Request $request)
     {
         return Property::all();

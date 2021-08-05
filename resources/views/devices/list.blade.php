@@ -5,7 +5,7 @@
     @include('components.search')
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12"> 
+        <div class="col-md-12">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
@@ -42,22 +42,25 @@
                             <td>{{$device->signal_strength}}%</td>
                             <td>
                                 <a href="{{ route('devices_detail', $device->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-                                
-                                @if ($device->type == "0")
+
+                                @if ($device->type == "0" || $device->type == "other")
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-upload"></i></a>
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-redo"></i></a>
                                     <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
                                 @endif
-                                
+
                                 @if ($device->settingsCount > 0)
-                                <a href="{{ route('devices_settings', $device->id) }}" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+                                    <a href="{{ route('devices_settings', $device->id) }}" class="btn btn-primary"><i class="fas fa-cog"></i></a>
                                 @endif
 
                                 @if ($device->approved)
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-times"></i></a>
+                                    <a href="/test" class="btn btn-primary"><i class="fas fa-times"></i></a>
                                 @else
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-check"></i></a>
+                                    <a href="/test" class="btn btn-primary"><i class="fas fa-check"></i></a>
                                 @endif
+
+                                <a href="{{ route('device.control', [$device->hostname, "state", "ON"]) }}" title="On" class="btn btn-primary"><i class="fas fa-power-off"></i></a>
+                                <a href="{{ route('device.control', [$device->hostname, "state", "OFF"]) }}" title= "Off" class="btn btn-danger"><i class="fas fa-power-off"></i></a>
 
                             </td>
                         </tr>
