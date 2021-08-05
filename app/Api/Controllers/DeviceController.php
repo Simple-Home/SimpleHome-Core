@@ -67,7 +67,7 @@ class DeviceController extends Controller
         $device->token = '';
         $device->save();
 
-        //notify the module a new device has been added
+        // Notify the module a new device has been added
         if (\Module::has($request->integration)) {
             $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
             // Instantiate the class.
@@ -97,7 +97,7 @@ class DeviceController extends Controller
             ]
         );
 
-        //notify the module a new property has been added
+        // Notify the module a new property has been added
         if (\Module::has($request->integration)) {
             $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
             // Instantiate the class.
@@ -122,7 +122,7 @@ class DeviceController extends Controller
             return '{"status":"error", "message":"'.$e.'"}';
         }
 
-        //notify the module a new device has been deleted
+        // Notify the module a new device has been deleted
         if (\Module::has($request->integration)) {
             $classString = 'Modules\\'.$request->integration.'\\Device\\Device';
             // Instantiate the class.

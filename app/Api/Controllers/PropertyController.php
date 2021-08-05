@@ -47,21 +47,20 @@ class PropertyController extends Controller
         $device = Device::where('id', $request->device_id)->first();
         if((int)$device->id > 0){
             $validator = \Validator::make($request->all(), [
-
                 'nick_name' => 'nullable|max:255',
-                'type' => 'required|max:255',
+                'feature' => 'required|max:255',
                 'icon' => 'nullable|max:255',
                 'room_id' => 'required|numeric|max:20',
                 'device_id' => 'required|numeric|max:20',
             ])->validate();
 
             $property = new Property;
-            $property->type = $request->type;
+            $property->feature = $request->feature;
             $property->icon = $request->icon;
             $property->nick_name = $request->nick_name;
             $property->room_id = (int)$request->room_id;
             $property->device_id = (int)$device->id;
-            $property->history = mt_rand(100,600);
+            $property->history = 1;
             $property->save();
 
             return "{}";
@@ -75,7 +74,7 @@ class PropertyController extends Controller
         $validator = \Validator::make($request->all(), [
             'id' => 'nullable|numeric|max:20',
             'nick_name' => 'nullable|max:255',
-            'type' => 'required|max:255',
+            'feature' => 'required|max:255',
             'icon' => 'nullable|max:255',
             'room_id' => 'nullable|max:255'
         ])->validate();
@@ -83,8 +82,7 @@ class PropertyController extends Controller
         Property::where('nick_name', $request->nick_name)->orwhere('id', $request->id)->update(
             [
                 'nick_name' => $request->new-nick_name,
-                'type' => $request->type,
-                'settings' => $request->settings,
+                'feature' => $request->feature,
                 'icon' => $request->icon,
                 'room_id' => $request->room_id,
             ]
