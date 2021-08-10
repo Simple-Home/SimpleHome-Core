@@ -33,12 +33,10 @@ class SettingManager
     }
 
     public static function register ($index, $value, $type="string", $group = "system") {
-        $option              = new Settings;
-        $option->group       = $group;
-        $option->name        = $index;
-        $option->type        = $type;
-        $option->value       = $value;
-        $option->save();
+        $option = Settings::firstOrCreate(
+            ['name' => $index, 'group' => $group],
+            ['type' => $type, 'value' => $value]
+        );
         return true;
     }
 

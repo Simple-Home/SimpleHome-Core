@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Settings extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['name', 'group', 'type', 'value'];
     protected $table = 'settings';
     protected $attributes = [
         'group' => 'system',

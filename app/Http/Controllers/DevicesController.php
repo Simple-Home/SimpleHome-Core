@@ -24,7 +24,7 @@ class DevicesController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
     * Show the application dashboard.
     *
@@ -42,7 +42,7 @@ class DevicesController extends Controller
         #https://www.metageek.com/training/resources/understanding-rssi.html
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
-            
+
             $heartbeat = new DateTime($device->heartbeat);
             $sleep = empty($device->sleep) ? 1 : $device->sleep;
             $heartbeat->modify('+' . $sleep . ' ms');
@@ -57,38 +57,38 @@ class DevicesController extends Controller
                 }
                 break;
             }
-            
+
         }
-        
+
         return view('devices.list', ["devices" => $devices, "addDeviceForm" => $addDeviceForm]);
     }
-    
+
     public function search(Request $request)
     {
         $search = $request->input('search');
-        
+
         $devices = Devices::query()
         ->where('id', 'LIKE', "%{$search}%")
         ->orWhere('hostname', 'LIKE', "%{$search}%")
         ->orWhere('token', 'LIKE', "%{$search}%")
         ->orWhere('type', 'LIKE', "%{$search}%")
         ->get();
-        
+
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
-            
+
             $heardbeath = new DateTime($device->heartbeat);
             $interval = $heardbeath->diff(new DateTime());
             $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
-            
+
             if ($totalSeconds < $device->sleep) {
                 $device->connection_error = false;
             }
         }
-        
+
         return view('devices.list', ["devices" => $devices]);
     }
-    
+
     public function detail($device_id, FormBuilder $formBuilder)
     {
         $device = Devices::find($device_id);
@@ -105,15 +105,15 @@ class DevicesController extends Controller
                 'url' => route('devices_update_property', ['device_id' => $device_id])
             ], ['icon' => $property->icon]);
         }
-        
+
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
-    
+
     public function settings($device_id, FormBuilder $formBuilder)
     {
         $settings = SettingManager::getGroup('device-'.$device_id);
-   
-        $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+
+        $systemSettingsForm = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
             'url' => route('devices_settings_update', $device_id),
             'variables' => $settings
@@ -121,7 +121,7 @@ class DevicesController extends Controller
 
         return view('devices.settings', compact("systemSettingsForm", "settings"));
     }
-    
+
 
     public function saveSettings(Request $request, FormBuilder $formBuilder)
     {
@@ -134,7 +134,7 @@ class DevicesController extends Controller
 
         return redirect()->back();
     }
-    
+
     /**
      * Store the specified resource in storage.
      *
@@ -147,11 +147,11 @@ class DevicesController extends Controller
             'method' => 'POST',
             'url' => route('devices.store'),
         ], ['edit' => false]);
-        
+
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        
+
         $device = new Devices();
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');
@@ -159,10 +159,18 @@ class DevicesController extends Controller
         $device->approved = "1";
         $device->token = "";
         $device->save();
-        
+
+        //notify the module a new device has been added
+        if (\Module::has($request->input('integration'))) {
+            $classString = 'Modules\\'.$request->input('integration').'\\Device\\Device';
+            // Instantiate the class.
+            $creator = new $classString($device);
+            $creator->create();
+        }
+
         return redirect()->route('devices_list');
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -172,18 +180,18 @@ class DevicesController extends Controller
     public function update(Request $request, $device_id, FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(\App\Forms\DeviceForm::class);
-        
+
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $device = Devices::find($device_id);
-        
+
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');
         $device->integration = $request->input('integration');
         $device->sleep = $request->input('sleep');
         $device->token = $request->input('token');
-        
+
         $device->save();
         return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
@@ -197,15 +205,15 @@ class DevicesController extends Controller
     public function updateProperty(Request $request, $device_id, FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class);
-        
+
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        
+
         $property = Property::find($request->input('id'));
         $property->icon = $request->input('icon');
         $property->save();
-        
+
         return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
 }
