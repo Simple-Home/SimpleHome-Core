@@ -80,7 +80,7 @@
                 <div class="card-header">{{ __('simplehome.addDevice') }}</div>
 
                 <div class="card-body">
-                    {!! form($addDeviceForm) !!}
+                    {{-- {{!! form($addDeviceForm) !!}} --}}
                 </div>
             </div>
         </div>
