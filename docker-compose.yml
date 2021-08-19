@@ -5,8 +5,11 @@ services:
       context: ./docker
       dockerfile: Dockerfile
     restart: on-failure
+    command: /home/application/start.sh
     ports:
       - "8000:80"   # apache
+      - "3000:3000" # browsersync
+      - "3001:3001" # browsersync ui
       - "5858:5858" # npm debug
       - "7000:7000" # npm debug
     links:
@@ -22,6 +25,11 @@ services:
       XDEBUG_SESSION: "PHPSTORM"
       XDEBUG_CONFIG: "client_host=173.20.0.1 idekey=PHPSTORM"
       PHP_MAX_EXECUTION_TIME: 3600
+      #XDEBUG_MODE: "profile"
+      #XDEBUG_OUTPUT_DIR: "/app/storage/xdebug-profiles"
+      #XDEBUG_PROFILER_ENABLE: "true"
+      #XDEBUG_PROFILER_ENABLE_TRIGGER_VALUE: "PHPSTORM"
+
     extra_hosts:
       - "dockerhost:173.20.0.1"
   db:

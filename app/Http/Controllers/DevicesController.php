@@ -9,6 +9,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Helpers\SettingManager;
 use DateTime;
 
 
@@ -29,32 +30,36 @@ class DevicesController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list()
+    public function list(FormBuilder $formBuilder)
     {
         $devices = Devices::all();
-        
+        $addDeviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'method' => 'POST',
+            'url' => route('devices.store'),
+        ], ['edit' => false]);
+
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
             $heartbeat = new DateTime($device->heartbeat);
-            $interval = $heartbeat->diff(new DateTime());
-            $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
+            $sleep = empty($device->sleep) ? 1 : $device->sleep;
+            $heartbeat->modify('+' . $sleep . ' ms');
+            $now = new DateTime();
 
-            if ($totalSeconds < $device->sleep) {
+            if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
                 $device->connection_error = false;
             }
 
-            foreach ($device->getProperties as $key => $property) {
+            foreach ($device->getProperties as $property) {
                 if (isset($property->last_value->value)) {
                 }
                 break;
             }
-
         }
 
-        return view('devices.list', ["devices" => $devices]);
+        return view('devices.list', ["devices" => $devices, "addDeviceForm" => $addDeviceForm]);
     }
 
     public function search(Request $request)
@@ -98,6 +103,7 @@ class DevicesController extends Controller
                 'model' => ['id' => $property->id],
                 'method' => 'POST',
                 'url' => route('devices_update_property', ['device_id' => $device_id])
+            ], ['icon' => $property->icon]);
 
             $historyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyHistoryForm::class, [
                 'model' => ['id' => $property->id, 'history' => $property->history],
@@ -109,10 +115,72 @@ class DevicesController extends Controller
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
+    public function settings($device_id, FormBuilder $formBuilder)
+    {
+        $settings = SettingManager::getGroup('device-' . $device_id);
+
+        $systemSettingsForm = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('devices_settings_update', $device_id),
+            'variables' => $settings
+        ]);
+
+        return view('devices.settings', compact("systemSettingsForm", "settings"));
+    }
+
+
+    public function saveSettings(Request $request, FormBuilder $formBuilder)
+    {
+        foreach ($request->input() as $key => $value) {
+            if ($key == '_token') {
+                continue;
+            }
+            SettingManager::set($key, $value);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Store the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'method' => 'POST',
+            'url' => route('devices.store'),
+        ], ['edit' => false]);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $device = new Devices();
+        $device->hostname = $request->input('hostname');
+        $device->type = $request->input('type');
+        $device->integration = $request->input('integration');
+        $device->approved = "1";
+        $device->token = "";
+        $device->save();
+
+        //notify the module a new device has been added
+        if (\Module::has($request->input('integration'))) {
+            $classString = 'Modules\\' . $request->input('integration') . '\\Device\\Device';
+            // Instantiate the class.
+            $creator = new $classString($device);
+            $creator->create();
+        }
+
+        return redirect()->route('devices_list');
+    }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $device_id, FormBuilder $formBuilder)
@@ -122,21 +190,22 @@ class DevicesController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        $device = Devices::find($id);
+        $device = Devices::find($device_id);
 
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');
+        $device->integration = $request->input('integration');
         $device->sleep = $request->input('sleep');
         $device->token = $request->input('token');
 
         $device->save();
-        return redirect()->route('devices_detail', ['device_id' => $id]);
+        return redirect()->route('devices_detail', ['device_id' => $device_id]);
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function updateProperty(Request $request, $device_id, FormBuilder $formBuilder)
@@ -148,10 +217,10 @@ class DevicesController extends Controller
         }
 
         $property = Property::find($request->input('id'));
-        if (!empty ($request->input('icon'))) {
-        $property->icon = $request->input('icon');
+        if (!empty($request->input('icon'))) {
+            $property->icon = $request->input('icon');
         }
-        if (!empty ($request->input('history'))) {
+        if (!empty($request->input('history'))) {
             $property->history = $request->input('history');
         }
         $property->save();

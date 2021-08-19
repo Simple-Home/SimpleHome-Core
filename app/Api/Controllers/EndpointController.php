@@ -2,9 +2,12 @@
 
 namespace App\Api\Controllers;
 
+use App\Events\DeviceSetupEvent;
 use App\Models\Devices;
 use App\Models\Properties;
 use App\Models\Records;
+use App\Models\Rooms;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,27 +27,65 @@ class EndpointController extends Controller
 
     public function setup(Request $request)
     {
+        /** @var Devices $device */
         $device = Auth::user();
-        $device->setHeartbeat();
 
-        foreach ($request->properties as $key => $propertyItem) {
-            if ($device->getPropertiesExistence($propertyItem)) {
-                continue;
-            }
-            $property               = new Properties;
-            $property->type         = $propertyItem;
-            $property->nick_name    = $propertyItem;
-            $property->icon         = "fas fa-robot";
-            $property->device_id    = $device->id;
-            $property->room_id      = 1;
-            $property->history      = 90;
-            $property->save();
+
+        preg_match('/^(?i)Bearer (.*)(?-i)/', $request->header('Authorization'), $token);
+
+        if (!isset($token[1])) {
+            return response()->json(
+                ['error' => __('No token please add Bearer token to header')],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
         }
 
-        echo json_encode([
-            "hostname"  => $device->getHostname(),
-            "sleep"     => $device->sleep,
-        ]);
+        $device = Devices::where('token', '=', $token[1])->first()->id;
+        if (!$device) {
+            $devices            = new Devices;
+            $devices->token     = $token[1];
+            $devices->hostname  = $token[1];
+            $devices->type      = 'custome';
+            $devices->save();
+            return response()->json(
+                [
+                    'setup' => true
+                ],
+                JsonResponse::HTTP_OK
+            );
+        }
+
+        if ($device->approved == 1) {
+            $defaultRoom = Rooms::query()->where('default', 1)->first();
+            if ($defaultRoom === null) {
+
+                return response()->json(
+                    ['error' => __('No default room configured, please add a default room first')],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+            foreach ($request->properties as $key => $propertyItem) {
+                if ($device->getPropertiesExistence($propertyItem)) {
+                    continue;
+                }
+                $property               = new Properties;
+                $property->type         = $propertyItem;
+                $property->nick_name    = $propertyItem;
+                $property->icon         = "fas fa-robot";
+                $property->device_id    = $device->id;
+                $property->room_id      = $defaultRoom->id;
+                $property->history      = 90;
+                $property->save();
+            }
+        }
+
+        return  response()->json(
+            [
+                "hostname"  => $device->getHostname(),
+                "sleep"     => $device->sleep,
+            ],
+            JsonResponse::HTTP_OK
+        );
     }
 
     public function data(Request $request)
@@ -78,28 +119,58 @@ class EndpointController extends Controller
             }
         }
 
-        echo json_encode($response);
+        return response()->json(
+            $response,
+            JsonResponse::HTTP_OK
+        );
     }
 
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
-        $device = Devices::query()->where('token', '=', "{$request->input('token')}")->first();
+        $device = Devices::query()->where('token', '=', $data['token'])->first();
+        $device->setHeartbeat();
 
-        foreach ($data['values'] as $key => $propertyItem) {
-            if (!$device->getPropertiesExistence($key)) {
-                $property               = new Properties;
-                $property->type         = $key;
-                $property->nick_name    = $data['token'];
-                $property->icon         = "fas fa-robot";
-                $property->device_id    = $device->id;
-                $property->room_id      = 1;
-                $property->history      = 90;
-                $property->save();
+        if (!$device) {
+            $devices            = new Devices;
+            $devices->token     = $data['token'];
+            $devices->hostname  = $data['token'];
+            $devices->type      = 'custome';
+            $devices->save();
+            return response()->json(
+                [
+                    'setup' => true
+                ],
+                JsonResponse::HTTP_OK
+            );
+        }
+
+        if ($device->approved == 1) {
+            $defaultRoom = Rooms::query()->where('default', 1)->first();
+            if ($defaultRoom === null) {
+
+                return response()->json(
+                    ['error' => __('No default room configured, please add a default room first')],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            foreach ($data['values'] as $key => $propertyItem) {
+                $propertyExit = $device->getPropertiesExistence($key);
+                if ($propertyExit == FALSE) {
+                    $property               = new Properties;
+                    $property->type         = $key;
+                    $property->nick_name    = $data['token'];
+                    $property->icon         = "fas fa-robot";
+                    $property->device_id    = $device->id;
+                    $property->room_id      = $defaultRoom->id;
+                    $property->history      = 90;
+                    $property->save();
+                }
             }
         }
 
-        foreach ($device->getProperties as $key => $property) {
+        foreach ($device->getProperties->get("id") as $key => $property) {
             $propertyType = $property->type;
             if (!isset($data['values'][$propertyType]['value'])) {
                 continue;
@@ -122,10 +193,16 @@ class EndpointController extends Controller
         ];
 
         foreach ($device->getProperties as $key => $property) {
-            $response["values"][$property->type] = (int) $property->lastValue->value;
+            if (!empty($property->last_value->value)) {
+                $response["values"][$property->type] = (int) $property->last_value->value;
+            }
         }
 
-        echo json_encode($response);
+
+        return response()->json(
+            $response,
+            JsonResponse::HTTP_OK
+        );
     }
 
     public function ota(Request $request)

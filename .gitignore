@@ -43,3 +43,12 @@ storage/installed
 Modules/
 .idea
 /storage/debugbar/.gitignore
+
+
+/public/js/*
+/public/images/*
+/public/css/*
+/public/mix-manifest.json
+
+/storage/xdebug-profiles/
+.env copy

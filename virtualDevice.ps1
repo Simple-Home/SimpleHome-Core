@@ -1,9 +1,11 @@
 $headers = @{}
 $headers.Add("Content-Type", "application/json")
-$headers.Add("Authorization", "Bearer 4f285s8mam")
+$headers.Add("Authorization", "Bearer token")
+$headers.Add("Accept", "application/json")
 $baseUrl = 'http://localhost/smarthome/api/v1'
 $mute = 0
 
+$registrationOk = $false;
 while ($True) {
 
     $response = Invoke-WebRequest -Uri "$baseUrl/setup" -Method POST -Headers $headers -ContentType 'application/json' -Body '{
@@ -15,24 +17,24 @@ while ($True) {
     }
     else {
         Write-Host $response.Content -ForegroundColor Green
+        $registrationOk = $true;
     }
     $configuration = $response.Content | ConvertFrom-Json
 
-    while ($True) {
-        $body = '{
-            "humi": '+ (Get-Random -Minimum 0 -Maximum 100) + ',
-			"wifi": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
-			"light": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
-			"co2": '+ (Get-Random -Minimum -100 -Maximum 0) + ',
-			"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + ',
-			"batt": '+ (Get-Random -Minimum -1 -Maximum 4.7) + '
-
-        }'
+    while ($registrationOk) {
+        $body =     '{';
+        $body +=    '"humi": '+ (Get-Random -Minimum 0 -Maximum 100) + ',';
+        $body +=    '"wifi": '+ (Get-Random -Minimum -100 -Maximum 0) + ',';
+        $body +=    '"light": '+ (Get-Random -Minimum -100 -Maximum 0) + ',';
+        $body +=    '"co2": '+ (Get-Random -Minimum -100 -Maximum 0) + ',';
+        $body +=    '"temp": '+ (Get-Random -Minimum -5 -Maximum 70) + ',';
+        $body +=    '"batt": '+ (Get-Random -Minimum -1 -Maximum 4.7);
+        $body +=    '}';
 
         $timeTaken = Measure-Command -Expression {
             $response = Invoke-WebRequest -Uri "$baseUrl/data" -Method POST -Headers $headers -ContentType 'application/json' -Body ($body)
         }
-        Write-Host "->" ($body.Replace(" ", "" ).Replace("`t", "" ).Replace("`n", "" )) -ForegroundColor Blue
+        Write-Host "->" ($body) -ForegroundColor Blue
 
         if ($response.StatusCode -ne 200) {
             Write-Host ("<- "+$response.Content+" - $([Math]::Round($timeTaken.TotalMilliseconds, 1)) ms") -ForegroundColor Red
@@ -57,4 +59,6 @@ while ($True) {
 
         Start-Sleep -Milliseconds ($configuration.sleep)
     }
+
+    Start-Sleep -Seconds 30
 }

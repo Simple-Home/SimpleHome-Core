@@ -10,13 +10,13 @@ abstract class PropertyTypes
     protected $propertyTypes;
     protected $meta;
     public $features;
-    private $state = array();
+    private $propertyArray = array();
     private $attributes = array();
 
     /**
      * getFeatures
      * Get all supported features and return as array
-     * 
+     *
      * @param mixed $classObject
      * @return void
      */
@@ -39,7 +39,7 @@ abstract class PropertyTypes
     /**
      * hasFeature
      * Check if an property has the requested feature
-     * 
+     *
      * @param mixed $classObject
      * @param mixed $feature
      * @return void
@@ -59,7 +59,7 @@ abstract class PropertyTypes
     /**
      * allowedValue
      * Check if an property feature supports the requested value
-     * 
+     *
      * @param $classObject
      * @param $feature
      * @param $value
@@ -75,7 +75,7 @@ abstract class PropertyTypes
     /**
      * setRequest
      * Set request from HTTP request
-     * 
+     *
      * @param $$request
      * @return void
      */
@@ -86,50 +86,49 @@ abstract class PropertyTypes
 
      /**
      * getRequest
-     * 
+     *
      * @return void
      */
     public function getRequest()
     {
         return $this->request;
     }
-    
+
     /**
      * getState
-     * 
+     *
      * @param mixed $feature
      * @return void
      */
     public function getState($feature = null)
-    {  
+    {
         if(isset($feature)){
-            if(array_key_exists($feature, $this->state)) {
-                return $this->state[$feature];
+            if(array_key_exists($feature, $this->propertyArray)) {
+                return $this->propertyArray[$feature];
             }else{
                 return null;
             }
         }else{
-            return $this->state;
+            return $this->propertyArray;
         }
     }
 
     /**
      * setStatus
-     * 
+     *
      * @param mixed feature
      * @param mixed state
      * @return void
      */
     public function setState($feature, $state)
-    { 
-        if(empty($state)) return "nul";
-            $this->state[$feature] = $state;
-        }
+    {
+        if(empty($state)) return null;
+        $this->propertyArray[$feature] = $state;
     }
 
     /**
      * setAttributes
-     * 
+     *
      * @param mixed name
      * @param mixed value
      * @return void
@@ -138,7 +137,7 @@ abstract class PropertyTypes
     {
         if (in_array($name, $this->supportedAttributes)){
             $this->attributes[$name] = $value;
-            $this->state["attributes"] = $this->attributes;   
+            $this->propertyArray["attributes"] = $this->attributes;
         }else{
             return '{"status":"error", "message":"attribute not supported"}';
         }

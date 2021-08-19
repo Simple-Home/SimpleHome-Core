@@ -46,7 +46,8 @@
   ```git clone https://github.com/Simple-Home/Simple-Home.git```
 * cd into the LAR_v4_Simple_Home_Server-master
 * Run the command: ```composer install```
-* Run the command: ```npm install```
+* Run the command: ```npm install && npm run production``` 
+* Run the command: ```php artisan passport:install``` 
 * Create a database in MySQL
 * Visit your webservers URL and proceed with setup
 
