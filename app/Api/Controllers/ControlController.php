@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Device;
 use App\Models\Property;
 use App\Models\Records;
-use App\Models\Configurations;
 use Illuminate\Support\Str;
 use App\Helpers\SettingManager;
-
+use Auth;
 /**
 * Class DeviceController
 * @package App\Http\Controllers\Bindings
@@ -19,6 +18,10 @@ class ControlController extends Controller
 {
     protected $property;
     protected $meta;
+
+    public function __construct(){
+        //$this->middleware('auth:oauth');
+    }
 
     /**
     * Function controlProperty
