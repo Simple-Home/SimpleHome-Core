@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Cache;
  */
 class RoomController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:oauth');
+    }
+
     public function getAll(Request $request)
     {
         return Rooms::all();
@@ -62,14 +68,14 @@ class RoomController extends Controller
         ])->validate();
 
         Rooms::where('name', $request->name)->orwhere('id', $request->id)->update(['name' => $request->new-name]);
-        return "{}"; 
+        return "{}";
     }
 
     public function delete(Request $request)
     {
         $validator = \Validator::make($request->all(), [
             'id' => 'nullable|numeric|max:20',
-            'name' => 'nullable|max:255' 
+            'name' => 'nullable|max:255'
         ])->validate();
 
         try {

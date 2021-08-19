@@ -34,23 +34,29 @@
                     </thead>
                     <tbody>
                         @foreach ($devices as $device)
-                        <tr>
+                        <tr data-toggle="collapse" data-target="#device-{{$device->id}}" class="accordion-toggle">
                             <td>{{$device->hostname}}</td>
                             <td>{{$device->token}}</td>
                             <td class="{{ $device->connection_error ? 'text-danger' : 'text-success' }}">{{$device->heartbeat}}</td>
                             <td>{{$device->sleep}} ms</td>
                             <td>{{$device->signal_strength}}%</td>
                             <td>
+                                <a href="{{ route('devices_detail', $device->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+
+                                @if ($device->type == "0" || $device->type == "other")
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-upload"></i></a>
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-redo"></i></a>
+                                <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
+                                @endif
+
+                                @if ($device->settingsCount > 0)
+                                <a href="{{ route('devices_settings', $device->id) }}" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+                                @endif
                                 @if ($device->approved)
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-times"></i></a>
                                 @else
                                 <a href="/test" class="btn btn-primary"><i class="fas fa-check"></i></a>
                                 @endif
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-cog"></i></a>
-                                <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
-                                <a href="{{ route('devices_detail', $device->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
                         @if (!empty($properties = $device->getProperties))
@@ -106,6 +112,11 @@
         </div>
     </div>
 </div>
+<style>
+    .hiddenRow {
+        padding: 0 !important;
+    }
+</style>
 
 <!-- Modal -->
 <div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -115,7 +126,7 @@
                 <div class="card-header">{{ __('simplehome.addDevice') }}</div>
 
                 <div class="card-body">
-                    {!! form($addDeviceForm) !!}
+                    {{-- {{!! form($addDeviceForm) !!}} --}}
                 </div>
             </div>
         </div>

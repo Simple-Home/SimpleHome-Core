@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limi
 });
 
 // OAuth, rate limit 60 requests/min
-Route::group(['prefix' => 'v2', 'middleware' => ['cors','throttle:10,1']], function () {
+Route::group(['prefix' => 'v2', 'middleware' => ['cors', 'throttle:10,1']], function () {
     Route::post('/login', [App\Http\Controllers\Auth\ApiAuthenticationController::class, 'login']);
     //Route::post('/register',[App\Http\Controllers\Auth\ApiAuthenticationController::class, 'register']);
 });
@@ -39,11 +39,11 @@ Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth']], function () {
 });
 
 // v2 Device Controller, rate limit 60 requests/min
-Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle:60,1']], function () {
+Route::group(['prefix' => 'v2', 'middleware' => ['cors', 'throttle:60,1']], function () {
     //Device Controller
     Route::get('/devices', [App\Api\Controllers\DeviceController::class, 'getAll']);
     Route::get('/device/{hostname}', [App\Api\Controllers\DeviceController::class, 'getDevice']);
-    Route::get('/device/{hostname}/{propertyID}', [App\Api\Controllers\DeviceController::class, 'getProperty']); 
+    Route::get('/device/{hostname}/{propertyID}', [App\Api\Controllers\DeviceController::class, 'getProperty']);
     Route::post('/device', [App\Api\Controllers\DeviceController::class, 'create']);
     Route::put('/device', [App\Api\Controllers\DeviceController::class, 'update']);
     Route::delete('/device', [App\Api\Controllers\DeviceController::class, 'delete']);
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle
     Route::delete('/property', [App\Api\Controllers\PropertyController::class, 'delete']);
 
     //Control Controller
-    Route::get('/device/{hostname}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty']);
+    Route::get('/device/{hostname}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty'])->name('device.control');
 
     //Rooms Controller
     Route::get('/rooms', [App\Api\Controllers\RoomController::class, 'getAll']);

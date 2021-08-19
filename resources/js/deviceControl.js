@@ -1,20 +1,17 @@
-
-function deviceControl(hostname, feature, newValue){
-
+function deviceControl(hostname, feature, newValue) {
     $.ajax({
         method: "GET",
-        url: "/properties/control/" ,
+        url: "/properties/control/",
         data: {
-           "feature": feature,
-           "value": newValue
+            feature: feature,
+            value: newValue,
         },
-        success: function(data){
-           window.location.reload();
-           console.log(data);
+        success: function (data) {
+            window.location.reload();
+            console.log(data);
         },
-        error: function(data){
-           console.log(data);
-        }
+        error: function (data) {
+            console.log(data);
+        },
     });
-
 }

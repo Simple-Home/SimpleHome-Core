@@ -5,7 +5,7 @@
     @include('components.search')
     <div class="container-fluid"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12"> 
+        <div class="col-md-12">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col">
@@ -15,9 +15,9 @@
             </div>
         </div>
     </div>
-         
-    @if (!empty($properties) && count($properties) > 0)         
-        <div class="row row-cols-1 row-cols-md-3">  
+
+    @if (!empty($properties) && count($properties) > 0)
+        <div class="row row-cols-1 row-cols-md-3">
             @foreach ($properties as $property)
             <div class="col mb-4">
             <div class="card">
@@ -30,10 +30,17 @@
                                     </a>
                                 </h5>
                             </div>
-                        
+
                             @if (!empty($property->last_value->value))
                                 <div class="col-xs">
-                                        <h5 class="text-right">{{round($property->last_value->value ,2)}}</h5>
+                                        <h5 class="text-right">
+                                            @if (is_numeric($property->last_value->value))
+                                                {{ round($property->last_value->value, 2) }}
+                                            @else
+                                                {{ $property->last_value->value }}
+                                            @endif
+
+                                        </h5>
                                 </div>
                             @endif
                         </div>

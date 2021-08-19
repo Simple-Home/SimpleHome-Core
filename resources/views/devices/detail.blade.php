@@ -26,7 +26,7 @@
                     {{ __('subnet') }}:</br>
 
                     {{ __('Signal') }}: {{$device->signal_strength}} %</br>
-                    {{ __('Battery') }}: {{$device->battery_level}} v</br>
+                    {{ __('Battery') }}: {{round($device->battery_level, 2)}} v</br>
 
                 </div>
             </div>
@@ -47,27 +47,29 @@
                                     <th>Icon</th>
                                     <th>Name</th>
                                     <th>Type</th>
+                                    <th>History</th>
                                     <th>Last Value</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($device->getProperties as $property)
-                                    <tr>
-                                        <td>
-                                            {!! form($propertyForms[$property->id]) !!}
-                                        </td>
-                                        <td>{{$property->nick_name}}</td>
-                                        <td>{{$property->type}}</td>
-                                        <td>
-                                            @if (!empty($property->last_value))
-                                            {{$property->last_value->value}}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('properties_detail', $property->id) }}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        {!! form($propertyForms[$property->id]) !!}
+                                    </td>
+                                    <td>{{$property->nick_name}}</td>
+                                    <td>{{$property->type}}</td>
+                                    <td>{!! form($historyForms[$property->id]) !!}</td>
+                                    <td>
+                                        @if (!empty($property->last_value))
+                                        {{round($property->last_value->value, 2)}}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('properties_detail', $property->id) }}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

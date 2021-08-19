@@ -31,7 +31,7 @@ class DeviceForm extends Form
                 'label' => "Sleep time (ms)"
             ])
             ->add('token', Field::TEXT, [
-                'rules' => 'required|max:191',
+                'rules' => 'max:191',
                 'label' => "Token"
             ])
             ->add('add', Field::BUTTON_SUBMIT, [
