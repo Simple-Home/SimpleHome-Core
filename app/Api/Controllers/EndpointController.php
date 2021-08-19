@@ -31,16 +31,16 @@ class EndpointController extends Controller
         $device = Auth::user();
 
 
-        preg_match('/^(?i)Bearer (.*)(?-i)/',$request->header('Authorization'),$token);
+        preg_match('/^(?i)Bearer (.*)(?-i)/', $request->header('Authorization'), $token);
 
-        if(!isset($token[1])){
+        if (!isset($token[1])) {
             return response()->json(
                 ['error' => __('No token please add Bearer token to header')],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
 
-        $device = Devices::where('token', '=', $token[1])->first();
+        $device = Devices::where('token', '=', $token[1])->first()->id;
         if (!$device) {
             $devices            = new Devices;
             $devices->token     = $token[1];
@@ -49,15 +49,15 @@ class EndpointController extends Controller
             $devices->save();
             return response()->json(
                 [
-                  'setup' => true
+                    'setup' => true
                 ],
                 JsonResponse::HTTP_OK
             );
         }
 
         if ($device->approved == 1) {
-            $defaultRoom = Rooms::query()->where('default',1)->first();
-            if($defaultRoom === null){
+            $defaultRoom = Rooms::query()->where('default', 1)->first();
+            if ($defaultRoom === null) {
 
                 return response()->json(
                     ['error' => __('No default room configured, please add a default room first')],
@@ -123,7 +123,6 @@ class EndpointController extends Controller
             $response,
             JsonResponse::HTTP_OK
         );
-
     }
 
     public function depricatedData(Request $request)
@@ -140,15 +139,15 @@ class EndpointController extends Controller
             $devices->save();
             return response()->json(
                 [
-                  'setup' => true
+                    'setup' => true
                 ],
                 JsonResponse::HTTP_OK
             );
         }
 
         if ($device->approved == 1) {
-            $defaultRoom = Rooms::query()->where('default',1)->first();
-            if($defaultRoom === null){
+            $defaultRoom = Rooms::query()->where('default', 1)->first();
+            if ($defaultRoom === null) {
 
                 return response()->json(
                     ['error' => __('No default room configured, please add a default room first')],
@@ -171,7 +170,7 @@ class EndpointController extends Controller
             }
         }
 
-        foreach ($device->getProperties as $key => $property) {
+        foreach ($device->getProperties->get("id") as $key => $property) {
             $propertyType = $property->type;
             if (!isset($data['values'][$propertyType]['value'])) {
                 continue;
