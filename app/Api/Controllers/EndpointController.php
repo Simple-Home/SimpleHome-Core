@@ -157,7 +157,7 @@ class EndpointController extends Controller
 
             foreach ($data['values'] as $key => $propertyItem) {
                 $propertyExit = $device->getPropertiesExistence($key);
-                if ($propertyExit = TRUE) {
+                if ($propertyExit == FALSE) {
                     $property               = new Properties;
                     $property->type         = $key;
                     $property->nick_name    = $data['token'];
@@ -193,7 +193,9 @@ class EndpointController extends Controller
         ];
 
         foreach ($device->getProperties as $key => $property) {
-            $response["values"][$property->type] = (int) $property->last_value->value;
+            if (!empty($property->last_value->value)) {
+                $response["values"][$property->type] = (int) $property->last_value->value;
+            }
         }
 
 

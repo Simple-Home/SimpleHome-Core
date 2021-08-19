@@ -10,7 +10,7 @@
         </div>
     </div>
     @else
-    <p class="text-center">{{ __('No settings Found') }}</p>
+    <p class="text-center">{{ __('No Settings Found') }}</p>
     @endif
 </div>
 @endsection

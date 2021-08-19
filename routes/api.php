@@ -39,7 +39,7 @@ Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth']], function () {
 });
 
 // v2 Device Controller, rate limit 60 requests/min
-Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle:60,1']], function () {
+Route::group(['prefix' => 'v2', 'middleware' => ['cors', 'throttle:60,1']], function () {
     //Device Controller
     Route::get('/devices', [App\Api\Controllers\DeviceController::class, 'getAll']);
     Route::get('/device/{hostname}', [App\Api\Controllers\DeviceController::class, 'getDevice']);
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth', 'cors', 'throttle
     Route::delete('/property', [App\Api\Controllers\PropertyController::class, 'delete']);
 
     //Control Controller
-    Route::get('/device/{hostname}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty']);
+    Route::get('/device/{hostname}/{feature}/{value?}', [App\Api\Controllers\ControlController::class, 'controlProperty'])->name('device.control');
 
     //Rooms Controller
     Route::get('/rooms', [App\Api\Controllers\RoomController::class, 'getAll']);

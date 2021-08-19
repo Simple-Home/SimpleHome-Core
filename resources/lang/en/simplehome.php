@@ -20,7 +20,7 @@ return [
     'change' => 'Change',
     'oldPassword' => 'Current password',
     'newPassword' => 'New password',
-    'password' => 'Passwort',
+    'password' => 'Password',
     'passwordConfirm' => 'Confirm password',
     'changePassword' => 'Change password',
     'register' => 'Register',

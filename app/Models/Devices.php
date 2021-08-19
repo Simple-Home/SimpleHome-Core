@@ -57,8 +57,8 @@ class Devices extends Model
 
     public function getSignalStrengthAttribute()
     {
-        $RSSI = ($this->getProperties->where('type','==','wifi')->first());
-        if ($RSSI){
+        $RSSI = ($this->getProperties->where('type','wifi')->first());
+        if ($RSSI && !empty($RSSI->last_value)){
             return (2 * ($RSSI->last_value->value + 100));
         }
 
