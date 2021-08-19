@@ -16,20 +16,20 @@ use DateTime;
 class DevicesController extends Controller
 {
     /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-    * Show the application dashboard.
-    *
-    * @return \Illuminate\Contracts\Support\Renderable
-    */
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function list(FormBuilder $formBuilder)
     {
         $devices = Devices::all();
@@ -57,7 +57,6 @@ class DevicesController extends Controller
                 }
                 break;
             }
-
         }
 
         return view('devices.list', ["devices" => $devices, "addDeviceForm" => $addDeviceForm]);
@@ -68,11 +67,11 @@ class DevicesController extends Controller
         $search = $request->input('search');
 
         $devices = Devices::query()
-        ->where('id', 'LIKE', "%{$search}%")
-        ->orWhere('hostname', 'LIKE', "%{$search}%")
-        ->orWhere('token', 'LIKE', "%{$search}%")
-        ->orWhere('type', 'LIKE', "%{$search}%")
-        ->get();
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('hostname', 'LIKE', "%{$search}%")
+            ->orWhere('token', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%")
+            ->get();
 
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
@@ -98,12 +97,19 @@ class DevicesController extends Controller
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
         $propertyForms = [];
+        $historyForms = [];
         foreach ($device->getProperties as $property) {
             $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
                 'model' => ['id' => $property->id],
                 'method' => 'POST',
                 'url' => route('devices_update_property', ['device_id' => $device_id])
             ], ['icon' => $property->icon]);
+
+            $historyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyHistoryForm::class, [
+                'model' => ['id' => $property->id, 'history' => $property->history],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ]);
         }
 
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
@@ -111,7 +117,7 @@ class DevicesController extends Controller
 
     public function settings($device_id, FormBuilder $formBuilder)
     {
-        $settings = SettingManager::getGroup('device-'.$device_id);
+        $settings = SettingManager::getGroup('device-' . $device_id);
 
         $systemSettingsForm = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
@@ -162,7 +168,7 @@ class DevicesController extends Controller
 
         //notify the module a new device has been added
         if (\Module::has($request->input('integration'))) {
-            $classString = 'Modules\\'.$request->input('integration').'\\Device\\Device';
+            $classString = 'Modules\\' . $request->input('integration') . '\\Device\\Device';
             // Instantiate the class.
             $creator = new $classString($device);
             $creator->create();
@@ -211,7 +217,12 @@ class DevicesController extends Controller
         }
 
         $property = Property::find($request->input('id'));
-        $property->icon = $request->input('icon');
+        if (!empty($request->input('icon'))) {
+            $property->icon = $request->input('icon');
+        }
+        if (!empty($request->input('history'))) {
+            $property->history = $request->input('history');
+        }
         $property->save();
 
         return redirect()->route('devices_detail', ['device_id' => $device_id]);
