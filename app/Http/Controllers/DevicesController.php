@@ -56,7 +56,6 @@ class DevicesController extends Controller
                 }
                 break;
             }
-
         }
 
         return view('devices.list', ["devices" => $devices, "addDeviceForm" => $addDeviceForm]);
@@ -96,6 +95,7 @@ class DevicesController extends Controller
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
+
         $propertyForms = [];
         foreach ($device->getProperties as $property) {
             $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
@@ -108,6 +108,31 @@ class DevicesController extends Controller
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
+    public function settings($device_id, FormBuilder $formBuilder)
+    {
+        $settings = SettingManager::getGroup('device-' . $device_id);
+
+        $systemSettingsForm = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('devices_settings_update', $device_id),
+            'variables' => $settings
+        ]);
+
+        return view('devices.settings', compact("systemSettingsForm", "settings"));
+    }
+
+
+    public function saveSettings(Request $request, FormBuilder $formBuilder)
+    {
+        foreach ($request->input() as $key => $value) {
+            if ($key == '_token') {
+                continue;
+            }
+            SettingManager::set($key, $value);
+        }
+
+        return redirect()->back();
+    }
 
     /**
      * Store the specified resource in storage.
@@ -133,6 +158,14 @@ class DevicesController extends Controller
         $device->approved = "1";
         $device->token = "";
         $device->save();
+
+        //notify the module a new device has been added
+        if (\Module::has($request->input('integration'))) {
+            $classString = 'Modules\\' . $request->input('integration') . '\\Device\\Device';
+            // Instantiate the class.
+            $creator = new $classString($device);
+            $creator->create();
+        }
 
         return redirect()->route('devices_list');
     }

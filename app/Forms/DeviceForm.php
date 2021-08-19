@@ -16,12 +16,12 @@ class DeviceForm extends Form
                 'label' => "Hostname"
             ])
             ->add('integration', Field::SELECT, [
-                'choices' => array("MQTT", "Other"), //Change to Dynamically get installed integrations
+                'choices' => array("MQTT" => "MQTT", "Other" => "Other"), //Change to Dynamically get installed integrations
                 'rules' => 'required|max:35',
                 'label' => "Integration"
             ])
             ->add('type', Field::SELECT, [
-                'choices' => array("Light", "Toggle", "Speaker", "Sensor", "Other"),
+                'choices' => array("light" => "Light", "toggle" => "Toggle", "speaker" => "Speaker", "sensor" => "Sensor", "other" => "Other"),
                 'rules' => 'required|max:191',
                 'label' => "Type"
             ])
