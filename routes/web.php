@@ -21,7 +21,6 @@ Auth::routes();
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified', 'language'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
 Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('users_search');
 Route::middleware(['auth', 'verified', 'language'])->get('/user', [App\Http\Controllers\UsersController::class, 'edit'])->name('user');
 Route::middleware(['auth', 'verified', 'language'])->post('/user/update', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
@@ -79,6 +78,8 @@ Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations/detail/{integration_slug}', [App\Http\Controllers\SettingsController::class, 'detail'])->name('integration_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/system', [App\Http\Controllers\SettingsController::class, 'system'])->name('system_settings');
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('settings_update');
+    Route::middleware(['auth', 'verified', 'language'])->get('/set/dark', [App\Http\Controllers\SettingsController::class, 'setDark'])->name('settings_dark');
+    Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
 });
 
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');

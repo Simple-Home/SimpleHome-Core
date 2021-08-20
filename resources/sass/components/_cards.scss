@@ -1,6 +1,18 @@
 a.card:hover {
-  background-color: #727475;
+    background-color: #727475;
 }
 tr.card:hover {
-  background-color: #727475;
+    background-color: #727475;
+}
+
+div.custom-control-right {
+    padding-right: 24px;
+    padding-left: 0;
+    margin-left: 16px;
+    margin-right: 0;
+}
+div.custom-control-right .custom-control-label::before,
+div.custom-control-right .custom-control-label::after {
+    right: -1.5rem;
+    left: initial;
 }

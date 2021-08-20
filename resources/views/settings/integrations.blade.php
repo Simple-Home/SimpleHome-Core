@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
+@section('subnavigation')
+@include('settings.components.subnavigation')
+@endsection
 
+@section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            @include('settings.components.subnavigation')
-        </div>
         <div class="col">
             @if(!empty($integrationList) && count($integrationList) > 0)
             <div class="col">
@@ -28,10 +28,9 @@
                 </div>
             </div>
             @else
-                <p class="text-center">{{ __('No Integrations Found') }}</p>
+            <p class="text-center">{{ __('No Integrations Found') }}</p>
             @endif
         </div>
     </div>
 </div>
 @endsection
-

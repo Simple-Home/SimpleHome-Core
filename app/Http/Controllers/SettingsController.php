@@ -57,7 +57,8 @@ class SettingsController extends Controller
             ],
             'cpu' => [
                 __('simplehome.used') => $this->cpu_stat(),
-                __('simplehome.free') => 100 - $this->cpu_stat()],
+                __('simplehome.free') => 100 - $this->cpu_stat()
+            ],
             'memory' => [
                 __('simplehome.used') => round($this->ram_stat()["used"], 2),
                 __('simplehome.free') => round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)
@@ -88,7 +89,19 @@ class SettingsController extends Controller
         return view('settings.integrations.detail', compact('settings', 'systemSettingsForm'));
     }
 
-    public function saveSettings(Request $request, FormBuilder $formBuilder){
+    function setDark()
+    {
+        if (session()->has('isDark')) {
+            session()->put('isDark', !session('isDark'));
+        } else {
+            //provide an initial value of isDark
+            session()->put('isDark', true);
+        }
+        return redirect()->back();
+    }
+
+    public function saveSettings(Request $request, FormBuilder $formBuilder)
+    {
         foreach ($request->input() as $key => $value) {
             if ($key == '_token') {
                 continue;
@@ -99,7 +112,8 @@ class SettingsController extends Controller
         return redirect()->route('system_settings');
     }
 
-    public function system(FormBuilder $formBuilder){
+    public function system(FormBuilder $formBuilder)
+    {
         $settings = SettingManager::getGroup('system');
 
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
@@ -195,7 +209,6 @@ class SettingsController extends Controller
         }
 
         return 0;
-
     }
 
     /**

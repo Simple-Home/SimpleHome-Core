@@ -18,16 +18,21 @@
             <div class="card">
                 <div class="card-header">Diagnostic Information</div>
                 <div class="card-body">
-                    {{ __('First Seen') }}: {{$device->created}}</br>
+                    @if (!empty(round($device->created)))
+                    {{ __('First Seen') }}: {{$device->createdat}}</br>
+                    @endif
                     {{ __('Last Seen') }}: {{$device->heartbeat}}</br>
 
                     {{ __('Ip Address') }}:</br>
                     {{ __('Gatevay') }}:</br>
                     {{ __('subnet') }}:</br>
 
+                    @if (!empty(round($device->signal_strength)))
                     {{ __('Signal') }}: {{$device->signal_strength}} %</br>
+                    @endif
+                    @if (!empty(round($device->battery_level)))
                     {{ __('Battery') }}: {{round($device->battery_level, 2)}} v</br>
-
+                    @endif
                 </div>
             </div>
         </div>

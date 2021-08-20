@@ -17,4 +17,16 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('system_settings') }}">{{ __('System') }}</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('users_list') }}">{{ __('simplehome.users.list.pageTitle') }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('rooms_list') }}">{{ __('simplehome.rooms.list.pageTitle') }}</a>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('devices_list') }}">{{ __('simplehome.devices.pageTitle') }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('properties_list') }}">{{ __('simplehome.properties.list.pageTitle') }}</a>
+    </li>
+    </li>
 </ul>

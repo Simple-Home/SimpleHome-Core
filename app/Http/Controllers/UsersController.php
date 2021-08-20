@@ -28,7 +28,7 @@ class UsersController extends Controller
      */
     public function list()
     {
-        return view('users.list', ["users" => User::all()]);
+        return view('settings.users', ["users" => User::all()]);
     }
 
     /**
@@ -105,7 +105,7 @@ class UsersController extends Controller
         $user->language = $request->input('language');
 
         $user->save();
-        return redirect()->route('user',['#settings'])->with('success', __('web.settingsSaved'));
+        return redirect()->route('user', ['#settings'])->with('success', __('web.settingsSaved'));
     }
 
     /**
