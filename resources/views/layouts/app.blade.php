@@ -26,34 +26,34 @@
 </head>
 
 <body>
-    <div class="container">
-        <h2>@yield('title')</h2>
-        <nav class="navbar bg-white navbar-expand">
-            <ul class="navbar-nav mr-auto">
-                @auth
-                @yield('subnavigation')
-                @endif
-            </ul>
-        </nav>
-        @yield('content')
-    </div>
-    <nav class="navbar bg-white fixed-bottom navbar-expand">
+    <nav class="navbar bg-white navbar-expand">
         <ul class="navbar-nav mr-auto">
             @auth
-            @include('components.navigation')
-            <li class="nav-item">
-                <div class="nav-link ">
-                    <i class="d-inline fas fa-sun"></i>
-                    <div class="d-inline custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                        <label class="custom-control-label" for="darkSwitch"></label>
-                    </div>
-                    <i class="d-inline fas fa-moon"></i>
-                </div>
-            </li>
+            @yield('subnavigation')
             @endif
         </ul>
     </nav>
+    <div class="container-fluid">
+        @yield('content')
+    </div>
+    </div>
+        <nav class="fixed-bottom navbar-expand  bg-white">
+            <ul class="justify-content-center navbar-nav mr-auto">
+                @auth
+                @include('components.navigation')
+                <li class="nav-item">
+                    <div class="nav-link ">
+                        <i class="d-inline fas fa-sun"></i>
+                        <div class="d-inline custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                            <label class="custom-control-label" for="darkSwitch"></label>
+                        </div>
+                        <i class="d-inline fas fa-moon"></i>
+                    </div>
+                </li>
+                @endif
+            </ul>
+        </nav>
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     @yield('beforeBodyEnd')
 </body>
