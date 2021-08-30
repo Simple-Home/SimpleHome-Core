@@ -34,15 +34,15 @@
                 @enderror
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit"> {{ __('simplehome.login') }}</button>
-            {{-- <p class="text-center mb-4">Or sign in with</p>
+            <p class="text-center text-muted my-2">Or sign in with</p>
             <div class="buttons text-center">
-              <button type="button" class="button is-icon"><i class="fa fa-github"></i></button>
-              <button type="button" class="button is-icon"><i class="fa fa-google"></i></button>
-            </div> --}}
+              <button type="button" class="btn btn-light bg-white"><i class="fa fa-github"></i></button>
+              <button type="button" class="btn btn-light bg-white"><i class="fa fa-google"></i></button>
+            </div>
         </div>
-        {{-- <div class="login-footer">
-          Don't have account yet? <router-link to="/register"><b>Sign Up</b></router-link>
-        </div> --}}
+        <div class="login-footer text-center mt-5">
+          Don't have account yet? <a href="register"><b>Sign Up</b></a>
+        </div>
     </div>
 </form>
 @endsection
