@@ -26,35 +26,39 @@
 </head>
 
 <body>
-    <nav class="navbar bg-white navbar-expand">
-        <ul class="navbar-nav mr-auto">
-            @auth
-            @yield('subnavigation')
-            @endif
-        </ul>
-    </nav>
+    <script>
+        window.addEventListener("load", function() {
+            initTheme();
+        });
+    </script>
+    <div class="overflow-auto text-nowrap">
+        <nav class="navbar navbar-expand">
+            <ul class="navbar-nav mr-auto nav-pills">
+                @auth
+                @yield('subnavigation')
+                @endif
+            </ul>
+        </nav>
+    </div>
     <div class="container-fluid">
         @yield('content')
     </div>
     </div>
-        <nav class="fixed-bottom navbar-expand  bg-white">
-            <ul class="justify-content-center navbar-nav mr-auto">
-                @auth
-                @include('components.navigation')
-                <li class="nav-item">
-                    <div class="nav-link ">
-                        <i class="d-inline fas fa-sun"></i>
-                        <div class="d-inline custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                            <label class="custom-control-label" for="darkSwitch"></label>
-                        </div>
-                        <i class="d-inline fas fa-moon"></i>
-                    </div>
-                </li>
-                @endif
-            </ul>
-        </nav>
+
+    <nav class="fixed-bottom navbar-expand bg-white  py-3">
+        <ul class="navbar-nav justify-content-center nav nav-fill nav-pills">
+            @auth
+            @include('components.navigation')
+            @endif
+        </ul>
+    </nav>
+
     <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script>
+        window.addEventListener("load", function() {
+            initTheme();
+        });
+    </script>
     @yield('beforeBodyEnd')
 </body>
 

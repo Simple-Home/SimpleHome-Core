@@ -5,6 +5,26 @@
 @endsection
 
 @section('content')
+<a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    {{ __('simplehome.logout') }}
+</a>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>
+
+
+
+<div>
+    <i class="d-inline fas fa-sun"></i>
+    <div class="d-inline custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+        <label class="custom-control-label" for="darkSwitch"></label>
+    </div>
+    <i class="d-inline fas fa-moon"></i>
+</div>
+
+
+
 <div id="server-dashboard" data-chart-endpoint="{{route('server_chart_data')}}" class="container">
     <div class="row">
         <div class="col">

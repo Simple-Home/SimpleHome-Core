@@ -25,7 +25,11 @@ class ControlController extends Controller
      */
     public function list($room_id = 0)
     {
-        $rooms = Rooms::all();
+        $rooms = Rooms::all()->filter(function ($item) {
+            if ($item->PropertiesCount > 0) {
+                return $item;
+            }
+        });
 
         if ($room_id == 0)
             $room_id =  Rooms::min('id');

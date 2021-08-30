@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="row">
-            <p>
+            <p class="px-3">
                 {{ucwords($property->nick_name)}}
             </p>
         </div>

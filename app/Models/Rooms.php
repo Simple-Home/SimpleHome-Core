@@ -20,14 +20,19 @@ class Rooms extends Authenticatable
         'default' => false,
     ];
 
+    protected $appends = [
+        'properties_count'
+    ];
 
-    public function getProperties(){
+
+    public function getProperties()
+    {
         return $this->hasMany('App\Models\Properties', 'room_id');
     }
 
-    public function getPropertiesCountAttribute(){
+    public function getPropertiesCountAttribute()
+    {
         $properties = $this->getProperties();
         return $properties->count();
     }
-
 }
