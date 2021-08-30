@@ -10,14 +10,14 @@
             </div>
             <div class="col">
                 <p class="text-right">
-                    @if($property->type == "light")
-                        @include('control.components.panel', $property)
+                    @if(View::exists('control.components.types.' . $property->type))
+                    @include('control.components.types.' . $property->type, $property)
                     @else
-                        @if (is_numeric($property->last_value->value))
-                        {{ round($property->last_value->value, 2) }}
-                        @else
-                        {{ $property->last_value->value }}
-                        @endif
+                    @if (is_numeric($property->last_value->value))
+                    {{ round($property->last_value->value, 2) }}
+                    @else
+                    {{ $property->last_value->value }}
+                    @endif
                     @endif
                 </p>
             </div>

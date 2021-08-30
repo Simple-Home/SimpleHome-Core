@@ -119,7 +119,18 @@ class PropertiesController extends Controller
         return view('properties.edit', ['property' => $property] + compact('propertyEditForm'));
     }
 
-    public function control(Request $request, $propertyID){
+    public function set($properti_id, $value)
+    {
+        $record                 = new Records;
+        $record->value          = $value;
+        $record->property_id    = $properti_id;
+        $record->save();
+
+        return redirect()->back();
+    }
+
+    public function control(Request $request, $propertyID)
+    {
         $value = strtolower($request->value);
         $feature = STR::camel($request->feature);
         $propertyID = (int)$propertyID;
@@ -130,22 +141,24 @@ class PropertiesController extends Controller
         $this->meta['record'] = Records::where('property_id', $propertyID)->orderBy('id', 'desc')->limit(1)->first();
 
         //Cant change value of sensor
-        if($this->meta['property']->type == "sensor"){
+        if ($this->meta['property']->type == "sensor") {
             return '{"status":"error", "message":"can not change value of sensor"}';
         }
 
         // If no property was found, an error message is issued.
         if ($this->meta['property'] == null) {
-            return '{"status":"error", "message":"property "'.$propertyID.'" not found"}';
+            return '{"status":"error", "message":"property "' . $propertyID . '" not found"}';
         }
 
         // Concatenate the module's namespace with its binder.
-        $classString = 'Modules\\'.$this->meta['property']->binding.'\\Properties\\'.$this->meta['property']->type.'\\'.$this->meta['property']->binding;
+        $classString = 'Modules\\' . $this->meta['property']->binding . '\\Properties\\' . $this->meta['property']->type . '\\' . $this->meta['property']->binding;
 
         // Catch Error Messages from Property Constructor
         try {
             // Instantiate the class.
-            if(!class_exists($classString)){ return '{"status":"error", "message":"binding not found"';}
+            if (!class_exists($classString)) {
+                return '{"status":"error", "message":"binding not found"';
+            }
             $this->property = new $classString($this->meta);
         } catch (\Exception $ex) {
             return $ex->getMessage();
@@ -155,44 +168,44 @@ class PropertiesController extends Controller
         if ($this->property->hasFeature($this->property, $feature) === true) {
 
             //load property value from database
-            if($this->meta['record'] != null){
+            if ($this->meta['record'] != null) {
                 $this->property->setState("All", json_decode($this->meta['record']->value, true));
             }
-            
+
             // for reliable execution we repeat the feature execution 2 times
             $msg = NULL;
             $retries = 2;
             for ($try = 0; $try < $retries; $try++) {
                 try {
-                    if($value != null){
-                        if($this->property->allowedValue($this->property, $feature, $value) == "allowed" ) {
-                            if($feature == "state"){
-                                $this->property->$feature($value, $this->request->input());   
-                            }else{
+                    if ($value != null) {
+                        if ($this->property->allowedValue($this->property, $feature, $value) == "allowed") {
+                            if ($feature == "state") {
+                                $this->property->$feature($value, $this->request->input());
+                            } else {
                                 $this->property->$feature($value);
-                            } 
-                        }else{
-                            return '{"status":"error", "message":"only these values are allowed: '.$this->property->allowedValue($this->property, $feature).'"}';
+                            }
+                        } else {
+                            return '{"status":"error", "message":"only these values are allowed: ' . $this->property->allowedValue($this->property, $feature) . '"}';
                         }
-                    }else{
+                    } else {
                         $this->property->$feature();
-                    }     
+                    }
                 } catch (\Exception $ex) {
                     $msg = $ex->getMessage();
-                    sleep(.5);   
+                    sleep(.5);
                     continue;
                 }
                 if ($try == $retries) {
                     return $msg;
                 }
                 break;
-            }      
+            }
 
-            if(!empty($this->property->getState())){
+            if (!empty($this->property->getState())) {
                 Records::insert(['property_id' => $propertyID, 'value' => json_encode($this->property->getState())]);
-            }   
+            }
             $success = ($this->property->getState($feature) == $value ? "success" : "error");
-            return '{"status": "'.$success.'", "value": "'.$this->property->getState($feature).'"}';
+            return '{"status": "' . $success . '", "value": "' . $this->property->getState($feature) . '"}';
         }
         return '{"status":"error", "message":"feature not found"}';
     }

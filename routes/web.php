@@ -61,6 +61,7 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/detail/{property_id}', [App\Http\Controllers\PropertiesController::class, 'detail'])->name('properties_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/control/{property_id}', [App\Http\Controllers\PropertiesController::class, 'control']);
+    Route::middleware(['auth', 'verified', 'language'])->get('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');;
 });
 
 Route::namespace('automations')->prefix('automations')->group(function () {
@@ -84,6 +85,11 @@ Route::namespace('settings')->prefix('settings')->group(function () {
 
 Route::namespace('control')->prefix('control')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlController::class, 'list'])->name('control_room');
+});
+
+Route::namespace('endpoints')->prefix('endpoints')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('endpoint.devices.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
 });
 
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
