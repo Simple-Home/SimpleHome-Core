@@ -3,44 +3,46 @@
 @section('content')
 <form method="POST" class="form-signin" action="{{ route('login') }}">
     @csrf
-    <div class="text-center mb-4">
-        <img class="mb-4" src="{{ asset('images/logo.png') }}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Simple-Home</h1>
+
+    <div class="page page-login">
+        <h1 class="text-center">
+          <img class="img-responsive mb-4" src="{{ asset('images/logo.png') }}" alt=""  height="72">
+        </h1>
+        <div class="login-form">
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" id="email" class="form-control  @error('email') is-invalid @enderror" placeholder="Email address" name="email" value="{{ old('email') }}" required required autofocus>
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label class="d-flex justify-content-between">Password
+                    @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}"  tabindex="-1">
+                        {{ __('simplehome.passwordForgotten') }}
+                    </a>
+                    @endif
+                </label>
+                <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="Password" required>
+                @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"> {{ __('simplehome.login') }}</button>
+            {{-- <p class="text-center mb-4">Or sign in with</p>
+            <div class="buttons text-center">
+              <button type="button" class="button is-icon"><i class="fa fa-github"></i></button>
+              <button type="button" class="button is-icon"><i class="fa fa-google"></i></button>
+            </div> --}}
+        </div>
+        {{-- <div class="login-footer">
+          Don't have account yet? <router-link to="/register"><b>Sign Up</b></router-link>
+        </div> --}}
     </div>
-
-    <div class="form-label-group">
-        <input type="email" id="email" class="form-control  @error('email') is-invalid @enderror" placeholder="Email address" name="email" value="{{ old('email') }}" required required autofocus>
-        <label for="email">Email address</label>
-        @error('email')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
-
-    <div class="form-label-group">
-        <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="Password" required>
-        <label for="password">Password</label>
-        @error('password')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-    </div>
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember-me" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('simplehome.rememberMe') }}
-        </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit"> {{ __('simplehome.login') }}</button>
-
-    @if (Route::has('password.request'))
-    <a class="mt-5 mb-3 text-center" href="{{ route('password.request') }}">
-        {{ __('simplehome.passwordForgotten') }}
-    </a>
-    @endif
-
-    <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
 </form>
 @endsection
