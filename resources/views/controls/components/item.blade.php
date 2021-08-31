@@ -7,8 +7,8 @@
         </div>
         <div class="col">
             <p class="text-right m-0 h3">
-                @if(View::exists('control.components.types.' . $property->type))
-                @include('control.components.types.' . $property->type, $property)
+                @if(View::exists('controls.components.types.' . $property->type))
+                @include('controls.components.types.' . $property->type, $property)
                 @else
                 @if (is_numeric($property->last_value->value))
                 {{ round($property->last_value->value, 2) }}
