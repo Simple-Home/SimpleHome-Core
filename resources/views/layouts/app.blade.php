@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
+    <title>@hasSection('title') @yield('title') - @endif {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset(mix('js/manifest.js')) }}"></script>
@@ -19,52 +19,69 @@
     <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
+    <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <meta name="color-scheme" content="dark light">
 
     @yield('customHead')
 </head>
 
-<body class="m-2 m-md-4">
-    <div class="justify-content-center">
-        <div class="row">
-            <div class="col">
+<body>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
             </div>
-            <div class="col text-right">
-                <div class="align-middle">
-                    <i class="d-inline fas fa-sun"></i>
-                    <div class="d-inline custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                        <label class="custom-control-label" for="darkSwitch"></label>
-                    </div>
-                    <i class="d-inline fas fa-moon"></i>
+            <div class="col col-4 p-md-0 text-right my-auto">
+                <div class="custom-control custom-switch m-auto">
+                    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                    <label class="custom-control-label text-nowrap" for="darkSwitch">Dark Mode</label>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="overflow-auto text-nowrap">
-        <nav class="navbar navbar-expand p-0">
-            <ul class="navbar-nav mr-auto nav-pills">
+        <div class="row">
+            <div class="col p-md-0">
+                <nav class="navbar p-0 overflow-auto text-nowrap">
+                    <div class="container-fluid p-0 pb-2">
+                        <div class="navbar-expand w-100">
+                            <ul class="navbar-nav nav-pills">
+                                @auth
+                                @yield('subnavigation')
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-md-0">
                 @auth
-                @yield('subnavigation')
+                @yield('alerts')
                 @endif
-            </ul>
-        </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-md-0">
+                @auth
+                @yield('content')
+                @endif
+            </div>
+        </div>
     </div>
-
-    <div>
-        @yield('content')
-    </div>
-
-    <nav class="fixed-bottom navbar-expand bg-white py-2">
-        <ul class="navbar-nav justify-content-center nav nav-fill nav-pills">
-            @auth
-            @include('components.navigation')
-            @endif
-        </ul>
+    <!-- Botom Fixed Menu -->
+    <nav class="navbar fixed-bottom bg-light">
+        <div class="container-fluid">
+            <div class="navbar-expand w-100">
+                <ul class="navbar-nav justify-content-around">
+                    @auth
+                    @include('components.navigation')
+                    @endif
+                </ul>
+            </div>
+        </div>
     </nav>
+
 
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     <script>

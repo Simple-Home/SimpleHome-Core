@@ -40,7 +40,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     @auth
-                    @include('components.navigation')
+                    @yield('components.navigation')
                     @endif
 
                     <!-- Right Side Of Navbar -->

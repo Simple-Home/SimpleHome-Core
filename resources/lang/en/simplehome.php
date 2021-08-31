@@ -104,4 +104,5 @@ return [
     'housekeeping.runJob' => 'Run cleanup job',
     'housekeeping.runJob.triggert' => 'Job runs in the background...',
     'endpoint.panelTitle' => 'Endpoints',
+    'controls.notFound' => 'No controls Found',
 ];

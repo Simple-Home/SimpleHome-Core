@@ -83,8 +83,8 @@ Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
 });
 
-Route::namespace('control')->prefix('control')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlController::class, 'list'])->name('control_room');
+Route::namespace('controls')->prefix('controls')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
 });
 
 Route::namespace('endpoints')->prefix('endpoints')->group(function () {
