@@ -102,5 +102,6 @@ return [
     'records' => 'Total Records',
     'housekeeping.interval' => 'Records table keep data in seconds',
     'housekeeping.runJob' => 'Run cleanup job',
-    'housekeeping.runJob.triggert' => 'Job runs in the background...'
+    'housekeeping.runJob.triggert' => 'Job runs in the background...',
+    'endpoint.panelTitle' => 'Endpoints',
 ];
