@@ -31,49 +31,6 @@
 
 <body>
     <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-4 p-md-0">
-                <h1 class="mb-0">@yield('title')</h1>
-            </div>
-            <div class="col col-4 p-md-0 text-right my-auto">
-                <div class="custom-control custom-switch m-auto">
-                    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                    <label class="custom-control-label text-nowrap" for="darkSwitch">Dark Mode</label>
-                </div>
-            </div>
-        </div>
-
-        {{--
-            <div class="row">
-                <div class="col p-md-0">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                        <div class="card-footer">
-                            Card footer
-                        </div>
-                    </div>
-                </div>
-            </div>
-        --}}
-
-        <div class="row">
-            <div class="col p-md-0">
-                <nav class="navbar p-0 overflow-auto text-nowrap">
-                    <div class="container-fluid p-0 pb-2">
-                        <div class="navbar-expand w-100">
-                            <ul class="navbar-nav nav-pills">
-                                @auth
-                                @yield('subnavigation')
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col p-md-0">
                 @auth
@@ -89,6 +46,7 @@
                 @endif
             </div>
         </div>
+
     </div>
     <!-- Botom Fixed Menu -->
     <nav class="navbar fixed-bottom bg-light">

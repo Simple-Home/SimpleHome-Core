@@ -85,6 +85,8 @@ Route::namespace('settings')->prefix('settings')->group(function () {
 
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
 });
 
 Route::namespace('endpoints')->prefix('endpoints')->group(function () {
@@ -92,7 +94,12 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
 });
 
-Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
+#Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
+
+Route::get('/', function () {
+    return redirect()->route('controls.room');
+});
+
 
 Route::get('/offline', function () {
     return view('vendor/laravelpwa/offline');

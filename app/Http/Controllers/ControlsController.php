@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\Rooms;
 use App\Models\Properties;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class ControlsController extends Controller
 {
@@ -23,8 +25,15 @@ class ControlsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list($room_id = 0)
+    public function list($room_id = 0, FormBuilder $formBuilder)
     {
+        $rooms = Rooms::all();
+        $roomsForm = [];
+        $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
+            'method' => 'POST',
+            'url' => route('rooms.store'),
+        ], ['edit' => false]);
+
         $rooms = Rooms::all()->filter(function ($item) {
             //if ($item->PropertiesCount > 0) {
             return $item;
@@ -35,6 +44,43 @@ class ControlsController extends Controller
 
         $propertyes =  Properties::where("room_id", $room_id)->get();
 
-        return view('controls.list', compact('rooms', 'propertyes'));
+        return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
+    }
+
+    public function detail($property_id)
+    {
+        $property = Properties::find($property_id);
+
+        $dataset["data"] = [];
+        $labels = [];
+
+        foreach ($property->agregated_values  as $key => $item) {
+            $dataset["data"][] += $item['value'];
+            $labels[] = $item['created_at']->diffForHumans();
+        }
+
+        $propertyDetailChart = app()->chartjs
+            ->name('propertyDetailChart')
+            ->type('line')
+            ->labels($labels)
+            ->datasets([$dataset])
+            ->optionsRaw("{
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: Math.min.apply(this, " . json_encode($dataset["data"]) . ") - 5,
+                            max: Math.max.apply(this, " . json_encode($dataset["data"]) . ") + 5
+                        }
+                    }]
+                }
+            }");
+
+        return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
+    }
+
+    public function edit($property_id)
+    {
+        $property = Properties::find($property_id);
+        return view('controls.edit', ["property" => $property]);
     }
 }
