@@ -78,9 +78,21 @@ class ControlsController extends Controller
         return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
     }
 
-    public function edit($property_id)
+    public function edit($property_id, FormBuilder $formBuilder)
     {
+        $rooms = Rooms::all();
+        $sortRooms = array();
+        foreach ($rooms as $room) {
+            $sortRooms[$room->id] = $room->name;
+        }
         $property = Properties::find($property_id);
-        return view('controls.edit', ["property" => $property]);
+
+        $propertyForm = $formBuilder->create(\App\Forms\PropertyForm::class, [
+            'model' => $property,
+            'method' => 'POST',
+            'url' => route('controls.edit', ['property_id' => $property_id]),
+        ], ['icon' => $property->icon, 'rooms' => $sortRooms]);
+
+        return view('controls.edit', compact('property', 'propertyForm'));
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\Field;
+use Illuminate\Validation\Rule;
 
 class PropertyForm extends Form
 {
