@@ -1,0 +1,8 @@
+{
+    "name": "PWA Test App",
+    "theme_color": "#141460",
+    "background-color": "#000000",
+    "display": "standalone",
+    "start_url": ".",
+    "description": "Testing PWA on a Laravel App"
+}

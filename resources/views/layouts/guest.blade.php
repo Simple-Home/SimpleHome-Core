@@ -111,6 +111,9 @@
     <meta name="color-scheme" content="dark light">
 
     @yield('customHead')
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{asset('manifest.json')}}">
 </head>
 
 <body>
