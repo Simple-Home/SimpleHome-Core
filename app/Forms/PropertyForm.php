@@ -15,9 +15,9 @@ class PropertyForm extends Form
                 'rules' => 'required',
                 'label' => "Nick name"
             ])
-            ->add('icon', Field::BUTTON_BUTTON, [
-                'attr' => ['class' => 'btn btn-secondary iconButton', 'id' => 'icon', 'role' => 'iconpicker', 'data-icon' => (!empty($this->getData('icon')) ? $this->getData('icon') : "")],
-            ])
+            //->add('icon', Field::BUTTON_BUTTON, [
+            //    'attr' => ['class' => 'btn btn-secondary iconButton', 'id' => 'icon', 'role' => 'iconpicker', 'data-icon' => (!empty($this->getData('icon')) ? $this->getData('icon') : "")],
+            //])
             ->add('history', Field::NUMBER, [
                 'rules' => 'required',
                 'label' => "History"

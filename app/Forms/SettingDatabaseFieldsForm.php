@@ -25,7 +25,7 @@ class SettingDatabaseFieldsForm extends Form
                     'label' => __($value->name),
                     'value' => $value->value,
                 ]);
-            }else{
+            } else {
                 $this->add($value->name, Field::STATIC, [
                     'value' => 'Type ' . $value->type . ' is not supported',
                 ]);

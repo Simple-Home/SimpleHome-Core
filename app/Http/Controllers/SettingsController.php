@@ -79,7 +79,6 @@ class SettingsController extends Controller
     public function detail($integrationSlug, FormBuilder $formBuilder)
     {
         $settings = SettingManager::getGroup($integrationSlug);
-
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
             'url' => route('settings_update'),

@@ -105,11 +105,6 @@
 
 
     <script src="{{ asset(mix('js/app.js')) }}"></script>
-    <script>
-        window.addEventListener("load", function() {
-            initTheme();
-        });
-    </script>
     @yield('beforeBodyEnd')
 </body>
 
