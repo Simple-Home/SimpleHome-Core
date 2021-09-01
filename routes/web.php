@@ -93,3 +93,7 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
+
+Route::get('/offline', function () {
+    return view('vendor/laravelpwa/offline');
+});

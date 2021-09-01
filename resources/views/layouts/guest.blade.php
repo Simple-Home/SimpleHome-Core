@@ -113,7 +113,7 @@
     @yield('customHead')
 
     <!-- PWA Manifest -->
-    <link rel="manifest" href="{{asset('manifest.json')}}">
+    @laravelPWA
 </head>
 
 <body>
