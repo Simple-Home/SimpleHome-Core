@@ -14,24 +14,14 @@
     <script src="{{ asset(mix('js/vendor.js')) }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
-
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <meta name="color-scheme" content="dark light">
-
-    <!-- Bootstrap-Iconpicker -->
-    <link rel="stylesheet" href="dist/css/bootstrap-iconpicker.min.css" />
-
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
-    @yield('customHead')
 
     <!-- PWA Manifest -->
     @laravelPWA
