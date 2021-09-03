@@ -10,6 +10,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ asset('js/bootstrap-Iconspicker-laravel.js') }}">
-</script>
+<script type="text/javascript" src="{{ asset('js/bootstrap-Iconspicker-laravel_notSubmit.js') }}" defer></script>
 @endsection
