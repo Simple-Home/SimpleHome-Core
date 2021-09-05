@@ -90,9 +90,34 @@ class ControlsController extends Controller
         $propertyForm = $formBuilder->create(\App\Forms\PropertyForm::class, [
             'model' => $property,
             'method' => 'POST',
-            'url' => route('controls.edit', ['property_id' => $property_id]),
+            'url' => route('controls.update', ['property_id' => $property_id]),
         ], ['icon' => $property->icon, 'rooms' => $sortRooms]);
 
         return view('controls.edit', compact('property', 'propertyForm'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $property_id, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\PropertyForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $property = Property::find($property_id);
+        $property->nick_name = $request->input('nick_name');
+        $property->icon = $request->input('icon');
+        $property->history = $request->input('history');
+        //$property->units = $request->input('units');
+        $property->room_id = $request->input('room_id');
+        $property->save();
+
+        return redirect()->route('controls.edit', ['property_id' => $property_id]);
     }
 }
