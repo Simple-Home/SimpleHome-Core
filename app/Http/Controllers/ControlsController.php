@@ -110,7 +110,7 @@ class ControlsController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        $property = Property::find($property_id);
+        $property = Properties::find($property_id);
         $property->nick_name = $request->input('nick_name');
         $property->icon = $request->input('icon');
         $property->history = $request->input('history');

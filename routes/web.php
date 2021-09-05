@@ -87,7 +87,7 @@ Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
-    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/update', [App\Http\Controllers\ControlsController::class, 'update'])->name('controls.update');
+    Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/update', [App\Http\Controllers\ControlsController::class, 'update'])->name('controls.update');
 });
 
 Route::namespace('endpoints')->prefix('endpoints')->group(function () {
