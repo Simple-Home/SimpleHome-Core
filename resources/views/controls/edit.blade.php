@@ -9,7 +9,7 @@
             <a style="font-weight:bold" class="h4 fw-bold" href="{{route('controls.detail', $property->id)}}">Detail</a>
             {!! form($propertyForm) !!}
             <div class="mt-3">
-                <button type="button" class="btn btn-danger btn-block">Delete</button>
+                <a href="{{route('controls.remove', $property->id)}}" class="btn btn-danger btn-block">Delete</a>
             </div>
         </div>
     </div>

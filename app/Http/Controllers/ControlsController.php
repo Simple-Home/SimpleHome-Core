@@ -120,4 +120,12 @@ class ControlsController extends Controller
 
         return redirect()->route('controls.edit', ['property_id' => $property_id]);
     }
+
+    public function remove($property_id)
+    {
+        $property = Properties::find($property_id);
+        $property->delete();
+
+        return redirect()->route('controls.room');
+    }
 }
