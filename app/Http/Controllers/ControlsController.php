@@ -114,7 +114,7 @@ class ControlsController extends Controller
         $property->nick_name = $request->input('nick_name');
         $property->icon = $request->input('icon');
         $property->history = $request->input('history');
-        //$property->units = $request->input('units');
+        $property->units = $request->input('units');
         $property->room_id = $request->input('room_id');
         $property->save();
 

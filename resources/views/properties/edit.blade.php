@@ -2,7 +2,7 @@
 @section('pageTitle', trans('simplehome.properties.edit.pageTitle') )
 @section('content')
 <!-- Bootstrap-Iconpicker -->
-<link rel="stylesheet" href="dist/css/bootstrap-iconpicker.min.css"/>
+<link rel="stylesheet" href="dist/css/bootstrap-iconpicker.min.css" />
 <!-- Bootstrap-Iconpicker Bundle -->
 <script type="text/javascript" src="dist/js/bootstrap-iconpicker.bundle.min.js"></script>
 <div class="container">

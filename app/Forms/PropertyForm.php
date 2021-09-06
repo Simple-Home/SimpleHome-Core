@@ -23,7 +23,7 @@ class PropertyForm extends Form
                 'label' => "History"
             ])
             ->add('units', Field::TEXT, [
-                'rules' => 'required',
+                'rules' => '',
                 'label' => "Units"
             ])
             ->add('room_id', Field::SELECT, [
@@ -32,6 +32,7 @@ class PropertyForm extends Form
                 'label' => "Room"
             ])
             ->add('saveProfile', Field::BUTTON_SUBMIT, [
+                'attr' => ["class" => "btn btn-primary  btn-block"],
                 'label' => __('simplehome.save')
             ]);
     }
