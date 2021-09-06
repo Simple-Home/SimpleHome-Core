@@ -7,6 +7,7 @@ use App\Models\Properties;
 use App\Models\Devices;
 use DateTime;
 use Illuminate\Support\Carbon;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class EndpointsController extends Controller
 {
@@ -48,6 +49,69 @@ class EndpointsController extends Controller
         }
 
         return view('endpoints.devices.list', compact('devices'));
+    }
+
+    public function devicesDetail(int $device_id, FormBuilder $formBuilder)
+    {
+        $device = Devices::find($device_id);
+        $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'model' => $device,
+            'method' => 'POST',
+            'url' => route('devices_update', ['device_id' => $device_id])
+        ]);
+
+        $propertyForms = [];
+        $historyForms = [];
+        foreach ($device->getProperties as $property) {
+            $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
+                'model' => ['id' => $property->id],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ], ['icon' => $property->icon]);
+
+            $historyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyHistoryForm::class, [
+                'model' => ['id' => $property->id, 'history' => $property->history],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ]);
+        }
+
+        return view('endpoints.devices.detail', compact("device", "deviceForm", "propertyForms"));
+    }
+
+    public function devicesEdit(int $device_id, FormBuilder $formBuilder)
+    {
+        $device = Devices::find($device_id);
+        $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
+            'model' => $device,
+            'method' => 'POST',
+            'url' => route('devices_update', ['device_id' => $device_id])
+        ]);
+
+        $propertyForms = [];
+        $historyForms = [];
+        foreach ($device->getProperties as $property) {
+            $propertyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyIconForm::class, [
+                'model' => ['id' => $property->id],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ], ['icon' => $property->icon]);
+
+            $historyForms[$property->id] = $formBuilder->create(\App\Forms\DevicePropertyHistoryForm::class, [
+                'model' => ['id' => $property->id, 'history' => $property->history],
+                'method' => 'POST',
+                'url' => route('devices_update_property', ['device_id' => $device_id])
+            ]);
+        }
+
+        return view('endpoints.devices.edit', compact("device", "deviceForm", "propertyForms"));
+    }
+    public function deviceRemove($device_id)
+    {
+        $property = Devices::find($device_id);
+        $property->delete();
+
+        return redirect()->route('controls.room')->with('danger', 'Device Sucessfully removed.');
     }
 
     public function propertiesList()

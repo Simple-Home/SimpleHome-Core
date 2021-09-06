@@ -128,6 +128,8 @@ class EndpointController extends Controller
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
+
+
         $device = Devices::query()->where('token', '=', $data['token'])->first();
         $device->setHeartbeat();
 
@@ -155,23 +157,26 @@ class EndpointController extends Controller
                 );
             }
 
-            foreach ($data['values'] as $key => $propertyItem) {
-                $propertyExit = $device->getPropertiesExistence($key);
-                if ($propertyExit == FALSE) {
-                    $property               = new Properties;
-                    $property->type         = $key;
-                    $property->nick_name    = $data['token'];
-                    $property->icon         = "fas fa-robot";
-                    $property->device_id    = $device->id;
-                    $property->room_id      = $defaultRoom->id;
-                    $property->history      = 90;
-                    $property->save();
+            if (isset($data['values'])) {
+                foreach ($data['values'] as $key => $propertyItem) {
+                    $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "on_off" : $key));
+                    if ($propertyExit == FALSE) {
+                        $property               = new Properties;
+                        $property->type         = ($key == "on/off" ? "on_off" : $key);
+                        $property->nick_name    = $data['token'];
+                        $property->icon         = "fas fa-robot";
+                        $property->device_id    = $device->id;
+                        $property->room_id      = $defaultRoom->id;
+                        $property->history      = 90;
+                        $property->save();
+                    }
                 }
             }
         }
 
-        foreach ($device->getProperties->get("id") as $key => $property) {
-            $propertyType = $property->type;
+
+        foreach ($device->getProperties as $key => $property) {
+            $propertyType = ($property->type == "on_off" ? "on/off" : $property->type);
             if (!isset($data['values'][$propertyType]['value'])) {
                 continue;
             }
@@ -193,15 +198,17 @@ class EndpointController extends Controller
         ];
 
         foreach ($device->getProperties as $key => $property) {
-            if (!empty($property->last_value->value)) {
-                $response["values"][$property->type] = (int) $property->last_value->value;
+            if (isset($property->last_value->value)) {
+                $response["values"][($property->type == "on_off" ? "on/off" : $property->type)]['value'] = (int) $property->last_value->value;
             }
         }
 
 
         return response()->json(
             $response,
-            JsonResponse::HTTP_OK
+            JsonResponse::HTTP_OK,
+            ['Charset' => 'utf-8'],
+            JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
         );
     }
 

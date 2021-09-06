@@ -93,6 +93,9 @@ Route::namespace('controls')->prefix('controls')->group(function () {
 
 Route::namespace('endpoints')->prefix('endpoints')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('endpoint.devices.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/detail', [App\Http\Controllers\EndpointsController::class, 'devicesDetail'])->name('endpoints.devices.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('endpoints.devices.edit');
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('endpoints.devices.remove');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
 });
 

@@ -126,6 +126,6 @@ class ControlsController extends Controller
         $property = Properties::find($property_id);
         $property->delete();
 
-        return redirect()->route('controls.room');
+        return redirect()->route('controls.room')->with('danger', 'Property Sucessfully removed.');;
     }
 }
