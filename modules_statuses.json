@@ -1,5 +1,6 @@
 {
     "Blog": true,
     "ExampleBinding": true,
-    "MQTT": true
+    "MQTT": true,
+    "PiHole": true
 }

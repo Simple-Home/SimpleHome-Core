@@ -8,22 +8,24 @@ use App\Models\Settings;
 
 class SettingManager
 {
-    public static function get($index, $group = null) {
-        $found_indexes = Settings::where('name', '=', $index)->first();
-        if (!empty($found_indexes)) {
-            return $found_indexes;
+    public static function get($index, $group = null)
+    {
+        $fields = Settings::where('group', '=', $group)->where('group', '=', $index)->get();
+        if (count($fields) == 1) {
+            return $fields;
         } else {
             SettingManager::set($index, 0, $group);
-            return Settings::where('name', '=', $index)->first();
+            return Settings::where('group', '=', $group)->where('name', '=', $index)->first();
         }
     }
 
-    public static function set($index, $value) {
+    public static function set($index, $value)
+    {
         $option =  Settings::where('name', '=', $index)->first();
 
         // Make sure you've got the Page model
-        if($option) {
-            $option->value       = $value;
+        if ($option) {
+            $option->value = $value;
             $option->save();
         } else {
             SettingManager::register($index, $value, "string", "system");
@@ -32,15 +34,21 @@ class SettingManager
         return true;
     }
 
-    public static function register ($index, $value, $type="string", $group = "system") {
+    public static function register($index, $value, $type = "string", $group = "system")
+    {
+
         $option = Settings::firstOrCreate(
-            ['name' => $index, 'group' => $group],
+            [
+                'group' => $group,
+                'name' => $index
+            ],
             ['type' => $type, 'value' => $value]
         );
         return true;
     }
 
-    public static function getGroup($group){
+    public static function getGroup($group)
+    {
         $found_indexes = Settings::where('group', '=', $group)->get();
         return $found_indexes;
     }
