@@ -14,6 +14,7 @@ class SettingDatabaseFieldsForm extends Form
     private $types = [
         'string' => Field::TEXT,
         'int' => Field::NUMBER,
+        'color' => Field::COLOR,
     ];
 
     public function buildForm()
