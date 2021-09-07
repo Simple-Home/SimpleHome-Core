@@ -10,11 +10,11 @@ use DateTime;
 
 class Devices extends Model
 {
-    protected $approved = [
-        'Unapproved',
-        'Approved',
-        'Blocked',
-    ];
+    // protected $approved = [
+    //     'Unapproved',
+    //     'Approved',
+    //     'Blocked',
+    // ];
 
     public function getProperties()
     {
@@ -57,8 +57,8 @@ class Devices extends Model
 
     public function getSignalStrengthAttribute()
     {
-        $RSSI = ($this->getProperties->where('type','wifi')->first());
-        if ($RSSI && !empty($RSSI->last_value)){
+        $RSSI = ($this->getProperties->where('type', 'wifi')->first());
+        if ($RSSI && !empty($RSSI->last_value)) {
             return (2 * ($RSSI->last_value->value + 100));
         }
 
@@ -67,8 +67,8 @@ class Devices extends Model
 
     public function getBatteryLevelAttribute()
     {
-        $BatteryValue = ($this->getProperties->where('type','==','batt')->first());
-        if ($BatteryValue){
+        $BatteryValue = ($this->getProperties->where('type', '==', 'batt')->first());
+        if ($BatteryValue) {
             return $BatteryValue->last_value->value;
         }
         return false;
@@ -76,11 +76,29 @@ class Devices extends Model
 
     public function getSettingsCountAttribute()
     {
-        $settings = Settings::where('group', '=', 'device-'.$this->id)->get();
-        if ($settings){
+        $settings = Settings::where('group', '=', 'device-' . $this->id)->get();
+        if ($settings) {
             return $settings->count();
         }
         return false;
+    }
+
+    public function reboot()
+    {
+        $this->command = "reset";
+        $this->save();
+    }
+
+    public function approve()
+    {
+        $this->approved = "1";
+        $this->save();
+    }
+
+    public function disapprove()
+    {
+        $this->approved = "0";
+        $this->save();
     }
 
     use HasFactory;

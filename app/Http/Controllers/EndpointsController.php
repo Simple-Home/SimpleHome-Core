@@ -76,6 +76,8 @@ class EndpointsController extends Controller
             ]);
         }
 
+
+
         return view('endpoints.devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
@@ -104,14 +106,38 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('endpoints.devices.edit', compact("device", "deviceForm", "propertyForms"));
+        return view('endpoint.devices.edit', compact("device", "deviceForm", "propertyForms"));
     }
     public function deviceRemove($device_id)
     {
-        $property = Devices::find($device_id);
-        $property->delete();
+        $device = Devices::find($device_id);
+        $device->delete();
 
-        return redirect()->route('controls.room')->with('danger', 'Device Sucessfully removed.');
+        return redirect()->route('endpoint.devices.list')->with('error', 'Device Sucessfully removed.');
+    }
+
+    public function deviceReboot($device_id)
+    {
+        $device = Devices::find($device_id);
+        $device->reboot();
+
+        return redirect()->route('endpoint.devices.list')->with('success', 'Reboot command was issued sucessfully.');
+    }
+
+    public function deviceApprove($device_id)
+    {
+        $device = Devices::find($device_id);
+        $device->approve();
+
+        return redirect()->route('endpoint.devices.list')->with('success', 'Device was approved sucessfully.');
+    }
+
+    public function deviceDisapprove($device_id)
+    {
+        $device = Devices::find($device_id);
+        $device->disapprove();
+
+        return redirect()->route('endpoint.devices.list')->with('error', 'Device command was blocked sucessfully.');
     }
 
     public function propertiesList()

@@ -33,6 +33,7 @@ class SettingDatabaseFieldsForm extends Form
         }
 
         $this->add('saveSetting', Field::BUTTON_SUBMIT, [
+            'attr' => ["class" => "btn btn-primary  btn-block"],
             'label' => __('simplehome.save')
         ]);
     }

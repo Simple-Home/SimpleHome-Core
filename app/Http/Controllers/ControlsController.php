@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Rooms;
 use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
+use App\Helpers\SettingManager;
 
 class ControlsController extends Controller
 {
@@ -39,10 +40,15 @@ class ControlsController extends Controller
             return $item;
             //}
         });
+
         if ($room_id == 0)
             $room_id =  Rooms::min('id');
 
-        $propertyes =  Properties::where("room_id", $room_id)->get();
+        $propertyes =  Properties::where("room_id", $room_id)->get()->filter(function ($item) {
+            if ($item->device->approved == 1) {
+                return $item;
+            }
+        });
 
         return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
     }
@@ -93,7 +99,27 @@ class ControlsController extends Controller
             'url' => route('controls.update', ['property_id' => $property_id]),
         ], ['icon' => $property->icon, 'rooms' => $sortRooms]);
 
-        return view('controls.edit', compact('property', 'propertyForm'));
+
+        $settings = SettingManager::getGroup('property-' . $property_id);
+        $systemSettingsForm = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('controls.settings.update', $property_id),
+            'variables' => $settings
+        ]);
+
+        return view('controls.edit', compact('property', 'propertyForm', 'systemSettingsForm'));
+    }
+
+    public function settingsUpdate(Request $request, FormBuilder $formBuilder)
+    {
+        foreach ($request->input() as $key => $value) {
+            if ($key == '_token') {
+                continue;
+            }
+            SettingManager::set($key, $value);
+        }
+
+        return redirect()->back()->with('success', 'Property settings sucessfully removed.');
     }
 
     /**
@@ -118,7 +144,7 @@ class ControlsController extends Controller
         $property->room_id = $request->input('room_id');
         $property->save();
 
-        return redirect()->route('controls.edit', ['property_id' => $property_id]);
+        return redirect()->route('controls.edit', ['property_id' => $property_id])->with('success', 'Property settings sucessfully removed.');;
     }
 
     public function remove($property_id)
@@ -126,6 +152,6 @@ class ControlsController extends Controller
         $property = Properties::find($property_id);
         $property->delete();
 
-        return redirect()->route('controls.room')->with('danger', 'Property Sucessfully removed.');;
+        return redirect()->route('controls.room')->with('danger', 'Property Sucessfully removed.');
     }
 }

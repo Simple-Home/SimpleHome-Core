@@ -11,6 +11,7 @@
             <div class="mt-3">
                 <a href="{{route('controls.remove', $property->id)}}" class="btn btn-danger btn-block">Delete</a>
             </div>
+            {!! form($systemSettingsForm) !!}
         </div>
     </div>
 </div>

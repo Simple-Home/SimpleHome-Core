@@ -32,16 +32,22 @@
 
     @yield('customHead')
 
+    <style>
+        .nav-bar-padding {
+            padding-bottom: 60px;
+        }
+    </style>
+
     <!-- PWA Manifest -->
     @laravelPWA
 </head>
 
 <body>
-    <div class="container">
+    <div class="container nav-bar-padding">
         <div class="row">
             <div class="col p-md-0">
                 @auth
-                @yield('alerts')
+                @include('components.alerts')
                 @endif
             </div>
         </div>
@@ -53,7 +59,6 @@
                 @endif
             </div>
         </div>
-
     </div>
     <!-- Botom Fixed Menu -->
     <nav class="navbar fixed-bottom bg-light">

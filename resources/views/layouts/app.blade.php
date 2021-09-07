@@ -13,7 +13,6 @@
     <script src="{{ asset(mix('js/manifest.js')) }}"></script>
     <script src="{{ asset(mix('js/vendor.js')) }}"></script>
 
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
@@ -21,8 +20,14 @@
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
+
     <meta name="color-scheme" content="dark light">
 
+    <style>
+        .nav-bar-padding {
+            padding-bottom: 60px;
+        }
+    </style>
     @yield('customHead')
 
     <!-- PWA Manifest -->
@@ -30,7 +35,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container  nav-bar-padding">
         <div class="row justify-content-between">
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
@@ -77,7 +82,7 @@
         <div class="row">
             <div class="col p-md-0">
                 @auth
-                @yield('alerts')
+                @include('components.alerts')
                 @endif
             </div>
         </div>

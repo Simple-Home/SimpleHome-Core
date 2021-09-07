@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use App\Helpers\SettingManager;
 
 class EndpointController extends Controller
 {
@@ -169,6 +170,21 @@ class EndpointController extends Controller
                         $property->room_id      = $defaultRoom->id;
                         $property->history      = 90;
                         $property->save();
+
+                        if ($key == "temp_cont") {
+                            $group = "property-" . $property->id;
+                            $settings = [
+                                "min" => "5",
+                                "max" => "30",
+                                "step" => "3",
+                            ];
+                        }
+
+                        foreach ($settings as $indexs => $value) {
+                            if (SettingManager::get($indexs, $group) == false) {
+                                SettingManager::register($indexs, $settings, 'string', $group);
+                            }
+                        }
                     }
                 }
             }
