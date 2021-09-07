@@ -67,6 +67,12 @@ class ControlsController extends Controller
             $dataset["data"][] += $item->value;
             $labels[] = $item->created_at->diffForHumans();
         }
+        $dataset["fill"] = True;
+        $dataset["backgroundColor"] = "rgba(220,220,220,0.5)";
+        $dataset["borderColor"] = "rgba(220,220,220,1)";
+        $dataset["tension"] = 0.4;
+        $dataset["pointRadius"] = 0;
+
 
         $propertyDetailChart = app()->chartjs
             ->name('propertyDetailChart')
@@ -74,6 +80,11 @@ class ControlsController extends Controller
             ->labels($labels)
             ->datasets([$dataset])
             ->optionsRaw("{
+                plugins:{
+                    legend:{
+                        display: false
+                    }
+                },
                 scales: {
                     yAxes: [{
                         ticks: {

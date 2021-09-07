@@ -12,9 +12,9 @@
                     @include('controls.components.types.' . $property->type, $property)
                     @else
                     @if (is_numeric($property->last_value->value))
-                    {{ round($property->last_value->value, 2) }}
+                    {{ round($property->last_value->value, 2) }} {{$property->units}}
                     @else
-                    {{ $property->last_value->value }}
+                    {{ $property->last_value->value }} {{$property->units}}
                     @endif
                     @endif
                 </p>

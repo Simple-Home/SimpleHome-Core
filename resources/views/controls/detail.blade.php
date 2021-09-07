@@ -3,6 +3,11 @@
 
 @section('customeHead')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<style>
+    .square {
+        padding-top: 100% !important;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -26,6 +31,11 @@
         </div>
     </div>
     <div class="row justify-content-between">
+        <div style="width: 50px; height: 50px;" class="col p-md-0 col-auto d-flex ">
+            <span class="mx-auto my-auto h1">
+                <i class="fas {{$property->icon}}"></i>
+            </span>
+        </div>
         <div class="col p-md-0">
             <div>
                 <h3 class="mb-0">{{$property->nick_name}}</h3>
@@ -34,8 +44,8 @@
         </div>
         <div class="col p-md-0 text-right my-auto">
             @if (!empty($property->last_value))
-            <h4 class="text-right">
-                {{$property->last_value->value}}
+            <h4 class="text-right font-weight-bold">
+                {{$property->last_value->value}} {{$property->units}}
             </h4>
             @endif
         </div>
@@ -64,7 +74,7 @@
                 <tbody>
                     <tr>
                         <td>{{$value->created_at->diffForHumans()}}</td>
-                        <td>{{$value->value}}</td>
+                        <td>{{$value->value}} {{$property->units}}</td>
                         <td>{{$value->done}}</td>
                     </tr>
                 </tbody>
