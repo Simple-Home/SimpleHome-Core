@@ -13,12 +13,12 @@
         </div>
         <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto mr-2 ">
             <!--Period Control-->
-            <a style="font-weight:bold" class="h3 btn btn-primary my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
+            <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'detail') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
             <div class="btn-group" role="group" aria-label="Standard Button Group">
-                <a style="font-weight:bold" class="h3 btn btn-primary my-auto" id="period_today" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.day")}}</a>
-                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.week")}}</a>
-                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.month")}}</i></a>
-                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.year")}}</i></a>
+                <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'day') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', [$property->id, 'day'])}}">{{__("simplehome.period.day")}}</a>
+                <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'week') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" href="{{route('controls.detail', [$property->id, 'week'])}}">{{__("simplehome.period.week")}}</a>
+                <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'month') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" href="{{route('controls.detail', [$property->id, 'month'])}}">{{__("simplehome.period.month")}}</i></a>
+                <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'year') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" href="{{route('controls.detail', [$property->id, 'year'])}}">{{__("simplehome.period.year")}}</i></a>
             </div>
         </div>
         <div class="col-md-auto text-right order-md-3 order-2 p-md-0 my-auto col-6">
@@ -63,9 +63,9 @@
                 @foreach ($table as $value)
                 <tbody>
                     <tr>
-                        <td>{{$value['created_at']->diffForHumans()}}</td>
-                        <td>{{$value['value']}}</td>
-                        <td>{{$value['done']}}</td>
+                        <td>{{$value->created_at->diffForHumans()}}</td>
+                        <td>{{$value->value}}</td>
+                        <td>{{$value->done}}</td>
                     </tr>
                 </tbody>
                 @endforeach

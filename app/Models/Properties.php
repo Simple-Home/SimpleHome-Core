@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Devices;
 use App\Models\Records;
 use App\Models\Rooms;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Types\GraphPeriod;
+use Illuminate\Support\Facades\DB;
 
 
 class Properties extends Model
 {
     protected $fillable = [];
     protected $table = 'properties';
+    public $period = GraphPeriod::DAY;
 
     public function device()
     {
@@ -28,27 +30,53 @@ class Properties extends Model
 
     public function values()
     {
-        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', Carbon::now()->subDays(1))->orderBy('created_at', 'DESC');
+        $dateFrom = Carbon::now()->subDays(1);
+
+        switch ($this->period) {
+            case GraphPeriod::WEEK:
+                $dateFrom = Carbon::now()->subWeek(1);
+                break;
+            case GraphPeriod::MONTH:
+                $dateFrom = Carbon::now()->subMonth(1);
+                break;
+            case GraphPeriod::YEAR:
+                $dateFrom = Carbon::now()->subYear(1);
+                break;
+        }
+
+        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', $dateFrom)->orderBy('created_at', 'DESC');
     }
 
-    public function getAgregatedValuesAttribute()
+    public function getAgregatedValuesAttribute($period = GraphPeriod::DAY)
     {
-        $format = 'Y-m-d H';
-        $agregation = [];
-        $result = [];
-        $records = $this->values;
-        foreach ($records as $key => $record) {
-            $agregation[$record->created_at->format($format)][] = $record->value;
+        $dateFrom = Carbon::now()->subDays(1);
+        $periodFormat = "%Y-%m-%d %hh";
+
+        switch ($this->period) {
+            case GraphPeriod::WEEK:
+                $dateFrom = Carbon::now()->subWeek(1);
+                $periodFormat = "%Y-%m-%d";
+                break;
+            case GraphPeriod::MONTH:
+                $dateFrom = Carbon::now()->subMonth(1);
+                $periodFormat = "%Y-%m-%d";
+                break;
+            case GraphPeriod::YEAR:
+                $dateFrom = Carbon::now()->subYear(1);
+                $periodFormat = "%Y-%m";
+                break;
         }
 
-        foreach ($agregation as $key => $groupedValues) {
-            $result[] = [
-                'value' => array_sum($groupedValues) / count($groupedValues),
-                'created_at' => Carbon::createFromFormat($format,$key),
-                'done' => '',
-            ];
-        }
-        return $result;
+        $agregatedData = Records::select(['value', 'done', 'created_at'])
+            ->selectRaw("DATE_FORMAT(created_at, ?) as period", [$periodFormat])
+            ->selectRaw("ROUND(MIN(value), 1) AS min")
+            ->selectRaw("ROUND(MAX(value), 1) AS max")
+            ->selectRaw("ROUND(AVG(value), 1) AS value")
+            ->where('property_id', $this->id)
+            ->groupBy('period');
+
+        $agregatedData->where('created_at', '>=', $dateFrom);
+        return $agregatedData->get();
     }
 
     public function last_value()

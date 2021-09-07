@@ -12,7 +12,9 @@
         </div>
         <div class="row">
             <div class="col m-0">
-                @include('endpoints.components.controls', $device)
+                <div class="d-flex justify-content-between">
+                    @include('endpoints.components.controls', $device)
+                </div>
             </div>
         </div>
     </div>

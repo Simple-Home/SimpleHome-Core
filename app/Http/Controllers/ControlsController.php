@@ -8,6 +8,8 @@ use App\Models\Rooms;
 use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
 use App\Helpers\SettingManager;
+use Spatie\Backup\Tasks\Cleanup\Period;
+use App\Types\GraphPeriod;
 
 class ControlsController extends Controller
 {
@@ -53,16 +55,17 @@ class ControlsController extends Controller
         return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
     }
 
-    public function detail($property_id)
+    public function detail($property_id, $period = GraphPeriod::DAY)
     {
         $property = Properties::find($property_id);
 
         $dataset["data"] = [];
         $labels = [];
 
+        $property->period = $period;
         foreach ($property->agregated_values  as $key => $item) {
-            $dataset["data"][] += $item['value'];
-            $labels[] = $item['created_at']->diffForHumans();
+            $dataset["data"][] += $item->value;
+            $labels[] = $item->created_at->diffForHumans();
         }
 
         $propertyDetailChart = app()->chartjs

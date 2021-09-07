@@ -76,8 +76,6 @@ class EndpointsController extends Controller
             ]);
         }
 
-
-
         return view('endpoints.devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
@@ -106,7 +104,7 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('endpoint.devices.edit', compact("device", "deviceForm", "propertyForms"));
+        return view('endpoints.devices.edit', compact("device", "deviceForm", "propertyForms"));
     }
     public function deviceRemove($device_id)
     {

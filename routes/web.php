@@ -85,7 +85,7 @@ Route::namespace('settings')->prefix('settings')->group(function () {
 
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
-    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail/{period?}', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/remove', [App\Http\Controllers\ControlsController::class, 'remove'])->name('controls.remove');
     Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/update', [App\Http\Controllers\ControlsController::class, 'update'])->name('controls.update');
@@ -98,7 +98,7 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('endpoints.devices.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('endpoints.devices.remove');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
-    //Simple HOme Devices Comands
+    //Simple Home Devices Comands
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('endpoints.devices.reboot');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/approve', [App\Http\Controllers\EndpointsController::class, 'deviceApprove'])->name('endpoints.devices.approve');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('endpoints.devices.disapprove');
