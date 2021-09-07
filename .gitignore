@@ -40,7 +40,7 @@ smart-home.code-workspace
 */sftp.json
 composer.lock
 storage/installed
-Modules/
+Modules/*/
 .idea
 /storage/debugbar/.gitignore
 

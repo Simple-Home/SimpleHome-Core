@@ -6,12 +6,22 @@
 @endsection
 
 @section('content')
-<div class="container p-0">
+<div class="container p-0 pt-2">
     <div class="row justify-content-between">
-        <div class="col p-md-0">
+        <div class="col-md order-md-1 order-1 p-md-0 my-auto col-6">
             <a style="font-weight:bold" class="h4 fw-bold" href="{{route('controls.room', $property->room->id)}}">{{"< ". $property->room->name}}</a>
         </div>
-        <div class="col p-md-0 text-right my-auto">
+        <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto mr-2 ">
+            <!--Period Control-->
+            <a style="font-weight:bold" class="h3 btn btn-primary my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
+            <div class="btn-group" role="group" aria-label="Standard Button Group">
+                <a style="font-weight:bold" class="h3 btn btn-primary my-auto" id="period_today" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.day")}}</a>
+                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.week")}}</a>
+                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.month")}}</i></a>
+                <a style="font-weight:bold" class="h3 btn btn-outline-primary my-auto" href="{{route('controls.edit', $property->id)}}">{{__("simplehome.period.year")}}</i></a>
+            </div>
+        </div>
+        <div class="col-md-auto text-right order-md-3 order-2 p-md-0 my-auto col-6">
             <a style="font-weight:bold" class="h3 fw-bold" href="{{route('controls.edit', $property->id)}}"><i class="fas fa-cog"></i></a>
         </div>
     </div>

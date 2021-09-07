@@ -129,11 +129,11 @@ class EndpointController extends Controller
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
-    
-        
+
+
         $device = Devices::query()->where('token', '=', $data['token'])->first();
         $device->setHeartbeat();
-        
+
         if (!$device) {
             $devices            = new Devices;
             $devices->token     = $data['token'];
@@ -147,7 +147,7 @@ class EndpointController extends Controller
                 JsonResponse::HTTP_OK
             );
         }
-     
+
 
         if ($device->approved == 1) {
             $defaultRoom = Rooms::query()->where('default', 1)->first();
@@ -183,7 +183,7 @@ class EndpointController extends Controller
 
                         foreach ($settings as $indexs => $value) {
                             if (SettingManager::get($indexs, $group) == false) {
-                                SettingManager::register($indexs, $settings, 'string', $group);
+                                SettingManager::register($indexs, $settings, 'init', $group);
                             }
                         }
                     }

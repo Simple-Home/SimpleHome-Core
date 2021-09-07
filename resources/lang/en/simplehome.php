@@ -105,4 +105,9 @@ return [
     'housekeeping.runJob.triggert' => 'Job runs in the background...',
     'endpoint.panelTitle' => 'Endpoints',
     'controls.notFound' => 'No controls Found',
+    'period.today' => 'Today',
+    'period.day' => 'Day',
+    'period.week' => 'Week',
+    'period.month' => 'Month',
+    'period.year' => 'Year',
 ];
