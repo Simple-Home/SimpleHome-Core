@@ -129,11 +129,11 @@ class EndpointController extends Controller
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
-
-
+    
+        
         $device = Devices::query()->where('token', '=', $data['token'])->first();
         $device->setHeartbeat();
-
+        
         if (!$device) {
             $devices            = new Devices;
             $devices->token     = $data['token'];
@@ -147,6 +147,7 @@ class EndpointController extends Controller
                 JsonResponse::HTTP_OK
             );
         }
+     
 
         if ($device->approved == 1) {
             $defaultRoom = Rooms::query()->where('default', 1)->first();
@@ -215,15 +216,14 @@ class EndpointController extends Controller
 
         foreach ($device->getProperties as $key => $property) {
             if (isset($property->last_value->value)) {
-                $response["values"][($property->type == "on_off" ? "on/off" : $property->type)]['value'] = (int) $property->last_value->value;
+                $response["values"][($property->type == "on_off" ? "on/off" : $property->type)] = (int) $property->last_value->value;
             }
         }
-
 
         return response()->json(
             $response,
             JsonResponse::HTTP_OK,
-            ['Charset' => 'utf-8'],
+            [],
             JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
         );
     }
