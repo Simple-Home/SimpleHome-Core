@@ -44,10 +44,10 @@
         </div>
         <div class="col p-md-0 text-right my-auto">
             @if (!empty($property->last_value))
-            <h4 class="text-right font-weight-bold">
+            <h1 class="text-right font-weight-bold">
                 {{$property->last_value->value}} {{$property->units}}
-            </h4>
-            @endif
+                </h4>
+                @endif
         </div>
     </div>
     <div class="row">
