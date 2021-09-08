@@ -83,6 +83,9 @@ Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
 });
 
+
+
+//Rewrite
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail/{period?}', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
@@ -104,12 +107,15 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('endpoints.devices.disapprove');
 });
 
+Route::namespace('system')->prefix('system')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
+});
+
 #Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
 
 Route::get('/', function () {
     return redirect()->route('controls.room');
 });
-
 
 Route::get('/offline', function () {
     return view('vendor/laravelpwa/offline');

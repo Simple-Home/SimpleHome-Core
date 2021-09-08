@@ -1,0 +1,1 @@
+<a href="{{}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>

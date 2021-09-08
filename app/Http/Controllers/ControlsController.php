@@ -58,38 +58,79 @@ class ControlsController extends Controller
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
         $property = Properties::find($property_id);
-
-        $dataset["data"] = [];
         $labels = [];
+
+        $values = [];
+        $mins = [];
+        $maxs = [];
 
         $property->period = $period;
         foreach ($property->agregated_values  as $key => $item) {
-            $dataset["data"][] += $item->value;
+            $values[] = $item->value;
+            $mins[] = $item->max;
+            $maxs[] = $item->min;
+
             $labels[] = $item->created_at->diffForHumans();
         }
+
+        $datasets = [
+            [
+                "label" => "value",
+                "backgroundColor" => "rgba(220,220,220,0.5)",
+                "borderColor" => "rgba(0,0,0,1)",
+                "tension" => 0.4,
+                "pointRadius" => 0,
+                "data" => $maxs,
+                "data" => $values,
+            ],
+            [
+                "label" => "min",
+                "backgroundColor" => "rgba(220,220,220,0.5)",
+                "borderColor" => "rgba(0,0,0,1)",
+                "tension" => 0.4,
+                "pointRadius" => 0,
+                "data" => $mins,
+            ],
+            [
+                "label" => "max",
+                "backgroundColor" => "rgba(220,220,220,0.5)",
+                "borderColor" => "rgba(0,0,0,1)",
+                "tension" => 0.4,
+                "pointRadius" => 0,
+                "data" => $maxs,
+            ],
+        ];
+
+
+
         $dataset["fill"] = True;
         $dataset["backgroundColor"] = "rgba(220,220,220,0.5)";
         $dataset["borderColor"] = "rgba(220,220,220,1)";
         $dataset["tension"] = 0.4;
         $dataset["pointRadius"] = 0;
 
-
         $propertyDetailChart = app()->chartjs
             ->name('propertyDetailChart')
             ->type('line')
             ->labels($labels)
-            ->datasets([$dataset])
+            ->datasets($datasets)
             ->optionsRaw("{
                 plugins:{
+                    maintainAspectRatio: false,
+                    spanGaps: false,
+                    filler: {
+                            propagate: false
+                    },
                     legend:{
-                        display: false
+                        display: true,
+                        position: 'bottom'
                     }
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            min: Math.min.apply(this, " . json_encode($dataset["data"]) . ") - 5,
-                            max: Math.max.apply(this, " . json_encode($dataset["data"]) . ") + 5
+                            min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
+                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5
                         }
                     }]
                 }

@@ -73,6 +73,7 @@ class Properties extends Model
             ->selectRaw("ROUND(MAX(value), 1) AS max")
             ->selectRaw("ROUND(AVG(value), 1) AS value")
             ->where('property_id', $this->id)
+            ->orderBy('created_at', 'DESC')
             ->groupBy('period');
 
         $agregatedData->where('created_at', '>=', $dateFrom);

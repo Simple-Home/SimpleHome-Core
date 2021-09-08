@@ -16,7 +16,15 @@
         <div class="col-md order-md-1 order-1 p-md-0 my-auto col-6">
             <a style="font-weight:bold" class="h4 fw-bold" href="{{route('controls.room', $property->room->id)}}">{{"< ". $property->room->name}}</a>
         </div>
-        <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto mr-2 ">
+        <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto mr-md-2 d-flex d-md-block justify-content-between">
+            <!--Period Selector-->
+            {{--
+                <div class="d-md-inline d-none h3 my-auto">
+                    <a href="#"><i class="fas fa-chevron-left"></i></a>
+                    Datum
+                    <a href="#"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            --}}
             <!--Period Control-->
             <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'detail') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
             <div class="btn-group" role="group" aria-label="Standard Button Group">
@@ -66,7 +74,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Created</th>
-                        <th scope="col">Value</th>
+                        <th scope="col">(Min/Avg/Max)</th>
                         <th scope="col">Done</th>
                     </tr>
                 </thead>
@@ -74,8 +82,14 @@
                 <tbody>
                     <tr>
                         <td>{{$value->created_at->diffForHumans()}}</td>
-                        <td>{{$value->value}} {{$property->units}}</td>
-                        <td>{{$value->done}}</td>
+                        <td>({{$value->min}} {{$property->units}}/{{$value->value}} {{$property->units}}/{{$value->max}} {{$property->units}})</td>
+                        <td>
+                            @if ($value->done)
+                            <i class="fas fa-check"></i>
+                            @else
+                            <i class="fas fa-times"></i>
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
                 @endforeach
