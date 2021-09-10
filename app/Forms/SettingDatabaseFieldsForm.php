@@ -15,6 +15,7 @@ class SettingDatabaseFieldsForm extends Form
         'string' => Field::TEXT,
         'int' => Field::NUMBER,
         'color' => Field::COLOR,
+        'bool' => Field::CHECKBOX,
     ];
 
     public function buildForm()
@@ -22,11 +23,17 @@ class SettingDatabaseFieldsForm extends Form
         if (count($this->formOptions['variables']) > 0) {
             foreach ($this->formOptions['variables'] as $key => $value) {
                 if (isset($this->types[$value->type])) {
-                    $this->add($value->name, $this->types[$value->type], [
+                    $args = [
                         'rules' => 'required',
                         'label' => __($value->name),
                         'value' => $value->value,
-                    ]);
+                    ];
+
+                    if ($value->type == "bool" && $value->value) {
+                        $args["checked"] = $value->value;
+                    }
+
+                    $this->add($value->name, $this->types[$value->type], $args);
                 } else {
                     $this->add($value->name, Field::STATIC, [
                         'value' => 'Type ' . $value->type . ' is not supported',

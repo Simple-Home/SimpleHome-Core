@@ -31,7 +31,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limi
 
 // OAuth, rate limit 60 requests/min
 Route::group(['prefix' => 'v2', 'middleware' => ['cors', 'throttle:10,1']], function () {
-    Route::post('/login', [App\Http\Controllers\Auth\ApiAuthenticationController::class, 'login']);
+    Route::post('/login', [App\Http\Controllers\Auth\ApiAuthenticationController::class, 'login'])->name('api.login');
     //Route::post('/register',[App\Http\Controllers\Auth\ApiAuthenticationController::class, 'register']);
 });
 Route::group(['prefix' => 'v2', 'middleware' => ['auth:oauth']], function () {

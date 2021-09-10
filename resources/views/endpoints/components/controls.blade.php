@@ -2,9 +2,9 @@
 
 @if ($device->type == "0" || $device->type == "Other")
 <a href="/test" class="btn btn-primary"><i class="fas fa-upload"></i></a>
-<a href="{{ route('endpoints.devices.reboot', $device->id) }}" class="btn btn-primary"><i class="fas fa-redo"></i></a>
 <a href="/test" class="btn btn-primary"><i class="fas fa-terminal"></i></a>
 @endif
+<a href="{{ route($device->integration .'.devices.reboot', $device->id) }}" class="btn btn-primary"><i class="fas fa-redo"></i></a>
 
 @if ($device->settingsCount > 0)
 <a href="{{ route('devices_settings', $device->id) }}" class="btn btn-primary"><i class="fas fa-cog"></i></a>

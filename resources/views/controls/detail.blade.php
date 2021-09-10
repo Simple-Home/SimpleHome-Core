@@ -47,7 +47,9 @@
         <div class="col p-md-0">
             <div>
                 <h3 class="mb-0">{{$property->nick_name}}</h3>
+                @if(isset($property->last_value->created_at))
                 <p class="mb-0">{{$property->last_value->created_at->diffForHumans()}}</p>
+                @endif
             </div>
         </div>
         <div class="col p-md-0 text-right my-auto">

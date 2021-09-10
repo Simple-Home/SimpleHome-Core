@@ -14,4 +14,13 @@ class Settings extends Model
     ];
     //TODO: Make Migration
     use HasFactory;
+
+    public function getValueAttribute($value)
+    {
+        $rawValue = $value;
+        if (settype($value, $this->type)) {
+            return $value;
+        }
+        return $rawValue;
+    }
 }

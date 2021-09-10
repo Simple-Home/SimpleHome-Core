@@ -129,6 +129,7 @@ class PropertiesController extends Controller
         return redirect()->back();
     }
 
+
     public function control(Request $request, $propertyID)
     {
         $value = strtolower($request->value);

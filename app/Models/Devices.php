@@ -41,6 +41,11 @@ class Devices extends Model
         return str_replace(" ", "_", strtolower($this->hostname));
     }
 
+    public function getIntegrationAttribute($value)
+    {
+        return strtolower($value);
+    }
+
     public function getAuthIdentifier()
     {
         return $this->getKey();

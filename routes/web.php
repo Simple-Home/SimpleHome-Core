@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Auth::routes(['verify' => true]);
+
 
 Route::middleware(['auth', 'verified', 'language'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('users_search');
@@ -102,7 +104,7 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('endpoints.devices.remove');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
     //Simple Home Devices Comands
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('endpoints.devices.reboot');
+    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('others.devices.reboot');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/approve', [App\Http\Controllers\EndpointsController::class, 'deviceApprove'])->name('endpoints.devices.approve');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('endpoints.devices.disapprove');
 });
@@ -110,6 +112,9 @@ Route::namespace('endpoints')->prefix('endpoints')->group(function () {
 Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
 });
+
+
+Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
 
 #Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
 
@@ -119,4 +124,11 @@ Route::get('/', function () {
 
 Route::get('/offline', function () {
     return view('vendor/laravelpwa/offline');
+});
+
+
+//oauth
+Route::namespace('oauht')->prefix('oauht')->group(function () {
+    Passport::routes();
+    //Route::middleware(['auth:oauth'])->get('login', [App\Http\Controllers\PropertiesController::class, 'login'])->name('oauth.login');;
 });
