@@ -130,5 +130,5 @@ Route::get('/offline', function () {
 //oauth
 Route::namespace('oauht')->prefix('oauht')->group(function () {
     Passport::routes();
-    //Route::middleware(['auth:oauth'])->get('login', [App\Http\Controllers\PropertiesController::class, 'login'])->name('oauth.login');;
+    Route::middleware(['auth:oauth'])->get('login', [App\Http\Controllers\PropertiesController::class, 'login'])->name('oauth.login');;
 });
