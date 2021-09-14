@@ -5,8 +5,5 @@
     <a class="nav-link disabled" style="margin: auto;" href="{{ route('automations_list') }}"><i class="fa fa-clock-o" style="font-size: 22px;"></i></a>
 </li>
 <li class="nav-item">
-    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'endpoint') > -1) ? 'active' : '') }}" href="{{ route('endpoint.devices.list') }}"><i class="fas fa-microchip" style="font-size: 22px;"></i></a>
-</li>
-<li class="nav-item">
-    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'server_info') > -1) ? 'active' : '') }}" href="{{ route('server_info') }}"><i class="fas fa-sliders-h" style="font-size: 22px;"></i></a>
+    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'system') > -1) ? 'active' : '') }}" href="{{ route('system.user.profile') }}"><i class="fas fa-cog" style="font-size: 22px;"></i></a>
 </li>

@@ -8,7 +8,6 @@ use App\Models\Rooms;
 use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
 use App\Helpers\SettingManager;
-use Spatie\Backup\Tasks\Cleanup\Period;
 use App\Types\GraphPeriod;
 
 class ControlsController extends Controller
@@ -38,9 +37,9 @@ class ControlsController extends Controller
         ], ['edit' => false]);
 
         $rooms = Rooms::all()->filter(function ($item) {
-            //if ($item->PropertiesCount > 0) {
-            return $item;
-            //}
+            if ($item->PropertiesCount > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                return $item;
+            }
         });
 
         if ($room_id == 0)

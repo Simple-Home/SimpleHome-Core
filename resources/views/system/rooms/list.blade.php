@@ -1,5 +1,9 @@
 @extends('layouts.app')
-@section('pageTitle', trans('simplehome.rooms.list.pageTitle') )
+
+@section('subnavigation')
+@include('system.components.subnavigation')
+@endsection
+
 @section('content')
 <div class="container">
     @include('components.search')
@@ -49,6 +53,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,5 +69,3 @@
         </div>
     </div>
 </div>
-
-@endsection

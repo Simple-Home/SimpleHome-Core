@@ -4,10 +4,9 @@
 @livewireStyles
 @endsection
 
-@section('pageTitle', trans('simplehome.backup.panelTitle') )
 
 @section('subnavigation')
-@include('settings.components.subnavigation')
+@include('system.components.subnavigation')
 @endsection
 
 @section('content')

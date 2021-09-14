@@ -28,7 +28,7 @@ class UsersController extends Controller
      */
     public function list()
     {
-        return view('settings.users', ["users" => User::all()]);
+        return view('system.users.list', ["users" => User::all()]);
     }
 
     /**
@@ -61,7 +61,7 @@ class UsersController extends Controller
             'method' => 'POST',
             'url' => route('user.delete', ['user' => $user])
         ]);
-        return view('profile.administration', ['user' => $user] + compact('profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
+        return view('system.profile.detail', ['user' => $user] + compact('profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
     }
 
     /**
@@ -195,6 +195,6 @@ class UsersController extends Controller
             ->orWhere('email', 'LIKE', "%{$search}%")
             ->get();
 
-        return view('users.list', ["users" => $users]);
+        return view('system.users.list', ["users" => $users]);
     }
 }

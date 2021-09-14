@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('subnavigation')
-@include('settings.components.subnavigation')
+@include('system.components.subnavigation')
 @endsection
 
 @section('content')
@@ -21,14 +21,14 @@
                 </div>
 
                 <div class="col-3 ml-auto p-0">
-                    <a href="{{route('housekeeping_runjob')}}">
+                    <a href="{{route('system.housekeepings.run')}}">
                         <button type="button" class="w-100 btn btn-primary">{{__('simplehome.housekeeping.runJob')}}</button>
                     </a>
                 </div>
             </div>
             <div class="col">
                 <div class="row">
-                    <form action="{{route('housekeeping_saveform')}}" method="post">
+                    <form action="{{route('system.housekeepings.save')}}" method="post">
                         <div class="form-group row">
                             <div class="form-check">
                                 <input class="form-check-input" name="housekeeping_active" type="checkbox" value="1" id="active" @if ($settings['active']->value != 0) checked="checked" @endif>

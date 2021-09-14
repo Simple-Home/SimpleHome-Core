@@ -26,7 +26,7 @@ class HousekeepingController extends Controller
 
         $runJob = $request->get('runJob', false);
 
-        return view('settings.housekeeping', ['totalRecords' => $totalRecords, 'settings' => $settings, 'runJob' => $runJob]);
+        return view('system.housekeepings.index', ['totalRecords' => $totalRecords, 'settings' => $settings, 'runJob' => $runJob]);
     }
 
     public function saveForm(Request $request)

@@ -44,7 +44,7 @@ class RoomsController extends Controller
             ], ['edit' => true]);
         }
 
-        return view('rooms.list', compact('roomForm', 'rooms', 'roomsForm'));
+        return view('system.rooms.list', compact('roomForm', 'rooms', 'roomsForm'));
     }
 
     public function search(Request $request, FormBuilder $formBuilder)
@@ -61,7 +61,7 @@ class RoomsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        return view('rooms.list', compact('roomForm', 'rooms'));
+        return view('system.rooms.list', compact('roomForm', 'rooms'));
     }
 
     /**

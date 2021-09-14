@@ -1,7 +1,41 @@
 @extends('layouts.app')
-@section('pageTitle', trans('simplehome.profile.administration.pageTitle') )
+
+@section('subnavigation')
+@include('system.components.subnavigation')
+@endsection
+
 @section('content')
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{__('simplehome.profile.informations')}}</div>
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    {{ __('simplehome.logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{__('simplehome.profile.informations')}}</div>
+                <div>
+                    <i class="d-inline fas fa-sun"></i>
+                    <div class="d-inline custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                        <label class="custom-control-label" for="darkSwitch"></label>
+                    </div>
+                    <i class="d-inline fas fa-moon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -30,7 +64,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('simplehome.changePassword') }}</div>
-
                 <div class="card-body">
                     {!! form($changePasswordForm) !!}
                 </div>
@@ -42,11 +75,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('simplehome.users.delete') }}</div>
-
                 <div class="card-body">
-                    <?php if (Session::get('verifyDelete')): ?>
+                    <?php if (Session::get('verifyDelete')) : ?>
                         {!! form($realyDeleteProfileForm) !!}
-                    <?php else: ?>
+                    <?php else : ?>
                         {!! form($deleteProfileForm) !!}
                     <?php endif; ?>
                 </div>

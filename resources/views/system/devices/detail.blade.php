@@ -6,10 +6,10 @@
         <div class="col p-md-0">
             <div class="row justify-content-between">
                 <div class="col p-md-0">
-                    <a style="font-weight:bold" class="h4 fw-bold" href="{{route('endpoint.devices.list')}}">{{"< Endpoints"}}</a>
+                    <a style="font-weight:bold" class="h4 fw-bold" href="{{route('system.devices.list')}}">{{"< Devices"}}</a>
                 </div>
                 <div class="col p-md-0 text-right my-auto">
-                    <a style="font-weight:bold" class="h3 fw-bold" href="{{route('endpoints.devices.edit', $device->id)}}"><i class="fas fa-cog"></i></a>
+                    <a style="font-weight:bold" class="h3 fw-bold" href="{{route('system.devices.edit', $device->id)}}"><i class="fas fa-cog"></i></a>
                 </div>
             </div>
         </div>

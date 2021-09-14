@@ -24,7 +24,6 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified', 'language'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('users_search');
-Route::middleware(['auth', 'verified', 'language'])->get('/user', [App\Http\Controllers\UsersController::class, 'edit'])->name('user');
 Route::middleware(['auth', 'verified', 'language'])->post('/user/update', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
 Route::middleware(['auth', 'verified', 'language'])->post('/user/setting', [App\Http\Controllers\UsersController::class, 'setting'])->name('user.setting');
 Route::middleware(['auth', 'verified', 'language'])->post('/user/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('user.changePassword');
@@ -45,7 +44,6 @@ Route::namespace('devices')->prefix('devices')->group(function () {
 });
 
 Route::namespace('rooms')->prefix('rooms')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\RoomsController::class, 'list'])->name('rooms_list');
     Route::middleware(['auth', 'verified', 'language'])->get('/search', [App\Http\Controllers\RoomsController::class, 'search'])->name('rooms_search');
     Route::middleware(['auth', 'verified', 'language'])->get('/default/{room_id}/{default}', [App\Http\Controllers\RoomsController::class, 'default'])->name('rooms_default');
 });
@@ -72,17 +70,12 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 
 Route::namespace('settings')->prefix('settings')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\SettingsController::class, 'dashboard'])->name('server_info');
-    Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('backup');
-    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('housekeeping');
-    Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/saveForm', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('housekeeping_saveform');
-    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/runJob', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('housekeeping_runjob');
     Route::middleware(['auth', 'verified', 'language'])->get('/chart/data', [App\Http\Controllers\SettingsController::class, 'chartData'])->name('server_chart_data');
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SettingsController::class, 'integrations'])->name('integrations_list');
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations/detail/{integration_slug}', [App\Http\Controllers\SettingsController::class, 'detail'])->name('integration_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/system', [App\Http\Controllers\SettingsController::class, 'system'])->name('system_settings');
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('settings_update');
     Route::middleware(['auth', 'verified', 'language'])->get('/set/dark', [App\Http\Controllers\SettingsController::class, 'setDark'])->name('settings_dark');
-    Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users_list');
 });
 
 
@@ -98,19 +91,30 @@ Route::namespace('controls')->prefix('controls')->group(function () {
 });
 
 Route::namespace('endpoints')->prefix('endpoints')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('endpoint.devices.list');
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/detail', [App\Http\Controllers\EndpointsController::class, 'devicesDetail'])->name('endpoints.devices.detail');
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('endpoints.devices.edit');
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('endpoints.devices.remove');
     Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties', [App\Http\Controllers\EndpointsController::class, 'propertiesList'])->name('endpoint.properties.list');
     //Simple Home Devices Comands
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('others.devices.reboot');
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/approve', [App\Http\Controllers\EndpointsController::class, 'deviceApprove'])->name('endpoints.devices.approve');
-    Route::middleware(['auth', 'verified', 'language'])->get('/endpoints/properties/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('endpoints.devices.disapprove');
+
 });
 
 Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/profile', [App\Http\Controllers\UsersController::class, 'edit'])->name('system.user.profile');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
+    Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('system.users.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('system.users.search');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms', [App\Http\Controllers\RoomsController::class, 'list'])->name('system.rooms.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/search', [App\Http\Controllers\RoomsController::class, 'list'])->name('system.rooms.search');
+    Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
+    Route::middleware(['auth', 'verified', 'language'])->get('/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('system.devices.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/detail', [App\Http\Controllers\EndpointsController::class, 'devicesDetail'])->name('system.devices.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('system.devices.edit');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('system.devices.remove');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/command/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('others.devices.reboot');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/approve', [App\Http\Controllers\EndpointsController::class, 'deviceApprove'])->name('system.devices.approve');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('system.devices.disapprove');
+    Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
 });
 
 

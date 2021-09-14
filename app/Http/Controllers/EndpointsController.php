@@ -48,7 +48,7 @@ class EndpointsController extends Controller
             }
         }
 
-        return view('endpoints.devices.list', compact('devices'));
+        return view('system.devices.list', compact('devices'));
     }
 
     public function devicesDetail(int $device_id, FormBuilder $formBuilder)
@@ -76,7 +76,7 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('endpoints.devices.detail', compact("device", "deviceForm", "propertyForms"));
+        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms"));
     }
 
     public function devicesEdit(int $device_id, FormBuilder $formBuilder)
@@ -104,7 +104,7 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('endpoints.devices.edit', compact("device", "deviceForm", "propertyForms"));
+        return view('system.devices.edit', compact("device", "deviceForm", "propertyForms"));
     }
     public function deviceRemove($device_id)
     {

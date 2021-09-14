@@ -16,7 +16,8 @@ class BackupController extends Controller
         $this->middleware('auth');
     }
 
-    public function backup(){
-        return view('settings.backup', []);
+    public function backup()
+    {
+        return view('system.backups.list', []);
     }
 }

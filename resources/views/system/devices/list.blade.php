@@ -1,8 +1,7 @@
 @extends('layouts.app')
-@section('title', trans('simplehome.endpoint.panelTitle'))
 
 @section('subnavigation')
-@include('endpoints.components.subnavigation')
+@include('system.components.subnavigation')
 @endsection
 
 @section('content')
@@ -11,7 +10,7 @@
     <div class="row m-n1">
         @foreach ($devices as $device)
         <div class="col-lg-4 col-md-6 col-12 p-0">
-            @include('endpoints.components.device', $device)
+            @include('system.components.device', $device)
         </div>
         @endforeach
     </div>

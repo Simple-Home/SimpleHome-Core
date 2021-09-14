@@ -1,5 +1,9 @@
 @extends('layouts.app')
-@section('pageTitle', trans('simplehome.users.list.pageTitle') )
+
+@section('subnavigation')
+@include('system.components.subnavigation')
+@endsection
+
 @section('content')
 <div class="container">
     @include('components.search')

@@ -122,7 +122,7 @@ class SettingsController extends Controller
         ]);
 
         //Build Custom Form
-        return view('settings.system', compact('settings', 'systemSettingsForm'));
+        return view('system.settings.list', compact('settings', 'systemSettingsForm'));
     }
 
     /**

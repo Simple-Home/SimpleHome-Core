@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('title', trans('simplehome.integrations.panelTitle'))
 
 @section('subnavigation')
 @include('system.components.subnavigation')
