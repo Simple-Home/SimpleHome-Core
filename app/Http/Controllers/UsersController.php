@@ -31,6 +31,16 @@ class UsersController extends Controller
         return view('system.users.list', ["users" => User::all()]);
     }
 
+     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function test()
+    {
+        echo "Test";
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
