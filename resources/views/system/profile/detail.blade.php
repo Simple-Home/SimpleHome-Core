@@ -99,8 +99,41 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{__('simplehome.privateToken')}}</div>
-
+                <div class="card-header">{{__('simplehome.oauth.clients')}}</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Client ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Secret</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($clients as $client)
+                            <tr>
+                                <td>{{$client->id}}</td>
+                                <td>{{$client->name}}</td>
+                                <td><code>{{$client->secret}}</code></td>
+                                <td>
+                                    <a class="btn bg-info" href="btn" role="button">edit</a>
+                                    <a class="btn btn-danger" href="btn" role="button">delete</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{__('simplehome.oauth.personal.access.tokens')}}</div>
+                <?php var_dump($tokens); ?>
                 <div class="card-body">
                 </div>
             </div>

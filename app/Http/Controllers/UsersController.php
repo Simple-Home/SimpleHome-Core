@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Client;
 
 class UsersController extends Controller
 {
@@ -61,7 +62,10 @@ class UsersController extends Controller
             'method' => 'POST',
             'url' => route('user.delete', ['user' => $user])
         ]);
-        return view('system.profile.detail', ['user' => $user] + compact('profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
+        $clients = Client::all();
+        $tokens = $user->tokens;
+
+        return view('system.profile.detail', ['user' => $user] + compact("clients", "tokens", 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
     }
 
     /**
