@@ -26,6 +26,32 @@ class EndpointsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function devicesSearch(Request $request)
+    {
+        $search = $request->input('search');
+
+        $devices = Devices::query()
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('hostname', 'LIKE', "%{$search}%")
+            ->orWhere('token', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%")
+            ->get();
+
+        foreach ($devices as $key => $device) {
+            $device->connection_error = true;
+
+            $heardbeath = new DateTime($device->heartbeat);
+            $interval = $heardbeath->diff(new DateTime());
+            $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
+
+            if ($totalSeconds < $device->sleep) {
+                $device->connection_error = false;
+            }
+        }
+
+        return view('syste.devices.list', ["devices" => $devices]);
+    }
+
     public function devicesList()
     {
         $devices = Devices::all();

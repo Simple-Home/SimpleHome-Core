@@ -28,6 +28,20 @@
             padding-bottom: 60px;
         }
     </style>
+
+    <script>
+        window.addEventListener("load", function() {
+            var darkThemeSelected =
+                localStorage.getItem("darkSwitch") !== null &&
+                localStorage.getItem("darkSwitch") === "dark";
+            if (darkThemeSelected) {
+                document.body.setAttribute("data-theme", "dark");
+            } else {
+                document.body.removeAttribute("data-theme");
+            }
+        });
+    </script>
+
     @yield('customHead')
 
     <!-- PWA Manifest -->
