@@ -66,7 +66,24 @@ class Devices extends Model
     {
         $RSSI = ($this->getProperties->where('type', 'wifi')->first());
         if ($RSSI && !empty($RSSI->last_value)) {
-            return (2 * ($RSSI->last_value->value + 100));
+            return $RSSI->last_value->value;
+        }
+
+        return false;
+    }
+
+    public function getSignalStrengthPercentAttribute()
+    {
+        $RSSI = ($this->getProperties->where('type', 'wifi')->first());
+        if ($RSSI && !empty($RSSI->last_value)) {
+            // dBm to Quality:
+            if ($RSSI->last_value->value <= -100) {
+                return 0;
+            } else if ($RSSI->last_value->value >= -50) {
+                return ($RSSI->last_value->value = 100);
+            } else {
+                return (2 * ($RSSI->last_value->value + 100));
+            }
         }
 
         return false;
@@ -74,9 +91,23 @@ class Devices extends Model
 
     public function getBatteryLevelAttribute()
     {
-        $BatteryValue = ($this->getProperties->where('type', '==', 'batt')->first());
+        $BatteryValue = $this->getProperties->where('type', 'battery')->first();
+
         if ($BatteryValue) {
             return $BatteryValue->last_value->value;
+        }
+        return false;
+    }
+
+    public function getBatteryLevelPercentAttribute()
+    {
+        $batteryVoltage = ($this->getProperties->where('type', 'battery')->first());
+        if ($batteryVoltage && !empty($batteryVoltage->records->count)) {
+            $max = $batteryVoltage->max_value;
+            $min = $batteryVoltage->min_value;
+            $max = ($max - $min);
+            $onePercent = $max / 100;
+            return ($batteryVoltage->last_value->value - $min) / $onePercent;
         }
         return false;
     }

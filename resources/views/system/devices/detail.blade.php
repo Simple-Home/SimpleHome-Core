@@ -33,10 +33,10 @@
             {{ __('Gateway') }}:</br>
             {{ __('subnet') }}:</br>
             @if (!empty(round($device->signal_strength)))
-            {{ __('Signal') }}: {{$device->signal_strength}} %</br>
+            {{ __('Signal') }}: {{$device->signal_strength}} dbm ({{$device->signal_strength_percent}} %) </br>
             @endif
             @if (!empty(round($device->battery_level)))
-            {{ __('Battery') }}: {{round($device->battery_level, 2)}} v</br>
+            {{ __('Battery') }}: {{round($device->battery_level, 2)}} v ({{round($device->battery_level_percent, 2)}} %)</br>
             @endif
         </div>
     </div>

@@ -47,6 +47,13 @@ class Properties extends Model
         return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', $dateFrom)->orderBy('created_at', 'DESC');
     }
 
+    public function records()
+    {
+        return $this->hasMany(Records::class, 'property_id');
+    }
+
+
+
     public function getAgregatedValuesAttribute($period = GraphPeriod::DAY)
     {
         $dateFrom = Carbon::now()->subDays(1);
@@ -86,4 +93,26 @@ class Properties extends Model
     }
 
     use HasFactory;
+
+
+    //Virtual  Values
+    /**
+     * Minimum value that property had in past.
+     *
+     * @return int
+     */
+    public function getMaxValueAttribute()
+    {
+        return $this->records->max()->value;
+    }
+
+    /**
+     * Maximum value that property had in past.
+     *
+     * @return int
+     */
+    public function getMinValueAttribute()
+    {
+        return $this->records->min()->value;
+    }
 }
