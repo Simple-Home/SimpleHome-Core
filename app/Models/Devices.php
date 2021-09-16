@@ -16,6 +16,8 @@ class Devices extends Model
     //     'Blocked',
     // ];
 
+    protected $table = 'sh_devices';
+
     public function getProperties()
     {
         return $this->hasMany('App\Models\Properties', 'device_id');

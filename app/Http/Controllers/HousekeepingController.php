@@ -20,7 +20,7 @@ class HousekeepingController extends Controller
     public function index(Request $request, FormBuilder $formBuilder)
     {
 
-        $totalRecords =  DB::table('records')->count();
+        $totalRecords = Records::count();
         $settings['interval'] = SettingManager::get('interval', 'housekeeping');
         $settings['active'] = SettingManager::get('active', 'housekeeping');
 

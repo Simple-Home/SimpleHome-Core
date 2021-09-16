@@ -9,7 +9,7 @@ use App\Models\Properties;
 class Records extends Model
 {
     public $incrementing = true;
-    protected $table = 'records';
+    protected $table = 'sh_records';
     protected $primaryKey = 'id';
     public $fillable = [
         "value",

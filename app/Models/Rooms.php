@@ -11,6 +11,7 @@ class Rooms extends Authenticatable
 {
     use HasFactory, Notifiable;
     public $timestamps = false;
+    protected $table = 'sh_rooms';
 
     protected $fillable = [
         'name',

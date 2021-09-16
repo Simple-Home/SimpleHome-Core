@@ -10,7 +10,9 @@
     <div class="row pb-2">
         <div class="col p-0">
             <div class="card">
-                <div class="card-header">{{__('simplehome.oauth.clients')}}</div>
+                <div class="card-header d-flex justify-content-between align-items-center">{{__('simplehome.oauth.clients')}}
+                    <button class="btn btn-primary">Create new {{__('simplehome.oauth.clients')}}</button>
+                </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
@@ -28,8 +30,8 @@
                                 <td>{{$client->name}}</td>
                                 <td><code>{{$client->secret}}</code></td>
                                 <td>
-                                    <a class="btn bg-info" href="btn" role="button">edit</a>
-                                    <a class="btn btn-danger" href="btn" role="button">delete</a>
+                                    <a class="btn bg-info" href="btn" role="button">Edit</a>
+                                    <a class="btn btn-danger" href="btn" role="button">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -42,24 +44,30 @@
     <div class="row pb-2">
         <div class="col p-0">
             <div class="card">
-                <div class="card-header">{{__('simplehome.oauth.authorized.apps')}}</div>
+                <div class="card-header d-flex justify-content-between align-items-center">{{__('simplehome.oauth.authorized.apps')}}
+                    <button class="btn btn-primary">Create new {{__('simplehome.oauth.authorized.apps')}}</button>
+                </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Scope</th>
+                                <th scope="col">expire</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($authenticatedApps as $authenticatedApp)
+                            @foreach($tokens as $token)
                             <tr>
-                                <td>{{$authenticatedApp->name}}</td>
-                                <td>{{$authenticatedApp->scope}}</td>
+                                <td>{{$token->client->name}}</td>
+                                <td>{{$token->scope}}</td>
+                                <td>{{$token->expires_at}}</td>
                                 <td>
-                                    @if(!$authenticatedApp->revoked)
-                                    <a class="btn btn-danger" href="btn" role="button">delete</a>
+                                    @if(!$token->revoked)
+                                    <a class="btn btn-danger" href="btn" role="button">Revoke</a>
+                                    @else
+                                    Revoked
                                     @endif
                                 </td>
                             </tr>
@@ -78,22 +86,20 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">User ID</th>
-                                <th scope="col">Client ID</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">Scope</th>
-                                <th scope="col">expire</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($tokens as $token)
+                            @foreach($authenticatedApps as $authenticatedApp)
                             <tr>
-                                <td>{{$token->user_id}}</td>
-                                <td>{{$token->client_id}}</td>
-                                <td>{{$token->scope}}</td>
-                                <td>{{$token->expires_at}}</td>
+                                <td>{{$authenticatedApp->name}}</td>
+                                <td>{{$authenticatedApp->scope}}</td>
                                 <td>
-                                    <a class="btn btn-danger" href="btn" role="button">delete</a>
+                                    @if(!$authenticatedApp->revoked)
+                                    <a class="btn btn-danger" href="btn" role="button">Revoke</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

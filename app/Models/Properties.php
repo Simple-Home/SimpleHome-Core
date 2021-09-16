@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class Properties extends Model
 {
     protected $fillable = [];
-    protected $table = 'properties';
+    protected $table = 'sh_properties';
     public $period = GraphPeriod::DAY;
 
     public function device()
