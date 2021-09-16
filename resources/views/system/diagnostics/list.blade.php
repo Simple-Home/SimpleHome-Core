@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Diagnostics')
 
 @section('subnavigation')
 @include('settings.components.subnavigation')

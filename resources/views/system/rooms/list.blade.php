@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'rooms')
 
 @section('subnavigation')
 @include('system.components.subnavigation')

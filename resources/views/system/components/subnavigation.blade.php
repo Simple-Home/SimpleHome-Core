@@ -25,3 +25,6 @@
 <li class="nav-item">
     <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'settings') > -1) ? 'active' : '')}}" href="{{ route('system.settings.list') }}">{{ __('settings') }}</a>
 </li>
+<li class="nav-item">
+    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'developments') > -1) ? 'active' : '')}}" href="{{ route('system.developments.list') }}">{{ __('developments') }}</a>
+</li>

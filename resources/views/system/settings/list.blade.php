@@ -1,6 +1,9 @@
-@section('pageTitle', trans('simplehome.properties.detail.pageTitle') )
 @extends('layouts.app')
+@section('title', "HOME")
 
+@section('subnavigation')
+@include('system.components.subnavigation')
+@endsection
 
 @section('content')
 <div class="container">

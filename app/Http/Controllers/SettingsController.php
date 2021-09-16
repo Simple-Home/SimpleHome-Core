@@ -11,6 +11,10 @@ use Illuminate\Support\Carbon;
 use Nwidart\Modules\Module;
 use App\Helpers\SettingManager;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Laravel\Passport\Client;
+use Laravel\Passport\Token;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class SettingsController extends Controller
@@ -296,5 +300,18 @@ class SettingsController extends Controller
     private function get_https(): bool
     {
         return !(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on');
+    }
+
+
+    public function developments()
+    {
+        $user = Auth::user();
+        //oAuth
+        $clients = Client::all();
+        $authenticatedApps = Token::all();
+        $tokens = $user->tokens;
+
+        //https: //developers.google.com/oauthplayground/#step1&scopes=*&url=https%3A%2F%2F&content_type=application%2Fjson&http_method=GET&useDefaultOauthCred=unchecked&oauthEndpointSelect=Custom&oauthAuthEndpointValue=http%3A%2F%2Fdev.steelants.cz%2Fvasek%2Fsimple-home-v4%2Fpublic%2Foauth%2Fauthorize&oauthTokenEndpointValue=http%3A%2F%2Fdev.steelants.cz%2Fvasek%2Fsimple-home-v4%2Fpublic%2Foauth%2Ftoken&oauthClientId=6&oauthClientSecret=m7JVBeurxudwZR3ManIPd4Eb9FS3Oj2EZ8nXeYHp&includeCredentials=checked&accessTokenType=bearer&autoRefreshToken=unchecked&accessType=offline&prompt=consent&response_type=code&wrapLines=on
+        return view('system.developments.index', ['user' => $user] + compact("clients", "tokens", "authenticatedApps"));
     }
 }

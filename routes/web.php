@@ -115,6 +115,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/approve', [App\Http\Controllers\EndpointsController::class, 'deviceApprove'])->name('system.devices.approve');
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/disapprove', [App\Http\Controllers\EndpointsController::class, 'deviceDisapprove'])->name('system.devices.disapprove');
     Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\SettingsController::class, 'developments'])->name('system.developments.list');
 });
 
 

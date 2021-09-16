@@ -40,12 +40,6 @@
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
             </div>
-            <div class="col col-4 p-md-0 text-right my-auto">
-                <div class="custom-control custom-switch m-auto">
-                    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                    <label class="custom-control-label text-nowrap" for="darkSwitch">Dark Mode</label>
-                </div>
-            </div>
         </div>
 
         {{--
