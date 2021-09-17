@@ -29,6 +29,27 @@ class Devices extends Model
         $this->save();
     }
 
+    /**
+     * check if device if offline
+     *
+     * @return bool
+     */
+
+    public function getOfflineAttribute()
+    {
+        $connection_error = true;
+
+        $heartbeat = new DateTime($this->heartbeat);
+        $sleep = empty($this->sleep) ? 1 : $this->sleep;
+        $heartbeat->modify('+' . $sleep . ' ms');
+        $now = new DateTime();
+
+        if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
+            $connection_error = false;
+        }
+        return $connection_error;
+    }
+
     public function getPropertiesExistence($type)
     {
         $property = $this->getProperties()->where('type', $type)->first();

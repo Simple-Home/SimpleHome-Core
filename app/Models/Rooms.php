@@ -36,4 +36,25 @@ class Rooms extends Authenticatable
         $properties = $this->getProperties();
         return $properties->count();
     }
+
+    /**
+     * check if device if offline
+     *
+     * @return array
+     */
+
+    public function getStateAttribute()
+    {
+        $roomStates = [];
+        $propertyes = $this->getProperties;
+        foreach ($propertyes as $property) {
+            $roomStates[$property->type][] = $property->last_value->value;
+        }
+
+        foreach ($roomStates as $type => $roomState) {
+            $roomStates[$type] = array_sum($roomStates[$type]) / count($roomStates[$type]);
+        }
+
+        return $roomStates;
+    }
 }
