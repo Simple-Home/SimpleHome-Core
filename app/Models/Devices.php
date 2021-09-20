@@ -37,17 +37,18 @@ class Devices extends Model
 
     public function getOfflineAttribute()
     {
-        $connection_error = true;
+        $offline = false;
 
         $heartbeat = new DateTime($this->heartbeat);
         $sleep = empty($this->sleep) ? 1 : $this->sleep;
         $heartbeat->modify('+' . $sleep . ' ms');
+        $heartbeat->modify('+5 s');
         $now = new DateTime();
 
-        if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
-            $connection_error = false;
+        if ($heartbeat->getTimestamp() < $now->getTimestamp()) {
+            $offline = true;
         }
-        return $connection_error;
+        return $offline;
     }
 
     public function getPropertiesExistence($type)
