@@ -214,7 +214,7 @@ class EndpointController extends Controller
 
         $response = [
             "device" => [
-                "sleepTime" => $device->sleep,
+                "sleepTime" => (int) ($device->sleep / 1000) / 60,
                 "hostname"  => $device->getHostname(),
             ],
             "state"    => "succes",

@@ -6,8 +6,16 @@
                     {{$device->hostname}}
                 </a>
                 <p class="m-0 text-left">
-                    {{$device->token}}
+                    {{__('properties.count') . ': ' . $device->getProperties->count()}}
                 </p>
+                @if(!empty($device->heartbeat))
+                <p class="m-0 text-left {{ $device->offline ? 'text-danger' : ''  }}">
+                    {{__('properties.count') . ': ' . $device->heartbeat->diffForHumans()}}
+                </p>
+                @else<p class="m-0 text-left text-danger">
+                    offline
+                </p>
+                @endif
             </div>
         </div>
         <div class="row">

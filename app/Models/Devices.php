@@ -17,6 +17,7 @@ class Devices extends Model
     // ];
 
     protected $table = 'sh_devices';
+    protected $dates = ['heartbeat'];
 
     public function getProperties()
     {
@@ -43,8 +44,8 @@ class Devices extends Model
         $sleep = empty($this->sleep) ? 1 : $this->sleep;
         $heartbeat->modify('+' . $sleep . ' ms');
         $heartbeat->modify('+5 s');
-        $now = new DateTime();
 
+        $now = new DateTime();
         if ($heartbeat->getTimestamp() < $now->getTimestamp()) {
             $offline = true;
         }
