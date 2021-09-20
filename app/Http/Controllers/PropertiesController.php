@@ -135,8 +135,6 @@ class PropertiesController extends Controller
             }
         }
 
-
-
         $record                 = new Records;
         $record->value          = $value;
         $record->property_id    = $property_id;
