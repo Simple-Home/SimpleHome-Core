@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1ccc6bd9b3ff97ef6e28203ec5dc29e",
+    "content-hash": "072d3263b47f4503705a7d8999d53941",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4042,6 +4042,56 @@
             "time": "2020-08-18T17:17:46+00:00"
         },
         {
+            "name": "silviolleite/laravelpwa",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silviolleite/laravel-pwa.git",
+                "reference": "5f7135d2ee870af01793c9fdf6b1b932b546e20e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silviolleite/laravel-pwa/zipball/5f7135d2ee870af01793c9fdf6b1b932b546e20e",
+                "reference": "5f7135d2ee870af01793c9fdf6b1b932b546e20e",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelPWA\\Providers\\LaravelPWAServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelPWA\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Silvio Luis Leite",
+                    "email": "silviolleite@gmail.com"
+                }
+            ],
+            "description": "Looks like an app, feels like an app, but NOT an app.",
+            "keywords": [
+                "laravel",
+                "php",
+                "progressive web apps",
+                "pwa"
+            ],
+            "support": {
+                "issues": "https://github.com/silviolleite/laravel-pwa/issues",
+                "source": "https://github.com/silviolleite/laravel-pwa/tree/2.0.3"
+            },
+            "time": "2020-08-20T12:19:16+00:00"
+        },
+        {
             "name": "spatie/db-dumper",
             "version": "2.21.1",
             "source": {
@@ -6620,48 +6670,6 @@
                 "source": "https://github.com/Simple-Home/mqtt-module/tree/main"
             },
             "time": "2021-06-29T16:17:30+00:00"
-        },
-        {
-            "name": "thebradleysanders/openweathermap-module",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Simple-Home/openweathermap-module.git",
-                "reference": "c24d55d06d37b0f527554f3f80b3f047bd5d6d60"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Simple-Home/openweathermap-module/zipball/c24d55d06d37b0f527554f3f80b3f047bd5d6d60",
-                "reference": "c24d55d06d37b0f527554f3f80b3f047bd5d6d60",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "laravel-module",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Modules\\OpenWeatherMap\\Providers\\OpenWeatherMapServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Modules\\OpenWeatherMap\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Brad Sanders",
-                    "email": "thebradleysanders@gmail.com"
-                }
-            ],
-            "support": {
-                "issues": "https://github.com/Simple-Home/openweathermap-module/issues",
-                "source": "https://github.com/Simple-Home/openweathermap-module/tree/main"
-            },
-            "time": "2021-06-30T20:20:38+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10234,7 +10242,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "thebradleysanders/mqtt-module": 20,
-        "thebradleysanders/openweathermap-module": 20,
         "thebradleysanders/examplebinding-module": 20
     },
     "prefer-stable": true,
