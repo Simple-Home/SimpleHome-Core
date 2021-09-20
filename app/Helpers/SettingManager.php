@@ -8,7 +8,7 @@ use App\Models\Settings;
 
 class SettingManager
 {
-    public static function get($index, $group = null)
+    public static function ($index, $group = null)
     {
         $fields = Settings::where('group', '=', $group)->where('name', '=', $index)->get();
         if (count($fields) == 1) {
