@@ -135,10 +135,18 @@ class EndpointController extends Controller
         $device->setHeartbeat();
 
         if (!$device) {
-            $devices            = new Devices;
-            $devices->token     = $data['token'];
-            $devices->hostname  = $data['token'];
-            $devices->type      = 'custome';
+            $devices                    = new Devices;
+            $devices->token             = $data['token'];
+            $devices->hostname          = $data['token'];
+
+            if (isset($data['values']["on/off"])) {
+                $devices->type              = 'relay';
+            } elseif (isset($data['values']["temp_cont"])) {
+                $devices->type              = 'termostat';
+            } else {
+                $devices->type              = 'senzor';
+            }
+
             $devices->save();
             return response()->json(
                 [

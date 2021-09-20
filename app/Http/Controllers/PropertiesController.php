@@ -12,6 +12,7 @@ use App\Models\Property;
 use App\Models\Records;
 use Illuminate\Support\Str;
 use DateTime;
+use App\Helpers\SettingManager;
 
 class PropertiesController extends Controller
 {
@@ -119,11 +120,26 @@ class PropertiesController extends Controller
         return view('properties.edit', ['property' => $property] + compact('propertyEditForm'));
     }
 
-    public function set($properti_id, $value)
+    public function set($property_id, $value)
     {
+        //Values Validator integrate to date types
+        if ($settings = SettingManager::get('min', 'property-' . $property_id)) {
+            if ($value < $settings->value) {
+                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
+            }
+        }
+
+        if ($settings = SettingManager::get('max', 'property-' . $property_id)) {
+            if ($value > $settings->value) {
+                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
+            }
+        }
+
+
+
         $record                 = new Records;
         $record->value          = $value;
-        $record->property_id    = $properti_id;
+        $record->property_id    = $property_id;
         $record->save();
 
         return redirect()->back();
