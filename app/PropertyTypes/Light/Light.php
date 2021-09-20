@@ -1,14 +1,14 @@
 <?php
 
-namespace App\PropertyTypes\light;
+namespace App\PropertyTypes\Light;
 
 use App\PropertyTypes\PropertyTypes;
 
 /**
- * Class light
- * @package App\PropertyTypes\light
+ * Class Light
+ * @package App\PropertyTypes\Light
  */
-abstract class light extends PropertyTypes
+abstract class Light extends PropertyTypes
 {
     abstract public function state($value, $args);
     abstract public function brightness($value);

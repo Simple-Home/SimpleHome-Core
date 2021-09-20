@@ -1,13 +1,13 @@
 <?php
-namespace App\PropertyTypes\speaker;
+namespace App\PropertyTypes\Speaker;
 
 use App\PropertyTypes\PropertyTypes;
 
 /**
  * Class speaker
- * @package App\PropertyTypes\speaker
+ * @package App\PropertyTypes\Speaker
  */
-abstract class speaker extends PropertyTypes
+abstract class Speaker extends PropertyTypes
 {
     private $speaker;
     abstract public function state($value, $args);
