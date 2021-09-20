@@ -130,7 +130,7 @@ class Devices extends Model
             $min = $batteryVoltage->min_value;
             $max = ($max - $min);
             $onePercent = $max / 100;
-    
+
             return ($batteryVoltage->last_value->value - $min) / $onePercent;
         }
         return false;

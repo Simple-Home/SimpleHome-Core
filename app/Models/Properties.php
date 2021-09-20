@@ -103,7 +103,10 @@ class Properties extends Model
      */
     public function getMaxValueAttribute()
     {
-        return $this->records->max()->value;
+        if ($this->records) {
+            return $this->records->max("value");
+        }
+        return false;
     }
 
     /**
@@ -113,6 +116,9 @@ class Properties extends Model
      */
     public function getMinValueAttribute()
     {
-        return $this->records->min()->value;
+        if ($this->records) {
+            return $this->records->min("value");
+        }
+        return false;
     }
 }
