@@ -29,4 +29,16 @@ class SystemController extends Controller
 
         return view('system.integrations.list', compact('integrations'));
     }
+
+    public function detail($integrationSlug, FormBuilder $formBuilder)
+    {
+        $settings = SettingManager::getGroup($integrationSlug);
+        $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
+            'method' => 'POST',
+            'url' => route('settings_update'),
+            'variables' => $settings
+        ]);
+
+        return view('system.integrations.detail', compact('settings', 'systemSettingsForm'));
+    }
 }

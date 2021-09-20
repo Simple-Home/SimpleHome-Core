@@ -29,7 +29,6 @@
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-backup": "^6.16",
         "thebradleysanders/mqtt-module": "dev-main",
-        "thebradleysanders/openweathermap-module": "dev-main",
         "ycs77/laravel-form-builder-bs4": "^1.0"
     },
     "require-dev": {

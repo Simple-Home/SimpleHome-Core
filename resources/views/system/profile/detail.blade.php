@@ -22,9 +22,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{__('simplehome.profile.informations')}}</div>
-                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    {{ __('simplehome.logout') }}
-                </a>
+                <div class="card-body">
+                    <a class="btn btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('simplehome.logout') }}
+                    </a>
+                </div>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
@@ -36,13 +38,15 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{__('simplehome.profile.informations')}}</div>
-                <div>
-                    <i class="d-inline fas fa-sun"></i>
-                    <div class="d-inline custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                        <label class="custom-control-label" for="darkSwitch"></label>
+                <div class="card-body">
+                    <div>
+                        <i class="d-inline fas fa-sun"></i>
+                        <div class="d-inline custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                            <label class="custom-control-label" for="darkSwitch"></label>
+                        </div>
+                        <i class="d-inline fas fa-moon"></i>
                     </div>
-                    <i class="d-inline fas fa-moon"></i>
                 </div>
             </div>
         </div>
@@ -52,7 +56,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{__('simplehome.profile.informations')}}</div>
-
                 <div class="card-body">
                     {!! form($profileInformationForm) !!}
                 </div>
