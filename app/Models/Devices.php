@@ -124,11 +124,13 @@ class Devices extends Model
     public function getBatteryLevelPercentAttribute()
     {
         $batteryVoltage = ($this->getProperties->where('type', 'battery')->first());
-        if ($batteryVoltage && !empty($batteryVoltage->records->count)) {
+
+        if ($batteryVoltage && $batteryVoltage->last_value) {
             $max = $batteryVoltage->max_value;
             $min = $batteryVoltage->min_value;
             $max = ($max - $min);
             $onePercent = $max / 100;
+    
             return ($batteryVoltage->last_value->value - $min) / $onePercent;
         }
         return false;
