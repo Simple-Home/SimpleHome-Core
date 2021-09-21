@@ -137,7 +137,7 @@ class EndpointsController extends Controller
         $device = Devices::find($device_id);
         $device->delete();
 
-        return redirect()->route('endpoint.devices.list')->with('error', 'Device Sucessfully removed.');
+        return redirect()->route('system.devices.list')->with('error', 'Device Sucessfully removed.');
     }
 
     public function deviceReboot($device_id)
@@ -145,7 +145,7 @@ class EndpointsController extends Controller
         $device = Devices::find($device_id);
         $device->reboot();
 
-        return redirect()->route('endpoint.devices.list')->with('success', 'Reboot command was issued sucessfully.');
+        return redirect()->route('system.devices.list')->with('success', 'Reboot command was issued sucessfully.');
     }
 
     public function deviceApprove($device_id)
@@ -153,7 +153,7 @@ class EndpointsController extends Controller
         $device = Devices::find($device_id);
         $device->approve();
 
-        return redirect()->route('endpoint.devices.list')->with('success', 'Device was approved sucessfully.');
+        return redirect()->route('system.devices.list')->with('success', 'Device was approved sucessfully.');
     }
 
     public function deviceDisapprove($device_id)
@@ -161,7 +161,7 @@ class EndpointsController extends Controller
         $device = Devices::find($device_id);
         $device->disapprove();
 
-        return redirect()->route('endpoint.devices.list')->with('error', 'Device command was blocked sucessfully.');
+        return redirect()->route('system.devices.list')->with('error', 'Device command was blocked sucessfully.');
     }
 
     public function propertiesList()

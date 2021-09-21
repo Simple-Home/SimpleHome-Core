@@ -9,7 +9,7 @@
                     {{__('properties.count') . ': ' . $device->getProperties->count()}}
                 </p>
                 @if(!empty($device->heartbeat))
-                <p class="m-0 text-left {{ $device->offline ? 'text-danger' : ''  }}">
+                <p class="m-0 text-left {{ $device->offline ? 'text-danger' : 'text-success'  }}">
                     {{__('properties.count') . ': ' . $device->heartbeat->diffForHumans()}}
                 </p>
                 @else<p class="m-0 text-left text-danger">

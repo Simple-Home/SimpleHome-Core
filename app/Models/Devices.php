@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use app\Models\Properties;
-use App\Helpers\SettingManager;
 use DateTime;
 
 class Devices extends Model
@@ -41,9 +40,8 @@ class Devices extends Model
         $offline = false;
 
         $heartbeat = new DateTime($this->heartbeat);
-        $sleep = empty($this->sleep) ? 1 : $this->sleep;
+        $sleep = empty($this->sleep) ? 1000 : $this->sleep;
         $heartbeat->modify('+' . $sleep . ' ms');
-        $heartbeat->modify('+5 s');
 
         $now = new DateTime();
         if ($heartbeat->getTimestamp() < $now->getTimestamp()) {

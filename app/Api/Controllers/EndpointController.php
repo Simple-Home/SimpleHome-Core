@@ -132,12 +132,12 @@ class EndpointController extends Controller
 
 
         $device = Devices::query()->where('token', '=', $data['token'])->first();
-        $device->setHeartbeat();
 
         if (!$device) {
             $devices                    = new Devices;
             $devices->token             = $data['token'];
             $devices->hostname          = $data['token'];
+            $devices->integration          = 'others';
 
             if (isset($data['values']["on/off"])) {
                 $devices->type              = 'relay';
@@ -154,6 +154,8 @@ class EndpointController extends Controller
                 ],
                 JsonResponse::HTTP_OK
             );
+        } else {
+            $device->setHeartbeat();
         }
 
 
@@ -189,9 +191,11 @@ class EndpointController extends Controller
                             ];
                         }
 
-                        foreach ($settings as $indexs => $value) {
-                            if (SettingManager::get($indexs, $group) == false) {
-                                SettingManager::register($indexs, $settings, 'init', $group);
+                        if (isset($settings)) {
+                            foreach ($settings as $indexs => $value) {
+                                if (SettingManager::get($indexs, $group) == false) {
+                                    SettingManager::register($indexs, $settings, 'init', $group);
+                                }
                             }
                         }
                     }
@@ -225,6 +229,7 @@ class EndpointController extends Controller
         foreach ($device->getProperties as $key => $property) {
             if (isset($property->last_value->value)) {
                 $response["values"][($property->type == "relay" ? "on/off" : $property->type)] = (int) $property->last_value->value;
+                $property->last_value->setDone();
             }
         }
 

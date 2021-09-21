@@ -16,4 +16,10 @@ class Records extends Model
         "done",
     ];
     use HasFactory;
+
+    public function setDone()
+    {
+        $this->done = true;
+        $this->save();
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\Records;
 use App\Models\Rooms;
 use Illuminate\Support\Carbon;
 use App\Types\GraphPeriod;
+use App\Helpers\SettingManager;
 use Illuminate\Support\Facades\DB;
 
 
@@ -118,6 +119,20 @@ class Properties extends Model
     {
         if ($this->records) {
             return $this->records->min("value");
+        }
+        return false;
+    }
+
+
+    /**
+     * step value used to increment each value usualy used for range type or termostats, graphs also.
+     *
+     * @return int
+     */
+    public function getStepValueAttribute()
+    {
+        if ($step = SettingManager::get('step', 'property-' . $this->id)->value) {
+            return ($step < 1 ? $step : 1);
         }
         return false;
     }
