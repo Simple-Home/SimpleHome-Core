@@ -7,7 +7,7 @@
     @endif
 </button>
 @else
-<button data-url="{{route($property->device->integration .'.set', ['properti_id' => $property->id,'value' => ((int) 1)])}}">
+<button class="relay h2" data-url="{{route($property->device->integration .'.set', ['properti_id' => $property->id,'value' => ((int) 1)])}}">
     <i class="fas fa-toggle-off"></i>
 </button>
 @endif

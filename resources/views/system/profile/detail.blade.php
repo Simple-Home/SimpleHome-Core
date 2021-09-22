@@ -6,18 +6,7 @@
 @endsection
 
 @section('content')
-<div class="container p-0">
-    <div class="row pb-2">
-        <div class="col p-0">
-            <div class="card">
-                <div class="card-header">TITLE</div>
-                <div class="card-body">
-                    BODY
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="container p-0 pt-1">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

@@ -93,8 +93,19 @@ class Properties extends Model
         return $this->hasOne(Records::class, 'property_id', 'id')->latest();
     }
 
+
     use HasFactory;
 
+    //Virtual  Values
+    /**
+     * last not nul record value
+     *
+     * @return int
+     */
+    public function getLastNotNullValueAttribute()
+    {
+        return Records::where('property_id', $this->id)->where("value", "!=", 0)->latest('created_at')->first()->value;
+    }
 
     //Virtual  Values
     /**
@@ -131,9 +142,45 @@ class Properties extends Model
      */
     public function getStepValueAttribute()
     {
-        if ($step = SettingManager::get('step', 'property-' . $this->id)->value) {
-            return ($step < 1 ? $step : 1);
+        if ($step = SettingManager::get('step', 'property-' . $this->id)) {
+            return ($step->value < 1 ? $step->value : 1);
         }
         return false;
+    }
+
+    /**
+     * max set value for prop
+     *
+     * @return int
+     */
+    public function getMaxValueSettingAttribute()
+    {
+        if ($step = SettingManager::get('max', 'property-' . $this->id)) {
+            return ($step->value > 1 ? $step->value : 1);
+        }
+        return false;
+    }
+
+    /**
+     * min set value for prop
+     *
+     * @return int
+     */
+    public function getMinValueSettingAttribute()
+    {
+        if ($step = SettingManager::get('min', 'property-' . $this->id)) {
+            return ($step->value > 1 ? $step->value : 1);
+        }
+        return false;
+    }
+
+
+    public function setValue($value)
+    {
+        $record                 = new Records;
+        $record->value          = $value;
+        $record->property_id    = $this->id;
+        $record->save();
+        return true;
     }
 }

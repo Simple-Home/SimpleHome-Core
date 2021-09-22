@@ -41,7 +41,9 @@ class Devices extends Model
 
         $heartbeat = new DateTime($this->heartbeat);
         $sleep = empty($this->sleep) ? 1000 : $this->sleep;
-        $heartbeat->modify('+' . $sleep . ' ms');
+
+        $heartbeat->modify("+" . $sleep . " ms");
+        $heartbeat->modify("+3 seconds");
 
         $now = new DateTime();
         if ($heartbeat->getTimestamp() < $now->getTimestamp()) {

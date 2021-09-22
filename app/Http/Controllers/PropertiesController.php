@@ -120,7 +120,7 @@ class PropertiesController extends Controller
         return view('properties.edit', ['property' => $property] + compact('propertyEditForm'));
     }
 
-    public function set($property_id, $value)
+    public function set($property_id, $value, Request $request)
     {
         //Values Validator integrate to date types
         if ($settings = SettingManager::get('min', 'property-' . $property_id)) {
@@ -140,15 +140,21 @@ class PropertiesController extends Controller
         $record->property_id    = $property_id;
         $record->save();
 
+        if (!$request->ajax()) {
+            return redirect()->back();
+        }
+
         $pendingRecordId = $record->id;
 
+        $i = 30;
         $executed = false;
-        while (!$executed) {
+        while (!$executed & $i > 0) {
             usleep(500);
             $pendingRecord = Records::find($pendingRecordId);
             if ($pendingRecord->done == 1) {
                 $executed = true;
             }
+            $i--;
         }
         return response()->json(["icon" => "<i class=\"fas fa-toggle-on\"></i>"]);
     }

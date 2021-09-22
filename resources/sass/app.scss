@@ -13,3 +13,14 @@ $primary: #1cca50;
 @import "~dark-mode-switch/dark-mode.css";
 @import "./components/darkmode";
 @import "./components/cards";
+
+.row.no-gutter {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row.no-gutter [class*="col-"]:not(:first-child),
+.row.no-gutter [class*="col-"]:not(:last-child) {
+    padding-right: 0;
+    padding-left: 0;
+}

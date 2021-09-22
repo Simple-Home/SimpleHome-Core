@@ -7,9 +7,9 @@
 
 @section('content')
 @if(!empty($propertyes) && count($propertyes) > 0)
-<div class="row mx-auto">
+<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
     @foreach ($propertyes as $property)
-    <div class="col-lg-2 col-md-4 col-6" style="padding-left: 0 !important; margin-top: calc(var(--bs-gutter-x) * 0.5);">
+    <div class="col-lg-2 col-md-4 col">
         @include('controls.components.item', $property)
     </div>
     @endforeach

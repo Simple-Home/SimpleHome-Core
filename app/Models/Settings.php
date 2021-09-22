@@ -18,8 +18,12 @@ class Settings extends Model
     public function getValueAttribute($value)
     {
         $rawValue = $value;
-        if (settype($value, $this->type)) {
-            return $value;
+        try {
+            if (settype($value, $this->type)) {
+                return $value;
+            }
+        } catch (\Throwable $th) {
+            dd($this->type);
         }
         return $rawValue;
     }

@@ -171,10 +171,10 @@ class EndpointController extends Controller
 
             if (isset($data['values'])) {
                 foreach ($data['values'] as $key => $propertyItem) {
-                    $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : $key));
+                    $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
                     if ($propertyExit == FALSE) {
                         $property               = new Properties;
-                        $property->type         = ($key == "on/off" ? "relay" : $key);
+                        $property->type         = ($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key));
                         $property->nick_name    = $data['token'];
                         $property->icon         = "fas fa-robot";
                         $property->device_id    = $device->id;
@@ -194,7 +194,7 @@ class EndpointController extends Controller
                         if (isset($settings)) {
                             foreach ($settings as $indexs => $value) {
                                 if (SettingManager::get($indexs, $group) == false) {
-                                    SettingManager::register($indexs, $settings, 'init', $group);
+                                    SettingManager::register($indexs, $value, 'int', $group);
                                 }
                             }
                         }
@@ -205,7 +205,7 @@ class EndpointController extends Controller
 
 
         foreach ($device->getProperties as $key => $property) {
-            $propertyType = ($property->type == "relay" ? "on/off" : $property->type);
+            $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
             if (!isset($data['values'][$propertyType]['value'])) {
                 continue;
             }
@@ -228,7 +228,7 @@ class EndpointController extends Controller
 
         foreach ($device->getProperties as $key => $property) {
             if (isset($property->last_value->value)) {
-                $response["values"][($property->type == "relay" ? "on/off" : $property->type)] = (int) $property->last_value->value;
+                $response["values"][($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type))] = (int) $property->last_value->value;
                 $property->last_value->setAsDone();
             }
         }

@@ -98,7 +98,7 @@
         <div class="row">
             <div class="col p-md-0">
                 <nav class="navbar p-0 overflow-auto text-nowrap">
-                    <div class="container-fluid p-0">
+                    <div class="container-fluid p-0 mb-1">
                         <div class="navbar-expand w-100">
                             <ul class="navbar-nav nav-pills">
                                 @auth
