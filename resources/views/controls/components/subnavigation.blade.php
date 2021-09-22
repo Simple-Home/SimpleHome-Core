@@ -5,6 +5,9 @@
 </li>
 @endforeach
 <li class="nav-item my-auto">
-    <a class="nav-link btn btn-primary" data-toggle="modal" data-target="#exampleModal" title="{{ __('simplehome.room.create') }}" href="#"><i class="fas fa-plus"></i></a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop" title="{{ __('simplehome.room.create') }}">
+        <i class="fas fa-plus"></i>
+    </button>
 </li>
 @endif

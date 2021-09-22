@@ -62,6 +62,7 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/control/{property_id}', [App\Http\Controllers\PropertiesController::class, 'control']);
     Route::middleware(['auth', 'verified', 'language'])->get('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');;
+    Route::middleware(['auth', 'verified', 'language'])->post('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');;
 });
 
 Route::namespace('automations')->prefix('automations')->group(function () {
@@ -121,7 +122,8 @@ Route::namespace('system')->prefix('system')->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
+//Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
+Route::middleware(['auth', 'verified', 'language'])->post('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
 
 #Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashnoard');
 

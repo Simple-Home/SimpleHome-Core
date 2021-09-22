@@ -9,13 +9,6 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            @if ($runJob == true)
-            <div class="row">
-                <div class="alert alert-success col-12" role="alert">
-                    {{__('simplehome.housekeeping.runJob.triggert')}}
-                </div>
-            </div>
-            @endif
             <div class="row">
                 <div class="col-2 p-0">
                     {{__('simplehome.records')}}: {{ $totalRecords }}

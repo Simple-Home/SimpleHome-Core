@@ -17,9 +17,9 @@ class Records extends Model
     ];
     use HasFactory;
 
-    public function setDone()
+    public function setAsDone()
     {
-        $this->done = true;
+        $this->done = 1;
         $this->save();
     }
 }

@@ -37,12 +37,12 @@ class HousekeepingController extends Controller
         SettingManager::set('active', $active, 'housekeeping');
         SettingManager::set('interval', $interval, 'housekeeping');
 
-        return redirect()->route('housekeeping');
+        return redirect()->back()->with('success', 'Cleaning setting was saved');
     }
 
     public function cleanRecords()
     {
         CleanRecords::dispatch();
-        return redirect()->route('housekeeping', ['runJob' => true]);
+        return redirect()->back()->with('success', __('simplehome.housekeeping.runJob.triggert'));
     }
 }

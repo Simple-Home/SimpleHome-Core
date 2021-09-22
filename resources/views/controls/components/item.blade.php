@@ -1,29 +1,25 @@
-<div class="card p-2 m-1" style="height: 100px">
+<div class="card p-2 m-0" style="height: 100px">
     <div class="container p-0">
-        <div class="row">
-            <div class="col my-auto">
-                <a class="h2" href="{{ route('controls.detail', $property->id) }}">
-                    <i class="fas {{$property->icon}}"></i>
-                </a>
-            </div>
-            <div class="col text-right text-nowrap">
-                <p class="m-0 h3">
+        <div class="d-flex justify-content-between">
+            <a class="h2" href="{{ route('controls.detail', $property->id) }}">
+                <i class="fas {{$property->icon}}"></i>
+            </a>
+            <div class="text-right text-nowrap h3">
+                <div>
                     @if(View::exists('controls.components.types.' . $property->type))
                     @include('controls.components.types.' . $property->type, $property)
                     @else
-                    @if (is_numeric($property->last_value->value))
+                    @if (isset($property->last_value))
+                    @if(is_numeric($property->last_value->value))
                     {{ round($property->last_value->value, 2) }} {{$property->units}}
                     @else
                     {{ $property->last_value->value }} {{$property->units}}
                     @endif
                     @endif
-                </p>
+                    @endif
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col m-0">
-                <p class="m-0">{{ucwords($property->nick_name)}}</p>
-            </div>
-        </div>
+        <p class="">{{ucwords($property->nick_name)}}</p>
     </div>
 </div>

@@ -229,7 +229,7 @@ class EndpointController extends Controller
         foreach ($device->getProperties as $key => $property) {
             if (isset($property->last_value->value)) {
                 $response["values"][($property->type == "relay" ? "on/off" : $property->type)] = (int) $property->last_value->value;
-                $property->last_value->setDone();
+                $property->last_value->setAsDone();
             }
         }
 

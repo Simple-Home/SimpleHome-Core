@@ -123,15 +123,15 @@ class PropertiesController extends Controller
     public function set($property_id, $value)
     {
         //Values Validator integrate to date types
-        if ($min = SettingManager::get('min', 'property-' . $property_id)) {
-            if ($value < $min->value) {
-                return redirect()->back()->with('error', 'Value need to be greathar than ' . $min->value);
+        if ($settings = SettingManager::get('min', 'property-' . $property_id)) {
+            if ($value < $settings->value) {
+                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
             }
         }
 
-        if ($max = SettingManager::get('max', 'property-' . $property_id)) {
-            if ($value > $max->value) {
-                return redirect()->back()->with('error', 'Value need to be lesser than ' . $max->value);
+        if ($settings = SettingManager::get('max', 'property-' . $property_id)) {
+            if ($value > $settings->value) {
+                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
             }
         }
 
@@ -140,7 +140,17 @@ class PropertiesController extends Controller
         $record->property_id    = $property_id;
         $record->save();
 
-        return redirect()->back();
+        $pendingRecordId = $record->id;
+
+        $executed = false;
+        while (!$executed) {
+            usleep(500);
+            $pendingRecord = Records::find($pendingRecordId);
+            if ($pendingRecord->done == 1) {
+                $executed = true;
+            }
+        }
+        return response()->json(["icon" => "<i class=\"fas fa-toggle-on\"></i>"]);
     }
 
 

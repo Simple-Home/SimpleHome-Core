@@ -41,9 +41,9 @@ class CleanRecords implements ShouldQueue
 
             // delete entries based on properties history setting
             $sql = "
-                delete r
-                from records r
-                inner join properties p on r.property_id = p.id
+                delete 
+                from sh_records r
+                inner join sh_properties p on r.property_id = p.id
                 where r.created_at < (CURDATE() - INTERVAL p.history DAY) and p.history > 0;
                 ";
             DB::statement($sql);
@@ -52,9 +52,9 @@ class CleanRecords implements ShouldQueue
             $intervalConfig = SettingManager::get('interval', 'housekeeping');
             $interval = (int)empty($intervalConfig) ? 432000 : $intervalConfig->value;
             $sql = " 
-                delete r
-                from records r
-                inner join properties p on r.property_id = p.id
+                delete 
+                from sh_records r
+                inner join sh_properties p on r.property_id = p.id
                 where r.created_at < (CURDATE() - INTERVAL $interval SECOND ) and p.history = 0;
                 ";
 

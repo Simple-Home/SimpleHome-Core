@@ -29,8 +29,32 @@
         }
     </style>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+    </script>
     <script>
         window.addEventListener("load", function() {
+            $('button.relay ').click(function(e) {
+                navigator.vibrate([10]);
+                thisObj = $(this);
+                thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"><span class=\"sr-only\"> Loading... </span></div>");
+                console.log(thisObj.data("url"));
+                $.ajax({
+                    type: 'POST',
+                    url: thisObj.data("url"),
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(msg) {
+                        thisObj.html(msg.icon);
+                    },
+                    error: function() {
+                        //timeout
+                    },
+                    timeout: 3000,
+                });
+            });
+
             var darkThemeSelected =
                 localStorage.getItem("darkSwitch") !== null &&
                 localStorage.getItem("darkSwitch") === "dark";
@@ -74,7 +98,7 @@
         <div class="row">
             <div class="col p-md-0">
                 <nav class="navbar p-0 overflow-auto text-nowrap">
-                    <div class="container-fluid p-0 pb-2">
+                    <div class="container-fluid p-0">
                         <div class="navbar-expand w-100">
                             <ul class="navbar-nav nav-pills">
                                 @auth

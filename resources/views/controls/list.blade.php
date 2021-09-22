@@ -6,31 +6,33 @@
 @endsection
 
 @section('content')
-<div class="container p-0">
-    @if(!empty($propertyes) && count($propertyes) > 0)
-    <div class="row m-n1">
-        @foreach ($propertyes as $property)
-        <div class="col-lg-2 col-md-4 col-6 p-0">
-            @include('controls.components.item', $property)
-        </div>
-        @endforeach
+@if(!empty($propertyes) && count($propertyes) > 0)
+<div class="row mx-auto">
+    @foreach ($propertyes as $property)
+    <div class="col-lg-2 col-md-4 col-6" style="padding-left: 0 !important; margin-top: calc(var(--bs-gutter-x) * 0.5);">
+        @include('controls.components.item', $property)
     </div>
-    @else
-    <p class="text-center">{{ __('simplehome.controls.notFound') }}</p>
-    @endif
+    @endforeach
 </div>
+@else
+<p class=" text-center">{{ __('simplehome.controls.notFound') }}</p>
+@endif
 @endsection
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="card">
-                <div class="card-header">{{ __('simplehome.room.create') }}</div>
-
-                <div class="card-body">
-                    {!! form($roomForm) !!}
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{ __('simplehome.room.create') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {!! form($roomForm) !!}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
             </div>
         </div>
     </div>
