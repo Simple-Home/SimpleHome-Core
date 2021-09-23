@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{$client->id}}</td>
                                 <td>{{$client->name}}</td>
-                                <td><code>{{$client->secret}}</code></td>
+                                <td><code class="text-break">{{$client->secret}}</code></td>
                                 <td>
                                     <a class="btn bg-info" href="btn" role="button">Edit</a>
                                     <a class="btn btn-danger" href="btn" role="button">Delete</a>

@@ -3,7 +3,6 @@
 @section('content')
 <form method="POST" class="form-signin" action="{{ route('login') }}">
     @csrf
-
     <div class="page page-login">
         <h1 class="text-center">
             <img class="img-responsive mb-4" src="{{ asset('images/logo.png') }}" alt="" height="72">
@@ -33,7 +32,7 @@
                 </span>
                 @enderror
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"> {{ __('simplehome.login') }}</button>
+            <button class="btn btn-lg btn-primary form-control" type="submit"> {{ __('simplehome.login') }}</button>
             <p class="text-center text-muted my-2">Or sign in with</p>
             <div class="buttons text-center">
                 <button type="button" class="btn btn-light bg-white"><i class="fa fa-github"></i></button>
