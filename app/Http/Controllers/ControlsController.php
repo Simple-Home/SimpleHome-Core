@@ -43,11 +43,7 @@ class ControlsController extends Controller
         });
 
         if ($room_id == 0)
-            $room_id =  Rooms::all()->filter(function ($item) {
-                if ($item->PropertiesCount > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
-                    return $item;
-                }
-            })->min('id');
+            $room_id =  $rooms->min('id');
 
         $propertyes =  Properties::where("room_id", $room_id)->get()->filter(function ($item) {
             if ($item->device->approved == 1) {
