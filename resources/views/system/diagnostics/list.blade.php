@@ -85,6 +85,7 @@
                     <div class="card">
                         <div class="card-header">{{ __('simplehome.server.metrics') }}</div>
                         <div class="card-body">
+                            {{ __('simplehome.server.conectionsPerMinute') }}: {{$connectionsPerMinute}}<br>
                             {{ __('simplehome.server.valuePerMinute') }}: {{$valuesPerMinute}}<br>
                             {{ __('simplehome.server.uptime') }}: {{$uptime}}<br>
                         </div>

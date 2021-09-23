@@ -8,6 +8,7 @@ use App\Models\Rooms;
 use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
 use App\Helpers\SettingManager;
+use App\Models\Records;
 use App\Types\GraphPeriod;
 
 class ControlsController extends Controller
@@ -29,15 +30,14 @@ class ControlsController extends Controller
      */
     public function list($room_id = 0, FormBuilder $formBuilder)
     {
-        $rooms = Rooms::all();
         $roomsForm = [];
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
             'method' => 'POST',
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        $rooms = Rooms::all()->filter(function ($item) {
-            if ($item->PropertiesCount > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+        $rooms = Rooms::with(['properties', 'properties.device' => fn ($query) => $query->where('approved', 1)->get('id')])->get()->filter(function ($item) {
+            if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
                 return $item;
             }
         });
@@ -45,11 +45,7 @@ class ControlsController extends Controller
         if ($room_id == 0)
             $room_id =  $rooms->min('id');
 
-        $propertyes =  Properties::where("room_id", $room_id)->get()->filter(function ($item) {
-            if ($item->device->approved == 1) {
-                return $item;
-            }
-        });
+        $propertyes = Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"])])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
 
         return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
     }

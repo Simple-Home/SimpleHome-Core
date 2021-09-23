@@ -21,22 +21,22 @@ class Rooms extends Authenticatable
         'default' => false,
     ];
 
-    protected $appends = [
-        'properties_count'
-    ];
-
-
-    public function getProperties()
+    //New Relations
+    public function properties()
     {
         return $this->hasMany('App\Models\Properties', 'room_id');
     }
 
     public function getPropertiesCountAttribute()
     {
-        $properties = $this->getProperties();
-        return $properties->count();
+        return $this->properties()->count();
     }
 
+    //OLD RELATIONS 
+    public function getProperties()
+    {
+        return $this->hasMany('App\Models\Properties', 'room_id');
+    }
     /**
      * check if device if offline
      *

@@ -40,10 +40,11 @@ class DiagnosticsController extends Controller
         $services['internal_ip'] = $_SERVER['SERVER_ADDR'];
         $services['hostname'] = gethostname();
         $valuesPerMinute = $this->values_per_minute();
+        $connectionsPerMinute = $this->conections_per_minute();
         $uptime = $this->last_boot_time();
         $ssl = $this->get_https();
 
-        return view('system.diagnostics.list', compact('services', 'valuesPerMinute', 'uptime', 'ssl'));
+        return view('system.diagnostics.list', compact('services', 'valuesPerMinute', 'connectionsPerMinute', 'uptime', 'ssl'));
     }
     /**
      * @return array|int[]
@@ -190,6 +191,19 @@ class DiagnosticsController extends Controller
         return (DB::table('sh_records')
             ->where(
                 'created_at',
+                '>',
+                Carbon::now()->subMinutes(1)->toDateTimeString()
+            ))->count();
+    }
+
+    /**
+     * @return int
+     */
+    private function conections_per_minute()
+    {
+        return (DB::table('sh_devices')
+            ->where(
+            'heartbeat',
                 '>',
                 Carbon::now()->subMinutes(1)->toDateTimeString()
             ))->count();

@@ -19,6 +19,18 @@ class Properties extends Model
     protected $table = 'sh_properties';
     public $period = GraphPeriod::DAY;
 
+
+    //New RELATIONS
+    public function records()
+    {
+        return $this->hasMany(Records::class, 'property_id');
+    }
+
+    public function latestRecord()
+    {
+        return $this->hasOne(Records::class, 'property_id')->latest();
+    }
+
     public function device()
     {
         return $this->belongsTo(Devices::class);
@@ -28,6 +40,30 @@ class Properties extends Model
     {
         return $this->belongsTo(Rooms::class);
     }
+
+    public function settings()
+    {
+        if ($settings = SettingManager::getGroup('property-' . $this->id)) {
+            return $settings;
+        }
+        return false;
+    }
+
+    //Add Function for mutator for vaue (vith units) and rav value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function values()
     {
@@ -48,10 +84,6 @@ class Properties extends Model
         return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', $dateFrom)->orderBy('created_at', 'DESC');
     }
 
-    public function records()
-    {
-        return $this->hasMany(Records::class, 'property_id');
-    }
 
 
 

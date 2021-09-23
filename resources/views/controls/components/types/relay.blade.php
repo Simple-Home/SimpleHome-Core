@@ -1,7 +1,8 @@
-@if (isset($property->last_value->value))
-<?php ($lastValue = $property->last_value->value);
-($integration = $property->device->integration); ?>
-
+<?php
+$integration = $property->device->integration;
+?>
+@if (isset($property->latestRecord->value))
+<?php $lastValue = $property->latestRecord->value; ?>
 <button class="relay h2" data-url="{{route($integration .'.set', ['properti_id' => $property->id,'value' => ((int) !$lastValue)])}}">
     @if ($lastValue == 1)
     <i class="fas fa-toggle-on"></i>

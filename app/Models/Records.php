@@ -22,4 +22,9 @@ class Records extends Model
         $this->done = 1;
         $this->save();
     }
+
+    public function properti()
+    {
+        return $this->belongsTo(Properties::class);
+    }
 }
