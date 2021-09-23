@@ -57,7 +57,7 @@
                         @foreach ($device->getProperties as $property)
                         <tr>
                             <td>
-                                {!! form($propertyForms[$property->id]) !!}
+                                <i class="fas {{$property->icon}}"></i>
                             </td>
                             <td>{{$property->nick_name}} <br> {{$property->type}}</td>
                             <td>
