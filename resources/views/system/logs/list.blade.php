@@ -6,5 +6,8 @@
 @endsection
 
 @section('content')
-CONTENT
+{!! form($logForm) !!}
+<pre style="overflow: auto;">
+    {{ $content }}
+</pre>
 @endsection
