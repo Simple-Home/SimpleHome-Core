@@ -19,6 +19,13 @@ class LogsController extends Controller
         $logs = $logsAll[0];
         asort($logs);
 
+        if (!empty ($request->input('delete'))) {
+            unlink (storage_path('logs/' . $logs[$request->input('logFile')]));
+            $logsAll = $this->logFile();
+            $logs = $logsAll[0];
+            asort($logs);
+        }
+
         $logForm = $formBuilder->create(\App\Forms\LogForm::class, [
             'model' => (!empty($request->input('logFile')) ? $request->input('logFile') : ""),
             'method' => 'POST',

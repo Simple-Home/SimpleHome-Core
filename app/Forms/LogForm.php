@@ -15,6 +15,10 @@ class LogForm extends Form
                 'choices' => $this->getData('logFiles'),
                 'label' => "Logs list"
             ])
+            ->add('delete', Field::BUTTON_SUBMIT, [
+                'attr' => ['name' => 'delete', 'value' => 1],
+                'label' => "Delete"
+            ])
             ->add('select', Field::BUTTON_SUBMIT, [
                 'label' => "Select"
             ]);
