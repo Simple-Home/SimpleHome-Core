@@ -45,7 +45,7 @@ class ControlsController extends Controller
         if ($room_id == 0)
             $room_id =  $rooms->min('id');
 
-        $propertyes = Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"])])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+        $propertyes = Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
 
         return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
     }

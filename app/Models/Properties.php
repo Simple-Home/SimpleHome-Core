@@ -28,7 +28,7 @@ class Properties extends Model
 
     public function latestRecord()
     {
-        return $this->hasOne(Records::class, 'property_id')->latest();
+        return $this->hasOne(Records::class, 'property_id')->latestOfMany('created_at');
     }
 
     public function device()
@@ -48,6 +48,16 @@ class Properties extends Model
         }
         return false;
     }
+
+    //FUNCTIONS
+    public function getLatestRecordNotNull()
+    {
+        return Records::where("property_id", $this->id)->where("value", "!=", null)->where("value", "!=", 0)->first();
+    }
+
+    //Virtual  Values
+    use HasFactory;
+
 
     //Add Function for mutator for vaue (vith units) and rav value
 
@@ -83,9 +93,6 @@ class Properties extends Model
 
         return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', $dateFrom)->orderBy('created_at', 'DESC');
     }
-
-
-
 
     public function getAgregatedValuesAttribute($period = GraphPeriod::DAY)
     {
@@ -126,18 +133,10 @@ class Properties extends Model
     }
 
 
-    use HasFactory;
+
 
     //Virtual  Values
-    /**
-     * last not nul record value
-     *
-     * @return int
-     */
-    public function getLastNotNullValueAttribute()
-    {
-        return Records::where('property_id', $this->id)->where("value", "!=", 0)->latest('created_at')->first()->value;
-    }
+
 
     //Virtual  Values
     /**
