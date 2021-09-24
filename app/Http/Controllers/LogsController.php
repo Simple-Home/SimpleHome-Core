@@ -16,23 +16,27 @@ class LogsController extends Controller
     public function list(Request $request, FormBuilder $formBuilder)
     {
         $logsAll = $this->logFile();
-        $logs = $logsAll[0];
+        if (!empty ($logsAll)) {
+            $logs = $logsAll[0];
+        }
         asort($logs);
 
         if (!empty ($request->input('delete'))) {
             unlink (storage_path('logs/' . $logs[$request->input('logFile')]));
             $logsAll = $this->logFile();
-            $logs = $logsAll[0];
+            if (!empty ($logsAll)) {
+                $logs = $logsAll[0];
+            }
             asort($logs);
-            $request->remove('logFile');
-            $request->remove('delete');
+            $request->request->remove('logFile');
+            $request->request->remove('delete');
         }
 
         $logForm = $formBuilder->create(\App\Forms\LogForm::class, [
             'model' => (!empty($request->input('logFile')) ? $request->input('logFile') : ""),
             'method' => 'POST',
             'url' => route('system.logs'),
-        ], ['logFiles' => $logsAll[1]]);
+        ], ['logFiles' => (!empty($logsAll[1]) ? $logsAll[1] : array())]);
 
         $content = "";
         if ($request->input('logFile')) {
