@@ -121,7 +121,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\SettingsController::class, 'developments'])->name('system.developments.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/diagnostics', [App\Http\Controllers\DiagnosticsController::class, 'list'])->name('system.diagnostics.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/diagnostics/chart/data', [App\Http\Controllers\DiagnosticsController::class, 'chartData'])->name('system.diagnostics.chart.data');
-    Route::middleware(['auth', 'verified', 'language'])->get('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
+    Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
 });
 
 
