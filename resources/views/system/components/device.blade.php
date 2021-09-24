@@ -10,10 +10,10 @@
                 </p>
                 @if(!empty($device->heartbeat))
                 <p class="m-0 text-left {{ $device->offline ? 'text-danger' : 'text-success'  }}">
-                    {{__('properties.count') . ': ' . $device->heartbeat->diffForHumans()}}
+                    <b>{{ $device->offline ? 'Offline' : 'Online'  }}</b>
                 </p>
                 @else<p class="m-0 text-left text-danger">
-                    offline
+                    <b>Offline</b>
                 </p>
                 @endif
             </div>

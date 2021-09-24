@@ -203,7 +203,7 @@ class DiagnosticsController extends Controller
     {
         return (DB::table('sh_devices')
             ->where(
-            'heartbeat',
+                'heartbeat',
                 '>',
                 Carbon::now()->subMinutes(1)->toDateTimeString()
             ))->count();
@@ -239,8 +239,9 @@ class DiagnosticsController extends Controller
     {
         return response()->json([
             'disk' => [
-                __('simplehome.used') => $this->disk_stat()["used"],
-                __('simplehome.free') => ($this->disk_stat()["total"] - $this->disk_stat()["used"])
+                __('simplehome.used') => $this->disk_stat()["used"] - round($this->dirSize(storage_path('logs/')) / 1024 / 1024 / 1024),
+                __('simplehome.free') => ($this->disk_stat()["total"] - $this->disk_stat()["used"]),
+                __('simplehome.logs') => round($this->dirSize(storage_path('logs/')) / 1024 / 1024 / 1024),
             ],
             'cpu' => [
                 __('simplehome.used') => $this->cpu_stat(),
@@ -251,5 +252,24 @@ class DiagnosticsController extends Controller
                 __('simplehome.free') => round($this->ram_stat()["total"] - $this->ram_stat()["used"], 2)
             ]
         ]);
+    }
+
+    private function dirSize($directory)
+    {
+        $size = 0;
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)) as $file) {
+            $size += $file->getSize();
+        }
+        return $size;
+    }
+    private function bytesToHuman($bytes)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        for ($i = 0; $bytes > 1024; $i++) {
+            $bytes /= 1024;
+        }
+
+        return round($bytes, 2) . ' ' . $units[$i];
     }
 }

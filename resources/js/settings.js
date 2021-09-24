@@ -13,12 +13,13 @@ $(document).ready(function () {
             window.chartDisk = new Chart(canvas, {
                 type: "doughnut",
                 data: {
-                    labels: ["Used", "Free"],
+                    labels: ["Free", "Used"],
                     datasets: [
                         {
                             backgroundColor: [
-                                "rgb(234, 84, 85)",
                                 "rgb(58, 228, 131)",
+                                "rgb(234, 84, 85)",
+                                "rgb(255, 165, 0)",
                             ],
                             data: [0, 0],
                         },
