@@ -24,6 +24,8 @@ class LogsController extends Controller
             $logsAll = $this->logFile();
             $logs = $logsAll[0];
             asort($logs);
+            $request->remove('logFile');
+            $request->remove('delete');
         }
 
         $logForm = $formBuilder->create(\App\Forms\LogForm::class, [
