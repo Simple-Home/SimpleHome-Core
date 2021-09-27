@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Api\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -33,7 +34,7 @@ class PropertyController extends Controller
     {
         $count = 0;
         $properties = Property::where('id', (int)$propertyID)->get();
-        foreach($properties as $property){
+        foreach ($properties as $property) {
             $device['properties'][$count] =  $property;
             $device['properties'][$count]['records'] = Records::where('property_id', $property->id)
                 ->orderBy('id', 'desc')->limit(10)->get();
@@ -45,7 +46,7 @@ class PropertyController extends Controller
     public function create(Request $request)
     {
         $device = Device::where('id', $request->device_id)->first();
-        if((int)$device->id > 0){
+        if ((int)$device->id > 0) {
             $validator = \Validator::make($request->all(), [
                 'nick_name' => 'nullable|max:255',
                 'feature' => 'required|max:255',
@@ -64,7 +65,7 @@ class PropertyController extends Controller
             $property->save();
 
             return "{}";
-        }else{
+        } else {
             return '{"status":"error", "message":"device hostname not found"}';
         }
     }
@@ -76,7 +77,9 @@ class PropertyController extends Controller
             'nick_name' => 'nullable|max:255',
             'feature' => 'required|max:255',
             'icon' => 'nullable|max:255',
-            'room_id' => 'nullable|max:255'
+            'room_id' => 'nullable|max:255',
+            'history' => 'numeric',
+            'units' => 'nullable|max:255',
         ])->validate();
 
         Property::where('nick_name', $request->nick_name)->orwhere('id', $request->id)->update(
@@ -85,6 +88,9 @@ class PropertyController extends Controller
                 'feature' => $request->feature,
                 'icon' => $request->icon,
                 'room_id' => $request->room_id,
+                'history' => $request->history,
+                'units'                => $request->units,
+
             ]
         );
 
@@ -100,9 +106,9 @@ class PropertyController extends Controller
 
         try {
             $status = Property::where('nick_name', $request->nick_name)->orwhere('id', $request->id)->delete();
-            return '{"status": "'.($status ? "successful" : "error" ).'"}';
+            return '{"status": "' . ($status ? "successful" : "error") . '"}';
         } catch (\Illuminate\Database\QueryException $e) {
-            return '{"status":"error", "message":"'.$e.'"}';
+            return '{"status":"error", "message":"' . $e . '"}';
         }
     }
 }

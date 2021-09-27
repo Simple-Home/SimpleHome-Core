@@ -47,17 +47,17 @@
         <div class="col p-md-0">
             <div>
                 <h3 class="mb-0">{{$property->nick_name}}</h3>
-                @if(isset($property->last_value->created_at))
-                <p class="mb-0">{{$property->last_value->created_at->diffForHumans()}}</p>
+                @if(isset($property->latestRecord->created_at))
+                <p class="mb-0">{{$property->latestRecord->created_at->diffForHumans()}}</p>
                 @endif
             </div>
         </div>
         <div class="col p-md-0 text-end my-auto">
-            @if (!empty($property->last_value))
+            @if (!empty($property->latestRecord))
             <h1 class="text-end font-weight-bold">
-                {{$property->last_value->value}} {{$property->units}}
-                </h4>
-                @endif
+                {{$property->latestRecord->value}} {{$property->units}}
+            </h1>
+            @endif
         </div>
     </div>
     <div class="row">

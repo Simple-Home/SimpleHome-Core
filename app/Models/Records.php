@@ -15,12 +15,20 @@ class Records extends Model
         "value",
         "done",
     ];
+
+  
+
     use HasFactory;
 
     public function setAsDone()
     {
         $this->done = 1;
         $this->save();
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Properties::class);
     }
 
     public function properti()

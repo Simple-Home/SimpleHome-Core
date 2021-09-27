@@ -4,23 +4,47 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+
 use App\Models\Devices;
 use App\Models\Records;
 use App\Models\Rooms;
-use Illuminate\Support\Carbon;
-use App\Types\GraphPeriod;
-use App\Helpers\SettingManager;
-use Illuminate\Support\Facades\DB;
 
+use App\Helpers\SettingManager;
+use App\Types\GraphPeriod;
+use App\Types\PropertyType;
 
 class Properties extends Model
 {
     protected $fillable = [];
     protected $table = 'sh_properties';
+    protected $primaryKey = 'id';
+
     public $period = GraphPeriod::DAY;
 
+    //OVERIDES
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $class = "\\App\\Models\\" . ucfirst($attributes->type);
 
-    //New RELATIONS
+        if (class_exists($class)) {
+            $model = new $class();
+        } else {
+            $model = $this->newInstance([], true);
+        }
+
+        $model = $this->newInstance([], true);
+
+        $model->setRawAttributes((array)$attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+        $model->fireModelEvent('retrieved', false);
+
+        return $model;
+    }
+
+
+    //NEW RELATIONS
     public function records()
     {
         return $this->hasMany(Records::class, 'property_id');
