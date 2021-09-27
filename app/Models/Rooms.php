@@ -32,6 +32,20 @@ class Rooms extends Authenticatable
         return $this->properties()->count();
     }
 
+    //New Functions 
+
+    public function setDefault()
+    {
+        $rooms = Rooms::where('default', true)->get();
+        foreach ($rooms as $key => $room) {
+            $room->default = 0;
+            $room->save();
+        }
+        $this->default = true;
+        $this->save();
+        return $this;
+    }
+
     //OLD RELATIONS 
     public function getProperties()
     {

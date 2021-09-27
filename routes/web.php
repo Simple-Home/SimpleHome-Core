@@ -103,10 +103,16 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.run');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('system.users.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('system.users.search');
+    Route::middleware(['auth', 'verified', 'language'])->get('/users/{user_id}/remove', [App\Http\Controllers\UsersController::class, 'remove'])->name('system.users.remove');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/rooms', [App\Http\Controllers\RoomsController::class, 'list'])->name('system.rooms.list');
-    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/search', [App\Http\Controllers\RoomsController::class, 'list'])->name('system.rooms.search');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/search', [App\Http\Controllers\RoomsController::class, 'search'])->name('system.rooms.search');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/{room_id}/default', [App\Http\Controllers\RoomsController::class, 'default'])->name('system.rooms.default');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/{room_id}/remove', [App\Http\Controllers\RoomsController::class, 'remove'])->name('system.rooms.remove');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
     Route::middleware(['auth', 'verified', 'language'])->get('/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('system.devices.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/devices/search', [App\Http\Controllers\EndpointsController::class, 'devicesSearch'])->name('system.devices.search');

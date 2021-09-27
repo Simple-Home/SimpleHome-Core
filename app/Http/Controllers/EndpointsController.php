@@ -49,7 +49,7 @@ class EndpointsController extends Controller
             }
         }
 
-        return view('syste.devices.list', ["devices" => $devices]);
+        return view('system.devices.list', ["devices" => $devices]);
     }
 
     public function devicesList()

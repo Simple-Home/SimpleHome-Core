@@ -34,16 +34,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function test()
-    {
-        echo "Test";
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\User  $user
@@ -191,11 +181,11 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, User $user)
+    public function remove($user_id, Request $request)
     {
-        $user = Auth::user();
-        $request->session()->invalidate();
+        $user = User::find($user_id);
         $user->delete();
+        $request->session()->invalidate();
         $request->session()->flush();
         return redirect()->route('system.user.profile');
     }

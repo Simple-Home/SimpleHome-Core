@@ -61,7 +61,15 @@ class RoomsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        return view('system.rooms.list', compact('roomForm', 'rooms'));
+        foreach ($rooms as $room) {
+            $roomsForm[$room->id] = $formBuilder->create(\App\Forms\RoomForm::class, [
+                'model' => $room,
+                'method' => 'POST',
+                'url' => route('rooms.update', ['id' => $room->id]),
+            ], ['edit' => true]);
+        }
+
+        return view('system.rooms.list', compact('roomForm', 'roomsForm', 'rooms'));
     }
 
     /**
@@ -86,7 +94,7 @@ class RoomsController extends Controller
         $room->name = $request->input('name');
         $room->save();
 
-        return redirect()->route('rooms_list');
+        return redirect()->route('system.rooms.list');
     }
 
     /**
@@ -111,7 +119,7 @@ class RoomsController extends Controller
         $room->name = $request->input('name');
         $room->save();
 
-        return redirect()->route('rooms_list');
+        return redirect()->route('system.rooms.list');
     }
 
     /**
@@ -119,10 +127,10 @@ class RoomsController extends Controller
      * @param int $default
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function default($roomId, $default): \Illuminate\Http\RedirectResponse
+    public function default($room_id): \Illuminate\Http\RedirectResponse
     {
-        DB::table('rooms')->where('id', '=', $roomId)->update(array('default' => (bool)$default));
-        return redirect()->route('rooms_list');
+        $newDefaultRoom = Rooms::find($room_id)->setDefault();
+        return redirect()->back()->with('success', 'Room ' . $newDefaultRoom->name . ' was made default.');
     }
 
     /**
@@ -131,9 +139,9 @@ class RoomsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function remove($room_id)
     {
-        Rooms::where('id', $id)->delete();
-        return redirect()->back()->with('success', 'Room deleted!');
+        Rooms::find($room_id)->delete();
+        return redirect()->back()->with('error', 'Room deleted!');
     }
 }

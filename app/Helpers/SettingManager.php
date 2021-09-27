@@ -19,9 +19,9 @@ class SettingManager
         }
     }
 
-    public static function set($index, $value)
+    public static function set($index, $value, $group = null)
     {
-        $option =  Settings::where('name', '=', $index)->first();
+        $option =  Settings::where('group', '=', $group)->where('name', '=', $index)->first();
 
         // Make sure you've got the Page model
         if ($option) {

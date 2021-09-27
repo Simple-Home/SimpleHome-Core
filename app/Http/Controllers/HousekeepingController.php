@@ -58,8 +58,9 @@ class HousekeepingController extends Controller
         $interval = $request->get('housekeeping_interval', 432000);
         $active = $request->get('housekeeping_active', 0);
 
-        SettingManager::set('logs_cleaning_interval', $logs_interval, 'housekeeping');
+
         SettingManager::set('logs_cleaning_active', $logs_active, 'housekeeping');
+        SettingManager::set('logs_cleaning_interval', $logs_interval, 'housekeeping');
         SettingManager::set('active', $active, 'housekeeping');
         SettingManager::set('interval', $interval, 'housekeeping');
 
