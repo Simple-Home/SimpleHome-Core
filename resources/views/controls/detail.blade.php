@@ -63,7 +63,7 @@
     <div class="row">
         <div class="col">
             @if ($propertyDetailChart)
-            <div style="heigth:30%;">
+            <div class="h-30">
                 {!! $propertyDetailChart->render() !!}
             </div>
             @endif

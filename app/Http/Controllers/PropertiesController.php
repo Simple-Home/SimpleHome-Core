@@ -156,7 +156,12 @@ class PropertiesController extends Controller
             }
             $i--;
         }
-        return response()->json(["icon" => "<i class=\"fas fa-toggle-on\"></i>"]);
+
+        return response()->json([
+            "value" => $record->value,
+            "icon" => ($record->value == "1" ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>"),
+            "url" => route('others.set', ['properti_id' => $record->property_id, 'value' => (int) !$record->value]),
+        ]);
     }
 
 

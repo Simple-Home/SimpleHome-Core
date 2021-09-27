@@ -38,7 +38,9 @@
                 navigator.vibrate([10]);
                 thisObj = $(this);
                 thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"><span class=\"sr-only\"> Loading... </span></div>");
+
                 console.log(thisObj.data("url"));
+
                 $.ajax({
                     type: 'POST',
                     url: thisObj.data("url"),
@@ -47,6 +49,7 @@
                     },
                     success: function(msg) {
                         thisObj.html(msg.icon);
+                        thisObj.data("url", msg.url)
                     },
                     error: function() {
                         //timeout
