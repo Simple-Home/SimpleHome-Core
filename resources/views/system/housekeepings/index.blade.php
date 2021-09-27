@@ -6,9 +6,11 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col">
-        <div class="row">
+
+<div class="row justify-content-center">
+    <div class="card">
+        <div class="card-header">{{__('simplehome.profile.informations')}}</div>
+        <div class="card-body">
             <form action="{{route('system.housekeepings.save')}}" method="post">
                 <div class="form-group row">
                     <div class="form-check">
@@ -42,23 +44,32 @@
         </div>
     </div>
 </div>
-<h3>Jobs: </h3>
-<div class="row row-cols-2 g-2 justifi-justify-content-center">
-    <div class="col text-end">
-        {{__('simplehome.records')}}: {{ $totalRecords }}
-    </div>
-    <div class="col-auto">
-        <a href="{{route('system.housekeepings.run')}}">
-            <button type="button" class="w-100 btn btn-primary">{{__('simplehome.housekeeping.runJob')}}</button>
-        </a>
-    </div>
-    <div class="col text-end">
-        {{__('simplehome.logs.size')}}: {{ $totalLogsSize }}
-    </div>
-    <div class="col-auto">
-        <a href="{{route('system.housekeepings.run')}}">
-            <button type="button" class="w-100 btn btn-primary">{{__('simplehome.housekeeping.runJob')}}</button>
-        </a>
+<br>
+<div class="row justify-content-center">
+    <div class="card">
+        <div class="card-header">{{__('simplehome.profile.jobs')}}</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col text-end">
+                    {{__('simplehome.records')}}: {{ $totalRecords }}
+                </div>
+                <div class="col-auto">
+                    <a href="{{route('system.housekeepings.run')}}">
+                        <button type="button" class="w-100 btn btn-primary">{{__('simplehome.housekeeping.runJob')}}</button>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-end">
+                    {{__('simplehome.logs.size')}}: {{ $totalLogsSize }}
+                </div>
+                <div class="col-auto">
+                    <a href="{{route('system.housekeepings.run')}}">
+                        <button type="button" class="w-100 btn btn-primary">{{__('simplehome.housekeeping.runJob')}}</button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

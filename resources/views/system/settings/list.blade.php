@@ -6,17 +6,16 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
+
+@if(!empty($settings) && count($settings) > 0)
+<div class="card">
+    <div class="card-header">{{__('simplehome.profile.szstem.settings')}}</div>
+    <div class="card-body">
+        {!! form($systemSettingsForm) !!}
     </div>
-    @if(!empty($settings) && count($settings) > 0)
-    <div class="col">
-        <div class="row row-cols-1 row-cols-md-3">
-            {!! form($systemSettingsForm) !!}
-        </div>
-    </div>
-    @else
-    <p class="text-center">{{ __('No System Settings Found') }}</p>
-    @endif
 </div>
+@else
+<p class="text-center">{{ __('No System Settings Found') }}</p>
+@endif
+
 @endsection

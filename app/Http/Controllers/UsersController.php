@@ -120,7 +120,7 @@ class UsersController extends Controller
         $user->language = $request->input('language');
 
         $user->save();
-        return redirect()->route('user', ['#settings'])->with('success', __('web.settingsSaved'));
+        return redirect()->route('system.user.profile', ['#settings'])->with('success', __('web.settingsSaved'));
     }
 
     /**
@@ -154,7 +154,7 @@ class UsersController extends Controller
         }
 
         $user->save();
-        return redirect()->route('user');
+        return redirect()->route('system.user.profile');
     }
 
     /**
@@ -197,7 +197,7 @@ class UsersController extends Controller
         $request->session()->invalidate();
         $user->delete();
         $request->session()->flush();
-        return redirect()->route('user');
+        return redirect()->route('system.user.profile');
     }
 
     public function search(Request $request)

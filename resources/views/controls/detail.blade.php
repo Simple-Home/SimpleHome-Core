@@ -11,12 +11,12 @@
 @endsection
 
 @section('content')
-<div class="container p-0 pt-2">
+<div class="container p-0">
     <div class="row justify-content-between">
         <div class="col-md order-md-1 order-1 p-md-0 my-auto col-6">
-            <a style="font-weight:bold" class="h4 fw-bold" href="{{route('controls.room', $property->room->id)}}">{{"< ". $property->room->name}}</a>
+            <a style="font-weight:bold" class="h4 text-capitalize text-decoration-none fw-bold" href="{{route('controls.room', $property->room->id)}}"><i class="fas fa-chevron-left me-2"></i>{{$property->room->name}}</a>
         </div>
-        <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto mr-md-2 d-flex d-md-block justify-content-between">
+        <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto me-md-2 d-flex d-md-block justify-content-between">
             <!--Period Selector-->
             {{--
                 <div class="d-md-inline d-none h3 my-auto">
@@ -26,7 +26,7 @@
                 </div>
             --}}
             <!--Period Control-->
-            <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'detail') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
+            <a class="h3 fw/bod btn {{ ((request()->segment(count(request()->segments())) == 'detail') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', $property->id)}}">{{__("simplehome.period.today")}}</a>
             <div class="btn-group" role="group" aria-label="Standard Button Group">
                 <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'day') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" id="period_today" href="{{route('controls.detail', [$property->id, 'day'])}}">{{__("simplehome.period.day")}}</a>
                 <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'week') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" href="{{route('controls.detail', [$property->id, 'week'])}}">{{__("simplehome.period.week")}}</a>
@@ -34,7 +34,7 @@
                 <a style="font-weight:bold" class="h3 btn {{ ((request()->segment(count(request()->segments())) == 'year') ? 'btn-primary' : 'btn-outline-primary') }} my-auto" href="{{route('controls.detail', [$property->id, 'year'])}}">{{__("simplehome.period.year")}}</i></a>
             </div>
         </div>
-        <div class="col-md-auto text-right order-md-3 order-2 p-md-0 my-auto col-6">
+        <div class="col-md-auto text-end order-md-3 order-2 p-md-0 my-auto col-6">
             <a style="font-weight:bold" class="h3 fw-bold" href="{{route('controls.edit', $property->id)}}"><i class="fas fa-cog"></i></a>
         </div>
     </div>
@@ -52,9 +52,9 @@
                 @endif
             </div>
         </div>
-        <div class="col p-md-0 text-right my-auto">
+        <div class="col p-md-0 text-end my-auto">
             @if (!empty($property->last_value))
-            <h1 class="text-right font-weight-bold">
+            <h1 class="text-end font-weight-bold">
                 {{$property->last_value->value}} {{$property->units}}
                 </h4>
                 @endif

@@ -66,7 +66,7 @@
         </div>
 
         <div class="row">
-            <div class="col p-md-0">
+            <div class="col p-md-0 mt-2">
                 @auth
                 @yield('content')
                 @endif
