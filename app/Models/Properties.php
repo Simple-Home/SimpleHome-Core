@@ -28,7 +28,7 @@ class Properties extends Model
 
     public function latestRecord()
     {
-        return $this->hasOne(Records::class, 'property_id')->latestOfMany('created_at');
+        return $this->hasOne(Records::class, 'property_id')->latestOfMany();
     }
 
     public function device()
