@@ -3,6 +3,6 @@
     "ExampleBinding": false,
     "MQTT": false,
     "PiHole": false,
-    "ShellyCloud": false,
+    "ShellyCloud": true,
     "GoogleHome": true
 }

@@ -43,6 +43,11 @@ class Properties extends Model
     //     return $model;
     // }
 
+    //REDECLARATION FOR USE IN SUBMODELS
+    public function save(array $options = [])
+    {
+        return parent::save($options);
+    }
 
     //NEW RELATIONS
     public function records()
