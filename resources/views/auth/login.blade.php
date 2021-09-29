@@ -8,7 +8,7 @@
             <img class="img-responsive mb-4" src="{{ asset('images/logo.png') }}" alt="" height="72">
         </h1>
         <div class="login-form">
-            <div class="form-group">
+            <div class="mb-3">
                 <label>Email address</label>
                 <input type="email" id="email" class="form-control  @error('email') is-invalid @enderror" placeholder="Email address" name="email" value="{{ old('email') }}" required required autofocus>
                 @error('email')
@@ -17,7 +17,7 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label class="d-flex justify-content-between">Password
                     @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}" tabindex="-1">
@@ -32,6 +32,18 @@
                 </span>
                 @enderror
             </div>
+            <div class="mb-3">
+                <div class="col-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+
+                        <label class="form-check-label" for="remember">
+                            Remember Me
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn btn-lg btn-primary form-control" type="submit"> {{ __('simplehome.login') }}</button>
             <p class="text-center text-muted my-2">Or sign in with</p>
             <div class="buttons text-center">
