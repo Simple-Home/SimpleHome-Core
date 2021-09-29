@@ -28,7 +28,6 @@
         "rachidlaasri/laravel-installer": "^4.1",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-backup": "^6.16",
-        "thebradleysanders/mqtt-module": "dev-main",
         "ycs77/laravel-form-builder-bs4": "^1.0"
     },
     "require-dev": {
@@ -39,8 +38,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
-        "reliese/laravel": "^1.1",
-        "thebradleysanders/examplebinding-module": "dev-dev-v1"
+        "reliese/laravel": "^1.1"
     },
     "config": {
         "optimize-autoloader": true,
