@@ -1,6 +1,8 @@
 {
-    "Blog": true,
-    "ExampleBinding": true,
-    "MQTT": true,
-    "PiHole": true
+    "Blog": false,
+    "ExampleBinding": false,
+    "MQTT": false,
+    "PiHole": false,
+    "ShellyCloud": false,
+    "GoogleHome": true
 }

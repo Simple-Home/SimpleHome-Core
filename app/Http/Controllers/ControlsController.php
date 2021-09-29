@@ -188,12 +188,13 @@ class ControlsController extends Controller
 
         $property = Properties::find($property_id);
 
+
         $property->nick_name = $request->input('nick_name');
         $property->icon = $request->input('icon');
         $property->history = $request->input('history');
         $property->units = $request->input('units');
         $property->room_id = $request->input('room_id');
-        
+
         $property->update();
 
         return redirect()->route('controls.edit', ['property_id' => $property_id])->with('success', 'Property settings sucessfully updated.');;

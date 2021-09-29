@@ -1,4 +1,4 @@
-<?php $lastValue = $property->latestRecord->value; ?>
+<?php $lastValue = (!isset($property->latestRecord) ? 0 : $property->latestRecord->value) ?>
 <?php $stepValue = $property->step_value; ?>
 <div>
     <a href="{{route('properties_set', ['properti_id' => $property->id,'value' => ((int) $lastValue + ((int) $stepValue ))])}}" class="h2" title="">
