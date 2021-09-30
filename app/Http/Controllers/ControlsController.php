@@ -52,7 +52,9 @@ class ControlsController extends Controller
 
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
+
         $property = Properties::find($property_id);
+
         $labels = [];
 
         $values = [];

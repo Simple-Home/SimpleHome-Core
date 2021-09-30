@@ -13,40 +13,43 @@ use App\Models\Rooms;
 
 use App\Helpers\SettingManager;
 use App\Types\GraphPeriod;
-use App\Types\PropertyType;
 
 class Properties extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['id'];
     protected $table = 'sh_properties';
     protected $primaryKey = 'id';
 
     public $period = GraphPeriod::DAY;
 
     //OVERIDES
-    // public function newFromBuilder($attributes = [], $connection = null)
-    // {
-    //     $class = "\\App\\Models\\" . ucfirst($attributes->type);
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $class = "\\App\\Models\\" . ucfirst($attributes->type);
 
-    //     if (class_exists($class)) {
-    //         $model = new $class();
-    //     } else {
-    //         $model = $this->newInstance([], true);
-    //     }
+        if (class_exists($class)) {
+            //dd($class);
+            $model = new $class((array)$attributes, true);
+        } else {
+            $model = $this->newInstance((array)$attributes, true);
+        }
 
-    //     $model = $this->newInstance([], true);
+        $model->setRawAttributes((array)$attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+        $model->fireModelEvent('retrieved', false);
 
-    //     $model->setRawAttributes((array)$attributes, true);
-    //     $model->setConnection($connection ?: $this->getConnectionName());
-    //     $model->fireModelEvent('retrieved', false);
-
-    //     return $model;
-    // }
+        return $model;
+    }
 
     //REDECLARATION FOR USE IN SUBMODELS
     public function save(array $options = [])
     {
         return parent::save($options);
+    }
+
+    public function update(array $attributes = [], array $options = [])
+    {
+        return parent::update($attributes, $options);
     }
 
     //NEW RELATIONS

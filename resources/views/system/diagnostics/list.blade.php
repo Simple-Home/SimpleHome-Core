@@ -7,8 +7,8 @@
 
 @section('content')
 <div id="server-dashboard" data-chart-endpoint="{{route('system.diagnostics.chart.data')}}" class="container">
-    <div class="row">
-        <div class="col-4 ms-auto">
+    <div class="row row-cols-1 row-cols-md-3">
+        <div class="col ms-auto">
             <div class="form-group">
                 <label for="refresh-chart">{{__('simplehome.server.refreshChart')}}</label>
                 <select class="form-select" id="refresh-chart">
