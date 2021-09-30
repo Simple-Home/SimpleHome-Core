@@ -13,15 +13,7 @@ class Humi extends Properties
 
     public function save(array $options = [])
     {
-        if ($this->icon == "")
-            $this->icon = $this->iconDefault;
-
-        if ($this->history == 0)
-            $this->history = $this->historyDefault;
-
-        if ($this->units == "")
-            $this->units = $this->unitsDefault;
-
+        $this->setDefaultValues();
         // before save code 
         $result = parent::save($options); // returns boolean
         // after save code
@@ -30,7 +22,16 @@ class Humi extends Properties
 
     public function update(array $attributes = [], array $options = [])
     {
+        $this->setDefaultValues();
+        // before save code 
+        $result = parent::update($attributes, $options); // returns boolean
+        // after save code
+        return $result; // do not ignore it eloquent calculates this value and returns this, not just to ignore
 
+    }
+
+    private function setDefaultValues()
+    {
         if ($this->icon == "")
             $this->icon = $this->iconDefault;
 
@@ -39,11 +40,5 @@ class Humi extends Properties
 
         if ($this->units == "")
             $this->units = $this->unitsDefault;
-
-        // before save code 
-        $result = parent::update($attributes, $options); // returns boolean
-        // after save code
-        return $result; // do not ignore it eloquent calculates this value and returns this, not just to ignore
-
     }
 }

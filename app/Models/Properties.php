@@ -73,6 +73,7 @@ class Properties extends Model
 
         if (class_exists($class)) {
             $model = new $class();
+
             // Important
             $model->exists = true;
             $model->setTable($this->getTable());
@@ -93,12 +94,10 @@ class Properties extends Model
 
 
     //Add Function for mutator for vaue (vith units) and rav value
-    public function getTypeAttribute($value)
+    public function getNiceValueAttribute()
     {
-        return ucfirst($value);
+        return $this->value . " " . $this->units;
     }
-
-
 
 
 
