@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wifi extends Properties
 {
-    protected static $singleTableType = 'wifi';
     protected $historyDefault = 90;
     protected $unitsDefault = "dbm";
     protected $iconDefault = "";

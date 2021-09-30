@@ -189,8 +189,6 @@ class ControlsController extends Controller
         }
 
         $property = Properties::find($property_id);
-
-
         $property->nick_name = $request->input('nick_name');
         $property->icon = $request->input('icon');
         $property->history = $request->input('history');

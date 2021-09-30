@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Humi extends Properties
 {
-    protected static $singleTableType = 'humi';
     protected $historyDefault = 90;
     protected $unitsDefault = "%";
     protected $iconDefault = "";

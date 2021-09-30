@@ -21,16 +21,14 @@ class Properties extends Model
     protected $fillable = [
         'id',
         'units',
-        'nickname'
+        'nickname',
+        'type',
     ];
     protected $table = 'sh_properties';
     protected $primaryKey = 'id';
 
     public $period = GraphPeriod::DAY;
 
-    protected static $singleTableTypeField = 'type';
-    protected static $singleTableSubclasses = [Humi::class, Wifi::class];
-    use SingleTableInheritanceTrait;
 
     //NEW RELATIONS
     public function records()
@@ -61,10 +59,33 @@ class Properties extends Model
         return false;
     }
 
+
     //FUNCTIONS
     public function getLatestRecordNotNull()
     {
         return Records::where("property_id", $this->id)->where("value", "!=", null)->where("value", "!=", 0)->first();
+    }
+
+    //OVERIDES
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $class = "\\App\\Models\\" . ucfirst($attributes->type);
+
+        if (class_exists($class)) {
+            $model = new $class();
+            // Important
+            $model->exists = true;
+            $model->setTable($this->getTable());
+            $model->mergeCasts($this->casts);
+        } else {
+            $model = $this->newInstance([], true);
+        }
+
+        $model->setRawAttributes((array)$attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+        $model->fireModelEvent('retrieved', false);
+
+        return $model;
     }
 
     //Virtual  Values
@@ -72,8 +93,10 @@ class Properties extends Model
 
 
     //Add Function for mutator for vaue (vith units) and rav value
-
-
+    public function getTypeAttribute($value)
+    {
+        return ucfirst($value);
+    }
 
 
 
