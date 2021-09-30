@@ -22,6 +22,7 @@
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "nanigans/single-table-inheritance": "~1.0",
         "nwidart/laravel-modules": "^8.0",
         "pavel-mironchik/laravel-backup-panel": "^2.1",
         "pusher/pusher-php-server": "^6.0",

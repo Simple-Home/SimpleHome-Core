@@ -14,43 +14,23 @@ use App\Models\Rooms;
 use App\Helpers\SettingManager;
 use App\Types\GraphPeriod;
 
+use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+
 class Properties extends Model
 {
-    protected $fillable = ['id'];
+    protected $fillable = [
+        'id',
+        'units',
+        'nickname'
+    ];
     protected $table = 'sh_properties';
     protected $primaryKey = 'id';
 
     public $period = GraphPeriod::DAY;
 
-    //OVERIDES
-    public function newFromBuilder($attributes = [], $connection = null)
-    {
-        $class = "\\App\\Models\\" . ucfirst($attributes->type);
-
-        if (class_exists($class)) {
-            //dd($class);
-            $model = new $class((array)$attributes, true);
-        } else {
-            $model = $this->newInstance((array)$attributes, true);
-        }
-
-        $model->setRawAttributes((array)$attributes, true);
-        $model->setConnection($connection ?: $this->getConnectionName());
-        $model->fireModelEvent('retrieved', false);
-
-        return $model;
-    }
-
-    //REDECLARATION FOR USE IN SUBMODELS
-    public function save(array $options = [])
-    {
-        return parent::save($options);
-    }
-
-    public function update(array $attributes = [], array $options = [])
-    {
-        return parent::update($attributes, $options);
-    }
+    protected static $singleTableTypeField = 'type';
+    protected static $singleTableSubclasses = [Humi::class, Wifi::class];
+    use SingleTableInheritanceTrait;
 
     //NEW RELATIONS
     public function records()

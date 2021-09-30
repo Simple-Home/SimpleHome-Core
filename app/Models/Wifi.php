@@ -1,14 +1,17 @@
 <?php
 
-namespace App\PropertyType;
+namespace App\Models;
 
-use App\Models\Properties;
+use App\Models\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Wifi extends Properties
 {
+    protected static $singleTableType = 'wifi';
     protected $historyDefault = 90;
     protected $unitsDefault = "dbm";
     protected $iconDefault = "";
+    protected $fillable = ['id'];
 
     public function save(array $options = [])
     {

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Humi extends Properties
 {
+    protected static $singleTableType = 'humi';
     protected $historyDefault = 90;
     protected $unitsDefault = "%";
     protected $iconDefault = "";
-    protected $fillable = ['id'];
 
     public function save(array $options = [])
     {
@@ -31,6 +31,7 @@ class Humi extends Properties
 
     public function update(array $attributes = [], array $options = [])
     {
+
         if ($this->icon == "")
             $this->icon = $this->iconDefault;
 
@@ -44,5 +45,6 @@ class Humi extends Properties
         $result = parent::update($attributes, $options); // returns boolean
         // after save code
         return $result; // do not ignore it eloquent calculates this value and returns this, not just to ignore
+
     }
 }
