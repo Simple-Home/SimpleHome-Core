@@ -153,7 +153,7 @@ class PropertiesController extends Controller
             $pendingRecord = Records::find($pendingRecordId);
             if ($pendingRecord->done == 1) {
                 $executed = true;
-                //usleep(500);
+                usleep(500);
             }
             $i--;
         }

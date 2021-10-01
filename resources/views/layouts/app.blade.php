@@ -13,10 +13,6 @@
     <script src="{{ asset(mix('js/manifest.js')) }}"></script>
     <script src="{{ asset(mix('js/vendor.js')) }}"></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
-
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
@@ -28,46 +24,6 @@
             padding-bottom: 60px;
         }
     </style>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
-    </script>
-    <script>
-        window.addEventListener("load", function() {
-            $('button.relay ').click(function(e) {
-                navigator.vibrate([10]);
-                thisObj = $(this);
-                thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"><span class=\"sr-only\"> Loading... </span></div>");
-
-                console.log(thisObj.data("url"));
-
-                $.ajax({
-                    type: 'POST',
-                    url: thisObj.data("url"),
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(msg) {
-                        thisObj.html(msg.icon);
-                        thisObj.data("url", msg.url)
-                    },
-                    error: function() {
-                        //timeout
-                    },
-                    timeout: 3000,
-                });
-            });
-
-            var darkThemeSelected =
-                localStorage.getItem("darkSwitch") !== null &&
-                localStorage.getItem("darkSwitch") === "dark";
-            if (darkThemeSelected) {
-                document.body.setAttribute("data-theme", "dark");
-            } else {
-                document.body.removeAttribute("data-theme");
-            }
-        });
-    </script>
 
     @yield('customHead')
 
@@ -145,6 +101,43 @@
 
 
     <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script>
+        window.addEventListener("load", function() {
+            $('div.control-relay ').click(function(e) {
+                navigator.vibrate([10]);
+                thisObj = $(this);
+                thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+
+                console.log(thisObj.data("url"));
+
+                $.ajax({
+                    type: 'POST',
+                    url: thisObj.data("url"),
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(msg) {
+                        thisObj.html(msg.icon);
+                        thisObj.data("url", msg.url)
+                    },
+                    error: function() {
+                        //timeout
+                    },
+                    timeout: 3000,
+                });
+            });
+
+            var darkThemeSelected =
+                localStorage.getItem("darkSwitch") !== null &&
+                localStorage.getItem("darkSwitch") === "dark";
+            if (darkThemeSelected) {
+                document.body.setAttribute("data-theme", "dark");
+            } else {
+                document.body.removeAttribute("data-theme");
+            }
+        });
+    </script>
+
     @yield('beforeBodyEnd')
 </body>
 

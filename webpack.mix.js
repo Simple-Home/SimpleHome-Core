@@ -10,6 +10,9 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.setPublicPath('public');
+mix.setResourceRoot('../');
+
 mix
     .js('resources/js/app.js', 'public/js').version().extract([
     'jquery',
@@ -23,6 +26,7 @@ mix
 ])
     .sass('resources/sass/app.scss', 'public/css').version()
     .copyDirectory('resources/img', 'public/images')
+    .copyDirectory('public/fonts/vendor', 'public')
     .browserSync({
         proxy: 'http://localhost/',
         open: false,

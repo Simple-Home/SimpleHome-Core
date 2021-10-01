@@ -18,10 +18,6 @@
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" defer></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-iconpicker.bundle.min.js') }}" defer></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
-
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">

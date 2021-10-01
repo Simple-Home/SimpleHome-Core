@@ -62,7 +62,9 @@ class Rooms extends Authenticatable
         $roomStates = [];
         $propertyes = $this->getProperties;
         foreach ($propertyes as $property) {
-            $roomStates[$property->type][] = $property->last_value->value;
+            if ($property->latestRecord){
+                $roomStates[$property->type][] = $property->latestRecord->value;
+            }
         }
 
         foreach ($roomStates as $type => $roomState) {

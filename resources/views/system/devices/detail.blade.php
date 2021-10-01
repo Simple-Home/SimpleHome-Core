@@ -8,7 +8,7 @@
                 <div class="col p-md-0">
                     <a style="font-weight:bold" class="h4 fw-bold" href="{{route('system.devices.list')}}">{{"< Devices"}}</a>
                 </div>
-                <div class="col p-md-0 text-right my-auto">
+                <div class="col p-md-0 text-end my-auto">
                     <a style="font-weight:bold" class="h3 fw-bold" href="{{route('system.devices.edit', $device->id)}}"><i class="fas fa-cog"></i></a>
                 </div>
             </div>
@@ -44,21 +44,21 @@
         <div class="col p-md-0">
             @if (!empty($device->getProperties) && count($device->getProperties) > 0)
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-sm mb-0">
                     <thead>
                         <tr>
-                            <th>Icon</th>
-                            <th>Name / Type</th>
-                            <th>Last Value</th>
-                            <th></th>
+                            <th scope="col">Icon</th>
+                            <th scope="col">Name / Type</th>
+                            <th scope="col">Last Value</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($device->getProperties as $property)
                         <tr>
-                            <td>
+                            <th scope="row">
                                 <i class="fas {{$property->icon}}"></i>
-                            </td>
+                            </th>
                             <td>{{$property->nick_name}} <br> {{$property->type}}</td>
                             <td>
                                 @if (!empty($property->last_value))
@@ -67,6 +67,7 @@
                             </td>
                             <td>
                                 <a href="{{route('controls.detail', $property->id)}}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
+                                <a href="{{route('controls.edit', $property->id)}}" class="btn btn-primary"><i class="fa fa-cog"></i></a>
                             </td>
                         </tr>
                         @endforeach
