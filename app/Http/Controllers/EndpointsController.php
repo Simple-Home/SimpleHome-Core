@@ -8,6 +8,8 @@ use App\Models\Devices;
 use DateTime;
 use Illuminate\Support\Carbon;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Illuminate\Support\Facades\Storage;
+use File;
 
 class EndpointsController extends Controller
 {
@@ -26,7 +28,7 @@ class EndpointsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function devicesSearch(Request $request)
+    public function devicesSearch(Request $request, FormBuilder $formBuilder)
     {
         $search = $request->input('search');
 
@@ -40,6 +42,13 @@ class EndpointsController extends Controller
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
+            $devices[$key]["firmware"] = $formBuilder->create(\App\Forms\FirmwareForm::class, [
+                'model' => ["id" => $device->id],
+                'method' => 'POST',
+                'class' => 'd-flex justify-content-between ml-auto',
+                'url' => route('system.devices.firmware'),
+            ]);
+
             $heardbeath = new DateTime($device->heartbeat);
             $interval = $heardbeath->diff(new DateTime());
             $totalSeconds = ($interval->format('%h') * 60 + $interval->format('%i'));
@@ -52,11 +61,49 @@ class EndpointsController extends Controller
         return view('system.devices.list', ["devices" => $devices]);
     }
 
-    public function devicesList()
+    /**
+     * Store the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function firmware(Request $request, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\FirmwareForm::class, [
+            'method' => 'POST',
+            'url' => route('system.devices.firmware'),
+        ]);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $device = Devices::find($request->input('id'));
+
+        $fileUploaded = $request->file('firmware');
+        $originalFileName = $fileUploaded->getClientOriginalName();
+        $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+        
+        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension))) {
+            unlink (storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension));
+        }
+        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . $device->token . "." . $fileExtension);
+
+        return redirect()->route('system.devices.list');
+    }
+
+    public function devicesList(FormBuilder $formBuilder)
     {
         $devices = Devices::all();
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
+
+            $devices[$key]["firmware"] = $formBuilder->create(\App\Forms\FirmwareForm::class, [
+                'model' => ["id" => $device->id],
+                'class' => 'd-flex justify-content-between ml-auto',
+                'method' => 'POST',
+                'url' => route('system.devices.firmware'),
+            ]);
 
             $heartbeat = new DateTime($device->heartbeat);
             $sleep = empty($device->sleep) ? 1 : $device->sleep;

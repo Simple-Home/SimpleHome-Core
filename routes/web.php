@@ -116,6 +116,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
     Route::middleware(['auth', 'verified', 'language'])->get('/devices', [App\Http\Controllers\EndpointsController::class, 'devicesList'])->name('system.devices.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/devices/search', [App\Http\Controllers\EndpointsController::class, 'devicesSearch'])->name('system.devices.search');
+    Route::middleware(['auth', 'verified', 'language'])->post('/devices/firmware', [App\Http\Controllers\EndpointsController::class, 'firmware'])->name('system.devices.firmware');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/detail', [App\Http\Controllers\EndpointsController::class, 'devicesDetail'])->name('system.devices.detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('system.devices.edit');
