@@ -28,9 +28,37 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list()
+    public function list(FormBuilder $formBuilder)
     {
-        return view('system.users.list', ["users" => User::all()]);
+        $userForm = $formBuilder->create(\App\Forms\UserForm::class, [
+            'method' => 'POST',
+            'url' => route('system.users.storage')
+        ]);
+
+        return view('system.users.list', ["users" => User::all()] + compact('userForm'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storage(Request $request, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\UserForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'language' => "en",
+        ]);
+
+        return redirect()->route('system.users.list');
     }
 
     /**
@@ -184,10 +212,14 @@ class UsersController extends Controller
     public function remove($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $user->delete();
-        $request->session()->invalidate();
-        $request->session()->flush();
-        return redirect()->route('system.user.profile');
+        if ($user == Auth::user()) {
+            $user->delete();
+            $request->session()->invalidate();
+            $request->session()->flush();
+        } else {
+            $user->delete();
+        }
+        return redirect()->route('system.users.list');
     }
 
     public function search(Request $request)

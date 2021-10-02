@@ -107,6 +107,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('system.users.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('system.users.search');
     Route::middleware(['auth', 'verified', 'language'])->get('/users/{user_id}/remove', [App\Http\Controllers\UsersController::class, 'remove'])->name('system.users.remove');
+    Route::middleware(['auth', 'verified', 'language'])->post('/user/storage', [App\Http\Controllers\UsersController::class, 'storage'])->name('system.users.storage');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/rooms', [App\Http\Controllers\RoomsController::class, 'list'])->name('system.rooms.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/rooms/search', [App\Http\Controllers\RoomsController::class, 'search'])->name('system.rooms.search');
