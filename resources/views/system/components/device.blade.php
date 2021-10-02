@@ -5,7 +5,6 @@
                 <a class="h2" href="{{ route('system.devices.detail', $device->id) }}">
                     {{$device->hostname}}
                 </a>
-                {!! form($device->firmware) !!}
                 <p class="m-0 text-left">
                     {{__('properties.count') . ': ' . $device->getProperties->count()}}
                 </p>
