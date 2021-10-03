@@ -61,8 +61,7 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/detail/{property_id}', [App\Http\Controllers\PropertiesController::class, 'detail'])->name('properties_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/edit/{property_id}', [App\Http\Controllers\PropertiesController::class, 'edit'])->name('properties_edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/control/{property_id}', [App\Http\Controllers\PropertiesController::class, 'control']);
-    Route::middleware(['auth', 'verified', 'language'])->get('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');;
-    Route::middleware(['auth', 'verified', 'language'])->post('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');;
+    Route::middleware(['auth', 'verified', 'language'])->any('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');
 });
 
 Route::namespace('automations')->prefix('automations')->group(function () {
@@ -149,10 +148,8 @@ Route::get('/offline', function () {
 
 //oauth
 Route::namespace('oauth')->prefix('oauth')->group(function () {
-    Passport::routes();
+    //Passport::routes();
     Route::get('/redirect', [App\Http\Controllers\OauthContoller::class, 'redirect'])->name('oauth.authorize');
     Route::get('/callback', [App\Http\Controllers\OauthContoller::class, 'callback'])->name('oauth.callback');
     Route::middleware(['auth:oauth'])->get('login', [App\Http\Controllers\PropertiesController::class, 'login'])->name('oauth.login');;
 });
-
-Route::middleware(['auth:oauth'])->get('/test', [App\Http\Controllers\UsersController::class, 'test'])->name('oauth.test');
