@@ -54,9 +54,14 @@
         </div>
         <div class="col p-md-0 text-end my-auto">
             @if (!empty($property->latestRecord))
-            <h1 class="text-end font-weight-bold">
-                {{$property->latestRecord->value}} {{$property->units}}
-            </h1>
+            <div class="d-flex justify-content-end">
+                <h1 class="text-end font-weight-bold">
+                    {{$property->latestRecord->value}}
+                </h1>
+                <div class="h3" style="color: #686e73;">
+                    {{$property->units}}
+                </div>
+            </div>
             @endif
         </div>
     </div>
