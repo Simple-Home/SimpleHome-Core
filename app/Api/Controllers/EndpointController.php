@@ -187,18 +187,6 @@ class EndpointController extends Controller
             }
         }
 
-        foreach ($device->getProperties as $key => $property) {
-            $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
-            if (!isset($data['values'][$propertyType]['value'])) {
-                continue;
-            }
-
-            $record                 = new Records;
-            $record->value          = $data['values'][$propertyType]['value'];
-            $record->property_id    = $property->id;
-            $record->save();
-        }
-
         $response = [
             "device" => [
                 "sleepTime" => (int) ($device->sleep / 1000) / 60,
@@ -210,10 +198,23 @@ class EndpointController extends Controller
         ];
 
         foreach ($device->getProperties as $key => $property) {
-            if (isset($property->last_value->value)) {
-                $response["values"][($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type))] = (int) $property->last_value->value;
-                $property->last_value->setAsDone();
+            $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
+           
+            if (!isset($data['values'][$propertyType]['value'])) {
+                if (isset($property->latestRecord)){
+                    $response["values"][$propertyType] = (int) $property->latestRecord->value;
+                    $property->latestRecord->setAsDone();
+                }
+                continue;
             }
+
+            $record                 = new Records;
+            $record->value          = $data['values'][$propertyType]['value'];
+            $record->property_id    = $property->id;
+            $record->save();
+
+            $response["values"][$propertyType] = (int) $record->value;
+            $property->latestRecord->setAsDone();
         }
 
         return response()->json(
