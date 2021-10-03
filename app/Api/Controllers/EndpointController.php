@@ -130,24 +130,9 @@ class EndpointController extends Controller
     {
         $data = $request->json()->all();
 
-
         $device = Devices::query()->where('token', '=', $data['token'])->first();
-
         if (!$device) {
-            $devices                    = new Devices;
-            $devices->token             = $data['token'];
-            $devices->hostname          = $data['token'];
-            $devices->integration          = 'others';
-
-            if (isset($data['values']["on/off"])) {
-                $devices->type              = 'relay';
-            } elseif (isset($data['values']["temp_cont"])) {
-                $devices->type              = 'termostat';
-            } else {
-                $devices->type              = 'senzor';
-            }
-
-            $devices->save();
+            $this->createDevice($data);
             return response()->json(
                 [
                     'setup' => true
@@ -162,7 +147,6 @@ class EndpointController extends Controller
         if ($device->approved == 1) {
             $defaultRoom = Rooms::query()->where('default', 1)->first();
             if ($defaultRoom === null) {
-
                 return response()->json(
                     ['error' => __('No default room configured, please add a default room first')],
                     JsonResponse::HTTP_BAD_REQUEST
@@ -202,7 +186,6 @@ class EndpointController extends Controller
                 }
             }
         }
-
 
         foreach ($device->getProperties as $key => $property) {
             $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
@@ -245,5 +228,23 @@ class EndpointController extends Controller
     {
         $data["error"] = "Not yet supported";
         return response()->json($data, 200);
+    }
+
+    private function createDevice($data)
+    {
+        $devices                    = new Devices;
+        $devices->token             = $data['token'];
+        $devices->hostname          = $data['token'];
+        $devices->integration          = 'others';
+
+        if (isset($data['values']["on/off"])) {
+            $devices->type              = 'relay';
+        } elseif (isset($data['values']["temp_cont"])) {
+            $devices->type              = 'termostat';
+        } else {
+            $devices->type              = 'senzor';
+        }
+
+        $devices->save();
     }
 }
