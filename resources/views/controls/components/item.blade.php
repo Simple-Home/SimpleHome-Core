@@ -19,7 +19,7 @@
                         {{ $property->latestRecord->value }}
                         @endif
                     </div>
-                    <div class="h6" style="color: #686e73;">
+                    <div class="h5" style="color: #686e73;">
                         {{$property->units}}
                     </div>
                     @endif
