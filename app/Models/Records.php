@@ -16,8 +16,6 @@ class Records extends Model
         "done",
     ];
 
-  
-
     use HasFactory;
 
     public function setAsDone()

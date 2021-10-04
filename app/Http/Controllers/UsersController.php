@@ -28,9 +28,37 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list()
+    public function list(FormBuilder $formBuilder)
     {
-        return view('system.users.list', ["users" => User::all()]);
+        $userForm = $formBuilder->create(\App\Forms\UserForm::class, [
+            'method' => 'POST',
+            'url' => route('system.users.storage')
+        ]);
+
+        return view('system.users.list', ["users" => User::all()] + compact('userForm'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storage(Request $request, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\UserForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'language' => "en",
+        ]);
+
+        return redirect()->route('system.users.list');
     }
 
     /**
@@ -45,24 +73,25 @@ class UsersController extends Controller
         $profileInformationForm = $formBuilder->create(\App\Forms\ProfileInformationForm::class, [
             'model' => $user,
             'method' => 'POST',
-            'url' => route('user.update', ['user' => $user])
+            'url' => route('system.profile.update', ['user' => $user])
         ]);
         $settingForm = $formBuilder->create(\App\Forms\SettingForm::class, [
             'method' => 'POST',
-            'url' => route('user.setting', ['user' => $user])
+            'url' => route('system.profile.setting', ['user' => $user])
         ]);
         $changePasswordForm = $formBuilder->create(\App\Forms\ChangePasswordForm::class, [
             'method' => 'POST',
-            'url' => route('user.changePassword', ['user' => $user])
+            'url' => route('system.profile.changePassword', ['user' => $user])
         ]);
         $deleteProfileForm = $formBuilder->create(\App\Forms\DeleteProfileForm::class, [
             'method' => 'POST',
-            'url' => route('user.verifyDelete', ['user' => $user])
+            'url' => route('system.profile.verifyDelete', ['user' => $user])
         ]);
         $realyDeleteProfileForm = $formBuilder->create(\App\Forms\RealyDeleteProfileForm::class, [
             'method' => 'POST',
-            'url' => route('user.delete', ['user' => $user])
+            'url' => route('system.profile.delete', ['user' => $user])
         ]);
+
 
 
 
@@ -184,10 +213,14 @@ class UsersController extends Controller
     public function remove($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $user->delete();
-        $request->session()->invalidate();
-        $request->session()->flush();
-        return redirect()->route('system.user.profile');
+        if ($user == Auth::user()) {
+            $user->delete();
+            $request->session()->invalidate();
+            $request->session()->flush();
+        } else {
+            $user->delete();
+        }
+        return redirect()->route('system.users.list');
     }
 
     public function search(Request $request)

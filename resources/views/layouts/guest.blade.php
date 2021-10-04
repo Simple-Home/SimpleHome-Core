@@ -117,6 +117,24 @@
 </head>
 
 <body>
+    <nav class="navbar fixed-top bg-light">
+        <div class="container-fluid">
+            <div class="navbar-expansed w-100">
+                <ul class="nav justify-content-end">
+                    @auth
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('simplehome.logout') }}
+                        </a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
     @yield('content')
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     @yield('beforeBodyEnd')

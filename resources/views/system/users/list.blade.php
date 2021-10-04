@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.users.list.pageTitle') }}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomCreation" title="{{ __('simplehome.users.create') }}">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userCreation" title="{{ __('simplehome.users.create') }}">
             <i class="fas fa-plus"></i>
         </button>
     </div>
@@ -49,21 +49,25 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="userCreation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">{{ __('simplehome.room.create') }}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Add User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{"user Form"}}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                {!! form($userForm) !!}
             </div>
         </div>
     </div>
 </div>
+@if (count($errors) > 0)
+    <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script>
+        $( document ).ready(function() {
+            $('#userCreation').modal('show');
+        });
+    </script>
+@endif
 @endsection
