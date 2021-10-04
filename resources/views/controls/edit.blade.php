@@ -19,6 +19,13 @@
                     <div class="mt-3">
                         <a href="{{route('controls.remove', $property->id)}}" class="btn btn-danger btn-block">Delete</a>
                     </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-header">
+                    {{__('simplehome.properti.custome.settings')}}
+                </div>
+                <div class="card-body">
                     {!! form($systemSettingsForm) !!}
                 </div>
             </div>

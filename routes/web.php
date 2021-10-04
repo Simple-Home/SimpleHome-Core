@@ -102,7 +102,11 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/integrations/{integration_slug}/detail', [App\Http\Controllers\SettingsController::class, 'detail'])->name('system.integrations.detail');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
+    Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('system.settings.update');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\SettingsController::class, 'developments'])->name('system.developments.list');
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');

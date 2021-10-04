@@ -35,7 +35,7 @@ class SystemController extends Controller
         $settings = SettingManager::getGroup($integrationSlug);
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
-            'url' => route('settings_update'),
+            'url' => route('system.settings.update'),
             'variables' => $settings
         ]);
 

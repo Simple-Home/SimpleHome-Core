@@ -77,7 +77,7 @@ class SettingsController extends Controller
         foreach ($integrations as $key => $integration) {
             $integrationList[] = $key;
         }
-        return view('settings.integrations', compact('integrationList'));
+        return view('system.integrations.list', compact('integrationList'));
     }
 
     public function detail($integrationSlug, FormBuilder $formBuilder)
@@ -85,7 +85,7 @@ class SettingsController extends Controller
         $settings = SettingManager::getGroup($integrationSlug);
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
-            'url' => route('settings_update'),
+            'url' => route('system.settings.update'),
             'variables' => $settings
         ]);
 
@@ -121,7 +121,7 @@ class SettingsController extends Controller
 
         $systemSettingsForm  = $formBuilder->create(\App\Forms\SettingDatabaseFieldsForm::class, [
             'method' => 'POST',
-            'url' => route('settings_update'),
+            'url' => route('system.settings.update'),
             'variables' => $settings
         ]);
 
