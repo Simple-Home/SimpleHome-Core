@@ -14,7 +14,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ route('system.user.profile') }}" class="nav-link {{ ((strpos(Route::currentRouteName(), 'system') > -1) ? 'active' : '') }}">
+    <a href="{{ route('system.profile') }}" class="nav-link {{ ((strpos(Route::currentRouteName(), 'system') > -1) ? 'active' : '') }}">
         <i class="fa fa-cog"></i></i><span class="d-none ms-md-2 d-md-inline">Settings</span>
     </a>
 </li>

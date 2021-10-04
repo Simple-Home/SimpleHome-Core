@@ -1,5 +1,5 @@
 <li class="nav-item my-auto">
-    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'profile') > -1) ? 'active' : '')}}" title="test" href="{{route('system.user.profile')}}">Profile</a>
+    <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'profile') > -1) ? 'active' : '')}}" title="test" href="{{route('system.profile')}}">Profile</a>
 </li>
 <li class="nav-item my-auto">
     <a class="nav-link {{ ((strpos(Route::currentRouteName(), 'diagnostics') > -1) ? 'active' : '')}}" title="test" href="{{route('system.diagnostics.list')}}">Diagnostics</a>
