@@ -83,9 +83,10 @@ class EndpointsController extends Controller
         $fileUploaded = $request->file('firmware');
         $originalFileName = $fileUploaded->getClientOriginalName();
         $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-        
+
+        //TODO: ADD MD Hash Of File
         if (file_exists(storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension))) {
-            unlink (storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension));
+            unlink(storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension));
         }
         Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . $device->token . "." . $fileExtension);
 

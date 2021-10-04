@@ -23,12 +23,8 @@ Auth::routes(['verify' => true]);
 
 
 Route::namespace('devices')->prefix('devices')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\DevicesController::class, 'list'])->name('devices_list');
-    Route::middleware(['auth', 'verified', 'language'])->get('/search', [App\Http\Controllers\DevicesController::class, 'search'])->name('devices_search');
-    Route::middleware(['auth', 'verified', 'language'])->get('/detail/{device_id}', [App\Http\Controllers\DevicesController::class, 'detail'])->name('devices_detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/settings/{device_id}', [App\Http\Controllers\DevicesController::class, 'settings'])->name('devices_settings');
     Route::middleware(['auth', 'verified', 'language'])->post('/settings/{device_id}/save', [App\Http\Controllers\DevicesController::class, 'saveSettings'])->name('devices_settings_update');
-    Route::middleware(['auth', 'verified', 'language'])->get('/edit/{device_id}', [App\Http\Controllers\DevicesController::class, 'edit'])->name('devices_edit');
     Route::middleware(['auth', 'verified', 'language'])->post('/update/{device_id}', [App\Http\Controllers\DevicesController::class, 'update'])->name('devices_update');
     Route::middleware(['auth', 'verified', 'language'])->post('/update/property/{device_id}', [App\Http\Controllers\DevicesController::class, 'updateProperty'])->name('devices_update_property');
     Route::middleware(['auth', 'verified', 'language'])->post('/store/', [App\Http\Controllers\DevicesController::class, 'store'])->name('devices.store');
@@ -104,8 +100,6 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('system.profile.changePassword');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('system.profile.verifyDelete');
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');
-
-
 
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
