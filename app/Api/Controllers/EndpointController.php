@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Helpers\SettingManager;
 use App\Models\User;
+use App\Notifications\NewDeviceNotification;
 
 class EndpointController extends Controller
 {
@@ -248,6 +249,8 @@ class EndpointController extends Controller
         }
 
         $devices->save();
+
+        User::all()->notify(new NewDeviceNotification());
     }
 
     private function createProperty($device, $defaultRoom, $propertyType, $token)
