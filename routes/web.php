@@ -14,13 +14,10 @@ use Laravel\Passport\Passport;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\ControlsController::class, 'list']);
 
 Auth::routes();
 Auth::routes(['verify' => true]);
-
 
 Route::namespace('devices')->prefix('devices')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/settings/{device_id}', [App\Http\Controllers\DevicesController::class, 'settings'])->name('devices_settings');
@@ -42,10 +39,6 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 });
 
 //Rewrite
-
-//User (Me)
-Route::namespace('user')->prefix('user')->group(function () {
-});
 
 //Controls
 Route::namespace('controls')->prefix('controls')->group(function () {
@@ -115,10 +108,6 @@ Route::namespace('system')->prefix('system')->group(function () {
 //Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
 Route::middleware(['auth', 'verified', 'language'])->post('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
 
-//Home Redirect
-Route::any('/', function () {
-    return redirect()->route('controls.room');
-});
 
 //PWA Routes
 Route::get('/offline', function () {
