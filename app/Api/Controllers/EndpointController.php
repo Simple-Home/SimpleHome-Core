@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Helpers\SettingManager;
+use App\Models\User;
 
 class EndpointController extends Controller
 {
@@ -231,6 +232,8 @@ class EndpointController extends Controller
 
     private function createDevice($data)
     {
+
+
         $devices                    = new Devices;
         $devices->token             = $data['token'];
         $devices->hostname          = $data['token'];

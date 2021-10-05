@@ -87,7 +87,7 @@
         </div>
     </div>
     <!-- Botom Fixed Menu -->
-    <nav class="navbar fixed-bottom bg-light">
+    <nav class="navbar fixed-bottom bg-light" style="z-index: 1056;">
         <div class="container-fluid">
             <div class="navbar-expand w-100">
                 <ul class="navbar-nav justify-content-around nav-pills">
@@ -98,8 +98,6 @@
             </div>
         </div>
     </nav>
-
-
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     <script>
         window.addEventListener("load", function() {
@@ -137,6 +135,8 @@
             }
         });
     </script>
+
+
 
     @yield('beforeBodyEnd')
 </body>

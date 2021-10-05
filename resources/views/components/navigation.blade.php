@@ -4,7 +4,7 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('automations_list') }}" class="nav-link disabled">
+    <a data-bs-toggle="modal" data-bs-target="#notifications" class="nav-link">
         <i class="fa fa-bell"></i><span class="d-none ms-md-2 d-md-inline">Events</span>
     </a>
 </li>

@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -10,25 +10,28 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.setPublicPath('public');
-mix.setResourceRoot('../');
+mix.setPublicPath("public");
+mix.setResourceRoot("../");
 
-mix
-    .js('resources/js/app.js', 'public/js').version().extract([
-    'jquery',
-    'bootstrap',
-    'icon-picker',
-    'fontawesome-free',
-    'dark-mode-switch',
-    'bootstrap-iconpicker',
-    'chart',
-    'toastify-js'
-])
-    .sass('resources/sass/app.scss', 'public/css').version()
-    .copyDirectory('resources/img', 'public/images')
-    .copyDirectory('public/fonts/vendor', 'public')
+mix.js("resources/js/app.js", "public/js")
+    .version()
+    .extract([
+        "jquery",
+        "popper",
+        "bootstrap",
+        "icon-picker",
+        "fontawesome-free",
+        "dark-mode-switch",
+        "bootstrap-iconpicker",
+        "chart",
+        "toastify-js",
+    ])
+    .sass("resources/sass/app.scss", "public/css")
+    .version()
+    .copyDirectory("resources/img", "public/images")
+    .copyDirectory("public/fonts/vendor", "public")
     .browserSync({
-        proxy: 'http://localhost/',
+        proxy: "http://localhost/",
         open: false,
     })
     .sourceMaps();

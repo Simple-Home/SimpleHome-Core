@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Rooms;
+use App\Models\User;
 use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
 use App\Helpers\SettingManager;
 use App\Models\Records;
 use App\Types\GraphPeriod;
+use App\Notifications\NewDeviceNotification;
+use Illuminate\Support\Facades\Auth;
 
 class ControlsController extends Controller
 {
@@ -30,6 +33,12 @@ class ControlsController extends Controller
      */
     public function list($room_id = 0, FormBuilder $formBuilder)
     {
+
+        Auth::user()->notify(new NewDeviceNotification());
+
+        // dd(Auth::user()->notifications);
+
+
         $roomsForm = [];
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
             'method' => 'POST',

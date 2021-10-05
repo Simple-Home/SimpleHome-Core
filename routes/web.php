@@ -40,6 +40,12 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 
 //Rewrite
 
+//Notifications
+Route::namespace('notifications')->prefix('notifications')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/{notification_id}/read', [App\Http\Controllers\NotificationsController::class, 'read'])->name('notifications.read');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{notification_id}/delete', [App\Http\Controllers\NotificationsController::class, 'remove'])->name('notifications.delete');
+});
+
 //Controls
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/room/{room_id?}', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.room');
