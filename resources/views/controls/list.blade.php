@@ -17,44 +17,6 @@
 @else
 <p class=" text-center">{{ __('simplehome.controls.notFound') }}</p>
 @endif
-
-<!-- Full screen modal -->
-<div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @foreach (Auth::user()->notifications as $notification)
-                <div class="card mb-3">
-                    <div class="card-body">
-                        {{$notification->created_at}}
-                        @if(!empty($notification->data))
-                        <h1>{{$notification->data['title']}}</h1>
-                        @endif
-
-                        @if(empty($notification->read_at))
-                        <a href="{{route('notifications.read', ['notification_id' => $notification->id])}}">mark as read</a>
-                        @endif
-
-                        <a href="{{route('notifications.delete', ['notification_id' => $notification->id])}}">delete</a>
-
-                        @if(!empty($notification->data))
-
-                        <p>{{$notification->data['message']}}</p>
-                        @endif
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 @endsection
 
 <!-- Modal -->

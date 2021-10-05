@@ -148,6 +148,23 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}</h5>
+                <div class="btn-group">
+                    <a data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="btn btn-primary dropdown-item" href="{{route('notifications.read', ['notification_id' => 'all'])}}">
+                                readAll
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary dropdown-item" href="{{route('notifications.delete', ['notification_id' => 'all'])}}">
+                                deleteAll
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -13,6 +13,7 @@ use App\Models\Records;
 use App\Types\GraphPeriod;
 use App\Notifications\NewDeviceNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ControlsController extends Controller
 {
@@ -45,16 +46,22 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        $rooms = Rooms::with(['properties', 'properties.device' => fn ($query) => $query->where('approved', 1)->get('id')])->get()->filter(function ($item) {
-            if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
-                return $item;
-            }
+        $rooms = Cache::remember('controls.rooms', 15, function () {
+            return Rooms::with(['properties', 'properties.device' => fn ($query) => $query->where('approved', 1)->get('id')])->get()->filter(function ($item) {
+                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                    return $item;
+                }
+            });
         });
 
         if ($room_id == 0)
             $room_id =  $rooms->min('id');
 
-        $propertyes = Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+        $propertyes = Cache::remember('controls.properties' . $room_id, 15, function () use ($room_id) {
+            return Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+        });
+
+
 
         return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
     }
