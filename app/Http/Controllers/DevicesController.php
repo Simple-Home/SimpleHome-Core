@@ -53,7 +53,7 @@ class DevicesController extends Controller
             }
 
             foreach ($device->getProperties as $property) {
-                if (isset($property->last_value->value)) {
+                if (isset($property->latestRecord->value)) {
                 }
                 break;
             }

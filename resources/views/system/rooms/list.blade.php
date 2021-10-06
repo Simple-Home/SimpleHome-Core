@@ -21,8 +21,8 @@
             <table class="table mb-0">
                 <thead>
                     <tr>
-                        <th scope="col" class="col-10">{{__('simplehome.room.name')}}</th>
-                        <th scope="col" class="col-2 text-end">{{__('simplehome.actions')}}</th>
+                        <th scope="col">{{__('simplehome.room.name')}}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +30,7 @@
                     <tr>
                         <td>{!! form($roomsForm[$room->id]) !!}</td>
                         <td class="col-auto">
-                            <div class="float-end">
+                            <div class="text-end">
                                 @if ($room->default)
                                 <a href="{{route('system.rooms.default', ['room_id' => $room->id])}}" class="btn btn-primary" title="{{ __('simplehome.room.default') }}"><i class="fas fa-toggle-on"></i></a>
                                 @else

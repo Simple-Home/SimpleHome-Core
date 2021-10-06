@@ -39,11 +39,13 @@
         </div>
     </div>
     <div class="row justify-content-between">
+        @if(!empty($property->icon) && $property->icon != "empty")
         <div style="width: 50px; height: 50px;" class="col p-md-0 col-auto d-flex ">
             <span class="mx-auto my-auto h1">
                 <i class="fas {{$property->icon}}"></i>
             </span>
         </div>
+        @endif
         <div class="col p-md-0">
             <div>
                 <h3 class="mb-0">{{$property->nick_name}}</h3>

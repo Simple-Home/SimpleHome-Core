@@ -6,7 +6,7 @@
         <div class="col p-md-0">
             <div class="row justify-content-between">
                 <div class="col p-md-0">
-                    <a style="font-weight:bold" class="h4 fw-bold" href="{{route('system.devices.list')}}">{{"< Devices"}}</a>
+                    <a style="font-weight:bold" class="h4 text-decoration-none fw-bold" href="{{route('system.devices.list')}}"><i class="fas fa-chevron-left me-2"></i>Device</a>
                 </div>
                 <div class="col p-md-0 text-end my-auto">
                     <a style="font-weight:bold" class="h3 fw-bold" href="{{route('system.devices.edit', $device->id)}}"><i class="fas fa-cog"></i></a>
@@ -65,7 +65,7 @@
                                 {{round($property->latestRecord->value, 2)}} {{$property->units}}
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-end">
                                 <a href="{{route('controls.detail', $property->id)}}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
                                 <a href="{{route('controls.edit', $property->id)}}" class="btn btn-primary"><i class="fa fa-cog"></i></a>
                                 <a href="{{route('controls.remove', $property->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
@@ -151,8 +151,8 @@
                                 <td>{{$property->type}}</td>
                                 <td>{!! form($historyForms[$property->id]) !!}</td>
                                 <td>
-                                    @if (!empty($property->last_value))
-                                    {{round($property->last_value->value, 2)}}
+                                    @if (!empty($property->latestRecord))
+                                    {{round($property->latestRecord->value, 2)}}
                                     @endif
                                 </td>
                                 <td>

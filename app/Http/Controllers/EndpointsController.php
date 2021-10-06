@@ -9,6 +9,8 @@ use DateTime;
 use Illuminate\Support\Carbon;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NewDeviceNotification;
+use App\Models\User;
 use File;
 
 class EndpointsController extends Controller
@@ -97,6 +99,10 @@ class EndpointsController extends Controller
     {
         $devices = Devices::all();
         foreach ($devices as $key => $device) {
+            // foreach (User::all() as $user) {
+            //     $user->notify(new NewDeviceNotification($device));
+            // }
+
             $device->connection_error = true;
 
             $devices[$key]["firmware"] = $formBuilder->create(\App\Forms\FirmwareForm::class, [
@@ -115,8 +121,9 @@ class EndpointsController extends Controller
                 $device->connection_error = false;
             }
 
+
             foreach ($device->getProperties as $property) {
-                if (isset($property->last_value->value)) {
+                if (isset($property->latestRecord->value)) {
                 }
                 break;
             }

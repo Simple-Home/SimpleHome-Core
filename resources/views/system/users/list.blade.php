@@ -20,21 +20,17 @@
             <table class="table mb-0">
                 <thead>
                     <tr>
-                        <th scope="col">{{__('simplehome.hostname')}}</th>
+                        <th scope="col" class="d-none d-md-table-cell">{{__('simplehome.hostname')}}</th>
                         <th>{{__('simplehome.email')}}</th>
-                        <th>{{__('simplehome.mfa')}}</th>
-                        <th>{{__('simplehome.permissions')}}</th>
-                        <th>{{__('simplehome.actions')}}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
                     <tr>
-                        <td>{{$user->name}}</td>
+                        <td class="d-none d-md-table-cell">{{$user->name}}</td>
                         <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
-                        <td>{{$user->MFA}}</td>
-                        <td>{{$user->Permission}}</td>
-                        <td><a href="{{ route('system.users.remove', ['user_id' => $user->id]) }}" class="btn btn-danger" title="{{__('simplehome.users.delete')}}"><i class="fas fa-times"></i></a></td>
+                        <td class="text-end"><a href="{{ route('system.users.remove', ['user_id' => $user->id]) }}" class="btn btn-danger" title="{{__('simplehome.users.delete')}}"><i class="fas fa-times"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -63,11 +59,11 @@
     </div>
 </div>
 @if (count($errors) > 0)
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
-    <script>
-        $( document ).ready(function() {
-            $('#userCreation').modal('show');
-        });
-    </script>
+<script src="{{ asset(mix('js/app.js')) }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#userCreation').modal('show');
+    });
+</script>
 @endif
 @endsection

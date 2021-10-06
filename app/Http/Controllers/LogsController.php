@@ -15,16 +15,17 @@ class LogsController extends Controller
 
     public function list(Request $request, FormBuilder $formBuilder)
     {
+        $logs = [];
         $logsAll = $this->logFile();
-        if (!empty ($logsAll)) {
+        if (!empty($logsAll)) {
             $logs = $logsAll[0];
             asort($logs);
         }
 
-        if (!empty ($request->input('delete'))) {
-            unlink (storage_path('logs/' . $logs[$request->input('logFile')]));
+        if (!empty($request->input('delete')) && !empty($logs) && file_exists(storage_path('logs/' . $logs[$request->input('logFile')]))) {
+            unlink(storage_path('logs/' . $logs[$request->input('logFile')]));
             $logsAll = $this->logFile();
-            if (!empty ($logsAll)) {
+            if (!empty($logsAll)) {
                 $logs = $logsAll[0];
             }
             asort($logs);

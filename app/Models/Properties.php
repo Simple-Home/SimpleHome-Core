@@ -161,10 +161,6 @@ class Properties extends Model
         return $agregatedData->get();
     }
 
-    public function last_value()
-    {
-        return $this->hasOne(Records::class, 'property_id', 'id')->latest();
-    }
 
 
 

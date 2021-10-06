@@ -17,9 +17,9 @@
                     </div>
                 </div>
             </div>
-            <div id="notification-control-load" class="p" data-url="{{route('notifications.delete', ['notification_id' => $notification->id])}}">
+            <a id="notification-control-load" class="p" data-url="{{route('notifications.delete', ['notification_id' => $notification->id])}}">
                 <i class="fas fa-trash"></i>
-            </div>
+            </a>
         </div>
 
         @if(empty($notification->read_at))

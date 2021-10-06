@@ -25,6 +25,8 @@
         }
     </style>
 
+
+
     @yield('customHead')
 
     <!-- PWA Manifest -->
@@ -171,20 +173,24 @@
         </div>
     </div>
     <script>
-        $("a#notifications-all").click(function() {
+        $("a").click(function() {
+            console.log("test");
+        });
+        $('body').on('click', 'a#notification-control-load', function(event) {
+            console.log($(this).data("url"));
             $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
             $.ajax({
-                type: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}"
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
+                type: 'POST',
                 url: $(this).data("url"),
                 success: function(msg) {
                     $("#notifications-list").html(msg);
                 },
             });
         });
-        $("div#notification-control-load").on('shown.bs.modal', function() {
+        $("div#notifications").on('shown.bs.modal', function() {
             console.log("Loading Notifications");
             $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
             $.ajax({

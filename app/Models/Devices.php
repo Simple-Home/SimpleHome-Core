@@ -88,8 +88,8 @@ class Devices extends Model
     public function getSignalStrengthAttribute()
     {
         $RSSI = ($this->getProperties->where('type', 'wifi')->first());
-        if ($RSSI && !empty($RSSI->last_value)) {
-            return $RSSI->last_value->value;
+        if ($RSSI && !empty($RSSI->latestRecord)) {
+            return $RSSI->latestRecord->value;
         }
 
         return false;
@@ -98,14 +98,14 @@ class Devices extends Model
     public function getSignalStrengthPercentAttribute()
     {
         $RSSI = ($this->getProperties->where('type', 'wifi')->first());
-        if ($RSSI && !empty($RSSI->last_value)) {
+        if ($RSSI && !empty($RSSI->latestRecord)) {
             // dBm to Quality:
-            if ($RSSI->last_value->value <= -100) {
+            if ($RSSI->latestRecord->value <= -100) {
                 return 0;
-            } else if ($RSSI->last_value->value >= -50) {
-                return ($RSSI->last_value->value = 100);
+            } else if ($RSSI->latestRecord->value >= -50) {
+                return ($RSSI->latestRecord->value = 100);
             } else {
-                return (2 * ($RSSI->last_value->value + 100));
+                return (2 * ($RSSI->latestRecord->value + 100));
             }
         }
 
@@ -114,10 +114,9 @@ class Devices extends Model
 
     public function getBatteryLevelAttribute()
     {
-        $BatteryValue = $this->getProperties->where('type', 'battery')->first();
-
-        if ($BatteryValue) {
-            return $BatteryValue->last_value->value;
+        $batteryVoltage = $this->getProperties->where('type', 'battery')->first();
+        if (isset($batteryVoltage->latestRecord)) {
+            return $batteryVoltage->latestRecord->value;
         }
         return false;
     }
@@ -125,14 +124,13 @@ class Devices extends Model
     public function getBatteryLevelPercentAttribute()
     {
         $batteryVoltage = ($this->getProperties->where('type', 'battery')->first());
-
-        if ($batteryVoltage && $batteryVoltage->last_value) {
+        if ($batteryVoltage && isset($batteryVoltage->latestRecord)) {
             $max = $batteryVoltage->max_value;
             $min = $batteryVoltage->min_value;
             $max = ($max - $min);
             $onePercent = $max / 100;
 
-            return ($batteryVoltage->last_value->value - $min) / $onePercent;
+            return ($batteryVoltage->latestRecord->value - $min) / $onePercent;
         }
         return false;
     }
