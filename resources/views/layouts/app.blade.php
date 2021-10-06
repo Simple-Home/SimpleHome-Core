@@ -146,6 +146,32 @@
         </div>
     </div>
     <script>
+        window.addEventListener("load", function() {
+            console.log("Loading dynamic oontent");
+
+            var url = $("#ajax-content").data("url");
+
+            var lastRoom = localStorage.getItem("lastRoomId") ? localStorage.getItem("lastRoomId") : url.split('/').reverse()[1];
+
+            if (lastRoom) {
+                thisObj = $("div.nav-link[data-room-id='" + lastRoom + "']");
+                thisObj.addClass("active");
+                url = thisObj.data("url");
+            }
+            console.log(url);
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: url,
+                success: function(msg) {
+                    $("#ajax-content").html(msg);
+                },
+            });
+        });
+
         $('body').on('click', 'div.control-relay', function(event) {
             navigator.vibrate([10]);
             thisObj = $(this);
@@ -168,23 +194,12 @@
             });
         });
 
-        console.log("Loading dynamic oontent");
-        console.log($("#ajax-content").data("url"));
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            url: $("#ajax-content").data("url"),
-            success: function(msg) {
-                $("#ajax-content").html(msg);
-            },
-
-        });
-
         var lastLoad = new Date().getTime();
         $("div#ajax-loader").click(function(event) {
             thisObj = $(this);
+
+            localStorage.lastRoomId = thisObj.data("room-id");
+
             if (thisObj.hasClass("active") && (new Date().getTime() - lastLoad) < 9000) {
                 console.log((new Date().getTime() - lastLoad) + ' ms');
                 return;
@@ -211,7 +226,7 @@
                 error: function() {
                     console.log((new Date().getTime() - this.start_time) + ' ms');
                 },
-                timeout: 400,
+                timeout: 3000,
             });
         });
 
