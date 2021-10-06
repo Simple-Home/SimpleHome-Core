@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Helpers\SettingManager;
 use App\Models\User;
 use App\Notifications\NewDeviceNotification;
+use PhpParser\Node\Stmt\Foreach_;
 
 class EndpointController extends Controller
 {
@@ -250,11 +251,14 @@ class EndpointController extends Controller
 
         $devices->save();
 
-        User::all()->notify(new NewDeviceNotification());
+        foreach (User::all() as $user) {
+            $user->notify(new NewDeviceNotification());
+        }
     }
 
     private function createProperty($device, $defaultRoom, $propertyType, $token)
     {
+
         $property               = new Properties;
         $property->type         = ($propertyType == "on/off" ? "relay" : ($propertyType == "temp_cont" ? "temperature_control" : $propertyType));
         $property->nick_name    = $token;
@@ -263,6 +267,10 @@ class EndpointController extends Controller
         $property->room_id      = $defaultRoom->id;
         $property->history      = 90;
         $property->save();
+
+        foreach (User::all() as $user) {
+            $user->notify(new NewDeviceNotification());
+        }
 
         if ($propertyType == "temp_cont") {
             $group = "property-" . $property->id;

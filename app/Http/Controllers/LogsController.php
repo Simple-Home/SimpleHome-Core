@@ -18,8 +18,8 @@ class LogsController extends Controller
         $logsAll = $this->logFile();
         if (!empty ($logsAll)) {
             $logs = $logsAll[0];
+            asort($logs);
         }
-        asort($logs);
 
         if (!empty ($request->input('delete'))) {
             unlink (storage_path('logs/' . $logs[$request->input('logFile')]));

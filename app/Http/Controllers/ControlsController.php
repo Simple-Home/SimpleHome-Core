@@ -34,6 +34,9 @@ class ControlsController extends Controller
      */
     public function list($room_id = 0, FormBuilder $formBuilder)
     {
+        foreach (User::all() as $user) {
+            $user->notify(new NewDeviceNotification());
+        }
 
         // Auth::user()->notify(new NewDeviceNotification());
 

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewDeviceNotification extends Notification
+class NewDeviceNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -56,7 +56,6 @@ class NewDeviceNotification extends Notification
         return [
             'title' => 'Event',
             'message' => 'Message',
-
         ];
     }
 }

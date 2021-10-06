@@ -10,7 +10,7 @@
         <div class="login-form">
             <div class="mb-3">
                 <label>Email address</label>
-                <input type="email" id="email" class="form-control  @error('email') is-invalid @enderror" placeholder="Email address" name="email" value="{{ old('email') }}" required required autofocus>
+                <input type="email" id="email" class="form-control bg-light @error('email') is-invalid @enderror" placeholder="Email address" name="email" value="{{ old('email') }}" required required autofocus>
                 @error('email')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -25,7 +25,7 @@
                     </a>
                     @endif
                 </label>
-                <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="Password" required>
+                <input type="password" id="password" class="form-control bg-light @error('password') is-invalid @enderror" name="password" value="{{ old('password') }}" placeholder="Password" required>
                 @error('password')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
