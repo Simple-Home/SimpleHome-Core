@@ -244,8 +244,6 @@ class EndpointController extends Controller
 
     private function createDevice($data)
     {
-
-
         $devices                    = new Devices;
         $devices->token             = $data['token'];
         $devices->hostname          = $data['token'];

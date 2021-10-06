@@ -14,6 +14,8 @@ use App\Types\GraphPeriod;
 use App\Notifications\NewDeviceNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
+
 
 class ControlsController extends Controller
 {
@@ -34,13 +36,6 @@ class ControlsController extends Controller
      */
     public function list($room_id = 0, FormBuilder $formBuilder)
     {
-
-
-        // Auth::user()->notify(new NewDeviceNotification());
-
-        // dd(Auth::user()->notifications);
-
-
         $roomsForm = [];
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
             'method' => 'POST',
@@ -58,9 +53,8 @@ class ControlsController extends Controller
         if ($room_id == 0)
             $room_id =  $rooms->min('id');
 
-        $propertyes =  Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
-
-        return view('controls.list', compact('rooms', 'propertyes', 'roomForm'));
+        $selected_room_id = $room_id;
+        return view('controls.list', compact('rooms', 'selected_room_id',  'roomForm'));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -219,5 +213,15 @@ class ControlsController extends Controller
         $property->delete();
 
         return redirect()->back()->with('danger', 'Property Sucessfully removed.');
+    }
+
+    //AJAX
+    public function listAjax($room_id = 0, Request $request)
+    {
+        if ($request->ajax()) {
+            $propertyes =  Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+            return View::make("controls.controls")->with("propertyes", $propertyes)->render();
+        }
+        return redirect()->back();
     }
 }

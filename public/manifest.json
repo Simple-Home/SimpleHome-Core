@@ -1,8 +1,74 @@
 {
-    "name": "PWA Test App",
-    "theme_color": "#141460",
-    "background-color": "#000000",
-    "display": "standalone",
+    "name": "SimpleHome",
+    "short_name": "SimpleHome",
+    "theme_color": "#1cca50",
+    "icons": [
+        {
+            "src": "./img/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./img/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "./img/icons/android-chrome-maskable-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "./img/icons/android-chrome-maskable-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
     "start_url": ".",
-    "description": "Testing PWA on a Laravel App"
+    "display": "standalone",
+    "background_color": "#F0F1F5",
+    "gcm_sender_id": "93473765978",
+    "msTileColor": "#000000",
+    "appleMobileWebAppCapable": "yes",
+    "appleMobileWebAppStatusBarStyle": "black",
+    "shortcuts": [
+        {
+            "name": "Settings",
+            "description": "Settings",
+            "url": "./#/setting",
+            "icons": [
+                {
+                    "src": "./img/icons/android-chrome-512x512.png",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        },
+        {
+            "name": "Scenes",
+            "description": "Settings",
+            "url": "./#/scenes",
+            "icons": [
+                {
+                    "src": "./img/icons/android-chrome-512x512.png",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        },
+        {
+            "name": "Automation",
+            "description": "Settings",
+            "url": "./#/automation",
+            "icons": [
+                {
+                    "src": "./img/icons/android-chrome-512x512.png",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        }
+    ]
 }

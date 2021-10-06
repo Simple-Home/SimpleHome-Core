@@ -1,7 +1,7 @@
 @if(!empty($rooms) && count($rooms) > 0)
 @foreach ($rooms as $room)
 <li class="nav-item">
-    <a class="nav-link {{ (((int)request()->segment(count(request()->segments())) === $room->id) ? 'active' : '') }}" href="{{ route('controls.room', $room->id) }}">{{ $room->name }}</a>
+    <div id="ajax-loader" class="nav-link subnavigation user-select-none{{ (((int)request()->segment(count(request()->segments())) === $room->id) ? 'active' : '') }}" data-target-id="ajax-content" data-url="{{route('controls.ajax.list', ['room_id' => $room->id])}}">{{ $room->name }}</div>
 </li>
 @endforeach
 <li class="nav-item my-auto">

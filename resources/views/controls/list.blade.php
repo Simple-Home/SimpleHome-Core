@@ -6,17 +6,13 @@
 @endsection
 
 @section('content')
-@if(!empty($propertyes) && count($propertyes) > 0)
-<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-    @foreach ($propertyes as $property)
-    <div class="col-lg-2 col-md-4 col">
-        @include('controls.components.item', $property)
+<div id="ajax-content" class="align-items-center" data-url="{{route('controls.ajax.list', ['room_id' => $selected_room_id])}}">
+    <div class="text-center h-100">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-    @endforeach
 </div>
-@else
-<p class=" text-center">{{ __('simplehome.controls.notFound') }}</p>
-@endif
 @endsection
 
 <!-- Modal -->

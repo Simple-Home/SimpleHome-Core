@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="container  nav-bar-padding">
+    <div class="container nav-bar-padding">
         <div class="row justify-content-between">
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
@@ -103,30 +103,6 @@
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     <script>
         window.addEventListener("load", function() {
-            $('div.control-relay ').click(function(e) {
-                navigator.vibrate([10]);
-                thisObj = $(this);
-                thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
-
-                console.log(thisObj.data("url"));
-
-                $.ajax({
-                    type: 'POST',
-                    url: thisObj.data("url"),
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(msg) {
-                        thisObj.html(msg.icon);
-                        thisObj.data("url", msg.url)
-                    },
-                    error: function() {
-                        //timeout
-                    },
-                    timeout: 3000,
-                });
-            });
-
             var darkThemeSelected =
                 localStorage.getItem("darkSwitch") !== null &&
                 localStorage.getItem("darkSwitch") === "dark";
@@ -137,9 +113,6 @@
             }
         });
     </script>
-
-
-    <!-- Full screen modal -->
     @auth
     <!-- Full screen modal -->
     <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true" role="dialog">
@@ -173,9 +146,75 @@
         </div>
     </div>
     <script>
-        $("a").click(function() {
-            console.log("test");
+        $('body').on('click', 'div.control-relay', function(event) {
+            navigator.vibrate([10]);
+            thisObj = $(this);
+            thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            console.log(thisObj.data("url"));
+            $.ajax({
+                type: 'POST',
+                url: thisObj.data("url"),
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(msg) {
+                    thisObj.html(msg.icon);
+                    thisObj.data("url", msg.url)
+                },
+                error: function() {
+                    //timeout
+                },
+                timeout: 3000,
+            });
         });
+
+        console.log("Loading dynamic oontent");
+        console.log($("#ajax-content").data("url"));
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: $("#ajax-content").data("url"),
+            success: function(msg) {
+                $("#ajax-content").html(msg);
+            },
+
+        });
+
+        var lastLoad = new Date().getTime();
+        $("div#ajax-loader").click(function(event) {
+            thisObj = $(this);
+            if (thisObj.hasClass("active") && (new Date().getTime() - lastLoad) < 9000) {
+                console.log((new Date().getTime() - lastLoad) + ' ms');
+                return;
+            }
+            $("#" + thisObj.data("target-id")).html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            console.log("Loading dynamic oontent");
+
+            console.log(thisObj.data("url"));
+
+            $(".subnavigation").removeClass("active");
+            thisObj.addClass("active");
+
+            $.ajax({
+                start_time: new Date().getTime(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: thisObj.data("url"),
+                success: function(msg) {
+                    $("#" + thisObj.data("target-id")).html(msg);
+                    console.log((new Date().getTime() - this.start_time) + ' ms');
+                },
+                error: function() {
+                    console.log((new Date().getTime() - this.start_time) + ' ms');
+                },
+                timeout: 400,
+            });
+        });
+
         $('body').on('click', 'a#notification-control-load', function(event) {
             console.log($(this).data("url"));
             $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
@@ -190,6 +229,7 @@
                 },
             });
         });
+
         $("div#notifications").on('shown.bs.modal', function() {
             console.log("Loading Notifications");
             $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
