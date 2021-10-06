@@ -137,12 +137,67 @@
     </script>
 
 
-
+    <!-- Full screen modal -->
+    @auth
+    <!-- Full screen modal -->
+    <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-fullscreen-md-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}</h5>
+                    <div class="btn-group">
+                        <a data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a id="notification-control-load" class="btn btn-primary dropdown-item" data-url="{{route('notifications.read', ['notification_id' => 'all'])}}">
+                                    readAll
+                                </a>
+                            </li>
+                            <li>
+                                <a id="notification-control-load" class="btn btn-primary dropdown-item" data-url="{{route('notifications.delete', ['notification_id' => 'all'])}}">
+                                    deleteAll
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="notifications-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("a#notifications-all").click(function() {
+            $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            $.ajax({
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                url: $(this).data("url"),
+                success: function(msg) {
+                    $("#notifications-list").html(msg);
+                },
+            });
+        });
+        $("div#notification-control-load").on('shown.bs.modal', function() {
+            console.log("Loading Notifications");
+            $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            $.ajax({
+                type: 'GET',
+                url: '{{route("notifications.list")}}',
+                success: function(msg) {
+                    $("#notifications-list").html(msg);
+                },
+            });
+        });
+    </script>
+    @endif
     @yield('beforeBodyEnd')
 </body>
-<!-- Full screen modal -->
-@auth
-@include('components.notifications')
-@endif
 
 </html>

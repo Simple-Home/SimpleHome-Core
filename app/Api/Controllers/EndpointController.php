@@ -150,7 +150,10 @@ class EndpointController extends Controller
                     $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
                     if ($propertyExit == FALSE) {
 
-                        $defaultRoom = Rooms::query()->where('default', 1)->first();
+                        $defaultRoom = Cache::remember('controls.rooms', 15,    function () {
+                            return Rooms::query()->where('default', 1)->first();
+                        });
+
                         if ($defaultRoom === null) {
                             return response()->json(
                                 ['error' => __('No default room configured, please add a default room first')],
@@ -159,6 +162,7 @@ class EndpointController extends Controller
                         }
 
                         $this->createProperty($device, $defaultRoom, $key, $data['token']);
+                        //Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
                     }
                 }
             }
@@ -174,7 +178,11 @@ class EndpointController extends Controller
             "command"   => "null",
         ];
 
-        foreach ($device->getProperties as $key => $property) {
+        $properties = Cache::remember('api.enpoint.properties' . $device->id, 15, function () use ($device) {
+            return $device->getProperties;
+        });
+
+        foreach ($properties as $key => $property) {
             $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
 
             if (!isset($data['values'][$propertyType]['value'])) {
@@ -189,6 +197,8 @@ class EndpointController extends Controller
             $record->value          = $data['values'][$propertyType]['value'];
             $record->property_id    = $property->id;
             $record->save();
+
+            Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
 
             $response["values"][$propertyType] = (int) $record->value;
             $property->latestRecord->setAsDone();
@@ -288,5 +298,7 @@ class EndpointController extends Controller
                 }
             }
         }
+
+        return $property;
     }
 }

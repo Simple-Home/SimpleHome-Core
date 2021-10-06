@@ -42,8 +42,9 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 
 //Notifications
 Route::namespace('notifications')->prefix('notifications')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('/{notification_id}/read', [App\Http\Controllers\NotificationsController::class, 'read'])->name('notifications.read');
-    Route::middleware(['auth', 'verified', 'language'])->get('/{notification_id}/delete', [App\Http\Controllers\NotificationsController::class, 'remove'])->name('notifications.delete');
+    Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\NotificationsController::class, 'list'])->name('notifications.list');
+    Route::middleware(['auth', 'verified', 'language'])->post('/{notification_id}/read', [App\Http\Controllers\NotificationsController::class, 'read'])->name('notifications.read');
+    Route::middleware(['auth', 'verified', 'language'])->post('/{notification_id}/delete', [App\Http\Controllers\NotificationsController::class, 'remove'])->name('notifications.delete');
 });
 
 //Controls
