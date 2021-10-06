@@ -74,6 +74,7 @@
                                     <td>
                                         <a href="{{ route('properties_detail', $property->id) }}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
                                         <a href="{{ route('properties_detail', $property->id) }}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
+                                        <a href="{{ route('controls.remove', $property->id)}}" class="btn btn-danger btn-block">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -61,13 +61,14 @@
                             </th>
                             <td>{{$property->nick_name}} <br> {{$property->type}}</td>
                             <td>
-                                @if (!empty($property->last_value))
-                                {{round($property->last_value->value, 2)}}
+                                @if (!empty($property->latestRecord))
+                                {{round($property->latestRecord->value, 2)}} {{$property->units}}
                                 @endif
                             </td>
                             <td>
                                 <a href="{{route('controls.detail', $property->id)}}" class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
                                 <a href="{{route('controls.edit', $property->id)}}" class="btn btn-primary"><i class="fa fa-cog"></i></a>
+                                <a href="{{route('controls.remove', $property->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach
