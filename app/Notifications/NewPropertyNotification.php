@@ -2,25 +2,23 @@
 
 namespace App\Notifications;
 
-use App\Models\Devices;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewDeviceNotification extends Notification implements ShouldQueue
+class NewPropertyNotification extends Notification
 {
     use Queueable;
-    protected $device;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Devices $device)
+    public function __construct()
     {
-        $this->device = $device;
+        //
     }
 
     /**
@@ -31,7 +29,7 @@ class NewDeviceNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -43,8 +41,9 @@ class NewDeviceNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('New Device was detected!')
-            ->action('Approve', url('/'));
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -56,9 +55,7 @@ class NewDeviceNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'title' => 'New Device Detected!',
-            'message' => 'New device type ' . $this->device->type . ' with token ' . $this->device->token . ' was detected. Device is providet by integration: ' . $this->device->integration,
-            'type' => 'info'
+            //
         ];
     }
 }

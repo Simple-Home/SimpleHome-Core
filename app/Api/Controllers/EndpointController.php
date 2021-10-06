@@ -252,7 +252,7 @@ class EndpointController extends Controller
         $devices->save();
 
         foreach (User::all() as $user) {
-            $user->notify(new NewDeviceNotification());
+            $user->notify(new NewDeviceNotification($devices));
         }
     }
 
@@ -269,7 +269,7 @@ class EndpointController extends Controller
         $property->save();
 
         foreach (User::all() as $user) {
-            $user->notify(new NewDeviceNotification());
+            $user->notify(new NewDeviceNotification($device));
         }
 
         if ($propertyType == "temp_cont") {
