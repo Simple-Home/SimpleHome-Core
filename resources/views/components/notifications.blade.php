@@ -1,6 +1,6 @@
 <!-- Full screen modal -->
 <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true" role="dialog">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-fullscreen-md-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}</h5>
