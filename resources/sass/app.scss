@@ -19,6 +19,17 @@ $carousel-transition-duration: 0.5s;
 @import "./components/darkmode";
 @import "./components/cards";
 
+.no-scrool-bar::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+    width: 0px; 
+}
+
+.no-scrool-bar::-webkit-scrollbar {
+    background: transparent; /* Chrome/Safari/Webkit */
+    scrollbar-width: none; /* Firefox */;
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+
 .row.no-gutter {
     margin-left: 0;
     margin-right: 0;
