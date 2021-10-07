@@ -5,6 +5,7 @@
 * Client Delete Button & Revoke
 * *add notification Counter and Dot Functions 
 * optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
+* Fix Typo in no-scrol-bar >>> no-scroll-bar
 
 
 
