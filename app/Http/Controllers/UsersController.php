@@ -160,7 +160,7 @@ class UsersController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        
+
         $user = $request->user();
         $notifications = "";
         if (!empty($request->input('mail'))) {
@@ -188,7 +188,7 @@ class UsersController extends Controller
         $user->notification_preferences = $notifications;
 
         $user->save();
-        return redirect()->route('system.user.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
+        return redirect()->route('system.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
     }
 
     /**
