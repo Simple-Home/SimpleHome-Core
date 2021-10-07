@@ -4,12 +4,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('pageTitle') - {{ config('app.name', 'Simple Home') }}</title>
+
     <!-- Scripts -->
     <script src="{{ asset(mix('js/manifest.js')) }}"></script>
     <script src="{{ asset(mix('js/vendor.js')) }}"></script>
+
+    <!-- Styles -->
+    <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
+
+    <style>
+        .nav-bar-padding {
+            padding-bottom: 60px;
+        }
+
+    </style>
+
     <!-- Custom styles for this template -->
     <style>
         :root {
@@ -100,41 +119,13 @@
             font-size: 12px;
             color: #777;
         }
+
     </style>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <script src="https://kit.fontawesome.com/9c343c1f2d.js" crossorigin="anonymous"></script>
-
-    <!-- Styles -->
-    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
-    <meta name="color-scheme" content="dark light">
-
     @yield('customHead')
-
-    <!-- PWA Manifest -->
-    @laravelPWA
 </head>
 
 <body>
-    <nav class="navbar fixed-top bg-light">
-        <div class="container-fluid">
-            <div class="navbar-expansed w-100">
-                <ul class="nav justify-content-end">
-                    @auth
-                    <li class="nav-item">
-                        <a class="btn btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('simplehome.logout') }}
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
     @yield('content')
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     @yield('beforeBodyEnd')

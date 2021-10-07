@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@hasSection('title') @yield('title') - @endif {{ config('app.name', 'Simple Home') }}</title>
+    <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset(mix('js/manifest.js')) }}"></script>
@@ -32,6 +32,7 @@
         .nav-bar-padding {
             padding-bottom: 60px;
         }
+
     </style>
 
     <script>
@@ -56,32 +57,33 @@
         <div class="row">
             <div class="col p-md-0">
                 @auth
-                @include('components.alerts')
-                @endif
+                    @include('components.alerts')
+                @endauth
             </div>
         </div>
 
         <div class="row">
             <div class="col p-md-0 mt-2">
                 @auth
-                @yield('content')
-                @endif
+                    @yield('content')
+                @endauth
             </div>
         </div>
     </div>
+    </div>
+
     <!-- Botom Fixed Menu -->
     <nav class="navbar fixed-bottom bg-light">
         <div class="container-fluid">
             <div class="navbar-expand w-100">
                 <ul class="navbar-nav justify-content-around nav-pills">
                     @auth
-                    @include('components.navigation')
-                    @endif
+                        @include('components.navigation')
+                    @endauth
                 </ul>
             </div>
         </div>
     </nav>
-
 
     @yield('beforeBodyEnd')
     <script src="{{ asset(mix('js/app.js')) }}"></script>
