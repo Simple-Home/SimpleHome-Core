@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Models\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Humi extends Properties
+class Relay extends Properties
 {
     protected $historyDefault = 90;
-    protected $unitsDefault = "%";
-    protected $iconDefault = "fas fa-tint";
+    protected $unitsDefault = "";
+    protected $iconDefault = "fas fa-power-off";
 
     public function save(array $options = [])
     {

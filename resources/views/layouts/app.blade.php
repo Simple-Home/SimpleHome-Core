@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="container nav-bar-padding">
+    <div class="container nav-bar-padding h-100 d-flex flex-column">
         <div class="row justify-content-between">
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row flex-grow-1">
             <div class="col p-md-0">
                 @auth
                 @yield('content')
@@ -157,7 +157,7 @@
                 url: sourceUrl,
                 beforeSend: function() {
                     if (loadingSpinner) {
-                        target.html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                        target.html('<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
                     }
                 },
                 success: function(msg) {
@@ -188,6 +188,7 @@
             ajaxContentLoader($("div.carousel-item[data-room-id='" + lastRoom + "']"), url, loadingAnimation);
 
             $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function(e) {
+                loadingAnimation = false;
                 //Load Thinks
                 targetObj = $(e.relatedTarget);
                 url = targetObj.data("url");
@@ -265,7 +266,7 @@
                 console.log((new Date().getTime() - lastLoad) + ' ms');
                 return;
             }
-            $("#" + thisObj.data("target-id")).html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+            $("#" + thisObj.data("target-id")).html('<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
             console.log("Loading dynamic oontent");
 
             console.log(thisObj.data("url"));

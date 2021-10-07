@@ -57,12 +57,20 @@
         <div class="col p-md-0 text-end my-auto">
             @if (!empty($property->latestRecord))
             <div class="d-flex justify-content-end">
-                <h1 class="text-end font-weight-bold">
+                @if(View::exists('controls.components.types.' . $property->type))
+                <div class="h1 my-auto">
+                    @include('controls.components.types.' . $property->type, $property)
+                </div>
+                @else
+                @if (isset($property->latestRecord))
+                <div class="text-end h1 font-weight-bold">
                     {{$property->latestRecord->value}}
-                </h1>
-                <div class="h3" style="color: #686e73;">
+                </div>
+                <div class="h4" style="color: #686e73;">
                     {{$property->units}}
                 </div>
+                @endif
+                @endif
             </div>
             @endif
         </div>

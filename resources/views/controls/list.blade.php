@@ -7,11 +7,11 @@
 
 @section('content')
 
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-wrap="false" data-bs-keyboard="true" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="false">
-    <div class="carousel-inner" style="min-height: 900px">
+<div id="carouselExampleSlidesOnly" class="carousel slide h-100" data-bs-wrap="false" data-bs-keyboard="true" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="false">
+    <div class="carousel-inner h-100">
         @foreach ($rooms as $room)
-        <div class="carousel-item" data-room-id="{{$room->id}}" data-url="{{route('controls.ajax.list', ['room_id' => $room->id])}}">
-            <div style="height: 900px" class="d-flex">
+        <div class="carousel-item h-100" data-room-id="{{$room->id}}" data-url="{{route('controls.ajax.list', ['room_id' => $room->id])}}">
+            <div class="d-flex h-100">
                 <div class="text-center m-auto">
                     <div class="spinner-border text-primary" role="status">
                         <span class="sr-only">Loading...</span>

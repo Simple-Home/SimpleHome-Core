@@ -122,18 +122,21 @@ class PropertiesController extends Controller
 
     public function set($property_id, $value, Request $request)
     {
-        //Values Validator integrate to date types
-        if ($settings = SettingManager::get('min', 'property-' . $property_id)) {
-            if ($value < $settings->value) {
-                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
+        if (!$request->ajax()) {
+            //Values Validator integrate to date types
+            if ($settings = SettingManager::get('min', 'property-' . $property_id)) {
+                if ($value < $settings->value) {
+                    return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
+                }
+            }
+
+            if ($settings = SettingManager::get('max', 'property-' . $property_id)) {
+                if ($value > $settings->value) {
+                    return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
+                }
             }
         }
 
-        if ($settings = SettingManager::get('max', 'property-' . $property_id)) {
-            if ($value > $settings->value) {
-                return redirect()->back()->with('danger', 'not valid value. value need to be betvene ' . $settings["min"] . " & " . $settings["max"]);
-            }
-        }
 
         $record                 = new Records;
         $record->value          = $value;

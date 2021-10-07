@@ -74,7 +74,7 @@ class ControlsController extends Controller
             $mins[] = $item->max;
             $maxs[] = $item->min;
 
-            $labels[] = $item->created_at->diffForHumans();
+            $labels[] = $item->created_at->diffForHumans(null, true);
         }
 
         $datasets = [
@@ -104,8 +104,6 @@ class ControlsController extends Controller
                 "data" => $maxs,
             ],
         ];
-
-
 
         $dataset["fill"] = True;
         $dataset["backgroundColor"] = "rgba(220,220,220,0.5)";
