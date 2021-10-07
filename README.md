@@ -61,3 +61,32 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Comunity
 [![Join our Discord server!](https://invidget.switchblade.xyz/XJpT3UQ)](http://discord.gg/XJpT3UQ)
+
+## SFTP Config
+```json
+{
+    "name": "Simple-Home",
+    "host": "",
+    "protocol": "sftp",
+    "port": 22,
+    "username": "",
+    "password": "",
+    "remotePath": "/",
+    "uploadOnSave": true,
+    "useTempFile": true,
+    "openSsh": true,
+    "ignore": [
+        ".vscode",
+        ".git",
+        ".DS_Store",
+        ".gitkeep",
+        ".TODO",
+        ".TODO",
+        "README.md",
+        "LICENSE",
+        "virtualDevice.ps1",
+        ".editorconfig",
+        ".example"
+    ]
+}
+```
