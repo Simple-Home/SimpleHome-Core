@@ -36,13 +36,23 @@
 <body>
     <div class="container nav-bar-padding h-100 d-flex flex-column">
         <div class="row justify-content-between">
+            @if(!session('dashboard'))
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
             </div>
-            <!-- If Dashboard mode -->
-            <div class="col-4 p-md-0 d-flex">
-                <h2 id='ct' class="my-auto w-100 text-end"></h2>
+            @else
+            <div class="col">
+                <h2 id='ct' class="my-auto"></h2>
             </div>
+            <div class="col text-end w-100 my-auto">
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Exit
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+            @endif
         </div>
 
         {{--
@@ -92,6 +102,7 @@
             </div>
         </div>
     </div>
+    @if(!session('dashboard'))
     <!-- Botom Fixed Menu -->
     <nav class="navbar fixed-bottom bg-light" style="z-index: 1056;">
         <div class="container-fluid">
@@ -104,6 +115,7 @@
             </div>
         </div>
     </nav>
+    @endif
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     <script>
         window.addEventListener("load", function() {
@@ -149,6 +161,8 @@
             </div>
         </div>
     </div>
+
+    @if(session('dashboard'))
     <script>
         function display_c() {
             var refresh = 30000; // Refresh rate in milli seconds
@@ -162,7 +176,13 @@
             document.getElementById('ct').innerHTML = x1;
             display_c();
         }
+        window.addEventListener("load", function() {
+            display_ct();
+        });
+    </script>
+    @endif
 
+    <script>
         function ajaxContentLoader(target, sourceUrl, loadingSpinner = true) {
             console.log("loading from: ", sourceUrl, "loading to: ", target)
             $.ajax({
@@ -189,8 +209,6 @@
         }
 
         window.addEventListener("load", function() {
-            display_ct();
-
             var loadingAnimation = true;
             //Initial Load
             var lastRoom = localStorage.getItem("lastRoomId");
