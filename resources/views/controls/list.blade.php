@@ -6,13 +6,24 @@
 @endsection
 
 @section('content')
-<div id="ajax-content" class="align-items-center" data-url="{{route('controls.ajax.list', ['room_id' => $selected_room_id])}}">
-    <div class="text-center h-100">
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-wrap="false" data-bs-keyboard="true" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="false">
+    <div class="carousel-inner" style="min-height: 900px">
+        @foreach ($rooms as $room)
+        <div class="carousel-item" data-room-id="{{$room->id}}" data-url="{{route('controls.ajax.list', ['room_id' => $room->id])}}">
+            <div style="height: 900px" class="d-flex">
+                <div class="text-center m-auto">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
         </div>
+        @endforeach
     </div>
 </div>
+
+
 @endsection
 
 <!-- Modal -->

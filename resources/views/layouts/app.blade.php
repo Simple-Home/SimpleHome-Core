@@ -146,29 +146,90 @@
         </div>
     </div>
     <script>
-        window.addEventListener("load", function() {
-            console.log("Loading dynamic oontent");
-
-            var url = $("#ajax-content").data("url");
-
-            var lastRoom = localStorage.getItem("lastRoomId") ? localStorage.getItem("lastRoomId") : url.split('/').reverse()[1];
-
-            if (lastRoom) {
-                thisObj = $("div.nav-link[data-room-id='" + lastRoom + "']");
-                thisObj.addClass("active");
-                url = thisObj.data("url");
-            }
-            console.log(url);
-
+        function ajaxContentLoader(target, sourceUrl, loadingSpinner = true) {
+            console.log("loading from: ", sourceUrl, "loading to: ", target)
             $.ajax({
+                start_time: new Date().getTime(),
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: url,
-                success: function(msg) {
-                    $("#ajax-content").html(msg);
+                url: sourceUrl,
+                beforeSend: function() {
+                    if (loadingSpinner) {
+                        target.html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                    }
                 },
+                success: function(msg) {
+                    target.html(msg);
+                    console.log((new Date().getTime() - this.start_time) + ' ms');
+                },
+                error: function() {
+                    console.log((new Date().getTime() - this.start_time) + ' ms');
+                },
+                timeout: 3000,
+            });
+        }
+
+        window.addEventListener("load", function() {
+            var loadingAnimation = true;
+            //Initial Load
+            var lastRoom = localStorage.getItem("lastRoomId");
+            if (lastRoom) {
+                url = $("div.carousel-item[data-room-id='" + lastRoom + "']").data("url");
+            } else {
+                //First Load Ever no room selected in Memory
+                url = $("div.carousel-item").first().data("url")
+                lastRoom = url.split('/').reverse()[1]
+            }
+            $(".subnavigation").removeClass("active");
+            $("div.nav-link[data-room-id='" + lastRoom + "']").addClass("active");
+            $("div.carousel-item[data-room-id='" + lastRoom + "']").addClass("active");
+            ajaxContentLoader($("div.carousel-item[data-room-id='" + lastRoom + "']"), url, loadingAnimation);
+
+            $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function(e) {
+                //Load Thinks
+                targetObj = $(e.relatedTarget);
+                url = targetObj.data("url");
+
+                //Menu Handling
+                $(".subnavigation").removeClass("active");
+                thisObj = $("div.nav-link[data-room-id='" + url.split('/').reverse()[1] + "']");
+                thisObj.addClass("active");
+
+                //Load load content from URL
+                ajaxContentLoader(targetObj, url, loadingAnimation);
+
+                loadingAnimation = true;
+            });
+
+            $('div.subnavigation ').click(function(event) {
+                loadingAnimation = false;
+
+                //Load Thinks
+                targetObj = $(this);
+                url = targetObj.data("url");
+                roomId = url.split('/').reverse()[1];
+
+                //Menu Handling
+                $(".subnavigation").removeClass("active");
+                $("div.carousel-item").removeClass("active");
+                $("div.nav-link[data-room-id='" + roomId + "']").addClass("active");
+                $("div.carousel-item[data-room-id='" + roomId + "']").addClass("active");
+
+                //Load load content from URL
+                ajaxContentLoader($("div.carousel-item[data-room-id='" + roomId + "']"), url, loadingAnimation);
+            });
+
+            //Desktop Arow Control
+            $(document).bind('keyup', function(e) {
+                if (e.which == 39) {
+                    loadingAnimation = false;
+                    $('#carouselExampleSlidesOnly').carousel('next');
+                } else if (e.which == 37) {
+                    loadingAnimation = false;
+                    $('#carouselExampleSlidesOnly').carousel('prev');
+                }
             });
         });
 
@@ -204,7 +265,7 @@
                 console.log((new Date().getTime() - lastLoad) + ' ms');
                 return;
             }
-            $("#" + thisObj.data("target-id")).html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            $("#" + thisObj.data("target-id")).html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
             console.log("Loading dynamic oontent");
 
             console.log(thisObj.data("url"));
@@ -232,7 +293,7 @@
 
         $('body').on('click', 'a#notification-control-load', function(event) {
             console.log($(this).data("url"));
-            $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            $("#notifications-list").html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -247,7 +308,7 @@
 
         $("div#notifications").on('shown.bs.modal', function() {
             console.log("Loading Notifications");
-            $("#notifications-list").html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            $("#notifications-list").html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
             $.ajax({
                 type: 'GET',
                 url: '{{route("notifications.list")}}',

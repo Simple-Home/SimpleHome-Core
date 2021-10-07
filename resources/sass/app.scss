@@ -1,15 +1,16 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Nunito");
-@import '~@fortawesome/fontawesome-free/scss/brands';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
 // Variables
 @import "variables";
 
 $body-bg: #f0f1f5;
 $primary: #1cca50;
+$carousel-transition-duration: 0.5s;
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
