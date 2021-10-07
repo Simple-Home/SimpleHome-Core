@@ -39,6 +39,10 @@
             <div class="col-4 p-md-0">
                 <h1 class="mb-0">@yield('title')</h1>
             </div>
+            <!-- If Dashboard mode -->
+            <div class="col-4 p-md-0 d-flex">
+                <h2 id='ct' class="my-auto w-100 text-end"></h2>
+            </div>
         </div>
 
         {{--
@@ -146,6 +150,19 @@
         </div>
     </div>
     <script>
+        function display_c() {
+            var refresh = 30000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        function display_ct() {
+            var x = new Date()
+            var x1 = x.getMonth() + 1 + "/" + x.getDate() + "/" + x.getFullYear();
+            x1 = x1 + " - " + x.getHours() + ":" + x.getMinutes();
+            document.getElementById('ct').innerHTML = x1;
+            display_c();
+        }
+
         function ajaxContentLoader(target, sourceUrl, loadingSpinner = true) {
             console.log("loading from: ", sourceUrl, "loading to: ", target)
             $.ajax({
@@ -172,6 +189,8 @@
         }
 
         window.addEventListener("load", function() {
+            display_ct();
+
             var loadingAnimation = true;
             //Initial Load
             var lastRoom = localStorage.getItem("lastRoomId");

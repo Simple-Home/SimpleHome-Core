@@ -1,5 +1,11 @@
 * Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
 * When asichroniously refreshing the page + setting value inwoke refresh Otherwise thhe value actualized by switch vont be wisible on frontend 
+* noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples
+
+
+
+
+
 
 # Resources:
 http://developers.sonoff.tech/
