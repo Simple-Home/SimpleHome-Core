@@ -4,8 +4,14 @@
     </a>
 </li>
 <li class="nav-item">
-    <a data-bs-toggle="modal" data-bs-target="#notifications" class="nav-link">
-        <i class="fa fa-bell"></i><span class="d-none ms-md-2 d-md-inline">Events</span>
+    <a data-bs-toggle="modal" data-bs-target="#notifications" class="nav-link position-relative">
+        <i class="fa fa-bell">
+            <span class="position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-inline d-md-none">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+        </i>
+        <span class="d-none ms-md-2 d-md-inline">Events</span>
+        <span class="d-none ms-md-2 d-md-inline badge rounded-pill bg-danger">99+</span>
     </a>
 </li>
 <li class="nav-item">

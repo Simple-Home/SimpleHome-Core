@@ -110,6 +110,11 @@ Route::namespace('system')->prefix('system')->group(function () {
 
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\SettingsController::class, 'developments'])->name('system.developments.list');
+
+    Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/ajax', [App\Http\Controllers\SettingsController::class, 'ajaxGeneratePersonalAccessToken'])->name('system.developments.ajax.private.token');
+
+
+
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
 });
 
