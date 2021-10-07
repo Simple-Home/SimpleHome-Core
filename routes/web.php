@@ -98,6 +98,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/profile', [App\Http\Controllers\UsersController::class, 'edit'])->name('system.profile');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/update', [App\Http\Controllers\UsersController::class, 'update'])->name('system.profile.update');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/setting', [App\Http\Controllers\UsersController::class, 'setting'])->name('system.profile.setting');
+    Route::middleware(['auth', 'verified', 'language'])->post('/profile/notification', [App\Http\Controllers\UsersController::class, 'notifications'])->name('system.profile.notifications');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('system.profile.changePassword');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('system.profile.verifyDelete');
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');

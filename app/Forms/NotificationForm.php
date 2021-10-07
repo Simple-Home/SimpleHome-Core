@@ -16,11 +16,11 @@ class NotificationForm extends Form
                 'attr' => ['value' => 'mail']
             ])
             ->add('database', Field::CHECKBOX, [
-                'label' => __('simplehome.notifyMail'),
+                'label' => __('simplehome.notifyDatabase'),
                 'attr' => ['value' => 'database']
             ])
             ->add('fcm', Field::CHECKBOX, [
-                'label' => __('simplehome.notifyMail'),
+                'label' => __('simplehome.notifyFCM'),
                 'attr' => ['value' => 'fcm']
             ])
             ->add('saveNotify', Field::BUTTON_SUBMIT, [

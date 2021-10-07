@@ -44,6 +44,18 @@
                 </div>
             </div>
 
+            <div class="mb-3">
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="dashboard" id="dashboard">
+
+                        <label class="form-check-label" for="dashboard">
+                            Dashboard
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn btn-lg btn-primary form-control" type="submit"> {{ __('simplehome.login') }}</button>
             <p class="text-center text-muted my-2">Or sign in with</p>
             <div class="buttons text-center">

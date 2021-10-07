@@ -75,6 +75,10 @@ class UsersController extends Controller
             'method' => 'POST',
             'url' => route('system.profile.update', ['user' => $user])
         ]);
+        $notificationForm = $formBuilder->create(\App\Forms\NotificationForm::class, [
+            'method' => 'POST',
+            'url' => route('system.profile.notifications', ['user' => $user])
+        ]);
         $settingForm = $formBuilder->create(\App\Forms\SettingForm::class, [
             'method' => 'POST',
             'url' => route('system.profile.setting', ['user' => $user])
@@ -95,7 +99,7 @@ class UsersController extends Controller
 
 
 
-        return view('system.profile.detail', ['user' => $user] + compact('profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
+        return view('system.profile.detail', ['user' => $user] + compact('notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
     }
 
     /**
@@ -140,6 +144,51 @@ class UsersController extends Controller
 
         $user->save();
         return redirect()->route('system.user.profile', ['#settings'])->with('success', __('web.settingsSaved'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function notifications(Request $request, User $user, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\NotificationForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        
+        $user = $request->user();
+        $notifications = "";
+        if (!empty($request->input('mail'))) {
+            if ($notifications == "") {
+                $notifications = "mail";
+            } else {
+                $notifications .= ",mail";
+            }
+        }
+        if (!empty($request->input('database'))) {
+            if ($notifications == "") {
+                $notifications = "database";
+            } else {
+                $notifications .= ",database";
+            }
+        }
+        if (!empty($request->input('fcm'))) {
+            if ($notifications == "") {
+                $notifications = "fcm";
+            } else {
+                $notifications .= ",fcm";
+            }
+        }
+
+        $user->notification_preferences = $notifications;
+
+        $user->save();
+        return redirect()->route('system.user.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
     }
 
     /**
