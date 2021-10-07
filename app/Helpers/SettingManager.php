@@ -37,12 +37,14 @@ class SettingManager
     public static function register($index, $value, $type = "string", $group = "system")
     {
 
+        dd();
         $option = Settings::firstOrCreate(
             [
                 'group' => $group,
-                'name' => $index
-            ],
-            ['type' => $type, 'value' => $value]
+                'name' => $index,
+                'type' => $type,
+                'value' => $value,
+            ]
         );
         return true;
     }
