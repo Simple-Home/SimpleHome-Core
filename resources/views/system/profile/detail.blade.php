@@ -52,6 +52,18 @@
         </div>
     </div>
     <br />
+    <div class="row justify-content-center" id="notifications">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('user.notifications') }}</div>
+
+                <div class="card-body">
+                    {!! form($notificationForm) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row justify-content-center" id="settings">
         <div class="col-md-8">
             <div class="card">
