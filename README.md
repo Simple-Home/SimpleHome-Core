@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Simple-Home/Simple-Home">
-    <img src="./public/images/logo.png" height="100" width="100">
+    <img src="./resources/img/logo.png" height="100" width="100">
   </a>
   <h1 align="center">Simple Home V4</h3>
   <h3 align="center">Make your own simple smart home & automation system</h3>
