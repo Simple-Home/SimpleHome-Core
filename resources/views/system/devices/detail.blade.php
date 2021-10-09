@@ -61,8 +61,8 @@
                             </th>
                             <td>{{$property->nick_name}} <br> {{$property->type}}</td>
                             <td>
-                                @if (!empty($property->latestRecord))
-                                {{round($property->latestRecord->value, 2)}} {{$property->units}}
+                                @if (!empty($lastRecord = $property->latestRecord))
+                                 {{(!empty($lastRecord->origin) ? $lastRecord->origin . "->" : "") }}{{round($lastRecord->value, 2)}} {{$property->units}}
                                 @endif
                             </td>
                             <td class="text-end">

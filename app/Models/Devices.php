@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use app\Models\Properties;
 use DateTime;
+use App\Notifications\NewDeviceNotification;
+use Illuminate\Support\Facades\Log;
+use App\Notifications\DeviceRebootNotification;
 
 class Devices extends Model
 {
@@ -160,6 +163,24 @@ class Devices extends Model
     {
         $this->approved = "0";
         $this->save();
+    }
+
+    public function executeCommand()
+    {
+        if (empty($this->command) || $this->command === 'null')
+            return 'null';
+
+        $command = $this->command;
+        Log::info('Device Command Execution', ['id' => $this->id, 'command' => $command]);
+        if ($command == "reset") {
+            foreach (User::all() as $user) {
+                $user->notify(new DeviceRebootNotification($this));
+            }
+        }
+
+        $this->command = "null";
+        $this->save();
+        return $command;
     }
 
     use HasFactory;

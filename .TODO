@@ -3,10 +3,12 @@
 * noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples
 * Token Delete Button & Revoke
 * Client Delete Button & Revoke
-* *add notification Counter and Dot Functions 
+* add notification Counter and Dot Functions 
 * optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
-* Fix Typo in no-scrol-bar >>> no-scroll-bar
-* Add Recort Walue Origin and value based on something like (google,device,automation,client,user) for origin reference in record
+* Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
+
+
+
 
 
 # Resources:

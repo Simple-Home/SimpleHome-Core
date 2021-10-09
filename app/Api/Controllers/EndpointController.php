@@ -168,6 +168,7 @@ class EndpointController extends Controller
             }
         }
 
+        
         $response = [
             "device" => [
                 "sleepTime" => (int) ($device->sleep / 1000) / 60,
@@ -175,7 +176,7 @@ class EndpointController extends Controller
             ],
             "state"    => "succes",
             "values"    => [],
-            "command"   => "null",
+            "command"   => $device->executeCommand(),
         ];
 
         $properties = Cache::remember('api.enpoint.properties' . $device->id, 15, function () use ($device) {
@@ -194,6 +195,7 @@ class EndpointController extends Controller
             }
 
             $record                 = new Records;
+            $record->origin         = "device";
             $record->value          = $data['values'][$propertyType]['value'];
             $record->property_id    = $property->id;
             $record->save();
