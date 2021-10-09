@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 
 class Rooms extends Authenticatable
 {
@@ -59,18 +60,18 @@ class Rooms extends Authenticatable
 
     public function getStateAttribute()
     {
-        $roomStates = [];
-        $propertyes = $this->getProperties;
-        foreach ($propertyes as $property) {
-            if ($property->latestRecord){
-                $roomStates[$property->type][] = $property->latestRecord->value;
+        return Cache::remember('room.states', 120, function (){
+            $roomStates = [];
+            foreach ($this->getProperties  as $property) {
+                if ($property->latestRecord){
+                    $roomStates[$property->type][] = $property->latestRecord->value;
+                }
             }
-        }
-
-        foreach ($roomStates as $type => $roomState) {
-            $roomStates[$type] = array_sum($roomStates[$type]) / count($roomStates[$type]);
-        }
-
-        return $roomStates;
+    
+            foreach ($roomStates as $type => $roomState) {
+                $roomStates[$type] = array_sum($roomStates[$type]) / count($roomStates[$type]);
+            }
+            return $roomStates;
+        });
     }
 }
