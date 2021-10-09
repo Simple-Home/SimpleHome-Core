@@ -4042,6 +4042,7 @@
             "time": "2020-08-18T17:17:46+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "silviolleite/laravelpwa",
             "version": "2.0.3",
             "source": {
@@ -4092,6 +4093,8 @@
             "time": "2020-08-20T12:19:16+00:00"
         },
         {
+=======
+>>>>>>> 3a82fbe083af6fdcaf7a12687f21339a9f4635c9
             "name": "spatie/db-dumper",
             "version": "2.21.1",
             "source": {
