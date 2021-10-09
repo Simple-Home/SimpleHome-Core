@@ -1,12 +1,12 @@
 <?php
 namespace App\Api\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Device;
-use App\Models\Property;
-use App\Models\Records;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Records;
+use App\Models\Property;
+use App\Models\Device;
+use App\Http\Controllers\Controller;
 
 /**
  * Class DeviceController
@@ -63,7 +63,7 @@ class DeviceController extends Controller
         $device = new Device;
         $device->hostname = $request->hostname;
         $device->type = $request->type;
-        $device->approved = '1';
+        $device->approved = 0;
         $device->token = '';
         $device->save();
 

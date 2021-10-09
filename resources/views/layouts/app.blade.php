@@ -218,9 +218,12 @@
                     url = $("div.carousel-item[data-room-id='" + lastRoom + "']").data("url");
                 } else {
                     //First Load Ever no room selected in Memory
-                    url = $("div.carousel-item").first().data("url")
-                    lastRoom = url.split('/').reverse()[1]
+                    url = $("div.carousel-item").first().data("url");
+                    lastRoom = url.split('/').reverse()[1];
+                    console.log("savingRoomId", lastRoom);
+                    localStorage.setItem('lastRoomId', lastRoom); 
                 }
+
                 $(".subnavigation").removeClass("active");
                 $("div.nav-link[data-room-id='" + lastRoom + "']").addClass("active");
                 $("div.carousel-item[data-room-id='" + lastRoom + "']").addClass("active");
@@ -240,6 +243,8 @@
                     //Load load content from URL
                     ajaxContentLoader(targetObj, url, loadingAnimation);
 
+                    localStorage.lastRoomId = url.split('/').reverse()[1];
+                    console.log("savingRoomId", localStorage.lastRoomId);
                     loadingAnimation = true;
                 });
 
@@ -250,6 +255,8 @@
                     targetObj = $(this);
                     url = targetObj.data("url");
                     roomId = url.split('/').reverse()[1];
+                    localStorage.setItem('lastRoomId', url.split('/').reverse()[1]); 
+                    console.log("savingRoomId", localStorage.lastRoomId);
 
                     //Menu Handling
                     $(".subnavigation").removeClass("active");
@@ -299,7 +306,8 @@
             $("div#ajax-loader").click(function(event) {
                 thisObj = $(this);
 
-                localStorage.lastRoomId = thisObj.data("room-id");
+                localStorage.setItem('lastRoomId', thisObj.data("room-id")); 
+
 
                 if (thisObj.hasClass("active") && (new Date().getTime() - lastLoad) < 9000) {
                     console.log((new Date().getTime() - lastLoad) + ' ms');

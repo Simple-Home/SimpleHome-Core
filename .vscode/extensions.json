@@ -9,6 +9,7 @@
         "cjhowe7.laravel-blade",
         "natizyskunk.sftp",
         "mehedidracula.php-namespace-resolver",
-        "ecmel.vscode-html-css"
+        "ecmel.vscode-html-css",
+        "felixfbecker.php-debug"
     ]
 }

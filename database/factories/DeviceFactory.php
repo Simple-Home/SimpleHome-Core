@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Device;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Device;
 
 class DeviceFactory extends Factory
 {
@@ -28,7 +28,7 @@ class DeviceFactory extends Factory
             'hostname' => $this->faker->words(3, true),
             'type' => $types[$rand_key],
             'heartbeat' => now(),
-            'approved' => '1',
+            'approved' => 'O',
             'sleep' => '0',
             'token' => Str::random(20)
         ];

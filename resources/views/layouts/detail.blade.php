@@ -84,9 +84,31 @@
             </div>
         </div>
     </nav>
-
-    @yield('beforeBodyEnd')
     <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script>
+        $('body').on('click', 'div.control-relay', function(event) {
+            navigator.vibrate([10]);
+            thisObj = $(this);
+            thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            console.log(thisObj.data("url"));
+            $.ajax({
+                type: 'POST',
+                url: thisObj.data("url"),
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(msg) {
+                    thisObj.html(msg.icon);
+                    thisObj.data("url", msg.url)
+                },
+                error: function() {
+                    //timeout
+                },
+                timeout: 3000,
+            });
+        });
+    </script>
+    @yield('beforeBodyEnd')
 </body>
 
 </html>

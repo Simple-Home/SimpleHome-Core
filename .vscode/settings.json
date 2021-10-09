@@ -1,5 +1,10 @@
 {
     "css.remoteStyleSheets": [
         "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-    ]
+    ],
+    "[php]": {
+        // Characters that will be used as word separators when doing word related navigations or operations.
+        "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?"
+    },
+    "intelephense.diagnostics.undefinedSymbols": false
 }
