@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use App\Models\Rooms;
-use App\Models\User;
-use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
-use App\Helpers\SettingManager;
-use App\Models\Records;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 use App\Types\GraphPeriod;
 use App\Notifications\NewDeviceNotification;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\View;
+use App\Models\User;
+use App\Models\Rooms;
+use App\Models\Records;
+use App\Models\Properties;
+use App\Helpers\SettingManager;
 
 
 class ControlsController extends Controller
@@ -34,7 +34,7 @@ class ControlsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function list($room_id = 0, FormBuilder $formBuilder)
+    public function list(FormBuilder $formBuilder)
     {
         $roomsForm = [];
         $roomForm = $formBuilder->create(\App\Forms\RoomForm::class, [
@@ -42,19 +42,15 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        $rooms = Cache::remember('controls.rooms', 15, function () {
-            return Rooms::with(['properties', 'properties.device' => fn ($query) => $query->where('approved', 1)->get('id')])->get()->filter(function ($item) {
+        $rooms = Cache::remember('controls.rooms', 15, function (){
+            return Rooms::with(['properties', 'properties.device' => function ($query) { return $query->where('approved', 1)->get('id'); }])->get()->filter(function ($item) {
                 if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
                     return $item;
                 }
             });
         });
 
-        if ($room_id == 0)
-            $room_id =  $rooms->min('id');
-
-        $selected_room_id = $room_id;
-        return view('controls.list', compact('rooms', 'selected_room_id',  'roomForm'));
+        return view('controls.list', compact('rooms', 'roomForm'));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -217,7 +213,7 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes =  Properties::where("room_id", $room_id)->with(['device' => fn ($query) => $query->where('approved', 1)->get(["integration"]), 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+            $propertyes =  Properties::where("room_id", $room_id)->with(['device' => function ($query) {return $query->where('approved', 1)->get(["integration"]);}, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
             return View::make("controls.controls")->with("propertyes", $propertyes)->render();
         }
         return redirect()->back();

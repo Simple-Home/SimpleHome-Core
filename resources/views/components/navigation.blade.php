@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a href="{{ route('controls.room') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'controls') > -1 ? 'active' : '' }}">
+    <a href="{{ route('controls.list') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'controls') > -1 ? 'active' : '' }}">
         <i class="fa fa-home"></i><span class="d-none ms-md-2 d-md-inline">Rooms</span>
     </a>
 </li>

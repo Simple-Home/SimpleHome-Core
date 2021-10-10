@@ -14,7 +14,7 @@
 <div class="container p-0">
     <div class="row justify-content-between">
         <div class="col-md order-md-1 order-1 p-md-0 my-auto col-6">
-            <a style="font-weight:bold" class="h4 text-capitalize text-decoration-none fw-bold" href="{{route('controls.room', $property->room->id)}}"><i class="fas fa-chevron-left me-2"></i>{{$property->room->name}}</a>
+            <a style="font-weight:bold" class="h4 text-capitalize text-decoration-none fw-bold" href="{{route('controls.list')}}"><i class="fas fa-chevron-left me-2"></i>{{$property->room->name}}</a>
         </div>
         <div class="col-md-auto text-right order-md-2 order-3 p-md-0 my-auto me-md-2 d-flex d-md-block justify-content-between">
             <!--Period Selector-->
