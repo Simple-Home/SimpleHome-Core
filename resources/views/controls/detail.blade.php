@@ -91,6 +91,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Created</th>
+                        <th scope="col">Origin</th>
                         <th scope="col">(Min/Avg/Max)</th>
                         <th scope="col">Done</th>
                     </tr>
@@ -99,6 +100,7 @@
                 <tbody>
                     <tr>
                         <td>{{$value->created_at->diffForHumans()}}</td>
+                        <td>{{$value->origin}}</td>
                         <td>({{$value->min}} {{$property->units}}/{{$value->value}} {{$property->units}}/{{$value->max}} {{$property->units}})</td>
                         <td>
                             @if ($value->done)

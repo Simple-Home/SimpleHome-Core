@@ -11,10 +11,10 @@ class SettingManager
     public static function get($index, $group = null)
     {
         $fields = Settings::where('group', '=', $group)->where('name', '=', $index)->get();
-        if (count($fields) == 1) {
+        if (count($fields) >= 1) {
             return $fields->first();
         } else {
-            SettingManager::set($index, 0, $group);
+            SettingManager::set($index, 0, "string", $group);
             return Settings::where('group', '=', $group)->where('name', '=', $index)->first();
         }
     }
@@ -26,6 +26,7 @@ class SettingManager
         // Make sure you've got the Page model
         if ($option) {
             $option->value = $value;
+            $option->group = $group;
             $option->save();
         } else {
             SettingManager::register($index, $value, "string", "system");
@@ -36,8 +37,6 @@ class SettingManager
 
     public static function register($index, $value, $type = "string", $group = "system")
     {
-
-        dd();
         $option = Settings::firstOrCreate(
             [
                 'group' => $group,

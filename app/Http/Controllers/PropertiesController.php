@@ -139,6 +139,7 @@ class PropertiesController extends Controller
 
 
         $record                 = new Records;
+        $record->origin         = "web";
         $record->value          = $value;
         $record->property_id    = $property_id;
         $record->save();

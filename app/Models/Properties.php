@@ -99,9 +99,34 @@ class Properties extends Model
         return $this->value . " " . $this->units;
     }
 
+    public function getMaxSettingValueAttribute()
+    {
+        if ($max = SettingManager::get('max', 'property-' . $this->id)) {
+             return $max->value;
+        }
+        return 10;
+    }
 
+    public function getMinSettingValueAttribute()
+    {
+        if ($min = SettingManager::get('min', 'property-' . $this->id)) {
+             return $min->value;
+        }
+        return 1;
+    }
 
-
+    /**
+     * step value used to increment each value usualy used for range type or termostats, graphs also.
+     *
+     * @return int
+     */
+    public function getStepSettingValueAttribute()
+    {
+        if ($step = SettingManager::get('step', 'property-' . $this->id)) {
+             return ($step->value < 1 ? $step->value : 1);
+        }
+        return 5;
+    }
 
 
 
@@ -161,13 +186,6 @@ class Properties extends Model
         return $agregatedData->get();
     }
 
-
-
-
-
-    //Virtual  Values
-
-
     //Virtual  Values
     /**
      * Minimum value that property had in past.
@@ -195,45 +213,8 @@ class Properties extends Model
         return false;
     }
 
+  
 
-    /**
-     * step value used to increment each value usualy used for range type or termostats, graphs also.
-     *
-     * @return int
-     */
-    public function getStepValueAttribute()
-    {
-        if ($step = SettingManager::get('step', 'property-' . $this->id)) {
-            return ($step->value < 1 ? $step->value : 1);
-        }
-        return false;
-    }
-
-    /**
-     * max set value for prop
-     *
-     * @return int
-     */
-    public function getMaxValueSettingAttribute()
-    {
-        if ($step = SettingManager::get('max', 'property-' . $this->id)) {
-            return ($step->value > 1 ? $step->value : 1);
-        }
-        return false;
-    }
-
-    /**
-     * min set value for prop
-     *
-     * @return int
-     */
-    public function getMinValueSettingAttribute()
-    {
-        if ($step = SettingManager::get('min', 'property-' . $this->id)) {
-            return ($step->value > 1 ? $step->value : 1);
-        }
-        return false;
-    }
 
 
     public function setValue($value)
