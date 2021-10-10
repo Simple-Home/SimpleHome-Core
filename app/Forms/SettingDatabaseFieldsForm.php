@@ -2,12 +2,12 @@
 
 namespace App\Forms;
 
-use App\Models\User;
-use App\Models\Currency;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\Field;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Currency;
 
 class SettingDatabaseFieldsForm extends Form
 {
@@ -33,9 +33,9 @@ class SettingDatabaseFieldsForm extends Form
                         $args["checked"] = $value->value;
                     }
 
-                    $this->add($value->name, $this->types[$value->type], $args);
+                    $this->add($value->name . "#" . $value->group, $this->types[$value->type], $args);
                 } else {
-                    $this->add($value->name, Field::STATIC, [
+                    $this->add($value->name. "#" . $value->group, Field::STATIC, [
                         'value' => 'Type ' . $value->type . ' is not supported',
                     ]);
                 }

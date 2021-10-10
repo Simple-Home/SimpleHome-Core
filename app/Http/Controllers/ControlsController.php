@@ -163,13 +163,21 @@ class ControlsController extends Controller
         return view('controls.edit', compact('property', 'propertyForm', 'systemSettingsForm'));
     }
 
-    public function settingsUpdate(Request $request, FormBuilder $formBuilder)
+    public function settingsUpdate(Request $request, FormBuilder $formBuilder, $group = null)
     {
         foreach ($request->input() as $key => $value) {
             if ($key == '_token') {
                 continue;
             }
-            SettingManager::set($key, $value);
+
+            if (strpos($key, '#') !== false) {
+                $index = explode("#", $key)[0];
+                $group = explode("#", $key)[1];
+            } else {
+                $index = $key;
+            }
+            
+            SettingManager::set($index, $value, $group);
         }
 
         return redirect()->back()->with('success', 'Property settings sucessfully removed.');

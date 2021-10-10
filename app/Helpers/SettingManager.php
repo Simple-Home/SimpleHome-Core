@@ -21,12 +21,18 @@ class SettingManager
 
     public static function set($index, $value, $group = null)
     {
-        $option =  Settings::where('group', '=', $group)->where('name', '=', $index)->first();
+        $option =  Settings::where('name', '=', $index);
+        if ($group != null) {
+            $option = $option->where('group', '=', $group);
+        }
+        $option = $option->first();
 
         // Make sure you've got the Page model
         if ($option) {
             $option->value = $value;
-            $option->group = $group;
+            if ($group != null) {
+                $option->group = $group;
+            }
             $option->save();
         } else {
             SettingManager::register($index, $value, "string", "system");
