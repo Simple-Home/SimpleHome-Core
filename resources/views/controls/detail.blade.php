@@ -99,51 +99,49 @@
 
                 @endphp
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css" type="text/css">
-    <style>
-      .map {
-        height: 400px;
-        width: 100%;
-      }
-    </style>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
-                   <h2>My Map</h2>
-                    <div id="map" class="map"></div>
-                    <script type="text/javascript">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css" type="text/css">
+                <style>
+                .map {
+                    height: 400px;
+                    width: 100%;
+                }
+                </style>
+                <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
+                <h2>My Map</h2>
+                <div id="map" class="map"></div>
+                <script type="text/javascript">
 
-const iconFeature = new ol.Feature({
-  geometry: new ol.geom.Point(ol.proj.fromLonLat([-2, 53])),
-  name: 'Somewhere near Nottingham',
-});
+                    const iconFeature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ $long }}, {{ $lat }}])),
+                    name: 'Somewhere near Nottingham',
+                    });
 
-const map = new ol.Map({
-  target: 'map',
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM(),
-    }),
-    new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [iconFeature]
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [{{ 0.5 }}, ],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'pixels',
-          src: 'https://openlayers.org/en/latest/examples/data/icon.png'
-        })
-      })
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([-2, 53]),
-    zoom: 6
-  })
-});
-     
-
-                    </script>
+                    const map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                        source: new ol.source.OSM(),
+                        }),
+                        new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            features: [iconFeature]
+                        }),
+                        style: new ol.style.Style({
+                            image: new ol.style.Icon({
+                            anchor: [0.5, 46],
+                            anchorXUnits: 'fraction',
+                            anchorYUnits: 'pixels',
+                            src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+                            })
+                        })
+                        })
+                    ],
+                    view: new ol.View({
+                        center: ol.proj.fromLonLat([{{ $long }}, {{ $lat }}]),
+                        zoom: 18
+                    })
+                    });
+                </script>
             @endif
         </div>
     </div>
