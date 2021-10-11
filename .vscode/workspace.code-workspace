@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"namesmt.blade-color",
+			"tombonnike.vscode-status-bar-format-toggle",
+			"shufo.vscode-blade-formatter",
+			"austenc.laravel-blade-spacer",
+			"amiralizadeh9480.laravel-extra-intellisense",
+			"codingyu.laravel-goto-view",
+			"cjhowe7.laravel-blade",
+			"natizyskunk.sftp",
+			"mehedidracula.php-namespace-resolver",
+			"ecmel.vscode-html-css",
+			"felixfbecker.php-debug"
+		]
+	}
+}
