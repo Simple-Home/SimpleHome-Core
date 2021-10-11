@@ -39,6 +39,8 @@
         </div>
     </div>
     <div class="row justify-content-between">
+
+
         @if(!empty($property->icon) && $property->icon != "empty")
         <div style="width: 50px; height: 50px;" class="col p-md-0 col-auto d-flex ">
             <span class="mx-auto my-auto h1">
@@ -74,13 +76,74 @@
             </div>
             @endif
         </div>
+
+
     </div>
     <div class="row">
         <div class="col">
+            @if ($property->type != "map")
             @if ($propertyDetailChart)
             <div class="h-30">
                 {!! $propertyDetailChart->render() !!}
             </div>
+            @endif
+            @else
+                @php
+                $lat = explode(",", $property->latestRecord->value)[0];
+                $long = explode(",", $property->latestRecord->value)[1];
+
+                $minLat = $lat - 0.001;
+                $maxLat = $lat + 0.001;
+                $minLong = $long - 0.001;
+                $maxLong = $long + 0.001
+
+                @endphp
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
+                   <h2>My Map</h2>
+                    <div id="map" class="map"></div>
+                    <script type="text/javascript">
+
+const iconFeature = new ol.Feature({
+  geometry: new ol.geom.Point(ol.proj.fromLonLat([-2, 53])),
+  name: 'Somewhere near Nottingham',
+});
+
+const map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM(),
+    }),
+    new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [iconFeature]
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [{{ 0.5 }}, ],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+        })
+      })
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([-2, 53]),
+    zoom: 6
+  })
+});
+     
+
+                    </script>
             @endif
         </div>
     </div>
