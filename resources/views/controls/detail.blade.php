@@ -76,12 +76,10 @@
             </div>
             @endif
         </div>
-
-
     </div>
     <div class="row">
         <div class="col">
-            @if ($property->type != "map")
+            @if ($property->type != "location")
             @if ($propertyDetailChart)
             <div class="h-30">
                 {!! $propertyDetailChart->render() !!}
