@@ -19,7 +19,7 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('automations_list') }}" class="nav-link disabled">
+    <a href="{{ route('automations.list') }}" class="nav-link">
         <i class="fa fa-clock"></i><span class="d-none ms-md-2 d-md-inline">Automations</span>
     </a>
 </li>

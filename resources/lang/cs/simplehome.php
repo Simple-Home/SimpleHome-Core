@@ -76,4 +76,6 @@ return [
     'gotoRooms' => 'Přejděte do pokojů',
     'roomsPage' => 'pod místnostmi',
     'toAddRoom' => 'můžete vytvořit místnost.',
+    'automations.pageTitle' => 'Automatizace',
+    'automations.create' => 'Vytvořit Automatizaci',
 ];

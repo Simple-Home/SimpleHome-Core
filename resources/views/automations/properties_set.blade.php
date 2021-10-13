@@ -1,0 +1,55 @@
+<div class="automation-content">
+    <form id="properties-selection">
+        <div class="row">
+            <div class="col mb-3">
+                <input type="hidden" name="automation_type" value="{{ $automationType }}" />
+                <table class="table">
+                    <tbody>
+                        @if (!empty($propertyes) && count($propertyes) > 0)
+                            @foreach ($propertyes as $property)
+                                <tr>
+                                    <th>
+                                        {{ $property->nick_name }}
+                                    </th>
+                                    <td>
+                                        <input class="form-control" type="text"
+                                            name="property[{{ $property->id }}][value]" value=""
+                                            id="text-input-{{ $property->id }}"
+                                            placeholder="{{ $property->latestRecord->value }}" maxlength="5" required>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <p class=" text-center">{{ __('simplehome.controls.notFound') }}</p>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <button class="form-control" type="submit">Next</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function() {
+        $('form#properties-selection').on('submit', function(e) {
+            var form = $('form#properties-selection');
+            console.log(form.serialize())
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '{{ route('automations.propertie.finish') }}',
+                data: form.serialize(),
+                success: function(msg) {
+                    form.replaceWith(msg);
+                }
+            });
+        });
+    });
+</script>

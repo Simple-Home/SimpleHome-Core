@@ -1,4 +1,4 @@
-<div class="card p-2 m-0 rounded-5" style="height: 100px">
+<div class="card p-2 m-0 rounded-5" style="height: 100px; cursor: pointer;">
     <div class="container p-0">
         <div class="d-flex justify-content-between">
             <a class="h2" href="{{ route('controls.detail', $property->id) }}">

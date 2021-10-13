@@ -169,7 +169,6 @@ class PropertiesController extends Controller
         ]);
     }
 
-
     public function control(Request $request, $propertyID)
     {
         $value = strtolower($request->value);

@@ -110,4 +110,6 @@ return [
     'period.week' => 'Week',
     'period.month' => 'Month',
     'period.year' => 'Year',
+    'automations.pageTitle' => 'Automation',
+    'automations.create' => 'Create Automation',
 ];

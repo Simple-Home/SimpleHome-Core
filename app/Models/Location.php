@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+use App\Helpers\SettingManager;
 
 class Location extends Properties
 {
@@ -43,12 +45,23 @@ class Location extends Properties
     }
 
     public function getLocation(){
-        
+        //TODO: DINAMICALY LOAD FOR EACH USER
+        $places = $this->getPlaces();
+        $lat = explode(",", $this->latestRecord->value)[0];
+        $long = explode(",", $this->latestRecord->value)[1];
+
+        foreach ($places as $place){
+            $latDestination = explode(",", $place->value)[0];
+            $longDestination = explode(",", $place->value)[1];
+            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 20) {
+                return $place->name;
+            }
+        }
     }
 
     private function getPlaces(){
         return Cache::remember('location.places', 120, function (){
-            return SettingManager::get('home');
+            return SettingManager::getGroup('locations');
         });
     }
 
@@ -60,7 +73,7 @@ class Location extends Properties
         cos($latitudeTo * $pi/180) * 
         cos(($longitudeTo * $pi/180) - ($longitudeFrom * $pi/180)); 
         $x = atan((sqrt(1 - pow($x, 2))) / $x); 
-        echo lat_long_dist_of_two_points(40.7127, 74.0059, 51.5072, 0.1275).' mi'."\n"; 
-        return abs((1.852 * 60.0 * (($x/$pi) * 180)) / 1.609344); 
+        $mi = abs((1.852 * 60.0 * (($x/$pi) * 180)) / 1.609344); 
+        return ($mi / 0.0006214);
     } 
 }

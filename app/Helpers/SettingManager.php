@@ -10,9 +10,14 @@ class SettingManager
 {
     public static function get($index, $group = null)
     {
-        $fields = Settings::where('group', '=', $group)->where('name', '=', $index)->get();
-        if (count($fields) >= 1) {
-            return $fields->first();
+        $option =  Settings::where('name', '=', $index);
+        if ($group != null) {
+            $option = $option->where('group', '=', $group);
+        }
+        $option = $option->get();
+
+        if (count($option) >= 1) {
+            return $option->first();
         } else {
             SettingManager::set($index, 0, "string", $group);
             return Settings::where('group', '=', $group)->where('name', '=', $index)->first();

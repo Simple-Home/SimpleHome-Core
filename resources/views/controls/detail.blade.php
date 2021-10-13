@@ -86,6 +86,7 @@
             </div>
             @endif
             @else
+                {{$property->getLocation()  }}
                 @php
                 $lat = explode(",", $property->latestRecord->value)[0];
                 $long = explode(",", $property->latestRecord->value)[1];
