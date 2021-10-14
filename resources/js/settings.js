@@ -136,9 +136,12 @@ $(document).ready(function () {
             }, timeout);
         }
 
-        function getChartData() {
+        function getChartData() {   
             $.ajax({
                 method: "GET",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: dashboard.dataset.chartEndpoint,
                 success: function (data) {
                     updateChart(window.chartDisk, data.disk);

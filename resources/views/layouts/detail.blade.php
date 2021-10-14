@@ -10,21 +10,21 @@
     <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/manifest.js')) }}"></script>
-    <script src="{{ asset(mix('js/vendor.js')) }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ asset(mix('js/manifest.js'), (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" defer></script>
+    <script src="{{ asset(mix('js/vendor.js'), (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" defer></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-iconpicker.bundle.min.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-iconpicker.bundle.min.js', (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" defer></script>
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css'), (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" rel="stylesheet">
     <meta name="color-scheme" content="dark light">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-iconpicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-iconpicker.min.css', (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" />
 
     @yield('customHead')
 
@@ -35,7 +35,7 @@
 
     </style>
 
-    <script>
+    <script defer>
         window.addEventListener("load", function() {
             var darkThemeSelected =
                 localStorage.getItem("darkSwitch") !== null &&
@@ -84,8 +84,8 @@
             </div>
         </div>
     </nav>
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
-    <script>
+    <script src="{{ asset(mix('js/app.js'), (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}" defer></script>
+    <script defer>
         $('body').on('click', 'div.control-relay', function(event) {
             navigator.vibrate([10]);
             thisObj = $(this);

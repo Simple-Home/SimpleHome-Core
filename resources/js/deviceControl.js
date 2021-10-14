@@ -1,6 +1,9 @@
 function deviceControl(hostname, feature, newValue) {
     $.ajax({
         method: "GET",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: "/properties/control/",
         data: {
             feature: feature,
