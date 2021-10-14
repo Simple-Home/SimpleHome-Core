@@ -10,12 +10,17 @@
     <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/manifest.js')) }}"></script>
-    <script src="{{ asset(mix('js/vendor.js')) }}"></script>
+    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        rel="stylesheet">
 
     <meta name="color-scheme" content="dark light">
 
@@ -116,8 +121,9 @@
             </nav>
         @endif
 
-        <script src="{{ asset(mix('js/app.js')) }}"></script>
-        <script>
+        <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+        <script defer>
             window.addEventListener("load", function() {
                 var darkThemeSelected =
                     localStorage.getItem("darkSwitch") !== null &&
@@ -167,7 +173,9 @@
                 </div>
             </div>
         @endauth
-
+        @auth
+            @yield('modal')
+        @endauth
         @if (session('dashboard'))
             <script>
                 function display_c() {
