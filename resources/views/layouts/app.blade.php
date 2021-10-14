@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@hasSection('title') @yield('title') - @endif {{ config('app.name', 'Simple Home') }}</title>
+    <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset(mix('js/app.js'), (Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '')) }}"></script>
@@ -45,7 +45,8 @@
                     <h2 id='ct' class="my-auto"></h2>
                 </div>
                 <div class="col text-end w-100 my-auto">
-                <a class="l1" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="l1" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -132,7 +133,8 @@
 
         @auth
             <!-- Full screen modal -->
-        <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true" role="dialog">
+            <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true"
+                role="dialog">
                 <div class="modal-dialog modal-fullscreen-md-down">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -143,18 +145,21 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                    <a id="notification-control-load" class="btn btn-primary dropdown-item" data-url="{{ route('notifications.read', ['notification_id' => 'all']) }}">
+                                        <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                            data-url="{{ route('notifications.read', ['notification_id' => 'all']) }}">
                                             readAll
                                         </a>
                                     </li>
                                     <li>
-                                    <a id="notification-control-load" class="btn btn-primary dropdown-item" data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                        <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                            data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
                                             deleteAll
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div id="notifications-list"></div>
@@ -197,7 +202,9 @@
                         url: sourceUrl,
                         beforeSend: function() {
                             if (loadingSpinner) {
-                            target.html('<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                                target.html(
+                                    '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                                );
                             }
                         },
                         success: function(msg) {
@@ -266,7 +273,8 @@
                         $("div.carousel-item[data-room-id='" + roomId + "']").addClass("active");
 
                         //Load load content from URL
-                    ajaxContentLoader($("div.carousel-item[data-room-id='" + roomId + "']"), url, loadingAnimation);
+                        ajaxContentLoader($("div.carousel-item[data-room-id='" + roomId + "']"), url,
+                            loadingAnimation);
                     });
 
                     //Desktop Arow Control
@@ -314,7 +322,9 @@
                         console.log((new Date().getTime() - lastLoad) + ' ms');
                         return;
                     }
-                $("#" + thisObj.data("target-id")).html('<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                    $("#" + thisObj.data("target-id")).html(
+                        '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                    );
                     console.log("Loading dynamic oontent");
 
                     console.log(thisObj.data("url"));
@@ -342,7 +352,9 @@
 
                 $('body').on('click', 'a#notification-control-load', function(event) {
                     console.log($(this).data("url"));
-                $("#notifications-list").html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                    $("#notifications-list").html(
+                        '<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                    );
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -357,7 +369,9 @@
 
                 $("div#notifications").on('shown.bs.modal', function() {
                     console.log("Loading Notifications");
-                $("#notifications-list").html('<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>');
+                    $("#notifications-list").html(
+                        '<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                    );
                     $.ajax({
                         type: 'GET',
                         url: '{{ route('notifications.list') }}',

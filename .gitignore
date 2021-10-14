@@ -52,3 +52,4 @@ Modules/*/
 
 /storage/xdebug-profiles/
 .env copy
+!/public/images/icons
