@@ -122,7 +122,7 @@
         @endif
 
         <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
+        </script>=======___scripts_4___>>>>>>> 1ac9caf4bf40003fedd26dc779a5feca8edd419f
         <script defer>
             window.addEventListener("load", function() {
                 var darkThemeSelected =
@@ -143,7 +143,8 @@
                 <div class="modal-dialog modal-fullscreen-md-down">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
+                            </h5>
                             <div class="btn-group">
                                 <a data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-ellipsis-h"></i>
