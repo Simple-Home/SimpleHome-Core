@@ -122,7 +122,7 @@
         @endif
 
         <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>=======___scripts_4___>>>>>>> 1ac9caf4bf40003fedd26dc779a5feca8edd419f
+        </script>
         <script defer>
             window.addEventListener("load", function() {
                 var darkThemeSelected =
