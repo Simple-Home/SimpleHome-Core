@@ -44,3 +44,12 @@
   background-color: #000;
 }
 
+[data-theme="dark"] .modal-header{
+  background-color: #282727;
+  border-bottom: 1px solid #1f1e1e;
+}
+
+[data-theme="dark"] .modal-body{
+  background-color: #111 !important;
+}
+

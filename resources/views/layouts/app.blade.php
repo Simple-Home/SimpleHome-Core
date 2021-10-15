@@ -123,8 +123,8 @@
 
         @if (!session('dashboard'))
             <!-- Botom Fixed Menu -->
-            <nav class="navbar fixed-bottom bg-light" style="z-index: 1056;">
-                <div class="container-fluid">
+            <nav class="navbar fixed-bottom bg-light fw-900 p-0" style="z-index: 1056; height: 60px; font-size: 22px;">
+                <div class="container-fluid p-0">
                     <div class="navbar-expand w-100">
                         <ul class="navbar-nav justify-content-around nav-pills">
                             @auth
@@ -139,14 +139,46 @@
         <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
         <script defer>
-            window.addEventListener("load", function() {
+            function isMobile() {
+                try {
+                    document.createEvent("TouchEvent");
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            $(document).ready(function() {
                 var darkThemeSelected =
                     localStorage.getItem("darkSwitch") !== null &&
                     localStorage.getItem("darkSwitch") === "dark";
+
+                $('#flexDarkModeSwitch').prop("checked", darkThemeSelected)
+
+                /* 
+                if ($(window).width() < 768) {
+                     
+                } else if ($(window).width() >= 768 && $(window).width() <= 992) {
+
+                } else if ($(window).width() > 992 && $(window).width() <= 1200) {
+
+                } else {
+
+                } 
+                */
+
+
                 if (darkThemeSelected) {
                     document.body.setAttribute("data-theme", "dark");
+                    localStorage.setItem("darkSwitch", "dark");
+                    $('head meta[name="theme-color"]').attr('content', '#111');
                 } else {
                     document.body.removeAttribute("data-theme");
+                    localStorage.removeItem("darkSwitch");
+                    $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+                }
+                if (!isMobile()) {
+                    $('head meta[name="theme-color"]').attr('content', '#1cca50');
                 }
             });
         </script>
@@ -242,41 +274,47 @@
 
                 window.addEventListener("load", function() {
                     var loadingAnimation = true;
-                    //Initial Load
-                    var lastRoom = localStorage.getItem("lastRoomId");
-                    if (lastRoom) {
-                        url = $("div.carousel-item[data-room-id='" + lastRoom + "']").data("url");
-                    } else {
-                        //First Load Ever no room selected in Memory
-                        url = $("div.carousel-item").first().data("url");
-                        lastRoom = url.split('/').reverse()[1];
-                        console.log("savingRoomId", lastRoom);
-                        localStorage.setItem('lastRoomId', lastRoom);
-                    }
+                    if ($("div.carousel-item").length) {
 
-                    $(".subnavigation").removeClass("active");
-                    $("div.nav-link[data-room-id='" + lastRoom + "']").addClass("active");
-                    $("div.carousel-item[data-room-id='" + lastRoom + "']").addClass("active");
-                    ajaxContentLoader($("div.carousel-item[data-room-id='" + lastRoom + "']"), url, loadingAnimation);
+                        //Initial Load
+                        var lastRoom = localStorage.getItem("lastRoomId");
+                        if (lastRoom) {
+                            url = $("div.carousel-item[data-room-id='" + lastRoom + "']").data("url");
+                        } else {
+                            //First Load Ever no room selected in Memory
+                            url = $("div.carousel-item").first().data("url");
+                            lastRoom = url.split('/').reverse()[1];
+                            console.log("savingRoomId", lastRoom);
+                            localStorage.setItem('lastRoomId', lastRoom);
+                        }
 
-                    $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function(e) {
-                        loadingAnimation = false;
-                        //Load Thinks
-                        targetObj = $(e.relatedTarget);
-                        url = targetObj.data("url");
-
-                        //Menu Handling
                         $(".subnavigation").removeClass("active");
-                        thisObj = $("div.nav-link[data-room-id='" + url.split('/').reverse()[1] + "']");
-                        thisObj.addClass("active");
+                        $("div.nav-link[data-room-id='" + lastRoom + "']")
+                            .addClass("active");
+                        $("div.carousel-item[data-room-id='" + lastRoom + "']").addClass(
+                            "active");
+                        ajaxContentLoader($("div.carousel-item[data-room-id='" + lastRoom + "']"), url,
+                            loadingAnimation);
 
-                        //Load load content from URL
-                        ajaxContentLoader(targetObj, url, loadingAnimation);
+                        $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function(e) {
+                            loadingAnimation = false;
+                            //Load Thinks
+                            targetObj = $(e.relatedTarget);
+                            url = targetObj.data("url");
 
-                        localStorage.lastRoomId = url.split('/').reverse()[1];
-                        console.log("savingRoomId", localStorage.lastRoomId);
-                        loadingAnimation = true;
-                    });
+                            //Menu Handling
+                            $(".subnavigation").removeClass("active");
+                            thisObj = $("div.nav-link[data-room-id='" + url.split('/').reverse()[1] + "']");
+                            thisObj.addClass("active");
+
+                            //Load load content from URL
+                            ajaxContentLoader(targetObj, url, loadingAnimation);
+
+                            localStorage.lastRoomId = url.split('/').reverse()[1];
+                            console.log("savingRoomId", localStorage.lastRoomId);
+                            loadingAnimation = true;
+                        });
+                    }
 
                     $('div.subnavigation ').click(function(event) {
                         loadingAnimation = false;
@@ -310,6 +348,8 @@
                         }
                     });
                 });
+
+
 
                 $('body').on('click', 'div.control-relay', function(event) {
                     navigator.vibrate([10]);

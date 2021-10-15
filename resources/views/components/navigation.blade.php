@@ -1,11 +1,11 @@
-<li class="nav-item">
+<li class="nav-ite">
     <a href="{{ route('controls.list') }}"
-        class="nav-link {{ strpos(Route::currentRouteName(), 'controls') > -1 ? 'active' : '' }}">
+        class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'controls') > -1 ? 'active' : '' }} text-center ">
         <i class="fa fa-home"></i><span class="d-none ms-md-2 d-md-inline">Rooms</span>
     </a>
 </li>
 <li class="nav-item">
-    <a onClick="$('#notifications').modal('toggle')" class="nav-link position-relative">
+    <a onClick="$('#notifications').modal('toggle')" class="nav-link btn-sq position-relative text-center ">
         <i class="fa fa-bell">
             @if (($notificationCount = auth()->user()->notifications->Count()) > 0)
                 <span
@@ -16,21 +16,25 @@
         </i>
         <span class="d-none ms-md-2 d-md-inline">Events</span>
         @if ($notificationCount > 0)
-            <span class="d-none ms-md-2 d-md-inline badge rounded-pill bg-danger">{{ $notificationCount }}</span>
+            <span
+                class="d-none btn-sq ms-md-2 d-md-inline badge rounded-pill bg-danger">{{ $notificationCount }}</span>
         @endif
     </a>
 </li>
-<li class="nav-item">
-    <a href="{{ route('automations.list') }}" class="nav-link">
-        <i class="fa fa-clock"></i><span class="d-none ms-md-2 d-md-inline">Automations</span>
+<li class="nav-item btn-sq">
+    <a href="{{ route('automations.list') }}"
+        class="nav-link btn-sq {{ Route::currentRouteName() == 'automations.list' ? 'active' : '' }} text-center ">
+        <i class="fa fa-clock m-auto"></i><span class="d-none ms-md-2 d-md-inline">Automations</span>
+
     </a>
 </li>
 <li>
     <a href="{{ route('system.profile') }}"
-        class="nav-link {{ strpos(Route::currentRouteName(), 'system') > -1 ? 'active' : '' }}">
+        class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'system') > -1 ? 'active' : '' }} text-center  btn-sq">
         <i class="fa fa-cog"></i></i><span class="d-none ms-md-2 d-md-inline">Settings</span>
     </a>
 </li>
+
 <script>
     /*function ajaxValueLoader(sourceUrl, target) {
         console.log("loading from: ", sourceUrl)
@@ -52,3 +56,16 @@
         Fetch NOtification cout periodicaly
     }, 30000); // 30 seconds*/
 </script>
+<style>
+    .btn-sq {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    @media (min-width: 768px) {
+        .btn-sq {
+            width: auto !important;
+        }
+    }
+
+</style>
