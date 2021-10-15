@@ -53,7 +53,7 @@
             justify-content: center;
             padding-top: 40px;
             padding-bottom: 40px;
-            background-color: #f5f5f5;
+            background-color: var(--bs-body-bg);
         }
 
         .form-signin {
