@@ -48,14 +48,29 @@
                 <div class="col">
                     <h2 id='ct' class="my-auto"></h2>
                 </div>
-                <div class="col text-end w-100 my-auto">
-                    <a class="l1" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                <div class="col text-end my-auto">
+                    <div>
+                        <div class="h2 d-inline me-3">
+                            <a onClick="$('#notifications').modal('toggle')">
+                                <i class="fa fa-bell">
+                                    <span
+                                        class="position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-inline d-md-none">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </i>
+                            </a>
+                        </div>
+                        <div class="h2 d-inline">
+                            <a class="l1" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
                 </div>
             @endif
         </div>
