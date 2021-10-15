@@ -13,6 +13,18 @@ const mix = require("laravel-mix");
 mix.setPublicPath("public");
 mix.setResourceRoot("../");
 
+mix.scripts([
+    'resources/js/utillities.js',
+], 'public/js/utillities.js');
+
+mix.scripts([
+    'resources/js/controls.js',
+], 'public/js/controls.js');
+
+mix.scripts([
+    'resources/js/notifications.js',
+], 'public/js/notifications.js');
+
 mix.js("resources/js/app.js", "public/js")
     .version()
     .extract([

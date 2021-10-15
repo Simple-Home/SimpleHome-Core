@@ -4,6 +4,7 @@ window.Popper = require("popper.js").default;
 
 require("bootstrap");
 require("./bootstrap");
+
 require("@fortawesome/fontawesome-free");
 require("bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker");
 

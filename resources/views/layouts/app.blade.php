@@ -10,11 +10,14 @@
     <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
     <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
     <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 
     <!-- Styles -->
@@ -135,38 +138,13 @@
                 </div>
             </nav>
         @endif
-
-        <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
         <script defer>
-            function isMobile() {
-                try {
-                    document.createEvent("TouchEvent");
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            }
-
             $(document).ready(function() {
                 var darkThemeSelected =
                     localStorage.getItem("darkSwitch") !== null &&
                     localStorage.getItem("darkSwitch") === "dark";
 
                 $('#flexDarkModeSwitch').prop("checked", darkThemeSelected)
-
-                /* 
-                if ($(window).width() < 768) {
-                     
-                } else if ($(window).width() >= 768 && $(window).width() <= 992) {
-
-                } else if ($(window).width() > 992 && $(window).width() <= 1200) {
-
-                } else {
-
-                } 
-                */
-
 
                 if (darkThemeSelected) {
                     document.body.setAttribute("data-theme", "dark");
@@ -182,8 +160,6 @@
                 }
             });
         </script>
-
-
         <!-- Full screen modal -->
         @auth
             @yield('modal')
@@ -217,7 +193,7 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div id="notifications-list"></div>
+                            <div id="notifications-list" data-url="{{ route('notifications.list') }}"></div>
                         </div>
                     </div>
                 </div>
@@ -225,18 +201,6 @@
         @endauth
         @if (session('dashboard'))
             <script>
-                function display_c() {
-                    var refresh = 30000; // Refresh rate in milli seconds
-                    mytime = setTimeout('display_ct()', refresh)
-                }
-
-                function display_ct() {
-                    var x = new Date()
-                    var x1 = x.getMonth() + 1 + "/" + x.getDate() + "/" + x.getFullYear();
-                    x1 = x1 + " - " + x.getHours() + ":" + x.getMinutes();
-                    document.getElementById('ct').innerHTML = x1;
-                    display_c();
-                }
                 window.addEventListener("load", function() {
                     display_ct();
                 });
@@ -245,206 +209,14 @@
 
         @auth
             <script>
-                function ajaxContentLoader(target, sourceUrl, loadingSpinner = true) {
-                    console.log("loading from: ", sourceUrl, "loading to: ", target)
-                    $.ajax({
-                        start_time: new Date().getTime(),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: sourceUrl,
-                        beforeSend: function() {
-                            if (loadingSpinner) {
-                                target.html(
-                                    '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
-                                );
-                            }
-                        },
-                        success: function(msg) {
-                            target.html(msg);
-                            console.log((new Date().getTime() - this.start_time) + ' ms');
-                        },
-                        error: function() {
-                            console.log((new Date().getTime() - this.start_time) + ' ms');
-                        },
-                        timeout: 3000,
-                    });
-                }
 
-                window.addEventListener("load", function() {
-                    var loadingAnimation = true;
-                    if ($("div.carousel-item").length) {
-
-                        //Initial Load
-                        var lastRoom = localStorage.getItem("lastRoomId");
-                        if (lastRoom) {
-                            url = $("div.carousel-item[data-room-id='" + lastRoom + "']").data("url");
-                        } else {
-                            //First Load Ever no room selected in Memory
-                            url = $("div.carousel-item").first().data("url");
-                            lastRoom = url.split('/').reverse()[1];
-                            console.log("savingRoomId", lastRoom);
-                            localStorage.setItem('lastRoomId', lastRoom);
-                        }
-
-                        $(".subnavigation").removeClass("active");
-                        $("div.nav-link[data-room-id='" + lastRoom + "']")
-                            .addClass("active");
-                        $("div.carousel-item[data-room-id='" + lastRoom + "']").addClass(
-                            "active");
-                        ajaxContentLoader($("div.carousel-item[data-room-id='" + lastRoom + "']"), url,
-                            loadingAnimation);
-
-                        $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function(e) {
-                            loadingAnimation = false;
-                            //Load Thinks
-                            targetObj = $(e.relatedTarget);
-                            url = targetObj.data("url");
-
-                            //Menu Handling
-                            $(".subnavigation").removeClass("active");
-                            thisObj = $("div.nav-link[data-room-id='" + url.split('/').reverse()[1] + "']");
-                            thisObj.addClass("active");
-
-                            //Load load content from URL
-                            ajaxContentLoader(targetObj, url, loadingAnimation);
-
-                            localStorage.lastRoomId = url.split('/').reverse()[1];
-                            console.log("savingRoomId", localStorage.lastRoomId);
-                            loadingAnimation = true;
-                        });
-                    }
-
-                    $('div.subnavigation ').click(function(event) {
-                        loadingAnimation = false;
-
-                        //Load Thinks
-                        targetObj = $(this);
-                        url = targetObj.data("url");
-                        roomId = url.split('/').reverse()[1];
-                        localStorage.setItem('lastRoomId', url.split('/').reverse()[1]);
-                        console.log("savingRoomId", localStorage.lastRoomId);
-
-                        //Menu Handling
-                        $(".subnavigation").removeClass("active");
-                        $("div.carousel-item").removeClass("active");
-                        $("div.nav-link[data-room-id='" + roomId + "']").addClass("active");
-                        $("div.carousel-item[data-room-id='" + roomId + "']").addClass("active");
-
-                        //Load load content from URL
-                        ajaxContentLoader($("div.carousel-item[data-room-id='" + roomId + "']"), url,
-                            loadingAnimation);
-                    });
-
-                    //Desktop Arow Control
-                    $(document).bind('keyup', function(e) {
-                        if (e.which == 39) {
-                            loadingAnimation = false;
-                            $('#carouselExampleSlidesOnly').carousel('next');
-                        } else if (e.which == 37) {
-                            loadingAnimation = false;
-                            $('#carouselExampleSlidesOnly').carousel('prev');
-                        }
-                    });
-                });
-
-
-
-                $('body').on('click', 'div.control-relay', function(event) {
-                    navigator.vibrate([10]);
-                    thisObj = $(this);
-                    thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
-                    console.log(thisObj.data("url"));
-                    $.ajax({
-                        type: 'POST',
-                        url: thisObj.data("url"),
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(msg) {
-                            thisObj.html(msg.icon);
-                            thisObj.data("url", msg.url)
-                        },
-                        error: function() {
-                            //timeout
-                        },
-                        timeout: 3000,
-                    });
-                });
-
-                var lastLoad = new Date().getTime();
-                $("div#ajax-loader").click(function(event) {
-                    thisObj = $(this);
-
-                    localStorage.setItem('lastRoomId', thisObj.data("room-id"));
-
-
-                    if (thisObj.hasClass("active") && (new Date().getTime() - lastLoad) < 9000) {
-                        console.log((new Date().getTime() - lastLoad) + ' ms');
-                        return;
-                    }
-                    $("#" + thisObj.data("target-id")).html(
-                        '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
-                    );
-                    console.log("Loading dynamic oontent");
-
-                    console.log(thisObj.data("url"));
-
-                    $(".subnavigation").removeClass("active");
-                    thisObj.addClass("active");
-
-                    $.ajax({
-                        start_time: new Date().getTime(),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: thisObj.data("url"),
-                        success: function(msg) {
-                            $("#" + thisObj.data("target-id")).html(msg);
-                            console.log((new Date().getTime() - this.start_time) + ' ms');
-                        },
-                        error: function() {
-                            console.log((new Date().getTime() - this.start_time) + ' ms');
-                        },
-                        timeout: 3000,
-                    });
-                });
-
-                $('body').on('click', 'a#notification-control-load', function(event) {
-                    console.log($(this).data("url"));
-                    $("#notifications-list").html(
-                        '<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
-                    );
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: $(this).data("url"),
-                        success: function(msg) {
-                            $("#notifications-list").html(msg);
-                        },
-                    });
-                });
-
-                $("div#notifications").on('shown.bs.modal', function() {
-                    console.log("Loading Notifications");
-                    $("#notifications-list").html(
-                        '<div style="height: 200px" class="d-flex"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
-                    );
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('notifications.list') }}',
-                        success: function(msg) {
-                            $("#notifications-list").html(msg);
-                        },
-                    });
-                });
             </script>
         @endauth
         @yield('beforeBodyEnd')
+        <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
 </body>
 
 </html>
