@@ -5,20 +5,17 @@
     </a>
 </li>
 <li class="nav-item">
-    <a onClick="$('#notifications').modal('toggle')" class="nav-link btn-sq position-relative text-center ">
+    <a id='notification-button' onClick="$('#notifications').modal('toggle')"
+        class="nav-link btn-sq position-relative text-center" data-url="{{ route('notifications.ajax.count') }}">
         <i class="fa fa-bell">
-            @if (($notificationCount = auth()->user()->notifications->Count()) > 0)
-                <span
-                    class="position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-inline d-md-none">
-                    <span class="visually-hidden">New alerts</span>
-                </span>
-            @endif
+            <span
+                class="notification-badge position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-inline d-md-none">
+                <span class="visually-hidden">New alerts</span>
+            </span>
         </i>
         <span class="d-none ms-md-2 d-md-inline">Events</span>
-        @if ($notificationCount > 0)
-            <span
-                class="d-none btn-sq ms-md-2 d-md-inline badge rounded-pill bg-danger">{{ $notificationCount }}</span>
-        @endif
+        <span id="notification-count"
+            class="notification-badge d-none btn-sq ms-md-2 d-md-inline badge rounded-pill bg-danger">#</span>
     </a>
 </li>
 <li class="nav-item btn-sq">

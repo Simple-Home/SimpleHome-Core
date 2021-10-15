@@ -78,6 +78,48 @@ function display_ct() {
     display_c();
 }
 
+function display_notifications() {
+    $.ajax({
+        start_time: new Date().getTime(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'GET',
+        url: $('#notification-button').data("url"),
+        success: function (msg) {
+            if (msg > 0) {
+                if (!$(".notification-badge").is(":visible")) {
+                    $(".notification-badge").addClass("d-inline");
+                    $(".notification-badge").addClass("d-md-inline");
+                }
+                if (msg < 99) {
+                    $("#notification-count").html(msg);
+                } else {
+                    $("#notification-count").html("99+");
+                }
+                console.log(msg);
+            } else {
+                if ($(".notification-badge").is(":visible")) {
+                    $(".notification-badge").hide();
+                    $(".notification-badge").removeClass("d-inline");
+                    $(".notification-badge").removeClass("d-md-inline");
+                }
+            }
+            console.log((new Date().getTime() - this.start_time) + ' ms');
+        },
+        error: function (jqXHR, exception) {
+            console.log((new Date().getTime() - this.start_time) + ' ms');
+        },
+        timeout: 3000,
+    });
+    display_notifications_deamon();
+}
+
+function display_notifications_deamon() {
+    var refresh = 30000; // Refresh rate in milli seconds
+    notificationsRefresh = setTimeout('display_notifications()', refresh)
+}
+
 /*
 if ($(window).width() < 768) {
 

@@ -126,7 +126,8 @@
 
         @if (!session('dashboard'))
             <!-- Botom Fixed Menu -->
-            <nav class="navbar fixed-bottom bg-light fw-900 p-0" style="z-index: 1056; height: 60px; font-size: 22px;">
+            <nav class="navbar fixed-bottom bg-light fw-900 p-0"
+                style="z-index: 1056; height: 60px; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
                 <div class="container-fluid p-0">
                     <div class="navbar-expand w-100">
                         <ul class="navbar-nav justify-content-around nav-pills">
@@ -206,12 +207,6 @@
                 });
             </script>
         @endif
-
-        @auth
-            <script>
-
-            </script>
-        @endauth
         @yield('beforeBodyEnd')
         <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>

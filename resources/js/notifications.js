@@ -10,4 +10,6 @@ window.addEventListener("load", function () {
         ajaxContentLoader(notificationList, notificationList.data("url"), true, "GET")
         console.log("Loading Notifications");
     });
+
+    display_notifications();
 });

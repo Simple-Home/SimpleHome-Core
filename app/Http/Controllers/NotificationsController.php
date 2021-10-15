@@ -57,4 +57,11 @@ class NotificationsController extends Controller
         }
         return redirect()->back()->with('success', 'Notification removed');
     }
+
+    
+    public function countAjax()
+    {
+        $notificationsCount = Auth::user()->unreadNotifications->count();
+        return $notificationsCount;
+    }
 }
