@@ -15,41 +15,17 @@
 <meta name="apple-mobile-web-app-title" content="{{ $config['short_name'] }}">
 <link rel="apple-touch-icon" href="{{ data_get(end($config['icons']), 'src') }}">
 
-
-<link href="{{ asset(mix($config['splash']['640x1136'])) }}"
-    media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['750x1334'])) }}"
-    media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1242x2208'])) }}"
-    media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1125x2436'])) }}"
-    media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['828x1792'])) }}"
-    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1242x2688'])) }}"
-    media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1536x2048'])) }}"
-    media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1668x2224'])) }}"
-    media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['1668x2388'])) }}"
-    media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
-<link href="{{ asset(mix($config['splash']['2048x2732'])) }}"
-    media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
-    rel="apple-touch-startup-image" />
+@if (!empty($config['splash']))
+    @foreach ($config['splash'] as $key => $splash)
+        <link href="{{ asset($splash) }}"
+            media="(device-width: {{ explode('x', $key)[0] }}px) and (device-height: {{ explode('x', $key)[1] }}px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image" />
+    @endforeach
+@endif
 
 <!-- Tile for Win8 -->
 <meta name="msapplication-TileColor" content="{{ $config['background_color'] }}">
-<meta name="msapplication-TileImage" content="{{ asset(mix(data_get(end($config['icons']), 'src'))) }}">
+<meta name="msapplication-TileImage" content="{{ asset(data_get(end($config['icons']), 'src')) }}">
 
 <script type="text/javascript">
     // Initialize the service worker

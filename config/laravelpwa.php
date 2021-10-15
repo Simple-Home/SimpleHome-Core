@@ -4,10 +4,10 @@ return [
     'name' => 'LaravelPWA',
     'manifest' => [
         'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
-        'start_url' => 'https://' . env('APP_URL', ''),
+        'short_name' => env('APP_NAME_SHORT', 'My PWA App Short Name'),       
+        'start_url' => 'https:' . env('APP_URL', ''),
         'background_color' => '#F0F1F5',
-        'theme_color' => '#1cca50',
+        'theme_color' => '#F0F1F5',
         'display' => 'standalone',
         'orientation' => 'any',
         'status_bar' => 'black',
@@ -45,21 +45,14 @@ return [
                 'purpose' => 'any'
             ],
         ],
-        'splash' => [
-            '640x1136' => env('APP_URL', '') . '/images/icons/splash-640x1136.png',
-            '750x1334' => env('APP_URL', '') . '/images/icons/splash-750x1334.png',
-            '828x1792' => env('APP_URL', '') . '/images/icons/splash-828x1792.png',
-            '1125x2436' => env('APP_URL', '') . '/images/icons/splash-1125x2436.png',
-            '1242x2208' => env('APP_URL', '') . '/images/icons/splash-1242x2208.png',
-            '1242x2688' => env('APP_URL', '') . '/images/icons/splash-1242x2688.png',
-            '1536x2048' => env('APP_URL', '') . '/images/icons/splash-1536x2048.png',
-            '1668x2224' => env('APP_URL', '') . '/images/icons/splash-1668x2224.png',
-            '1668x2388' => env('APP_URL', '') . '/images/icons/splash-1668x2388.png',
-            '2048x2732' => env('APP_URL', '') . '/images/icons/splash-2048x2732.png',
-        ],
-        'appleMobileWebAppCapable' => 'yes',
-        'appleMobileWebAppStatusBarStyle' => 'black',
+        'splash' => [],
         'shortcuts' => [],
-        'custom' => []
+        'custom' => [
+            'appleMobileWebAppCapable' => 'yes',
+            'appleMobileWebAppStatusBarStyle' => 'black-translucent',
+                    'description' => env('APP_DESCRIPTION', 'My PWA App Desc'),
+                    "title_bar_color" => "#1cca50",
+                    "display_override" => ["window-controls-overlay"]
+        ]
     ]
 ];
