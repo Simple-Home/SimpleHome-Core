@@ -30,7 +30,7 @@
 <script type="text/javascript">
     // Initialize the service worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('serviceworker.js', {
+        navigator.serviceWorker.register("{{ asset('serviceworker.js') }}", {
             scope: '.'
         }).then(function(registration) {
             // Registration was successful

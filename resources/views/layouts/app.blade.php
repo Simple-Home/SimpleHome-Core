@@ -151,8 +151,10 @@
             });
         </script>
 
+
+        <!-- Full screen modal -->
         @auth
-            <!-- Full screen modal -->
+            @yield('modal')
             <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true"
                 role="dialog">
                 <div class="modal-dialog modal-fullscreen-md-down">
@@ -188,9 +190,6 @@
                     </div>
                 </div>
             </div>
-        @endauth
-        @auth
-            @yield('modal')
         @endauth
         @if (session('dashboard'))
             <script>
