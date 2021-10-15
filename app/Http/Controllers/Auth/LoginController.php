@@ -42,5 +42,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         session(['dashboard' => (bool)!empty($request->dashboard)]);
+
+        if ($request->server('HTTP_X_FORWARDED_PROTO') != 'http') {
+            return redirect()->secure(RouteServiceProvider::HOME);
+        }
     }
 }
