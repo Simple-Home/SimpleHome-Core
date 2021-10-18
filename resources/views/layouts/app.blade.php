@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&amp;display=swap&amp;subset=latin-ext"
+        rel="stylesheet">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
@@ -42,14 +46,14 @@
 
 <body>
     <div class="container nav-bar-padding h-100 d-flex flex-column">
-        <div class="row justify-content-between">
+        <div class="row justify-content-between header">
             @if (!session('dashboard'))
-                <div class="col-4 p-md-0">
-                    <h1 class="mb-0">@yield('title')</h1>
+                <div class="col-auto p-md-0 my-auto">
+                    <h1 class="mb-0 header-title">@yield('title')</h1>
                 </div>
             @else
                 <div class="col">
-                    <h2 id='ct' class="my-auto"></h2>
+                    <h2 id='ct' class="my-auto my-auto"></h2>
                 </div>
                 <div class="col text-end my-auto">
                     <div>
@@ -76,6 +80,19 @@
                     </div>
                 </div>
             @endif
+            <div class="col  my-auto">
+                <div class="avatars d-flex">
+                    <div title="Haitem" class="avatar">
+                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                    </div>
+                    <div title="Haitem" class="avatar is-offline">
+                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                    </div>
+                    <div title="Haitem" class="avatar">
+                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                    </div>
+                </div>
+            </div>
         </div>
 
         {{-- <div class="row">

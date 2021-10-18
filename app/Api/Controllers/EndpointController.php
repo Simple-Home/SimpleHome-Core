@@ -132,6 +132,7 @@ class EndpointController extends Controller
     {
         $data = $request->json()->all();
         $device = Devices::query()->where('token', '=', $data['token'])->first();
+
         if (!$device) {
             $this->createDevice($data);
             return response()->json(
@@ -140,34 +141,41 @@ class EndpointController extends Controller
                 ],
                 JsonResponse::HTTP_OK
             );
-        } else {
-            $device->setHeartbeat();
+
+        } 
+        
+        $device->setHeartbeat();
+        if (!$device->approved) {
+            return response()->json(
+                [
+                    'approved' => false
+                ],
+                JsonResponse::HTTP_OK,
+                [],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            );
         }
 
-        if ($device->approved == 1) {
-            if (isset($data['values'])) {
-                foreach ($data['values'] as $key => $propertyItem) {
-                    $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
-                    if ($propertyExit == FALSE) {
+        if (isset($data['values'])) {
+            foreach ($data['values'] as $key => $propertyItem) {
+                $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
+                if ($propertyExit == FALSE) {
+                    $defaultRoom = Cache::remember('controls.rooms', 15,    function () {
+                        return Rooms::query()->where('default', 1)->first();
+                    });
 
-                        $defaultRoom = Cache::remember('controls.rooms', 15,    function () {
-                            return Rooms::query()->where('default', 1)->first();
-                        });
-
-                        if ($defaultRoom === null) {
-                            return response()->json(
-                                ['error' => __('No default room configured, please add a default room first')],
-                                JsonResponse::HTTP_BAD_REQUEST
-                            );
-                        }
-
-                        $this->createProperty($device, $defaultRoom, $key, $data['token']);
-                        //Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
+                    if ($defaultRoom === null) {
+                        return response()->json(
+                            ['error' => __('No default room configured, please add a default room first')],
+                            JsonResponse::HTTP_BAD_REQUEST
+                        );
                     }
+
+                    $this->createProperty($device, $defaultRoom, $key, $data['token']);
+                    Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
                 }
             }
         }
-
         
         $response = [
             "device" => [
@@ -179,31 +187,31 @@ class EndpointController extends Controller
             "command"   => $device->executeCommand(),
         ];
 
-        $properties = Cache::remember('api.enpoint.properties' . $device->id, 15, function () use ($device) {
-            return $device->getProperties;
+        $properties = Cache::remember('api.enpoint.properties' . $device->id, 60, function () use ($device) {
+             return $device->getProperties;
         });
 
+        $properties = $device->getProperties;
         foreach ($properties as $key => $property) {
+            $latestRecordLocale = $property->latestRecord;
             $propertyType = ($property->type == "relay" ? "on/off" : ($property->type == "temperature_control" ? "temp_cont" : $property->type));
-
+            
             if (!isset($data['values'][$propertyType]['value'])) {
-                if (isset($property->latestRecord)) {
-                    $response["values"][$propertyType] = (int) $property->latestRecord->value;
-                    $property->latestRecord->setAsDone();
+                if (isset($latestRecordLocale)) {
+                    $response["values"][$propertyType] = (int) $latestRecordLocale->value;
+                    if (!$latestRecordLocale->done){
+                        Cache::put('api.enpoint.properties' . (int) $latestRecordLocale->value, 60);
+                        $latestRecordLocale->setAsDone();
+                    }
+                    continue;
                 }
-                continue;
             }
 
-            $record                 = new Records;
-            $record->origin         = "device";
-            $record->value          = $data['values'][$propertyType]['value'];
-            $record->property_id    = $property->id;
-            $record->save();
-
-            Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
-
-            $response["values"][$propertyType] = (int) $record->value;
-            $property->latestRecord->setAsDone();
+            if ($latestRecordLocale->value != $data['values'][$propertyType]['value']){
+                $this->createRecord($property, $data['values'][$propertyType]['value']);
+                $property->latestRecord->setAsDone();
+            }
+            $response["values"][$propertyType] = $latestRecordLocale->value;
         }
 
         return response()->json(
@@ -296,5 +304,14 @@ class EndpointController extends Controller
         }
 
         return $property;
+    }
+
+    private function createRecord($property, $value, $origin = "device"){
+            $record                 = new Records;
+            $record->origin         = "device";
+            $record->value          = $value;
+            $record->property_id    = $property->id;
+            $record->origin         = $origin;
+            $record->save();
     }
 }
