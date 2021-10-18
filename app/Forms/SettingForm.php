@@ -13,7 +13,7 @@ class SettingForm extends Form
 {
     public function buildForm()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $this
             ->add('language', Field::SELECT, [
                 'rules' => 'required',

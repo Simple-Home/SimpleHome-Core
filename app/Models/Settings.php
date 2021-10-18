@@ -23,7 +23,7 @@ class Settings extends Model
                 return $value;
             }
         } catch (\Throwable $th) {
-            dump($this->type);
+            //dump($this->type);
         }
         return $rawValue;
     }

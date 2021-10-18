@@ -125,7 +125,7 @@ class AutomationsController extends Controller
         if ($request->ajax()) {
             $automation = new Automations;
 
-            $automation->owner_id = Auth::user()->id;
+            $automation->owner_id = auth()->user()->id;
             $automation->name = "test";
             $automation->conditions = $request->input('automation_type');
             $automation->actions = $request->input('property');

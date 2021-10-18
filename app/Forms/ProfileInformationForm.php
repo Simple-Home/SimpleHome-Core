@@ -12,7 +12,7 @@ class ProfileInformationForm extends Form
 {
     public function buildForm()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $this
             ->add('name', Field::TEXT, [
                 'rules' => 'required|max:255',

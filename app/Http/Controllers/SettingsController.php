@@ -306,7 +306,7 @@ class SettingsController extends Controller
 
     public function developments()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $tokens = Token::with('client')->get();
         $personalAccessTokens = $tokens->load('client')->filter(function ($token) {
             return $token->client->personal_access_client;
@@ -325,7 +325,7 @@ class SettingsController extends Controller
     {
         $values = $request->all();
         if ($request->ajax()) {
-            $user = Auth::user();
+            $user = auth()->user();
             $token = $user->createToken($values['tokenName'])->accessToken;
             return $token;
         }

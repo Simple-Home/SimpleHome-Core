@@ -16,13 +16,13 @@ class NotificationsController extends Controller
 
     public function list()
     {
-        $notifications = Auth::user()->notifications;
+        $notifications = auth()->user()->notifications;
         return View::make("notifications.list")->with("notifications", $notifications)->render();
     }
 
     public function read($notification_id, Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(auth()->user()->id);
         if ($notification_id == "all") {
             foreach ($user->unreadNotifications as $notification) {
                 $notification->markAsRead();
@@ -41,7 +41,7 @@ class NotificationsController extends Controller
 
     public function remove($notification_id, Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(auth()->user()->id);
         if ($notification_id == "all") {
             foreach ($user->notifications as $notification) {
                 $notification->delete();
@@ -50,7 +50,7 @@ class NotificationsController extends Controller
             $user->notifications->find($notification_id)->delete();
         }
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find(auth()->user()->id);
         if ($request->ajax()) {
             $notifications = $user->notifications;
             return View::make("notifications.list")->with("notifications", $notifications)->render();
@@ -61,7 +61,7 @@ class NotificationsController extends Controller
     
     public function countAjax()
     {
-        $notificationsCount = Auth::user()->unreadNotifications->count();
+        $notificationsCount = auth()->user()->unreadNotifications->count();
         return $notificationsCount;
     }
 }

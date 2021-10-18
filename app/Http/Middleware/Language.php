@@ -22,7 +22,7 @@ class Language
     {
         if (Auth::check()) {
             /** @var User $lang */
-            $user = Auth::user();
+            $user = auth()->user();
             // Get the user specific language
             $lang = $user->language;
             App::setLocale($lang);

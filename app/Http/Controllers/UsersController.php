@@ -69,7 +69,7 @@ class UsersController extends Controller
      */
     public function edit(User $user, FormBuilder $formBuilder)
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $profileInformationForm = $formBuilder->create(\App\Forms\ProfileInformationForm::class, [
             'model' => $user,
             'method' => 'POST',
@@ -262,7 +262,7 @@ class UsersController extends Controller
     public function remove($user_id, Request $request)
     {
         $user = User::find($user_id);
-        if ($user == Auth::user()) {
+        if ($user == auth()->user()) {
             $user->delete();
             $request->session()->invalidate();
             $request->session()->flush();
