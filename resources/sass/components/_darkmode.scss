@@ -53,3 +53,27 @@
   background-color: #111 !important;
 }
 
+[data-theme="dark"] .alert-danger {
+    color: #e53d38;
+    background-color: #4c0f0d;
+    border-color: #ff0f0a;
+}
+
+
+[data-theme="dark"] .alert-warning {
+    color: #d9c71d;
+    background-color: #8f8328;
+    border-color: #ffe700;
+}
+
+[data-theme="dark"] .alert-info {
+    color: #38a6ff;
+    background-color: #3671a1;
+    border-color: #008dff;
+}
+
+[data-theme="dark"] .alert-secondary {
+    color: #c9d6e3;
+    background-color: #828489;
+    border-color: #ffffff;
+}
