@@ -11,7 +11,7 @@ $(document).ready(function () {
             let canvas = document.createElement("canvas");
             diskElement.append(canvas);
             window.chartDisk = new Chart(canvas, {
-                type: "doughnut",
+                type: "pie",
                 data: {
                     labels: ["Free", "Used"],
                     datasets: [
@@ -136,7 +136,7 @@ $(document).ready(function () {
             }, timeout);
         }
 
-        function getChartData() {   
+        function getChartData() {
             $.ajax({
                 method: "GET",
                 headers: {

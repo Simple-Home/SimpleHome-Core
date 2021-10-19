@@ -40,8 +40,10 @@
   color: #a1a5a9 !important;
 }
 
-[data-theme="dark"] .form-control{
+[data-theme="dark"] .form-control, .form-select{
   background-color: #000;
+  color: darkgrey;
+  border-color: #444848;
 }
 
 [data-theme="dark"] .modal-header{
