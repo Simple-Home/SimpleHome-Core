@@ -12,23 +12,6 @@
                 <div class="card">
                     <div class="card-header">{{ __('simplehome.profile.informations') }}</div>
                     <div class="card-body">
-                        <a class="btn btn-danger" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('simplehome.logout') }}
-                        </a>
-                    </div>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </div>
-            </div>
-        </div>
-        <br />
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('simplehome.profile.informations') }}</div>
-                    <div class="card-body">
                         <div class="d-flex flex-row">
                             <div class="d-inline my-auto">
                                 <i class="h2 d-inline fas fa-sun"></i>

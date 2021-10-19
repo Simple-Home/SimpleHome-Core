@@ -6,10 +6,9 @@
 * add notification Counter and Dot Functions 
 * optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
 * Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
-
-
-
-
+* Add Server Time & TImezone to Settings>Diagnostics
+* Redo Setting sto ajax loader an carousell :) like home screen
+* Add Search to token wiev 
 
 # Resources:
 http://developers.sonoff.tech/

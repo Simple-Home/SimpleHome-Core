@@ -11,7 +11,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
+    @hasSection('title')
+        <title>@yield('title') - {{ config('app.name') }}</title>
+    @else
+        <title>{{ config('app.name') }}</title>
+    @endif
 
     <!-- Scripts -->
     <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
@@ -80,19 +84,31 @@
                     </div>
                 </div>
             @endif
-            <div class="col  my-auto">
-                <div class="avatars d-flex">
-                    <div title="Haitem" class="avatar">
-                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
-                    </div>
-                    <div title="Haitem" class="avatar is-offline">
-                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
-                    </div>
-                    <div title="Haitem" class="avatar">
-                        <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+            @if (strpos(Route::currentRouteName(), 'system') > -1)
+                <div class="col my-auto text-end">
+                    <a class="btn btn-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('simplehome.logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
+            @else
+                <div class="col  my-auto">
+                    <div class="avatars d-flex">
+                        <div title="Haitem" class="avatar">
+                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                        </div>
+                        <div title="Haitem" class="avatar is-offline">
+                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                        </div>
+                        <div title="Haitem" class="avatar">
+                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
 
         {{-- <div class="row">
