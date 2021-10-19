@@ -53,7 +53,7 @@ class Location extends Properties
         foreach ($places as $place){
             $latDestination = explode(",", $place->value)[0];
             $longDestination = explode(",", $place->value)[1];
-            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 20) {
+            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 70) {
                 return $place->name;
             }
         }
