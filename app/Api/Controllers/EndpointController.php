@@ -20,29 +20,29 @@ use App\Events\DeviceSetupEvent;
 class EndpointController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    * Create a new controller instance.
+    *
+    * @return void
+    */
     public function __construct()
     {
         //$this->middleware('auth');
     }
-
+    
     public function setup(Request $request)
     {
         /** @var Devices $device */
         $device = Auth::user();
-
+        
         preg_match('/^(?i)Bearer (.*)(?-i)/', $request->header('Authorization'), $token);
-
+        
         if (!isset($token[1])) {
             return response()->json(
                 ['error' => __('No token please add Bearer token to header')],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
-
+        
         $device = Devices::where('token', '=', $token[1])->first()->id;
         if (!$device) {
             $devices            = new Devices;
@@ -57,11 +57,11 @@ class EndpointController extends Controller
                 JsonResponse::HTTP_OK
             );
         }
-
+        
         if ($device->approved == 1) {
             $defaultRoom = Rooms::query()->where('default', 1)->first();
             if ($defaultRoom === null) {
-
+                
                 return response()->json(
                     ['error' => __('No default room configured, please add a default room first')],
                     JsonResponse::HTTP_BAD_REQUEST
@@ -81,7 +81,7 @@ class EndpointController extends Controller
                 $property->save();
             }
         }
-
+        
         return  response()->json(
             [
                 "hostname"  => $device->getHostname(),
@@ -90,21 +90,21 @@ class EndpointController extends Controller
             JsonResponse::HTTP_OK
         );
     }
-
+    
     public function data(Request $request)
     {
         $device = Auth::user();
         $device->setHeartbeat();
         $response = [];
-
+        
         foreach ($device->getProperties as $key => $property) {
             $propertyType = $property->type;
-
+            
             if (isset($request->$propertyType) && !is_null($request->$propertyType)) {
                 if (!Cache::has($property->id)) {
                     Cache::put($property->id, $request->$propertyType, 1800);
                 }
-
+                
                 if ($request->$propertyType != Cache::get($property->id) || !isset($property->latestRecord)) {
                     $record                 = new Records;
                     $record->value          = $request->$propertyType;
@@ -113,7 +113,7 @@ class EndpointController extends Controller
                     Cache::put($property->id, $request->$propertyType, 1800);
                 }
             }
-
+            
             if (!isset($property->latestRecord->done) || $property->latestRecord->done == 0) {
                 $value = Cache::get($property->id);
                 if (!is_null($value)) {
@@ -121,18 +121,18 @@ class EndpointController extends Controller
                 }
             }
         }
-
+        
         return response()->json(
             $response,
             JsonResponse::HTTP_OK
         );
     }
-
+    
     public function depricatedData(Request $request)
     {
         $data = $request->json()->all();
         $device = Devices::query()->where('token', '=', $data['token'])->first();
-
+        
         if (!$device) {
             $this->createDevice($data);
             return response()->json(
@@ -141,7 +141,7 @@ class EndpointController extends Controller
                 ],
                 JsonResponse::HTTP_OK
             );
-
+            
         } 
         
         $device->setHeartbeat();
@@ -155,7 +155,7 @@ class EndpointController extends Controller
                 JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
             );
         }
-
+        
         if (isset($data['values'])) {
             foreach ($data['values'] as $key => $propertyItem) {
                 $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
@@ -163,14 +163,14 @@ class EndpointController extends Controller
                     $defaultRoom = Cache::remember('controls.rooms', 15,    function () {
                         return Rooms::query()->where('default', 1)->first();
                     });
-
+                    
                     if ($defaultRoom === null) {
                         return response()->json(
                             ['error' => __('No default room configured, please add a default room first')],
                             JsonResponse::HTTP_BAD_REQUEST
                         );
                     }
-
+                    
                     $this->createProperty($device, $defaultRoom, $key, $data['token']);
                     Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
                 }
@@ -186,11 +186,11 @@ class EndpointController extends Controller
             "values"    => [],
             "command"   => $device->executeCommand(),
         ];
-
+        
         $properties = Cache::remember('api.enpoint.properties' . $device->id, 60, function () use ($device) {
-             return $device->getProperties;
+            return $device->getProperties;
         });
-
+        
         $properties = $device->getProperties;
         foreach ($properties as $key => $property) {
             $latestRecordLocale = $property->latestRecord;
@@ -206,14 +206,20 @@ class EndpointController extends Controller
                 }
                 continue;
             }
-
-            if ($latestRecordLocale->value != $data['values'][$propertyType]['value']){
+            
+            if (!isset($latestRecordLocale) || $latestRecordLocale->value != $data['values'][$propertyType]['value']){
                 $this->createRecord($property, $data['values'][$propertyType]['value']);
-                $property->latestRecord->setAsDone();
+                if (isset($latestRecordLocale)){
+                    $property->latestRecord->setAsDone();
+                }
             }
-            $response["values"][$propertyType] = $latestRecordLocale->value;
-        }
 
+            if (isset($latestRecordLocale)){
+                $response["values"][$propertyType] = $latestRecordLocale->value;
+            }
+           
+        }
+        
         return response()->json(
             $response,
             JsonResponse::HTTP_OK,
@@ -221,14 +227,14 @@ class EndpointController extends Controller
             JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
         );
     }
-
+    
     public function depricatedOta(Request $request)
     {
         $data = $request->json()->all();
-
+        
         $macAddress = $request->header('HTTP_X_ESP8266_STA_MAC');
         $localBinary = storage_path('app/firmware/12-asrassrar158.png'); // . str_replace(':', '', $macAddress) . ".bin";
-
+        
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
                 $headers = [
@@ -245,13 +251,13 @@ class EndpointController extends Controller
             return response(null, 404);
         }
     }
-
+    
     public function ota(Request $request)
     {
         $data["error"] = "Not yet supported";
         return response()->json($data, 200);
     }
-
+    
     private function createDevice($data)
     {
         $devices                    = new Devices;
@@ -259,7 +265,7 @@ class EndpointController extends Controller
         $devices->hostname          = $data['token'];
         $devices->integration       = 'others';
         $devices->approved          = 0;
-
+        
         if (isset($data['values']["on/off"])) {
             $devices->type              = 'relay';
         } elseif (isset($data['values']["temp_cont"])) {
@@ -267,14 +273,14 @@ class EndpointController extends Controller
         } else {
             $devices->type              = 'senzor';
         }
-
+        
         $devices->save();
-
+        
         foreach (User::all() as $user) {
             $user->notify(new NewDeviceNotification($devices));
         }
     }
-
+    
     private function createProperty($device, $defaultRoom, $propertyType, $token)
     {
         $property               = new Properties;
@@ -285,7 +291,7 @@ class EndpointController extends Controller
         $property->room_id      = $defaultRoom->id;
         $property->history      = 90;
         $property->save();
-
+        
         if ($propertyType == "temp_cont") {
             $group = "property-" . $property->id;
             $settings = [
@@ -293,7 +299,7 @@ class EndpointController extends Controller
                 "max" => "30",
                 "step" => "3",
             ];
-
+            
             if (isset($settings)) {
                 foreach ($settings as $indexs => $value) {
                     if (SettingManager::get($indexs, $group) == false) {
@@ -302,16 +308,16 @@ class EndpointController extends Controller
                 }
             }
         }
-
+        
         return $property;
     }
-
+    
     private function createRecord($property, $value, $origin = "device"){
-            $record                 = new Records;
-            $record->origin         = "device";
-            $record->value          = $value;
-            $record->property_id    = $property->id;
-            $record->origin         = $origin;
-            $record->save();
+        $record                 = new Records;
+        $record->origin         = "device";
+        $record->value          = $value;
+        $record->property_id    = $property->id;
+        $record->origin         = $origin;
+        $record->save();
     }
 }
