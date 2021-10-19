@@ -6,19 +6,23 @@
 @endsection
 
 @section('content')
-    @if (!empty($automations))
-        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-            @foreach ($automations as $automation)
-                <div class="col-lg-4 col-md-6 col-12 p-0"
-                    onclick="location.href='{{ route('automations.run', ['automation_id' => $automation->id]) }}';"
-                    style="cursor: pointer;">
-                    @include('automations.components.automation', $automation)
+    <div id="carouselExampleSlidesOnly" class="carousel slide h-100" data-bs-wrap="false" data-bs-keyboard="true"
+        data-bs-ride="carousel" data-bs-touch="true" data-bs-interval="false">
+        <div class="carousel-inner h-100">
+            @foreach (['automations', 'scenes'] as $type)
+                <div class="carousel-item h-100" data-automation-type="{{ $type }}"
+                    data-url="{{ route('automations.ajax.list', ['type' => $type]) }}">
+                    <div class="d-flex h-100">
+                        <div class="text-center m-auto">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
-    @else
-        <p class="text-center">{{ __('simplehome.automation.nothing') }}</p>
-    @endif
+    </div>
 @endsection
 
 @section('modal')

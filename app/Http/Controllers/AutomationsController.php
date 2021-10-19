@@ -13,65 +13,74 @@ use Carbon\Carbon;
 class AutomationsController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    * Create a new controller instance.
+    *
+    * @return void
+    */
     public function __construct()
     {
         $this->middleware('auth');
     }
-
+    
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function list()
+    * Show the application dashboard.
+    *
+    * @return \Illuminate\Contracts\Support\Renderable
+    */
+    public function index()
     {
-        $automations = Automations::all();
-        return view('automations.list', compact('automations'));
+        return view('automations.index');
     }
-
+    
+    public function listAjax($type = "automations", Request $request)
+    {
+        if ($request->ajax()) {
+            $automations = Automations::all();
+            return View::make("automations.ajax.list")->with("automations", $automations)->render();
+        }
+        return redirect()->back();
+    }
+    
+    
     public function remove($automation_id)
     {
         $automations = Automations::find($automation_id);
         $automations->delete();
         return redirect()->route('automations.list');
     }
-
+    
     public function enableAjax($automation_id, Request $request)
     {
         $automation = Automations::find($automation_id);
         $automation->is_enabled = True;
         $automation->save();
-
+        
         if (!$request->ajax()) {
             return redirect()->route('automations.list');
         }
-
+        
         return response()->json([
             "icon" => ($automation->is_enabled == 1 ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>"),
             "url" => route('automations.disable', ['automation_id' => $automation->id]),
         ]);
     }
-
+    
     public function disableAjax($automation_id, Request $request)
     {
         $automation = Automations::find($automation_id);
         $automation->is_enabled = False;
         $automation->save();
-
+        
         if (!$request->ajax()) {
             return redirect()->route('automations.list');
         }
-
+        
         return response()->json([
             "icon" => ($automation->is_enabled == 1 ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>"),
             "url" => route('automations.enable', ['automation_id' => $automation->id]),
         ]);
     }
-
+    
     public function runAjax($automation_id, Request $request){
         $automation = Automations::find($automation_id);
         if ($automation->is_enabled){
@@ -80,7 +89,7 @@ class AutomationsController extends Controller
         }
         return redirect()->back();
     }
-
+    
     public function tasksAjax(Request $request)
     {
         if ($request->ajax()) {
@@ -89,8 +98,8 @@ class AutomationsController extends Controller
         }
         return redirect()->back();
     }
-
-
+    
+    
     public function propertyesAjax(Request $request)
     {
         
@@ -101,7 +110,7 @@ class AutomationsController extends Controller
         }
         return redirect()->back();
     }
-
+    
     public function rulesAjax(Request $request){
         if ($request->ajax()) {
             $propertyesSelectionIds = $request->input('properties_selection');
@@ -110,7 +119,7 @@ class AutomationsController extends Controller
         }
         return redirect()->back();
     }
-
+    
     public function setAjax(Request $request){
         if ($request->ajax()) {
             $propertyesSelectionIds = $request->input('properties_selection');
@@ -120,18 +129,19 @@ class AutomationsController extends Controller
         }
         return redirect()->back();
     }
-
+    
     public function finishAjax(Request $request){
         if ($request->ajax()) {
             $automation = new Automations;
-
+            
             $automation->owner_id = auth()->user()->id;
             $automation->name = "test";
             $automation->conditions = $request->input('automation_type');
             $automation->actions = $request->input('property');
-
+            
             $automation->save();
         }
         return "done";
     }
+    
 }

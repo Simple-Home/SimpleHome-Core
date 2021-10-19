@@ -42,13 +42,18 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 
 //Automations
 Route::namespace('automations')->prefix('automations')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\AutomationsController::class, 'index'])->name('automations.index');
+
+
     Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/remove', [App\Http\Controllers\AutomationsController::class, 'remove'])->name('automations.remove');
     Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/enable', [App\Http\Controllers\AutomationsController::class, 'enableAjax'])->name('automations.enable');
     Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/disable', [App\Http\Controllers\AutomationsController::class, 'disableAjax'])->name('automations.disable');
     Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/run', [App\Http\Controllers\AutomationsController::class, 'runAjax'])->name('automations.run');
 
+    Route::middleware(['auth', 'verified', 'language'])->post('/list/{type}/ajax', [App\Http\Controllers\AutomationsController::class, 'listAjax'])->name('automations.ajax.list');
+    
     Route::middleware(['auth', 'verified', 'language'])->get('/tasks/ajax', [App\Http\Controllers\AutomationsController::class, 'tasksAjax'])->name('automations.tasks');
+    
     Route::middleware(['auth', 'verified', 'language'])->get('/properties/selection/ajax', [App\Http\Controllers\AutomationsController::class, 'propertyesAjax'])->name('automations.propertie.selection');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/rules/ajax', [App\Http\Controllers\AutomationsController::class, 'rulesAjax'])->name('automations.propertie.rules');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setAjax'])->name('automations.propertie.set');

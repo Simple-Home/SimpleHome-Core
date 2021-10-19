@@ -24,9 +24,6 @@
     </script>
     <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script
-        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
@@ -46,9 +43,42 @@
 
     <!-- PWA Manifest -->
     @laravelPWA
+
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+
+    </script>
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected) {
+            localStorage.setItem("darkSwitch", "dark");
+            $('head meta[name="theme-color"]').attr('content', '#111');
+        } else {
+            localStorage.removeItem("darkSwitch");
+            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+        }
+
+        if (!isMobile()) {
+            $('head meta[name="theme-color"]').attr('content', '#1cca50');
+        }
+    </script>
 </head>
 
 <body>
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected && document.body.getAttribute("data-theme") != "dark") {
+            document.body.setAttribute("data-theme", "dark");
+            console.log("darkmode-set");
+        } else {
+            document.body.removeAttribute("data-theme");
+        }
+    </script>
     <div class="container nav-bar-padding h-100 d-flex flex-column">
         <div class="row justify-content-between header">
             @if (!session('dashboard'))
@@ -94,7 +124,7 @@
                         @csrf
                     </form>
                 </div>
-            @else
+            @elseif (strpos(Route::currentRouteName(), 'controls') > -1)
                 <div class="col  my-auto">
                     <div class="avatars d-flex">
                         <div title="Haitem" class="avatar">
@@ -172,28 +202,6 @@
                 </div>
             </nav>
         @endif
-        <script defer>
-            $(document).ready(function() {
-                var darkThemeSelected =
-                    localStorage.getItem("darkSwitch") !== null &&
-                    localStorage.getItem("darkSwitch") === "dark";
-
-                $('#flexDarkModeSwitch').prop("checked", darkThemeSelected)
-
-                if (darkThemeSelected) {
-                    document.body.setAttribute("data-theme", "dark");
-                    localStorage.setItem("darkSwitch", "dark");
-                    $('head meta[name="theme-color"]').attr('content', '#111');
-                } else {
-                    document.body.removeAttribute("data-theme");
-                    localStorage.removeItem("darkSwitch");
-                    $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
-                }
-                if (!isMobile()) {
-                    $('head meta[name="theme-color"]').attr('content', '#1cca50');
-                }
-            });
-        </script>
         <!-- Full screen modal -->
         @auth
             @yield('modal')
@@ -241,10 +249,20 @@
             </script>
         @endif
         @yield('beforeBodyEnd')
-        <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        <script
+                src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
-        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        <script
+                src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
+
+        @if (strpos(Route::currentRouteName(), 'controls') > -1)
+            <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+            </script>
+        @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
+            <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+            </script>
+        @endif
 </body>
 
 </html>

@@ -27,21 +27,7 @@
                             </div>
                             <script>
                                 $(document).ready(function() {
-                                    var darkThemeSelected =
-                                        localStorage.getItem("darkSwitch") !== null &&
-                                        localStorage.getItem("darkSwitch") === "dark";
-
                                     $('#flexDarkModeSwitch').prop("checked", darkThemeSelected)
-
-                                    if (darkThemeSelected) {
-                                        document.body.setAttribute("data-theme", "dark");
-                                        localStorage.setItem("darkSwitch", "dark");
-                                        $('head meta[name="theme-color"]').attr('content', '#111');
-                                    } else {
-                                        document.body.removeAttribute("data-theme");
-                                        localStorage.removeItem("darkSwitch");
-                                        $('head meta[name="theme-color"]').attr('content', '#F0F1F5');
-                                    }
                                 });
 
                                 $('#flexDarkModeSwitch').change(function() {

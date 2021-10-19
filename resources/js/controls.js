@@ -1,3 +1,4 @@
+console.log("Loading JS Controller for -> Control Namme Space")
 window.addEventListener("load", function () {
     var loadingAnimation = true;
     if ($("div.carousel-item").length) {

@@ -16,9 +16,6 @@
     </script>
     <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script
-        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
 
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
         defer></script>
@@ -43,25 +40,43 @@
         }
 
     </style>
-
-    <script defer>
-        window.addEventListener("load", function() {
-            var darkThemeSelected =
-                localStorage.getItem("darkSwitch") !== null &&
-                localStorage.getItem("darkSwitch") === "dark";
-            if (darkThemeSelected) {
-                document.body.setAttribute("data-theme", "dark");
-            } else {
-                document.body.removeAttribute("data-theme");
-            }
-        });
-    </script>
-
     <!-- PWA Manifest -->
     @laravelPWA
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+
+    </script>
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected) {
+            localStorage.setItem("darkSwitch", "dark");
+            $('head meta[name="theme-color"]').attr('content', '#111');
+        } else {
+            localStorage.removeItem("darkSwitch");
+            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+        }
+
+        if (!isMobile()) {
+            $('head meta[name="theme-color"]').attr('content', '#1cca50');
+        }
+    </script>
 </head>
 
 <body>
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected && document.body.getAttribute("data-theme") != "dark") {
+            document.body.setAttribute("data-theme", "dark");
+            console.log("darkmode-set");
+        } else {
+            document.body.removeAttribute("data-theme");
+        }
+    </script>
     <div class="container nav-bar-padding">
         <div class="row">
             <div class="col p-md-0">
@@ -135,10 +150,10 @@
             </div>
         </div>
     @endauth
-
-    @yield('beforeBodyEnd')
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    <script
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
+    @yield('beforeBodyEnd')
     <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 </body>

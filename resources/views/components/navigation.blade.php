@@ -19,8 +19,8 @@
     </a>
 </li>
 <li class="nav-item btn-sq">
-    <a href="{{ route('automations.list') }}"
-        class="nav-link btn-sq {{ Route::currentRouteName() == 'automations.list' ? 'active' : '' }} text-center ">
+    <a href="{{ route('automations.index') }}"
+        class="nav-link btn-sq {{ Route::currentRouteName() == 'automations.index' ? 'active' : '' }} text-center ">
         <i class="fa fa-clock m-auto"></i><span class="d-none ms-md-2 d-md-inline">Automations</span>
 
     </a>

@@ -1,5 +1,8 @@
-var staticCacheName = "pwa-v" + new Date().getTime();
+var staticCacheName = "pwa-v-" + new Date().getTime();
+
 var filesToCache = [
+    'controls',
+    'automations',
     'offline',
     'css/app.css',
     'js/app.js',
@@ -37,7 +40,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-")))
+                    .filter(cacheName => (cacheName.startsWith("pwa-v-")))
                     .filter(cacheName => (cacheName !== staticCacheName))
                     .map(cacheName => caches.delete(cacheName))
             );
@@ -57,3 +60,13 @@ self.addEventListener("fetch", event => {
             })
     )
 });
+
+// Push Recive
+self.addEventListener("push", function (event) {
+    if (event.data) {
+        event.waitUntil(
+            self.registration.showNotification(event.data + "test ggg test")
+        );
+    }
+});
+

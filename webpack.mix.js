@@ -22,8 +22,20 @@ mix.scripts([
 ], 'public/js/controls.js');
 
 mix.scripts([
+    'resources/js/automations.js',
+], 'public/js/automations.js');
+
+mix.scripts([
     'resources/js/notifications.js',
 ], 'public/js/notifications.js');
+
+mix.scripts([
+    'resources/js/serviceworker.js',
+], 'public/serviceworker.js');
+
+mix.scripts([
+    'resources/js/push-notifications.js',
+], 'public/js/push-notifications.js');
 
 mix.js("resources/js/app.js", "public/js")
     .version()

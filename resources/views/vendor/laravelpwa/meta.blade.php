@@ -29,15 +29,37 @@
 
 <script type="text/javascript">
     // Initialize the service worker
+
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{{ asset('serviceworker.js') }}", {
-            scope: '.'
-        }).then(function(registration) {
-            // Registration was successful
-            console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
-        }, function(err) {
-            // registration failed :(
-            console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+        window.addEventListener('load', function() {
+
+            navigator.serviceWorker.register(
+                "{{ asset('serviceworker.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}", {
+                    scope: 'https:{{ env('APP_URL') }}'
+                }).then(function(registration) {
+                // Registration was successful
+                console.log('Laravel PWA: ServiceWorker registration successful with scope: ',
+                    registration.scope);
+
+                registration.addEventListener('updatefound', function() {
+                    console.log("Update Found");
+                });
+
+                var refreshing;
+                registration.addEventListener('controllerchange', function() {
+                    if (refreshing) return;
+                    console.log("Update Reload");
+                    window.location.reload();
+                    refreshing = true;
+                });
+
+                if (registration.waiting) {
+                    console.log('Service working in skipwaiting state.');
+                }
+            }, function(err) {
+                // registration failed :(
+                console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+            });
         });
     }
 </script>

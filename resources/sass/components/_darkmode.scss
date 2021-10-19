@@ -40,7 +40,7 @@
   color: #a1a5a9 !important;
 }
 
-[data-theme="dark"] .form-control, .form-select{
+[data-theme="dark"] .form-control, [data-theme="dark"] .form-select{
   background-color: #000;
   color: darkgrey;
   border-color: #444848;
@@ -60,7 +60,6 @@
     background-color: #4c0f0d;
     border-color: #ff0f0a;
 }
-
 
 [data-theme="dark"] .alert-warning {
     color: #d9c71d;
