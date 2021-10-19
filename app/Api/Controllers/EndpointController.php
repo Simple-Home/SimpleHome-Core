@@ -2,20 +2,20 @@
 
 namespace App\Api\Controllers;
 
-use App\Events\DeviceSetupEvent;
-use App\Models\Devices;
-use App\Models\Properties;
-use App\Models\Records;
-use App\Models\Rooms;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use App\Helpers\SettingManager;
-use App\Models\User;
-use App\Notifications\NewDeviceNotification;
 use PhpParser\Node\Stmt\Foreach_;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Notifications\NewDeviceNotification;
+use App\Models\User;
+use App\Models\Rooms;
+use App\Models\Records;
+use App\Models\Properties;
+use App\Models\Devices;
+use App\Http\Controllers\Controller;
+use App\Helpers\SettingManager;
+use App\Events\DeviceSetupEvent;
 
 class EndpointController extends Controller
 {
@@ -203,8 +203,8 @@ class EndpointController extends Controller
                         Cache::put('api.enpoint.properties' . (int) $latestRecordLocale->value, 60);
                         $latestRecordLocale->setAsDone();
                     }
-                    continue;
                 }
+                continue;
             }
 
             if ($latestRecordLocale->value != $data['values'][$propertyType]['value']){
