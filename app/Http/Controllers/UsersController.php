@@ -96,9 +96,6 @@ class UsersController extends Controller
             'url' => route('system.profile.delete', ['user' => $user])
         ]);
 
-
-
-
         return view('system.profile.detail', ['user' => $user] + compact('notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
     }
 
@@ -121,7 +118,7 @@ class UsersController extends Controller
         $user->name = $request->input('name');
 
         $user->save();
-        return redirect()->route('user');
+        return redirect()->route('system.profile');
     }
 
     /**
@@ -143,7 +140,7 @@ class UsersController extends Controller
         $user->language = $request->input('language');
 
         $user->save();
-        return redirect()->route('system.user.profile', ['#settings'])->with('success', __('web.settingsSaved'));
+        return redirect()->route('system.profile', ['#settings'])->with('success', __('web.settingsSaved'));
     }
 
     /**
@@ -222,7 +219,7 @@ class UsersController extends Controller
         }
 
         $user->save();
-        return redirect()->route('system.user.profile');
+        return redirect()->route('system.profile');
     }
 
     /**
