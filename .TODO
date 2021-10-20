@@ -10,6 +10,8 @@
 * Redo Setting sto ajax loader an carousell :) like home screen
 * Add Search to token wiev 
 * Remove Custome CSS from app.sass to custome sass file
+* Nastilovat SW Update Notifikaci
+* Periodical check for update of SW
 
 # Resources:
 http://developers.sonoff.tech/
