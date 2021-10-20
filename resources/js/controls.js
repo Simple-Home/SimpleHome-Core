@@ -84,15 +84,21 @@ $('body').on('click', 'i.control-range', function (event) {
     } else if ($(this).data('control-type') == "-") {
         var num = +valueInput.val() - 1;
     }
+    console.log(valueInput.attr('min'), valueInput.attr('max'))
 
     if (num >= valueInput.attr('min') && num <= valueInput.attr('max')) {
-        console.log(valueInput.attr('min'), valueInput.attr('max'))
-        valueInput.val(num);
-        clearTimeout(timer);
-        timer = window.setTimeout(rangeDeamon, 2000);
     } else {
         console.log("Out Of Range");
+        if (num < valueInput.attr('min')) {
+            num = valueInput.attr('min');
+        } else if (num > valueInput.attr('max')) {
+            num = valueInput.attr('max');
+        }
     }
+
+    valueInput.val(num);
+    clearTimeout(timer);
+    timer = window.setTimeout(rangeDeamon, 2000);
 });
 
 $('body').on('click', 'div.control-relay', function (event) {

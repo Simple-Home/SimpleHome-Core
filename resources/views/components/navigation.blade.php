@@ -9,13 +9,13 @@
         class="nav-link btn-sq position-relative text-center" data-url="{{ route('notifications.ajax.count') }}">
         <i class="fa fa-bell">
             <span
-                class="notification-badge position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-inline d-md-none">
+                class="notification-badge position-absolute top-0 p-1 bg-danger border border-light rounded-circle d-md-none">
                 <span class="visually-hidden">New alerts</span>
             </span>
         </i>
         <span class="d-none ms-md-2 d-md-inline">Events</span>
         <span id="notification-count"
-            class="notification-badge d-none btn-sq ms-md-2 d-md-inline badge rounded-pill bg-danger">#</span>
+            class="notification-badge d-none btn-sq ms-md-2 badge rounded-pill bg-danger">#</span>
     </a>
 </li>
 <li class="nav-item btn-sq">
