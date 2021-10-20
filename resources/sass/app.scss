@@ -101,4 +101,9 @@ input[type=number].range-value::-webkit-inner-spin-button {
 input.range-value {
     background-color: transparent;
     border: 0;
+    font-size: 24px;
+    font-weight: 800;
+    vertical-align: text-top;
+    width:2ch;
+    height: 24px; 
 }

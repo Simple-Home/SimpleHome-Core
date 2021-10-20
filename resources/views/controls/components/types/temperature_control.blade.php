@@ -2,14 +2,14 @@
 <?php $stepValue = $property->step_setting_value; ?>
 <?php $integration = $property->device->integration; ?>
 
-<div class="ms-auto d-inline text-center">
-    <div class="h2 control-range m-0" data-control-type="+">
-        +
-    </div>
-    <input class="range-value" type="number"
+<div class="ms-auto text-center">
+    <i class="control-range fas fa-angle-up d-inline me-1" data-control-type="+"></i>
+    <input class="range-value  d-inline" maxlength="2" size="1" type="number"
         data-url="{{ route($integration . '.set', ['properti_id' => $property->id, 'value' => 'value']) }}"
-        data-control-step="{{ $stepValue }}" value="{{ $lastValue }}" min="0" max="99" />
-    <div class="h2 control-range  m-0" data-control-type="-">
-        -
-    </div>
+        data-control-step="{{ $stepValue }}" value="{{ $lastValue }}" min="{{ $property->min_setting_value }}"
+        max="{{ $property->max_setting_value }}" />
+    <small style="color: #686e73;" class="d-inline">
+        {{ $property->units }}
+    </small>
+    <i class="control-range fas fa-angle-down d-inline ms-1" data-control-type="-"></i>
 </div>

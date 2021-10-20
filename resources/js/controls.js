@@ -76,7 +76,8 @@ window.addEventListener("load", function () {
     });
 });
 
-$('body').on('click', 'div.control-range', function (event) {
+$('body').on('click', 'i.control-range', function (event) {
+    navigator.vibrate([10]);
     var valueInput = $(".range-value");
     if ($(this).data('control-type') == "+") {
         var num = +valueInput.val() + 1;
@@ -84,21 +85,14 @@ $('body').on('click', 'div.control-range', function (event) {
         var num = +valueInput.val() - 1;
     }
 
-    if (valueInput.attr('min') <= num && valueInput.attr('max') >= num) {
-        navigator.vibrate([10]);
+    if (num >= valueInput.attr('min') && num <= valueInput.attr('max')) {
+        console.log(valueInput.attr('min'), valueInput.attr('max'))
         valueInput.val(num);
         clearTimeout(timer);
         timer = window.setTimeout(rangeDeamon, 2000);
+    } else {
+        console.log("Out Of Range");
     }
-});
-
-$('body').on('change', 'input.control-value', function (event) {
-    console.log("test")
-
-});
-
-$('.control-value').on('input', function () {
-    console.log('this actually works');
 });
 
 $('body').on('click', 'div.control-relay', function (event) {
@@ -123,9 +117,6 @@ $('body').on('click', 'div.control-relay', function (event) {
     });
 });
 
-$('body').on('click', 'div.control-range', function (event) {
-
-});
 
 var lastLoad = new Date().getTime();
 $("div#ajax-loader").click(function (event) {
