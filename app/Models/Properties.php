@@ -11,6 +11,8 @@ use App\Models\Devices;
 use App\Models\Records;
 use App\Models\Rooms;
 
+use App\Types\DeviceTypes;
+
 use App\Helpers\SettingManager;
 use App\Types\GraphPeriod;
 
@@ -73,7 +75,6 @@ class Properties extends Model
 
         if (class_exists($class)) {
             $model = new $class();
-
             // Important
             $model->exists = true;
             $model->setTable($this->getTable());

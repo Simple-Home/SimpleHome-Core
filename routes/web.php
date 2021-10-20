@@ -89,6 +89,11 @@ Route::namespace('room')->prefix('room')->group(function () {
 
 //System Settings
 Route::namespace('system')->prefix('system')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('/refresh-csrf', function() {
+        // if ($request->header('X-CSRF-TOKEN') != csrf_token()) {
+        // }
+        return response()->json(['token' => csrf_token()]);
+    })->name('system.refresh.csrf');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.run');

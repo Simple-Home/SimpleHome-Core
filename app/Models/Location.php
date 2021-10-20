@@ -6,6 +6,7 @@ use App\Models\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use App\Helpers\SettingManager;
+use App\Models\Properties;
 
 class Location extends Properties
 {
@@ -53,7 +54,7 @@ class Location extends Properties
         foreach ($places as $place){
             $latDestination = explode(",", $place->value)[0];
             $longDestination = explode(",", $place->value)[1];
-            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 70) {
+            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 200) {
                 return $place->name;
             }
         }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Properties;
 
 class Humi extends Properties
 {

@@ -250,12 +250,17 @@
         @endif
         @yield('beforeBodyEnd')
         <script
+                src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+        <script>
+            refreshCSRF('{{ route('system.refresh.csrf') }}');
+        </script>
+        <script
                 src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
         <script
                 src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
-
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
             <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
             </script>

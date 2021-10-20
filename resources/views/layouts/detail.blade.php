@@ -150,11 +150,14 @@
             </div>
         </div>
     @endauth
+
+    @yield('beforeBodyEnd')
     <script
         src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    @yield('beforeBodyEnd')
-    <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    <script
+        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 </body>
 

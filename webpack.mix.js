@@ -37,6 +37,11 @@ mix.scripts([
     'resources/js/push-notifications.js',
 ], 'public/js/push-notifications.js');
 
+mix.scripts([
+    'resources/js/refresh-csrf.js',
+], 'public/js/refresh-csrf.js');
+
+
 mix.js("resources/js/app.js", "public/js")
     .version()
     .extract([
