@@ -1,3 +1,5 @@
+const app = null;
+
 var startPermission = Notification.permission;
 Notification.requestPermission(function (status) {
     console.log("NotificationsStatus: ", status);
@@ -5,3 +7,8 @@ Notification.requestPermission(function (status) {
         window.location.reload();
     }
 });
+
+if (Notification.permission === "granted") {
+
+}
+

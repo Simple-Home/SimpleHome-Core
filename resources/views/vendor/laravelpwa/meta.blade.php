@@ -27,39 +27,102 @@
 <meta name="msapplication-TileColor" content="{{ $config['background_color'] }}">
 <meta name="msapplication-TileImage" content="{{ asset(data_get(end($config['icons']), 'src')) }}">
 
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js">
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
 <script type="text/javascript">
     // Initialize the service worker
+    let newWorker;
+    var refreshing;
+    window.addEventListener('load', function() {
 
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
+        // The click event on the notification
+        $('body').on('click', 'a#reload', function(event) {
+            newWorker.postMessage({
+                action: 'skipWaiting'
+            });
+        });
 
+        if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(
                 "{{ asset('serviceworker.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}", {
                     scope: 'https:{{ env('APP_URL') }}'
                 }).then(function(registration) {
-                // Registration was successful
-                console.log('Laravel PWA: ServiceWorker registration successful with scope: ',
-                    registration.scope);
+                    // Registration was successful
+                    console.log(
+                        'Laravel PWA: ServiceWorker registration successful with scope: ',
+                        registration.scope);
 
-                registration.addEventListener('updatefound', function() {
-                    console.log("Update Found");
+                    registration.addEventListener('updatefound', function() {
+                        console.log("Update Found");
+
+                        newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            // Has service worker state changed?
+                            switch (newWorker.state) {
+                                case 'installed':
+                                    console.log("Update installed");
+                                    // There is a new service worker available, show the notification
+                                    if (navigator.serviceWorker.controller) {
+                                        let notification = document
+                                            .getElementById(
+                                                'notification');
+                                        notification.className = 'd-block';
+                                    }
+
+                                    break;
+                            }
+                        });
+                    });
+
+                    if (Notification.permission === "granted") {
+                        var firebaseConfig = {
+                            apiKey: "{{ env('FIREBASE_API_KEY') }}",
+                            authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",
+                            databaseURL: "{{ env('FIREBASE_DB_URL') }}",
+                            projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
+                            storageBucket: "{{ env('FIREBASE_STORAGE_BUCKET') }}",
+                            messagingSenderId: "{{ env('FIREBASE_MESSAGING_SENDER_ID') }}",
+                            appId: "{{ env('FIREBASE_AP_ID') }}"
+                        };
+
+                        if (!firebase.apps.length) {
+                            firebase.initializeApp(firebaseConfig);
+                        } else {
+                            firebase.app(); // if already initialized, use that one
+                        }
+
+                        const messaging = firebase.messaging.isSupported() ?
+                            firebase.messaging() :
+                            null;
+
+                        var pushtoken = localStorage.getItem('pushtoken') || null;
+
+                        if (pushtoken == null) {
+                            messaging.getToken({
+                                vapidKey: '{{ env('FIREBASE_VAPY_KEY') }}',
+                                serviceWorkerRegistration: registration
+                            }).then(function(token) {
+                                pushtoken = token;
+                                localStorage.setItem('pushtoken', token);
+                            });
+                        }
+
+                        console.log(pushtoken);
+                    }
+
+                },
+                function(err) {
+                    // registration failed :(
+                    console.log('Laravel PWA: ServiceWorker registration failed: ', err);
                 });
+        }
 
-                var refreshing;
-                registration.addEventListener('controllerchange', function() {
-                    if (refreshing) return;
-                    console.log("Update Reload");
-                    window.location.reload();
-                    refreshing = true;
-                });
-
-                if (registration.waiting) {
-                    console.log('Service working in skipwaiting state.');
-                }
-            }, function(err) {
-                // registration failed :(
-                console.log('Laravel PWA: ServiceWorker registration failed: ', err);
-            });
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+            if (refreshing) return;
+            console.log("Update Reload");
+            window.location.reload();
+            refreshing = true;
         });
-    }
+    });
 </script>

@@ -93,3 +93,12 @@ $line-height-base: 1.5;
 .device-container {
     line-height: 1;
 }
+
+input[type=number].range-value::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input.range-value {
+    background-color: transparent;
+    border: 0;
+}

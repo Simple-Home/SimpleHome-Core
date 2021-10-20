@@ -76,6 +76,31 @@ window.addEventListener("load", function () {
     });
 });
 
+$('body').on('click', 'div.control-range', function (event) {
+    var valueInput = $(".range-value");
+    if ($(this).data('control-type') == "+") {
+        var num = +valueInput.val() + 1;
+    } else if ($(this).data('control-type') == "-") {
+        var num = +valueInput.val() - 1;
+    }
+
+    if (valueInput.attr('min') <= num && valueInput.attr('max') >= num) {
+        navigator.vibrate([10]);
+        valueInput.val(num);
+        clearTimeout(timer);
+        timer = window.setTimeout(rangeDeamon, 2000);
+    }
+});
+
+$('body').on('change', 'input.control-value', function (event) {
+    console.log("test")
+
+});
+
+$('.control-value').on('input', function () {
+    console.log('this actually works');
+});
+
 $('body').on('click', 'div.control-relay', function (event) {
     navigator.vibrate([10]);
     thisObj = $(this);
@@ -96,6 +121,10 @@ $('body').on('click', 'div.control-relay', function (event) {
         },
         timeout: 3000,
     });
+});
+
+$('body').on('click', 'div.control-range', function (event) {
+
 });
 
 var lastLoad = new Date().getTime();

@@ -120,6 +120,27 @@ function display_notifications_deamon() {
     notificationsRefresh = setTimeout('display_notifications()', refresh)
 }
 
+var timer = null;
+function rangeDeamon() {
+    var valueInput = $(".range-value");
+    setRange(valueInput);
+}
+
+function setRange(inpurtTarget) {
+    $.ajax({
+        type: 'POST',
+        url: inpurtTarget.data("url").replace('value', inpurtTarget.val()),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (msg) { },
+        error: function () {
+            //timeout
+        },
+        timeout: 3000,
+    });
+}
+
 /*
 if ($(window).width() < 768) {
 

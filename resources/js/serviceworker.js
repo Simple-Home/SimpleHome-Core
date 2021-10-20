@@ -6,6 +6,7 @@ var filesToCache = [
     'offline',
     'css/app.css',
     'js/app.js',
+    'js/refresh-csrf.js',
     'js/manifest.js',
     'js/vendor.js',
     'images/icons/icon-72x72.png',
@@ -20,7 +21,6 @@ var filesToCache = [
 
 // Cache on install
 self.addEventListener("install", event => {
-    this.skipWaiting();
     event.waitUntil(
         caches.open(staticCacheName)
             .then(cache => {
@@ -70,3 +70,21 @@ self.addEventListener("push", function (event) {
     }
 });
 
+// Message Reciev
+self.addEventListener('message', function (event) {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+        event.waitUntil(
+            caches.open(staticCacheName)
+                .then(cache => {
+                    try {
+                        console.log("cache clean")
+                        return cache.addAll(filesToCache);
+                    }
+                    catch (ex) {
+                        Log("Caught exception: " + ex);
+                    }
+                })
+        )
+    }
+});

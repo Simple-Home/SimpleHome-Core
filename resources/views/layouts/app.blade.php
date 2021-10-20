@@ -154,6 +154,17 @@
                 </div>
             </div> --}}
 
+        <div class="row d-none" id="notification">
+            <div class="col p-md-0">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"> new version of this app is available</p> <a class="btn-primary"
+                            id="reload" href="#">UPDATE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col p-md-0">
                 <nav class="navbar p-0 overflow-auto text-nowrap no-scrool-bar" style="">
@@ -249,6 +260,8 @@
             </script>
         @endif
         @yield('beforeBodyEnd')
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+
         <script
                 src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
