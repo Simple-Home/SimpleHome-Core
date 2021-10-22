@@ -42,16 +42,16 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        $rooms = Cache::remember('controls.rooms', 1, function (){
-             return Rooms::with(['properties', 'properties.device' => function ($query) { 
-                    $query->select('id');
-                    return $query->where('approved', 1); 
-                }])->get()->filter(function ($item) {
-                    if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
-                        return $item;
-                    }
-             });
-         });
+        $rooms = Cache::remember('controls.rooms', 1, function () {
+            return Rooms::with(['properties', 'properties.device' => function ($query) {
+                $query->select('id');
+                return $query->where('approved', 1);
+            }])->get()->filter(function ($item) {
+                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                    return $item;
+                }
+            });
+        });
 
         return view('controls.list', compact('rooms', 'roomForm'));
     }
@@ -82,6 +82,7 @@ class ControlsController extends Controller
                 "backgroundColor" => "rgba(220,220,220,0.5)",
                 "borderColor" => "rgba(0,0,0,1)",
                 //"tension" => 0.4,
+                //"borderWidth" => 1.2,
                 "pointRadius" => 0,
                 "data" => $maxs,
                 "data" => $values,
@@ -91,6 +92,8 @@ class ControlsController extends Controller
                 "backgroundColor" => "rgba(220,220,220,0.5)",
                 "borderColor" => "rgba(0,0,0,1)",
                 //"tension" => 0.4,
+                //"borderWidth" => 1.5,
+                "borderDash" => [5, 5],
                 "pointRadius" => 0,
                 "data" => $mins,
             ],
@@ -99,6 +102,8 @@ class ControlsController extends Controller
                 "backgroundColor" => "rgba(220,220,220,0.5)",
                 "borderColor" => "rgba(0,0,0,1)",
                 //"tension" => 0.4,
+                //"borderWidth" => 1.5,
+                "borderDash" => [5, 5],
                 "pointRadius" => 0,
                 "data" => $maxs,
             ],
@@ -128,13 +133,27 @@ class ControlsController extends Controller
                     }
                 },
                 scales: {
-                    yAxes: [{
+                    y: {
                         ticks: {
                             min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
-                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5
+                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
+                            display: false,
+                        },
+                        grid:{
+                            drawBorder: false,
+                            display:false,
                         }
-                    }]
-                }
+                    },
+                    x: {
+                        ticks: { 
+                            display: false,
+                        },
+                        grid:{
+                            drawBorder: false,
+                            display:false
+                        }
+                    }
+                },
             }");
 
         return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
@@ -179,7 +198,7 @@ class ControlsController extends Controller
             } else {
                 $index = $key;
             }
-            
+
             SettingManager::set($index, $value, $group);
         }
 
@@ -225,7 +244,7 @@ class ControlsController extends Controller
     {
         if ($request->ajax()) {
             $propertyes =  Properties::where("room_id", $room_id)->with(['device' => function ($query) {
-                
+
                 return $query->where('approved', 1)->get(["integration"]);
             }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
             return View::make("controls.controls")->with("propertyes", $propertyes)->render();

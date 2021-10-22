@@ -30,8 +30,8 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
         "audit": "^0.0.6",
-        "chart.js": "^3.3.2",
-        "fix": "^0.0.6",
+        "chart.js": "^3.5.1",
+        "fix": "^0.0.3",
         "npm": "^7.19.0",
         "production": "^0.0.2",
         "run": "^1.4.0",
