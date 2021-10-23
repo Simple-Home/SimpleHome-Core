@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Device;
+use App\Models\Devices;
 
 class DeviceFactory extends Factory
 {
@@ -13,7 +13,7 @@ class DeviceFactory extends Factory
      *
      * @var string
      */
-    protected $model = Device::class;
+    protected $model = Devices::class;
 
     /**
      * Define the model's default state.
