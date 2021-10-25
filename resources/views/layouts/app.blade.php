@@ -64,6 +64,13 @@
             $('head meta[name="theme-color"]').attr('content', '#1cca50');
         }
     </script>
+
+           <script
+                src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+        <script>
+            refreshCSRF('{{ route('system.refresh.csrf') }}');
+        </script>
 </head>
 
 <body>
@@ -261,13 +268,6 @@
         @endif
         @yield('beforeBodyEnd')
         <!-- The core Firebase JS SDK is always required and must be listed first -->
-
-        <script
-                src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-        <script>
-            refreshCSRF('{{ route('system.refresh.csrf') }}');
-        </script>
         <script
                 src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
