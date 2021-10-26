@@ -42,8 +42,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-
     public function routeNotificationForFirebase ($notifiable) {
         return 'subscriber id for FB';
+    }
+
+    public function locator()
+    {
+        return $this->hasOne('App\Models\Properties', 'id', "locator_id");
+    }
+
+    public function getGavatarUrl(){
+        return 'https://secure.gravatar.com/avatar/'.md5($this->email);
     }
 }
