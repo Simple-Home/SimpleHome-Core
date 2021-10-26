@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
 
 
 
@@ -281,4 +282,19 @@ class UsersController extends Controller
 
         return view('system.users.list', ["users" => $users]);
     }
+
+    //Ajax Calls
+    public function userLocationsAjax(Request $request)
+    {
+        $locationSlug = "home";
+        $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
+                if ($item->locator->getLocation() == $locationSlug) {
+                    return $item;
+                }
+            });
+
+        return View::make("components.locators")->with("usersLocators", $usersLocators)->render();
+    }
+
+
 }

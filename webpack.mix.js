@@ -30,6 +30,10 @@ mix.scripts([
 ], 'public/js/notifications.js');
 
 mix.scripts([
+    'resources/js/locators.js',
+], 'public/js/locators.js');
+
+mix.scripts([
     'resources/js/serviceworker.js',
 ], 'public/serviceworker.js');
 
@@ -40,7 +44,6 @@ mix.scripts([
 mix.scripts([
     'resources/js/refresh-csrf.js',
 ], 'public/js/refresh-csrf.js');
-
 
 mix.js("resources/js/app.js", "public/js")
     .version()

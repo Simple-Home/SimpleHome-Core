@@ -28,7 +28,11 @@ class UserForm extends Form
                 'label' => 'Password confirm'
             ])
             ->add('add', Field::BUTTON_SUBMIT, [
-                'label' => "Create"
+                'label' => "Create",
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

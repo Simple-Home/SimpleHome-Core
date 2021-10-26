@@ -16,7 +16,11 @@ class EditPropertyForm extends Form
                 'label' => "Old password"
             ])
             ->add('changePassword', Field::BUTTON_SUBMIT, [
-                'label' => "Change"
+                'label' => "Change",
+                'attr' => [
+                    'class' => 'btn btn-primary  btn-block'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

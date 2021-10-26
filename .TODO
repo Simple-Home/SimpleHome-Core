@@ -1,19 +1,28 @@
-* Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
+# New:
+
 * When asichroniously refreshing the page + setting value inwoke refresh Otherwise thhe value actualized by switch vont be wisible on frontend 
-* noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples
 * Token Delete Button & Revoke
 * Client Delete Button & Revoke
-* add notification Counter and Dot Functions 
 * optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
 * Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
 * Add Server Time & TImezone to Settings>Diagnostics
 * Redo Setting sto ajax loader an carousell :) like home screen
 * Add Search to token wiev 
 * Remove Custome CSS from app.sass to custome sass file
-* Nastilovat SW Update Notifikaci
 * Periodical check for update of SW
+* Remove unused language from app\lang
+* write automate manual to documentation :) 
+*  + example applet to download
+
+# Done:
+
+* Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
+* noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples
+* add notification Counter and Dot Functions 
+* Nastilovat SW Update Notifikaci
 
 # Resources:
+
 http://developers.sonoff.tech/
 https://shelly-api-docs.shelly.cloud/
 https://developers.meethue.com/develop/get-started-2/

@@ -58,7 +58,6 @@ class HousekeepingController extends Controller
         $interval = $request->get('housekeeping_interval', 432000);
         $active = $request->get('housekeeping_active', 0);
 
-
         SettingManager::set('logs_cleaning_active', $logs_active, 'housekeeping');
         SettingManager::set('logs_cleaning_interval', $logs_interval, 'housekeeping');
         SettingManager::set('active', $active, 'housekeeping');
@@ -69,8 +68,11 @@ class HousekeepingController extends Controller
 
     public function cleanRecords()
     {
-        CleanRecords::dispatch();
-        return redirect()->back()->with('success', __('simplehome.housekeeping.runJob.triggert'));
+        if(CleanRecords::dispatch()->onQueue('houskeeping')){
+            return redirect()->back()->with('success', __('simplehome.housekeeping.runJob.triggert'));
+        }
+        return redirect()->back()->with('danger', __('simplehome.housekeeping.runJob.triggert.error'));
+
     }
 
     private function dirSize($directory)
