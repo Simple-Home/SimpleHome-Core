@@ -13,21 +13,26 @@ class LogForm extends Form
         $this
             ->add('logFile', Field::SELECT, [
                 'choices' => $this->getData('logFiles'),
-                'label' => "Logs list"
+                'label' => "Logs list",
+                'attr' => (empty($this->getData('logFiles')) ? ['disabled' => 'disabled'] : [])
             ])
             ->add('delete', Field::BUTTON_SUBMIT, [
-                'attr' => ['name' => 'delete', 'value' => 1],
-                'label' => "Delete",
                 'attr' => [
-                    'class' => 'btn btn-danger  btn-block'
-                    ]
+                    'name' => 'delete',
+                    'value' => 1,
+                    'class' => 'btn btn-danger btn-block'
+                ],
+                'label' => "Delete",
+                'wrapper' => ['class' => 'd-grid gap-2']
             ])
             ->add('select', Field::BUTTON_SUBMIT, [
                 'label' => "Select",
                 'attr' => [
-                    'class' => 'btn btn-primary btn-block'
+                    'class' => 'btn btn-primary btn-block  mt-3'
                     ],
                 'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }
+
+

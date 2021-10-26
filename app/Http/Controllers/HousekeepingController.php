@@ -71,7 +71,7 @@ class HousekeepingController extends Controller
         if(CleanRecords::dispatch()->onQueue('houskeeping')){
             return redirect()->back()->with('success', __('simplehome.housekeeping.runJob.triggert'));
         }
-        return redirect()->back()->with('warning', __('simplehome.housekeeping.runJob.triggert.error'));
+        return redirect()->back()->with('danger', __('simplehome.housekeeping.runJob.triggert.error'));
 
     }
 

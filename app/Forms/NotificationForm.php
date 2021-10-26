@@ -35,7 +35,7 @@ class NotificationForm extends Form
         ->add('saveNotify', Field::BUTTON_SUBMIT, [
             'label' => __('simplehome.saveNotify'),
             'attr' => [
-                'class' => 'btn btn-primary  btn-block'
+                'class' => 'btn btn-primary  btn-block mt-3'
             ],
             'wrapper' => [
                 'class' => 'd-grid gap-2'
