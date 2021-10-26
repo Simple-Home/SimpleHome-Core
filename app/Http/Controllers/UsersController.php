@@ -286,7 +286,7 @@ class UsersController extends Controller
     //Ajax Calls
     public function userLocationsAjax(Request $request)
     {
-        $locationSlug = "work";
+        $locationSlug = "home";
         $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
                 if ($item->locator->getLocation() == $locationSlug) {
                     return $item;

@@ -155,10 +155,10 @@
 
         <div class="row d-none" id="notification">
             <div class="col p-md-0">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text"> new version of this app is available</p> <a class="btn-primary"
-                            id="reload" href="#">UPDATE</a>
+                <div class="card mb-2">
+                    <div class="card-body d-flex justify-content-between mb-0">
+                        <a class="btn btn-primary my-auto" id="reload" href="#">UPDATE</a>
+                        <p class="ms-2 mb-0 my-auto"> new version of this app is available</p>
                     </div>
                 </div>
             </div>
