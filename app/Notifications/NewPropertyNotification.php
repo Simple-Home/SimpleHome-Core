@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Devices;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Notification;
 class NewPropertyNotification extends Notification
 {
     use Queueable;
+    protected $device;
 
     /**
      * Create a new notification instance.
