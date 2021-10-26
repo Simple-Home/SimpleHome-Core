@@ -19,9 +19,9 @@ class NotificationForm extends Form
                 'label' => __('simplehome.notifyDatabase'),
                 'attr' => ['value' => 'database']
             ])
-            ->add('fcm', Field::CHECKBOX, [
+            ->add('firebase', Field::CHECKBOX, [
                 'label' => __('simplehome.notifyFCM'),
-                'attr' => ['value' => 'fcm']
+                'attr' => ['value' => 'firebase']
             ])
             ->add('saveNotify', Field::BUTTON_SUBMIT, [
                 'label' => __('simplehome.saveNotify')
