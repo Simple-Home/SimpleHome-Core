@@ -38,6 +38,10 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
 });
 
+Route::namespace('users')->prefix('users')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\UsersController::class, 'userLocationsAjax'])->name('users.locators.ajax.list');
+});
+
 //Rewrite
 
 //Automations
