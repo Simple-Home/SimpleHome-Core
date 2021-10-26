@@ -23,10 +23,10 @@
             </div>
         </div>
         <br>
-        <div class="row row-cols-1 row-cols-md-3">
-            <div class="col mb-4">
-                <div class="card">
-                    <div class="card-header">{{ __('simplehome.server.disk') }}</div>
+        <div class="row row-cols-3 row-cols-md-3 mb-4">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header text-center">{{ __('simplehome.server.disk') }}</div>
                     <div class="card-body">
                         <div data-spinner="disk-spinner" class="text-center" id="server-disk-chart">
                             <div id="disk-spinner" class="spinner-border text-primary" role="status">
@@ -34,11 +34,12 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <div class="col mb-4">
-                <div class="card">
-                    <div class="card-header">{{ __('simplehome.server.cpu') }}</div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header text-center">{{ __('simplehome.server.cpu') }}</div>
                     <div class="card-body">
                         <div data-spinner="cpu-spinner" class="text-center" id="server-cpu-chart">
                             <div id="cpu-spinner" class="spinner-border text-primary" role="status">
@@ -48,9 +49,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col mb-4">
-                <div class="card">
-                    <div class="card-header">{{ __('simplehome.server.memory') }}</div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header text-center">{{ __('simplehome.server.memory') }}</div>
                     <div class="card-body">
                         <div data-spinner="memory-spinner" class="text-center" id="server-memory-chart">
                             <div id="memory-spinner" class="spinner-border text-primary" role="status">
@@ -60,6 +61,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3">
             <div class="col mb-4">
                 <div class="card">
                     <div class="card-header">{{ __('simplehome.server.services') }}</div>
