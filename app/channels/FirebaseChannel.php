@@ -14,7 +14,7 @@ class FirebaseChannel
         } else {
             $id = $notifiable->getKey();
         }
-        
+
         $data = method_exists($notification, 'toLog')
             ? $notification->toLog($notifiable)
             : $notification->toArray($notifiable);
@@ -25,6 +25,10 @@ class FirebaseChannel
         return $this->sendToFirebase($data);
     }
     private function sendToFirebase($data){
+         if (empty(env("FIREBASE_API_KEY"))) {
+            return false;
+        }
+
         $data = json_encode($data);
 		$url = 'https://fcm.googleapis.com/fcm/send';
 		$headers = array(
