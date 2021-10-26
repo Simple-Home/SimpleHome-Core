@@ -65,12 +65,12 @@
         }
     </script>
 
-           <script
-                src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-        <script>
-            refreshCSRF('{{ route('system.refresh.csrf') }}');
-        </script>
+    <script
+        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script>
+        refreshCSRF('{{ route('system.refresh.csrf') }}');
+    </script>
 </head>
 
 <body>
@@ -132,19 +132,11 @@
                     </form>
                 </div>
             @elseif (strpos(Route::currentRouteName(), 'controls') > -1)
-                <div class="col  my-auto">
-                    <div class="avatars d-flex">
-                        <div title="Haitem" class="avatar">
-                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
-                        </div>
-                        <div title="Haitem" class="avatar is-offline">
-                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
-                        </div>
-                        <div title="Haitem" class="avatar">
-                            <img src="https://secure.gravatar.com/avatar/cfaee708dc7e5ff2259c45e186063f74" alt="Haitem">
-                        </div>
+                @auth
+                    <div id="locators-list" data-url="{{ route('users.locators.ajax.list') }}" data-animation="false"
+                        class="col my-auto">
                     </div>
-                </div>
+                @endauth
             @endif
         </div>
 
@@ -273,6 +265,8 @@
         </script>
         <script
                 src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+        <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
             <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
