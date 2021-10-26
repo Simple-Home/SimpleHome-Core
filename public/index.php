@@ -16,8 +16,29 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if (file_exists(__DIR__ . '/../storage/framework/maintenance.php')) {
+    require __DIR__ . '/../storage/framework/maintenance.php';
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Check If The Application Is installed
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+if (!file_exists(".env")) {
+    $randomString = substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(32 / strlen($x)))), 1, 32);
+    $status = file_put_contents(".env", "APP_KEY=base64:" . base64_encode($randomString) . "\n");
+    file_put_contents(".env", "SESSION_DRIVER=file", FILE_APPEND);
+}
+
+$explodedURI = explode("/", $_SERVER['REQUEST_URI']);
+if (!file_exists(__DIR__ . '/../storage/installed') && !in_array("install", $explodedURI)) {
+    header("Location: ./install");
+    exit;
 }
 
 /*
@@ -31,26 +52,8 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-/*
-|--------------------------------------------------------------------------
-| Check If The Application Needs Installed
-|--------------------------------------------------------------------------
-|
-| This will check if we are currently installing and if we are not
-| it will the check if the .env file is present. If it does not exist
-| the installer page will be presented.
-*/
-$explodedURI = explode("/", $_SERVER['REQUEST_URI']);
-if(!in_array("install", $explodedURI)){ 
-    if(!file_exists(".env")){
-        $randomString = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(32/strlen($x)) )),1,32);
-        $status = file_put_contents(".env", "APP_KEY=base64:".base64_encode($randomString)."\n");
-        header("Location: ./install"); 
-        exit;
-    } 
-}
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +66,7 @@ if(!in_array("install", $explodedURI)){
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
