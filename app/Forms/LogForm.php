@@ -17,10 +17,17 @@ class LogForm extends Form
             ])
             ->add('delete', Field::BUTTON_SUBMIT, [
                 'attr' => ['name' => 'delete', 'value' => 1],
-                'label' => "Delete"
+                'label' => "Delete",
+                'attr' => [
+                    'class' => 'btn btn-danger  btn-block'
+                    ]
             ])
             ->add('select', Field::BUTTON_SUBMIT, [
-                'label' => "Select"
+                'label' => "Select",
+                'attr' => [
+                    'class' => 'btn btn-primary btn-block'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

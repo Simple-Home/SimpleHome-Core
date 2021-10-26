@@ -23,7 +23,9 @@ class ProfileInformationForm extends Form
                 'label' => __('simplehome.password')
             ])
             ->add('saveProfile', Field::BUTTON_SUBMIT, [
-                'label' => __('simplehome.save')
+                 'attr' => ["class" => "btn btn-primary btn-block"],
+                'label' => __('simplehome.save'),
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

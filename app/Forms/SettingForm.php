@@ -26,7 +26,11 @@ class SettingForm extends Form
                 'selected' => (!empty ($user->language) ? $user->language : 'en')
             ])
             ->add('saveSetting', Field::BUTTON_SUBMIT, [
-                'label' => __('simplehome.save')
+                'label' => __('simplehome.save'),
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

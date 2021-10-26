@@ -24,7 +24,11 @@ class ChangePasswordForm extends Form
                 'label' => __('simplehome.passwordConfirm')
             ])
             ->add('changePassword', Field::BUTTON_SUBMIT, [
-                'label' =>  __('simplehome.changePassword')
+                'label' =>  __('simplehome.changePassword'),
+                'attr' => [
+                    'class' => 'btn btn-primary btn-block'
+                ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

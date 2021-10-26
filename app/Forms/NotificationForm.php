@@ -24,7 +24,11 @@ class NotificationForm extends Form
                 'attr' => ['value' => 'firebase']
             ])
             ->add('saveNotify', Field::BUTTON_SUBMIT, [
-                'label' => __('simplehome.saveNotify')
+                'label' => __('simplehome.saveNotify'),
+                'attr' => [
+                    'class' => 'btn btn-primary  btn-block'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }
