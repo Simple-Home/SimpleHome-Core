@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Devices;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Device::factory(10)->create();
+        Devices::factory(10)->create();
     }
 }
