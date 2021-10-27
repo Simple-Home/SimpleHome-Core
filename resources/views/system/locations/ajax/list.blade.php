@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.oauth.clients') }}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            onClick="$('#locationCreation').modal('show')" title=" {{ __('simplehome.locations.create') }}">
+        <button type="button" class="btn btn-primary" onClick="$('#locationCreation').modal('show')"
+            title=" {{ __('simplehome.locations.create') }}">
             <i class="fas fa-plus"></i>
         </button>
     </div>

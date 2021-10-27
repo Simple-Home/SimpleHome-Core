@@ -87,23 +87,38 @@
     <script src="{{ asset(mix('js/locations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
     <script>
+        let map
         $('#locationCreation').on('shown.bs.modal', function(e) {
             console.log("Loading - OpenLayers");
-            const iconFeature = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat([14.4694954, 50.0779599])),
-                name: 'Somewhere near Nottingham',
-            });
 
-            if (map != undefined || map != null) {
-                const map = new ol.Map({
+            if (map == undefined || map == null) {
+                var position = [14.4694954, 50.0779599];
+
+                if (navigator.geolocation) {
+                    console.log("Geting Location from Browser");
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        position = [position.coords.latitude, position.coords.longitude];
+                    });
+                }
+                const iconFeature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat(position)),
+                    name: 'Your Location',
+                });
+
+                map = new ol.Map({
                     target: 'map',
                     layers: [
                         new ol.layer.Tile({
                             source: new ol.source.OSM(),
+                        }),
+                        new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                features: [iconFeature]
+                            })
                         })
                     ],
                     view: new ol.View({
-                        center: ol.proj.fromLonLat([14.4694954, 50.0779599]),
+                        center: ol.proj.fromLonLat(position),
                         zoom: 18
                     })
                 });
@@ -114,7 +129,6 @@
             }
 
             var marker;
-
 
             map.on('click', function(evt) {
                 var coordinate = ol.proj.toLonLat(evt.coordinate);
