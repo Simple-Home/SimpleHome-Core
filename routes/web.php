@@ -149,8 +149,11 @@ Route::namespace('system')->prefix('system')->group(function () {
 
     //Main Location route
     Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');
+    Route::middleware(['auth', 'verified', 'language'])->post('/locations/create', [App\Http\Controllers\LocationsController::class, 'create'])->name('system.locations.create');
+    Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/remove', [App\Http\Controllers\LocationsController::class, 'remove'])->name('system.locations.remove');
+    
     //Sub Routes for Ajax
-    Route::middleware(['auth', 'verified', 'language'])->any('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
 
 
 });

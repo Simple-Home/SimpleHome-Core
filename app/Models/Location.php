@@ -48,13 +48,13 @@ class Location extends Properties
     public function getLocation(){
         //TODO: DINAMICALY LOAD FOR EACH USER
         $places = $this->getPlaces();
-        $lat = explode(",", $this->latestRecord->value)[0];
-        $long = explode(",", $this->latestRecord->value)[1];
-
+        $lat = explode(",", $this->latestRecord->value)[1];
+        $long = explode(",", $this->latestRecord->value)[0];
+        
         foreach ($places as $place){
-            $latDestination = explode(",", $place->value)[0];
-            $longDestination = explode(",", $place->value)[1];
-            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < 200) {
+            $latDestination = $place->position[0];
+            $longDestination = $place->position[1];
+            if ($this->getDistance($lat, $long, $latDestination, $longDestination) < $place->radius) {
                 return $place->name;
             }
         }
@@ -62,7 +62,7 @@ class Location extends Properties
 
     private function getPlaces(){
         return Cache::remember('location.places', 120, function (){
-            return SettingManager::getGroup('locations');
+            return Locations::all();
         });
     }
 

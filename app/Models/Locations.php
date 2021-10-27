@@ -11,4 +11,12 @@ class Locations extends Model
 {
     protected $table = 'sh_locations';
     use HasFactory;
+
+    public function setPositionAttribute($value){
+        $this->attributes['POSITION'] = json_encode($value);
+    }
+
+    public function getPositionAttribute($value){
+        return json_decode($value);
+    }
 }

@@ -6,7 +6,8 @@
 @endsection
 
 @section('content')
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#locationCreation">Create new</button>
+
+    @include('components.search')
     <div id="ajax-loader" class="h-100" data-url="{{ route('system.locations.ajax.list') }}">
         <div class="d-flex h-100">
             <div class="text-center m-auto">
@@ -27,11 +28,13 @@
                     <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="private-token" class="">
+                <form id="private-token" class="" method="POST"
+                    action="{{ route('system.locations.create') }}">
+                    @csrf
                     <div class="modal-body">
                         <div class="col-auto">
-                            <label for="locationName" class="visually-hidden"></label>
-                            <input type="text" class="form-control" name="locationName" id="locationName"
+                            <label for="postitionName" class="visually-hidden"></label>
+                            <input type="text" class="form-control" name="postitionName" id="postitionName"
                                 placeholder="Location Name" required>
                         </div>
                     </div>
