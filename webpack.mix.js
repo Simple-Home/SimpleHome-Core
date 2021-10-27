@@ -26,6 +26,11 @@ mix.scripts([
 ], 'public/js/automations.js');
 
 mix.scripts([
+    'resources/js/locations.js',
+], 'public/js/locations.js');
+
+
+mix.scripts([
     'resources/js/notifications.js',
 ], 'public/js/notifications.js');
 

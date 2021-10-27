@@ -145,9 +145,14 @@ Route::namespace('system')->prefix('system')->group(function () {
 
     Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/ajax', [App\Http\Controllers\SettingsController::class, 'ajaxGeneratePersonalAccessToken'])->name('system.developments.ajax.private.token');
 
-
-
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
+
+    //Main Location route
+    Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');
+    //Sub Routes for Ajax
+    Route::middleware(['auth', 'verified', 'language'])->any('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
+
+
 });
 
 //Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;

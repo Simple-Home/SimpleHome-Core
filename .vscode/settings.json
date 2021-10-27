@@ -6,5 +6,8 @@
         // Characters that will be used as word separators when doing word related navigations or operations.
         "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?"
     },
-    "intelephense.diagnostics.undefinedSymbols": false
+    "intelephense.diagnostics.undefinedSymbols": false,
+    "enableCommentFormatting": false,
+    "expression": "",
+    "actionTypes": "TODO:"
 }
