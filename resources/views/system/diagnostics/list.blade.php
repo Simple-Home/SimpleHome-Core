@@ -96,6 +96,8 @@
                         {{ __('simplehome.server.conectionsPerMinute') }}: {{ $connectionsPerMinute }}<br>
                         {{ __('simplehome.server.valuePerMinute') }}: {{ $valuesPerMinute }}<br>
                         {{ __('simplehome.server.uptime') }}: {{ $uptime }}<br>
+                        {{ __('simplehome.server.timezone') }}: {{ $time->format('e') }}<br>
+                        {{ __('simplehome.server.time') }}: {{ $time->format('Y-m-d H:i:s') }}<br>
                     </div>
                 </div>
             </div>
