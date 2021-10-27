@@ -102,7 +102,8 @@ Route::namespace('system')->prefix('system')->group(function () {
     })->name('system.refresh.csrf');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
-    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/records/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.records.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/logs/run', [App\Http\Controllers\HousekeepingController::class, 'cleanLogs'])->name('system.housekeepings.logs.run');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('system.users.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('system.users.search');

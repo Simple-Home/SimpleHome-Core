@@ -22,7 +22,7 @@
                 <div class="mb-3">
                     <label for="interval">{{ __('simplehome.housekeeping.interval') }}</label>
                     <input type="number" name="housekeeping_interval" class="form-control" id="interval"
-                        value="{{ $settings['interval']->value }}" placeholder="Password">
+                        value="{{ $settings['interval']->value }}" placeholder="Number of days">
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
@@ -36,7 +36,7 @@
                 <div class="mb-3">
                     <label for="interval">{{ __('simplehome.housekeeping.log.interval') }}</label>
                     <input type="number" name="housekeeping_logs_cleaning_interval" class="form-control" id="interval"
-                        value="{{ $settings['logs_cleaning_interval']->value }}" placeholder="seconds">
+                        value="{{ $settings['logs_cleaning_interval']->value }}" placeholder="Number of seconds">
                 </div>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="mb-3">
@@ -54,7 +54,7 @@
                     {{ __('simplehome.records') }}: {{ $totalRecords }}
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('system.housekeepings.run') }}">
+                    <a href="{{ route('system.housekeepings.records.run') }}">
                         <button type="button"
                             class="w-100 btn btn-primary">{{ __('simplehome.housekeeping.runJob') }}</button>
                     </a>
@@ -65,9 +65,9 @@
                     {{ __('simplehome.logs.size') }}: {{ $totalLogsSize }}
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('system.housekeepings.run') }}">
+                    <a href="{{ route('system.housekeepings.logs.run') }}">
                         <button type="button"
-                            class="w-100 btn btn-primary">{{ __('simplehome.housekeeping.runJob') }}</button>
+                            class="w-100 btn btn-primary">{{ __('simplehome.housekeeping.logs.runJob') }}</button>
                     </a>
                 </div>
             </div>

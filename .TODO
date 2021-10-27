@@ -13,6 +13,7 @@
 * Remove unused language from app\lang
 * write automate manual to documentation :) 
 *  + example applet to download
+* Add description to housekeeping for Records cleaning interval that value is used onl id history is not defined (hitory != null)
 
 # Done:
 

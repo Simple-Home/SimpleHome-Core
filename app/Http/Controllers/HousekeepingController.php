@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SettingManager;
 use App\Jobs\CleanRecords;
+use App\Jobs\CleanLogs;
+
 use App\Models\Records;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 
 class HousekeepingController extends Controller
 {
@@ -82,10 +85,28 @@ class HousekeepingController extends Controller
         
     }
     
+    public function cleanLogs()
+    {
+        $lock = Cache::lock('job-cleningOldLogs-lock', 120);
+        
+        if ($lock->get()) {
+            if(CleanLogs::dispatch()->onQueue('houskeeping')){
+                return redirect()->back()->with('success', __('simplehome.housekeeping.logs.runJob.triggert'));
+            }
+            return redirect()->back()->with('danger', __('simplehome.housekeeping.logs.runJob.triggert.error'));
+        } else {
+            return redirect()->back()->with('info', __('simplehome.housekeeping.logs.runJob.triggert.already.running'));
+        }
+        
+    }
+    
     private function dirSize($directory)
     {
         $size = 0;
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)) as $file) {
+            if (in_array($file->getFilename(), array(".", "..", ".gitkeep", ".gitignore"))) {
+                continue;
+            }
             $size += $file->getSize();
         }
         return $size;
