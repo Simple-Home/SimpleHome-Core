@@ -21,7 +21,7 @@
 @section('modal')
     <!-- Modal -->
     <div class="modal fade" id="locationCreation" tabindex="-1" aria-labelledby="locationCreation" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-fullscreen-md-down">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
