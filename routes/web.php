@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\ControlsController::class, 'list']);
+Route::middleware(['auth', 'verified', 'language'])->any('',  function () {
+    return redirect()->route('controls.list');
+});
 
 Auth::routes();
 Auth::routes(['verify' => true]);

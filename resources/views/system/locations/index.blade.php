@@ -94,18 +94,20 @@
                 name: 'Somewhere near Nottingham',
             });
 
-            const map = new ol.Map({
-                target: 'map',
-                layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.OSM(),
+            if (map != undefined || map != null) {
+                const map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                            source: new ol.source.OSM(),
+                        })
+                    ],
+                    view: new ol.View({
+                        center: ol.proj.fromLonLat([14.4694954, 50.0779599]),
+                        zoom: 18
                     })
-                ],
-                view: new ol.View({
-                    center: ol.proj.fromLonLat([14.4694954, 50.0779599]),
-                    zoom: 18
-                })
-            });
+                });
+            }
 
             function display(id, value) {
                 document.getElementById(id).value = value;
