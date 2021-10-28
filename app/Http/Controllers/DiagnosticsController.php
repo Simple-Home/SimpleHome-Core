@@ -14,6 +14,7 @@ use Laravel\Passport\Client;
 use Laravel\Passport\Token;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class DiagnosticsController extends Controller
 {
@@ -43,8 +44,9 @@ class DiagnosticsController extends Controller
         $connectionsPerMinute = $this->conections_per_minute();
         $uptime = $this->last_boot_time();
         $ssl = $this->get_https();
+        $time = new DateTime();
 
-        return view('system.diagnostics.list', compact('services', 'valuesPerMinute', 'connectionsPerMinute', 'uptime', 'ssl'));
+        return view('system.diagnostics.list', compact('services', 'valuesPerMinute', 'connectionsPerMinute', 'uptime', 'ssl', 'time'));
     }
     /**
      * @return array|int[]

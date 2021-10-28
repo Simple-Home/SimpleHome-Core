@@ -35,7 +35,11 @@ class DeviceForm extends Form
                 'label' => "Token"
             ])
             ->add('add', Field::BUTTON_SUBMIT, [
-                'label' => "Save"
+                'label' => "Save",
+                'attr' => [
+                    'class' => 'btn btn-primary btn-block'
+                    ],
+                'wrapper' => ['class' => 'd-grid gap-2']
             ]);
     }
 }

@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\ControlsController::class, 'list']);
+Route::middleware(['auth', 'verified', 'language'])->any('',  function () {
+    return redirect()->route('controls.list');
+});
 
 Auth::routes();
 Auth::routes(['verify' => true]);
@@ -36,6 +38,10 @@ Route::namespace('properties')->prefix('properties')->group(function () {
 
 Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
+});
+
+Route::namespace('users')->prefix('users')->group(function () {
+    Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\UsersController::class, 'userLocationsAjax'])->name('users.locators.ajax.list');
 });
 
 //Rewrite
@@ -96,7 +102,8 @@ Route::namespace('system')->prefix('system')->group(function () {
     })->name('system.refresh.csrf');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
-    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/records/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.records.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/logs/run', [App\Http\Controllers\HousekeepingController::class, 'cleanLogs'])->name('system.housekeepings.logs.run');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('system.users.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/users/search', [App\Http\Controllers\UsersController::class, 'search'])->name('system.users.search');
@@ -141,9 +148,17 @@ Route::namespace('system')->prefix('system')->group(function () {
 
     Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/ajax', [App\Http\Controllers\SettingsController::class, 'ajaxGeneratePersonalAccessToken'])->name('system.developments.ajax.private.token');
 
-
-
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
+
+    //Main Location route
+    Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');
+    Route::middleware(['auth', 'verified', 'language'])->post('/locations/create', [App\Http\Controllers\LocationsController::class, 'create'])->name('system.locations.create');
+    Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/remove', [App\Http\Controllers\LocationsController::class, 'remove'])->name('system.locations.remove');
+    
+    //Sub Routes for Ajax
+    Route::middleware(['auth', 'verified', 'language'])->get('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
+
+
 });
 
 //Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;

@@ -218,11 +218,16 @@ class Properties extends Model
 
 
 
-    public function setValue($value)
+    public function setValue($value, $origin = null)
     {
         $record                 = new Records;
         $record->value          = $value;
         $record->property_id    = $this->id;
+
+        if ($origin != null) {
+            $record->origin    = $origin;
+        }
+        
         $record->save();
         return true;
     }

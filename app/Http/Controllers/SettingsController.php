@@ -111,10 +111,21 @@ class SettingsController extends Controller
             if ($key == '_token') {
                 continue;
             }
-            SettingManager::set($key, $value);
+
+            $group = 'system';
+            if (strpos($key, '#') !== false) {
+                $index = explode("#", $key)[0];
+                $group = explode("#", $key)[1];
+            } else {
+                $index = $key;
+            }
+
+            if (SettingManager::get($key, $group)->value != $value){
+                SettingManager::set($key, $value, $group);
+            }
         }
 
-        return redirect()->route('system_settings');
+        return redirect()->back()->with('success', __('simplehome.system.settings.saved'));
     }
 
     public function system(FormBuilder $formBuilder)

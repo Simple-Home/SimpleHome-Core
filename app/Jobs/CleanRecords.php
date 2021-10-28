@@ -59,5 +59,7 @@ class CleanRecords implements ShouldQueue
 
             DB::statement($sql);
         }
+
+        Cache::lock('job-cleningOldRecord-lock')->forceRelease();
     }
 }
