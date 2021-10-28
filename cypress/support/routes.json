@@ -288,8 +288,8 @@
       "HEAD"
     ]
   },
-  "generated::NOyjV7s1uKtMzNvy": {
-    "name": "generated::NOyjV7s1uKtMzNvy",
+  "generated::Is1cNMKGzdU1DaJv": {
+    "name": "generated::Is1cNMKGzdU1DaJv",
     "domain": null,
     "action": "Livewire\\Controllers\\LivewireJavaScriptAssets@source",
     "uri": "livewire/livewire.js",
@@ -298,8 +298,8 @@
       "HEAD"
     ]
   },
-  "generated::hsymRIegn9cU8AxX": {
-    "name": "generated::hsymRIegn9cU8AxX",
+  "generated::2LT7MIYl8Hg8BdMD": {
+    "name": "generated::2LT7MIYl8Hg8BdMD",
     "domain": null,
     "action": "Livewire\\Controllers\\LivewireJavaScriptAssets@maps",
     "uri": "livewire/livewire.js.map",
@@ -308,8 +308,8 @@
       "HEAD"
     ]
   },
-  "generated::qvBrGjEPsReFM1F6": {
-    "name": "generated::qvBrGjEPsReFM1F6",
+  "generated::qwh54rx8LYw2JNUo": {
+    "name": "generated::qwh54rx8LYw2JNUo",
     "domain": null,
     "action": "\\Illuminate\\Routing\\ViewController",
     "uri": "backup",
@@ -328,8 +328,8 @@
       "HEAD"
     ]
   },
-  "generated::b3jJ02kqjIQJ2et3": {
-    "name": "generated::b3jJ02kqjIQJ2et3",
+  "generated::SqRXLczs5nXFneqH": {
+    "name": "generated::SqRXLczs5nXFneqH",
     "domain": null,
     "action": "Closure",
     "uri": "offline",
@@ -338,8 +338,8 @@
       "HEAD"
     ]
   },
-  "generated::ZNjXXiYAO13Rwesi": {
-    "name": "generated::ZNjXXiYAO13Rwesi",
+  "generated::3gPNQ6nMbdLFz0v5": {
+    "name": "generated::3gPNQ6nMbdLFz0v5",
     "domain": null,
     "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
     "uri": "broadcasting/auth",
@@ -489,8 +489,8 @@
       "DELETE"
     ]
   },
-  "generated::oqCpsf1eb3JXD87q": {
-    "name": "generated::oqCpsf1eb3JXD87q",
+  "generated::bFHv730fzf1QewjP": {
+    "name": "generated::bFHv730fzf1QewjP",
     "domain": null,
     "action": "App\\Api\\Controllers\\EndpointController@depricatedData",
     "uri": "api/depricated/endpoint",
@@ -498,8 +498,8 @@
       "POST"
     ]
   },
-  "generated::UFdHzY9N2Ulc0B46": {
-    "name": "generated::UFdHzY9N2Ulc0B46",
+  "generated::LTtrq3fwBcStHd3r": {
+    "name": "generated::LTtrq3fwBcStHd3r",
     "domain": null,
     "action": "App\\Api\\Controllers\\EndpointController@depricatedOta",
     "uri": "api/depricated/ota",
@@ -508,8 +508,8 @@
       "HEAD"
     ]
   },
-  "generated::jLyGMgMzf6gestli": {
-    "name": "generated::jLyGMgMzf6gestli",
+  "generated::vO1l87ToWW4JSnwV": {
+    "name": "generated::vO1l87ToWW4JSnwV",
     "domain": null,
     "action": "App\\Api\\Controllers\\EndpointController@setup",
     "uri": "api/v1/setup",
@@ -517,8 +517,8 @@
       "POST"
     ]
   },
-  "generated::nYrxdRLtwyPpcD6D": {
-    "name": "generated::nYrxdRLtwyPpcD6D",
+  "generated::UqbaZZ6rS11nRwDM": {
+    "name": "generated::UqbaZZ6rS11nRwDM",
     "domain": null,
     "action": "App\\Api\\Controllers\\EndpointController@data",
     "uri": "api/v1/data",
@@ -526,8 +526,8 @@
       "POST"
     ]
   },
-  "generated::7RwzhNgwv31Tre5d": {
-    "name": "generated::7RwzhNgwv31Tre5d",
+  "generated::TeXMGI6Ie7T896Ti": {
+    "name": "generated::TeXMGI6Ie7T896Ti",
     "domain": null,
     "action": "App\\Api\\Controllers\\EndpointController@ota",
     "uri": "api/v1/ota",
@@ -545,8 +545,8 @@
       "POST"
     ]
   },
-  "generated::tCkTepPyFIXQqIuG": {
-    "name": "generated::tCkTepPyFIXQqIuG",
+  "generated::UnKaunajBchpfMTV": {
+    "name": "generated::UnKaunajBchpfMTV",
     "domain": null,
     "action": "App\\Http\\Controllers\\Auth\\ApiAuthenticationController@logout",
     "uri": "api/v2/logout",
@@ -554,8 +554,8 @@
       "POST"
     ]
   },
-  "generated::JqoFYZgcc5jrcTK5": {
-    "name": "generated::JqoFYZgcc5jrcTK5",
+  "generated::ceQuhD3Gng3YfCBa": {
+    "name": "generated::ceQuhD3Gng3YfCBa",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@getAll",
     "uri": "api/v2/devices",
@@ -564,8 +564,8 @@
       "HEAD"
     ]
   },
-  "generated::YFFDz5G5qWZh9Kbx": {
-    "name": "generated::YFFDz5G5qWZh9Kbx",
+  "generated::ds7wnmI85QsgWGgj": {
+    "name": "generated::ds7wnmI85QsgWGgj",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@getDevice",
     "uri": "api/v2/device/{hostname}",
@@ -574,8 +574,8 @@
       "HEAD"
     ]
   },
-  "generated::PCqv4hmIxRsWWSXp": {
-    "name": "generated::PCqv4hmIxRsWWSXp",
+  "generated::eQ7jklIoAfuryVzY": {
+    "name": "generated::eQ7jklIoAfuryVzY",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@getProperty",
     "uri": "api/v2/device/{hostname}/{propertyID}",
@@ -584,8 +584,8 @@
       "HEAD"
     ]
   },
-  "generated::xCsT4n1iq9eMknO8": {
-    "name": "generated::xCsT4n1iq9eMknO8",
+  "generated::c4oKraulnFSAlrfZ": {
+    "name": "generated::c4oKraulnFSAlrfZ",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@create",
     "uri": "api/v2/device",
@@ -593,8 +593,8 @@
       "POST"
     ]
   },
-  "generated::5a37cbVWsoPlkldH": {
-    "name": "generated::5a37cbVWsoPlkldH",
+  "generated::5BISOIe4h2WQPFaQ": {
+    "name": "generated::5BISOIe4h2WQPFaQ",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@update",
     "uri": "api/v2/device",
@@ -602,8 +602,8 @@
       "PUT"
     ]
   },
-  "generated::ry95rhJUoBhETJVV": {
-    "name": "generated::ry95rhJUoBhETJVV",
+  "generated::cQ9gAiSkO19APw07": {
+    "name": "generated::cQ9gAiSkO19APw07",
     "domain": null,
     "action": "App\\Api\\Controllers\\DeviceController@delete",
     "uri": "api/v2/device",
@@ -611,8 +611,8 @@
       "DELETE"
     ]
   },
-  "generated::2u9CcM6nh8TUztod": {
-    "name": "generated::2u9CcM6nh8TUztod",
+  "generated::mtqPgbXji0WMKWlD": {
+    "name": "generated::mtqPgbXji0WMKWlD",
     "domain": null,
     "action": "App\\Api\\Controllers\\PropertyController@getAll",
     "uri": "api/v2/properties",
@@ -621,8 +621,8 @@
       "HEAD"
     ]
   },
-  "generated::W0P87HL4WcHSvlLl": {
-    "name": "generated::W0P87HL4WcHSvlLl",
+  "generated::Nvrgu65f6cXz88ZE": {
+    "name": "generated::Nvrgu65f6cXz88ZE",
     "domain": null,
     "action": "App\\Api\\Controllers\\PropertyController@getProperty",
     "uri": "api/v2/property/{propertyID}",
@@ -631,8 +631,8 @@
       "HEAD"
     ]
   },
-  "generated::IZSpRW4ZYE8WiLgA": {
-    "name": "generated::IZSpRW4ZYE8WiLgA",
+  "generated::4Ec0LNYwW35Q3Tul": {
+    "name": "generated::4Ec0LNYwW35Q3Tul",
     "domain": null,
     "action": "App\\Api\\Controllers\\PropertyController@create",
     "uri": "api/v2/property",
@@ -640,8 +640,8 @@
       "POST"
     ]
   },
-  "generated::oAJVmpd6pkTTTrav": {
-    "name": "generated::oAJVmpd6pkTTTrav",
+  "generated::BnejEFRGl1A8FiXv": {
+    "name": "generated::BnejEFRGl1A8FiXv",
     "domain": null,
     "action": "App\\Api\\Controllers\\PropertyController@update",
     "uri": "api/v2/property",
@@ -649,8 +649,8 @@
       "PUT"
     ]
   },
-  "generated::wQluK1HPOnXy7S2l": {
-    "name": "generated::wQluK1HPOnXy7S2l",
+  "generated::L5hpuFNPqkhLw4ih": {
+    "name": "generated::L5hpuFNPqkhLw4ih",
     "domain": null,
     "action": "App\\Api\\Controllers\\PropertyController@delete",
     "uri": "api/v2/property",
@@ -668,8 +668,8 @@
       "HEAD"
     ]
   },
-  "generated::gQyfVuqqXs2n5oZn": {
-    "name": "generated::gQyfVuqqXs2n5oZn",
+  "generated::TziQ8iEjuPI85FMG": {
+    "name": "generated::TziQ8iEjuPI85FMG",
     "domain": null,
     "action": "App\\Api\\Controllers\\RoomController@getAll",
     "uri": "api/v2/rooms",
@@ -678,8 +678,8 @@
       "HEAD"
     ]
   },
-  "generated::xPcx6dowYboA5Hso": {
-    "name": "generated::xPcx6dowYboA5Hso",
+  "generated::7ShMSblId13DUnvt": {
+    "name": "generated::7ShMSblId13DUnvt",
     "domain": null,
     "action": "App\\Api\\Controllers\\RoomController@getRoom",
     "uri": "api/v2/room/{name}",
@@ -688,8 +688,8 @@
       "HEAD"
     ]
   },
-  "generated::tUCo8Xwx9aM9fKjM": {
-    "name": "generated::tUCo8Xwx9aM9fKjM",
+  "generated::rvKnkfiVET05hP6R": {
+    "name": "generated::rvKnkfiVET05hP6R",
     "domain": null,
     "action": "App\\Api\\Controllers\\RoomController@create",
     "uri": "api/v2/room",
@@ -697,8 +697,8 @@
       "POST"
     ]
   },
-  "generated::Jp4A17O3DJz6Jd6P": {
-    "name": "generated::Jp4A17O3DJz6Jd6P",
+  "generated::iw7wE3Cj6zaEdyc5": {
+    "name": "generated::iw7wE3Cj6zaEdyc5",
     "domain": null,
     "action": "App\\Api\\Controllers\\RoomController@update",
     "uri": "api/v2/room",
@@ -706,8 +706,8 @@
       "PUT"
     ]
   },
-  "generated::sJMm734XXaYM8hKm": {
-    "name": "generated::sJMm734XXaYM8hKm",
+  "generated::uVXzNgukkcTxkmSq": {
+    "name": "generated::uVXzNgukkcTxkmSq",
     "domain": null,
     "action": "App\\Api\\Controllers\\RoomController@delete",
     "uri": "api/v2/room",
@@ -715,14 +715,19 @@
       "DELETE"
     ]
   },
-  "generated::gGLYceOwroH5IQmR": {
-    "name": "generated::gGLYceOwroH5IQmR",
+  "generated::kbBAXmDzOHvZnrzA": {
+    "name": "generated::kbBAXmDzOHvZnrzA",
     "domain": null,
-    "action": "\\App\\Http\\Controllers\\ControlsController@list",
+    "action": "Closure",
     "uri": "/",
     "method": [
       "GET",
-      "HEAD"
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
     ]
   },
   "login": {
@@ -735,8 +740,8 @@
       "HEAD"
     ]
   },
-  "generated::IgRdrKn8QGbpjS6R": {
-    "name": "generated::IgRdrKn8QGbpjS6R",
+  "generated::XcMeB7COxNkJgyur": {
+    "name": "generated::XcMeB7COxNkJgyur",
     "domain": null,
     "action": "App\\Http\\Controllers\\Auth\\LoginController@login",
     "uri": "login",
@@ -763,8 +768,8 @@
       "HEAD"
     ]
   },
-  "generated::hLfvOlyLKfNK4Rw3": {
-    "name": "generated::hLfvOlyLKfNK4Rw3",
+  "generated::DKhwqGTc7pGTnyb2": {
+    "name": "generated::DKhwqGTc7pGTnyb2",
     "domain": null,
     "action": "App\\Http\\Controllers\\Auth\\RegisterController@register",
     "uri": "register",
@@ -820,8 +825,8 @@
       "HEAD"
     ]
   },
-  "generated::JdKvLItwEAIFuqfu": {
-    "name": "generated::JdKvLItwEAIFuqfu",
+  "generated::aTpw2kLVluaBn6gf": {
+    "name": "generated::aTpw2kLVluaBn6gf",
     "domain": null,
     "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@confirm",
     "uri": "password/confirm",
@@ -923,8 +928,8 @@
       "HEAD"
     ]
   },
-  "generated::03ljCLnjfA7M2uk1": {
-    "name": "generated::03ljCLnjfA7M2uk1",
+  "generated::SUAJOr8kk7m9EmLN": {
+    "name": "generated::SUAJOr8kk7m9EmLN",
     "domain": null,
     "action": "\\App\\Http\\Controllers\\PropertiesController@control",
     "uri": "properties/control/{property_id}",
@@ -953,6 +958,16 @@
     "domain": null,
     "action": "\\App\\Http\\Controllers\\AutomationsController@index",
     "uri": "automations",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.locators.ajax.list": {
+    "name": "users.locators.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@userLocationsAjax",
+    "uri": "users",
     "method": [
       "GET",
       "HEAD"
@@ -1237,11 +1252,21 @@
       "POST"
     ]
   },
-  "system.housekeepings.run": {
-    "name": "system.housekeepings.run",
+  "system.housekeepings.records.run": {
+    "name": "system.housekeepings.records.run",
     "domain": null,
     "action": "\\App\\Http\\Controllers\\HousekeepingController@cleanRecords",
-    "uri": "system/housekeeping/run",
+    "uri": "system/housekeeping/records/run",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.housekeepings.logs.run": {
+    "name": "system.housekeepings.logs.run",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\HousekeepingController@cleanLogs",
+    "uri": "system/housekeeping/logs/run",
     "method": [
       "GET",
       "HEAD"
@@ -1586,6 +1611,50 @@
       "PATCH",
       "DELETE",
       "OPTIONS"
+    ]
+  },
+  "system.locations.index": {
+    "name": "system.locations.index",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@index",
+    "uri": "system/locations",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "system.locations.create": {
+    "name": "system.locations.create",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@create",
+    "uri": "system/locations/create",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.locations.remove": {
+    "name": "system.locations.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@remove",
+    "uri": "system/locations/{location_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.locations.ajax.list": {
+    "name": "system.locations.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@listAjax",
+    "uri": "system/locations/list/ajax",
+    "method": [
+      "GET",
+      "HEAD"
     ]
   },
   "others.set": {
