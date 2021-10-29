@@ -55,7 +55,7 @@ class Location extends Properties
             $latDestination = $place->position[0];
             $longDestination = $place->position[1];
             if ($this->getDistance($lat, $long, $latDestination, $longDestination) < $place->radius) {
-                return $place->name;
+                return $place;
             }
         }
     }

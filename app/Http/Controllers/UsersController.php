@@ -288,7 +288,7 @@ class UsersController extends Controller
     {
         $locationSlug = "home";
         $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
-                if ($item->locator->getLocation() == $locationSlug) {
+                if ($item->locator->getLocation()->name == $locationSlug) {
                     return $item;
                 }
             });
