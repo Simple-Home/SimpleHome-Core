@@ -58,6 +58,8 @@ class Location extends Properties
                 return $place;
             }
         }
+
+        return false;
     }
 
     private function getPlaces(){

@@ -6,19 +6,19 @@
 
         <div class="col-auto">
             <div class="input-group">
-                <span class="input-group-prepend">
-                    <button id="positionIconOpener" class="btn btn-secondary">
-                        <i class="fas {{ isset($location) ? $location->icon : 'fa-warehouse' }}"></i>
-                    </button>
-                </span>
+                <button id="positionIconOpener" class="input-group-text"> 
+                    <i class="fas {{ isset($location) ? $location->icon : 'fa-warehouse' }}"></i>
+                </button>
                 <input type="text" class="form-control" placeholder="Location Name"
                     value="{{ isset($location) ? $location->name : '' }}" name="postitionName" required>
             </div>
         </div>
 
-        <div id="positionIcon" name="positionIcon"></div>
+        <div id="positionIcon" class="btn-info " name="positionIcon" data-icon="{{ isset($location) ? $location->icon : 'fa-warehouse' }}">
+            <input type="hidden" name="positionIcon" value="{{ isset($location) ? $location->icon : 'fa-warehouse' }}">
+        </div>
 
-        <div id="map" class="map my-2" tabindex="0"></div>
+        <div id="map" class="map my-2 form-control p-0" tabindex="0"></div>
         <style>
             .map {
                 height: 400px;

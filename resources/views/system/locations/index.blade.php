@@ -86,15 +86,18 @@
         });
 
         $('body').on('click', 'button#positionIconOpener', function(e) {
-            $('div#positionIcon').iconpicker({
+            $('div#positionIconOpener').iconpicker({
                 align: 'center', // Only in div tag
                 arrowClass: 'btn-danger',
                 unselectedClass: '',
                 search: true,
-                footer: false,
-                header: false,
-                setRows: 0,
-                setRows: 0,
+                footer: true,
+                header: true,
+                rows: 4,
+                cols: 11,
+                selectedClass: 'btn-primary',
+                arrowPrevIconClass: 'fas fa-angle-left',
+                arrowNextIconClass: 'fas fa-angle-right',
             });
             e.preventDefault();
         });
