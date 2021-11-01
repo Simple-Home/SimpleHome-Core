@@ -144,19 +144,26 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('system.settings.update');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
-    Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\SettingsController::class, 'developments'])->name('system.developments.list');
-
-    Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/ajax', [App\Http\Controllers\SettingsController::class, 'ajaxGeneratePersonalAccessToken'])->name('system.developments.ajax.private.token');
-
+    
+    
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
+    
+    
+    
+    
+    
+    //DEVILOPMENTS: Main Location route
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\DevelopmentsController::class, 'index'])->name('system.developments.index');
+    //DEVILOPMENTS: Sub Routes for Ajax
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments/list/ajax', [App\Http\Controllers\DevelopmentsController::class, 'listAjax'])->name('system.developments.ajax.list');
+    Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.personnal.ajax.new');
 
-    //Main Location route
+    //LOCATIONS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/remove', [App\Http\Controllers\LocationsController::class, 'remove'])->name('system.locations.remove');
     Route::middleware(['auth', 'verified', 'language'])->post('/locations/save', [App\Http\Controllers\LocationsController::class, 'save'])->name('system.locations.new');
     Route::middleware(['auth', 'verified', 'language'])->post('/locations/{location_id}/save', [App\Http\Controllers\LocationsController::class, 'save'])->name('system.locations.save');
-    
-    //Sub Routes for Ajax
+    //LOCATIONS: Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/search/ajax/{therm?}', [App\Http\Controllers\LocationsController::class, 'searchAjax'])->name('system.locations.ajax.search');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/edit/ajax', [App\Http\Controllers\LocationsController::class, 'editAjax'])->name('system.locations.ajax.edit');

@@ -29,6 +29,9 @@ mix.scripts([
     'resources/js/locations.js',
 ], 'public/js/locations.js');
 
+mix.scripts([
+    'resources/js/developments-controller.js',
+], 'public/js/developments-controller.js');
 
 mix.scripts([
     'resources/js/notifications.js',
