@@ -65,13 +65,12 @@ class LocationsController extends Controller
         return redirect()->back();
     }
  
-    public function searchAjax(Request $request)
+    public function searchAjax(Request $request, $therm = null)
     {
         //TODO: NEED TO BE SUBMITED BY AJAX FIX FOR ALL CONTROLER
         if ($request->ajax()) {
-            $request->get('search');
-            $locations = User::query()
-            ->where('name', 'LIKE', "%{$search}%")
+            $locations = Locations::query()
+            ->where('name', 'LIKE', "%{$therm}%")
             ->get();
 
             return View::make("system.locations.ajax.list")->with("locations", $locations)->render();

@@ -158,6 +158,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     
     //Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/locations/search/ajax/{therm?}', [App\Http\Controllers\LocationsController::class, 'searchAjax'])->name('system.locations.ajax.search');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/edit/ajax', [App\Http\Controllers\LocationsController::class, 'editAjax'])->name('system.locations.ajax.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/new/ajax', [App\Http\Controllers\LocationsController::class, 'newAjax'])->name('system.locations.ajax.new');
 

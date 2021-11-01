@@ -5,4 +5,18 @@ window.addEventListener("load", function () {
     ajaxContentLoader($("div#ajax-loader"), url,
         loadingAnimation, "GET");
 
+
+});
+
+$(document).on('submit', 'form#search', function (event) {
+    var loadingAnimation = true;
+
+    therm = $("form#search").find('input[name="search"]').val();
+    url = $("form#search").attr("action");
+    url = url + "/" + encodeURIComponent(therm);
+
+    ajaxContentLoader($("div#ajax-loader"), url,
+        loadingAnimation, "GET");
+
+    event.preventDefault();
 });
