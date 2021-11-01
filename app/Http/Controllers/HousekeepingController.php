@@ -75,7 +75,7 @@ class HousekeepingController extends Controller
         $lock = Cache::lock('job-cleningOldRecord-lock', 120);
         
         if ($lock->get()) {
-            if(CleanRecords::dispatch()->onQueue('houskeeping')){
+            if(CleanRecords::dispatch()->onQueue('houskeeping')->withoutOverlapping()){
                 return redirect()->back()->with('success', __('simplehome.housekeeping.runJob.triggert'));
             }
             return redirect()->back()->with('danger', __('simplehome.housekeeping.runJob.triggert.error'));
@@ -90,7 +90,7 @@ class HousekeepingController extends Controller
         $lock = Cache::lock('job-cleningOldLogs-lock', 120);
         
         if ($lock->get()) {
-            if(CleanLogs::dispatch()->onQueue('houskeeping')){
+            if(CleanLogs::dispatch()->onQueue('houskeeping')->withoutOverlapping()){
                 return redirect()->back()->with('success', __('simplehome.housekeeping.logs.runJob.triggert'));
             }
             return redirect()->back()->with('danger', __('simplehome.housekeeping.logs.runJob.triggert.error'));

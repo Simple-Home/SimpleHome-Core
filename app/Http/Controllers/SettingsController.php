@@ -120,8 +120,8 @@ class SettingsController extends Controller
                 $index = $key;
             }
 
-            if (SettingManager::get($key, $group)->value != $value){
-                SettingManager::set($key, $value, $group);
+            if (SettingManager::get($index, $group)->value != $value){
+                SettingManager::set($index, $value, $group);
             }
         }
 
