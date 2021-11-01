@@ -157,6 +157,8 @@ Route::namespace('system')->prefix('system')->group(function () {
     //DEVILOPMENTS: Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/list/ajax', [App\Http\Controllers\DevelopmentsController::class, 'listAjax'])->name('system.developments.ajax.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.personnal.ajax.new');
+    Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.ajax.new');
+
 
     //LOCATIONS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');

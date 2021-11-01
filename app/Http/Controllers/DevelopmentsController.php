@@ -57,6 +57,14 @@ class DevelopmentsController extends Controller
         }
         return redirect()->back();
     }
+
+    public function newAjax(Request $request)
+    {
+            if ($request->ajax()) {
+            return View::make("system.locations.form.edit")->render();
+        }
+        return redirect()->back();
+    }
 }
 
 

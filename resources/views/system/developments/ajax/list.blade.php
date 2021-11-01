@@ -83,8 +83,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         {{ __('simplehome.oauth.personal.tokens') }}
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personalAccessTokenCreation"><i
-                class="fas fa-plus"></i></button>
+        <button class="btn btn-primary" data-url="{{ route('system.developments.ajax.new') }}"
+            title="{{ __('simplehome.create') }}">><i class="fas fa-plus"></i></button>
     </div>
     <div class="card-body">
         <table class="table">
