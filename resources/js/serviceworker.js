@@ -4,6 +4,8 @@ var filesToCache = [
     'controls',
     'automations',
     'offline',
+    'system/developments',
+    'system/locations',
     'css/app.css',
     'js/app.js',
     'js/refresh-csrf.js',

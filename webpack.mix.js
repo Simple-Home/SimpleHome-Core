@@ -1,57 +1,67 @@
 const mix = require("laravel-mix");
 /*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+|--------------------------------------------------------------------------
+| Mix Asset Management
+|--------------------------------------------------------------------------
+|
+| Mix provides a clean, fluent API for defining some Webpack build steps
+| for your Laravel application. By default, we are compiling the Sass
+| file for the application as well as bundling up all the JS files.
+|
+*/
 
 mix.setPublicPath("public");
 mix.setResourceRoot("../");
 
 mix.scripts([
     'resources/js/utillities.js',
-], 'public/js/utillities.js');
+], 'public/js/utillities.js').version();
+
 
 mix.scripts([
     'resources/js/controls.js',
-], 'public/js/controls.js');
+], 'public/js/controls.js').version();
+
 
 mix.scripts([
     'resources/js/automations.js',
-], 'public/js/automations.js');
+], 'public/js/automations.js').version();
+
 
 mix.scripts([
-    'resources/js/locations.js',
-], 'public/js/locations.js');
+    'resources/js/locations-controller.js',
+], 'public/js/locations-controller.js').version();
+
 
 mix.scripts([
     'resources/js/developments-controller.js',
-], 'public/js/developments-controller.js');
+], 'public/js/developments-controller.js').version();
+
 
 mix.scripts([
     'resources/js/notifications.js',
-], 'public/js/notifications.js');
+], 'public/js/notifications.js').version();
+
 
 mix.scripts([
     'resources/js/locators.js',
-], 'public/js/locators.js');
+], 'public/js/locators.js').version();
+
 
 mix.scripts([
     'resources/js/serviceworker.js',
-], 'public/serviceworker.js');
+], 'public/serviceworker.js').version();
+
 
 mix.scripts([
     'resources/js/push-notifications.js',
-], 'public/js/push-notifications.js');
+], 'public/js/push-notifications.js').version();
+
 
 mix.scripts([
     'resources/js/refresh-csrf.js',
-], 'public/js/refresh-csrf.js');
+], 'public/js/refresh-csrf.js')
+    .version();
 
 mix.js("resources/js/app.js", "public/js")
     .version()

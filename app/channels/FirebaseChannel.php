@@ -24,6 +24,7 @@ class FirebaseChannel
 
         return $this->sendToFirebase($data);
     }
+    
     private function sendToFirebase($data){
          if (empty(env("FIREBASE_API_KEY"))) {
             return false;

@@ -24,9 +24,9 @@ class Devices extends Model
         //NEW
         public function getCommandAttribute($value){
             $command = $value;
-
+            
             if (empty($command) || $command === 'null')
-                return $command;
+            return $command;
             
             Log::info('Device Command Execution', ['id' => $this->id, 'command' => $command]);
             if ($command == "reset") {
@@ -168,14 +168,18 @@ class Devices extends Model
         public function getBatteryLevelPercentAttribute()
         {
             $batteryVoltage = ($this->getProperties->where('type', 'battery')->first());
-            if ($batteryVoltage && isset($batteryVoltage->latestRecord)) {
+            if ($batteryVoltage && isset($batteryVoltage->latestRecord)){
                 $max = $batteryVoltage->max_value;
                 $min = $batteryVoltage->min_value;
                 $max = ($max - $min);
-                $onePercent = $max / 100;
                 
+                $onePercent = $max / 100;
+                if ($onePercent <= 0){
+                    return false;
+                }                
                 return ($batteryVoltage->latestRecord->value - $min) / $onePercent;
             }
+            
             return false;
         }
         
