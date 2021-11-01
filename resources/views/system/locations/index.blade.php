@@ -55,7 +55,6 @@
 @endsection
 
 @section('beforeBodyEnd')
-
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
     <script src="{{ asset(mix('js/locations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
