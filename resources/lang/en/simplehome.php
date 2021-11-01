@@ -131,5 +131,9 @@ return [
     'locations.longtitude' => 'Longtitude',
     'locations.radius' => 'Radius',
     'locations.new' => 'new location',
-
+    //DEVELOPMENTS
+    'oauth.personal.tokens' => "Personal Tokens",
+    'oauth.tokens' => "Tokens",
+    'oauth.clients' => "Clients",
+    'oauth.authorized.apps' => "Authorizet Apps",
 ];
