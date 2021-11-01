@@ -1,6 +1,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.oauth.clients') }}
-        <button class="btn btn-primary"><i class="fas fa-plus"></i></button>
+        <button class="development-edit  btn btn-primary" data-url="{{ route('system.developments.ajax.new') }}"><i
+                class="fas fa-plus"></i></button>
     </div>
     <div class="card-body">
         <table class="table">
@@ -24,7 +25,7 @@
                                     class="location-edit btn btn-primary" title="{{ __('simplehome.edit') }}">
                                     <i class="fas fa-pen"></i>
                                 </button>
-                                <a href="{{ route('system.locations.remove', ['location_id' => 0]) }}"
+                                <a href="{{ route('system.developments.clients.remove', ['client_id' => $client->id]) }}"
                                     class="btn btn-danger" title="{{ __('simplehome.delete') }}">
                                     <i class="fas fa-trash"></i>
                                 </a>
@@ -61,13 +62,12 @@
                         <td class="col-auto text-end fit">
                             <div class="btn btn-info p-1">
                                 @if (!$token->revoked)
-                                    <button
-                                        data-url="{{ route('system.locations.ajax.edit', ['location_id' => 0]) }}"
+                                    <a href="{{ route('system.developments.token.revoke', ['token_id' => $token->id]) }}"
                                         class="location-edit btn btn-primary" title="{{ __('simplehome.edit') }}">
                                         <i class="fas fa-lock"></i>
-                                    </button>
+                                    </a>
                                 @endif
-                                <a href="{{ route('system.locations.remove', ['location_id' => 0]) }}"
+                                <a href="{{ route('system.developments.token.remove', ['token_id' => $token->id]) }}"
                                     class="btn btn-danger" title="{{ __('simplehome.delete') }}">
                                     <i class="fas fa-trash"></i>
                                 </a>
@@ -83,8 +83,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         {{ __('simplehome.oauth.personal.tokens') }}
-        <button class="btn btn-primary" data-url="{{ route('system.developments.ajax.new') }}"
-            title="{{ __('simplehome.create') }}">><i class="fas fa-plus"></i></button>
+        <button class="btn btn-primary" title="{{ __('simplehome.create') }}"><i class="fas fa-plus"></i></button>
     </div>
     <div class="card-body">
         <table class="table">
@@ -103,13 +102,12 @@
                         <td class="col-auto text-end fit">
                             <div class="btn btn-info p-1">
                                 @if (!$personalAccessToken->revoked)
-                                    <button
-                                        data-url="{{ route('system.locations.ajax.edit', ['location_id' => 0]) }}"
+                                    <a href="{{ route('system.developments.token.revoke', ['token_id' => $personalAccessToken->id]) }}"
                                         class="location-edit btn btn-primary" title="{{ __('simplehome.edit') }}">
                                         <i class="fas fa-lock"></i>
-                                    </button>
+                                    </a>
                                 @endif
-                                <a href="{{ route('system.locations.remove', ['location_id' => 0]) }}"
+                                <a href="{{ route('system.developments.token.remove', ['token_id' => $personalAccessToken->id]) }}"
                                     class="btn btn-danger" title="{{ __('simplehome.delete') }}">
                                     <i class="fas fa-trash"></i>
                                 </a>

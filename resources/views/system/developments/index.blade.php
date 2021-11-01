@@ -19,6 +19,20 @@
 
 @section('modal')
     <!-- Modal -->
+    <div class="modal fade" id="tokenCreation" tabindex="-1" aria-labelledby="tokenCreation" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-md-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.locations.new') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <!-- TODO: REDO TO LOAD BY AJAX SAME LIKE IN LOCATIONS -->
     <div class="modal fade" id="personalAccessTokenCreation" tabindex="-1" aria-labelledby="personalAccessTokenCreation"
         aria-hidden="true">
@@ -66,16 +80,16 @@
                     success: function(msg) {
                         var responseWraper =
                             "<div class=\"modal-body\"> \
-                                                                                    <code id=\"accessToken\">" +
+                                                                                                <code id=\"accessToken\">" +
                             msg +
                             "</code> \
-                                                                                    <button class=\"btn\" data-clipboard-target=\"#accessToken\">\
-                                                                                        <i class=\"fas fa-paperclip\"></i>\
-                                                                                    </button>\
-                                                                                </div> \
-                                                                                <div class=\"modal-footer\"> \
-                                                                                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> \
-                                                                                </div>"
+                                                                                                <button class=\"btn\" data-clipboard-target=\"#accessToken\">\
+                                                                                                    <i class=\"fas fa-paperclip\"></i>\
+                                                                                                </button>\
+                                                                                            </div> \
+                                                                                            <div class=\"modal-footer\"> \
+                                                                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> \
+                                                                                            </div>"
                         form.replaceWith(responseWraper);
                     }
                 });

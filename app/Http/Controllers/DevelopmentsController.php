@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\View;
 use Laravel\Passport\Client;
 use Laravel\Passport\Token;
 
+
 class DevelopmentsController extends Controller
 {
     public function __construct()
@@ -60,10 +61,31 @@ class DevelopmentsController extends Controller
 
     public function newAjax(Request $request)
     {
-            if ($request->ajax()) {
-            return View::make("system.locations.form.edit")->render();
+        if ($request->ajax()) {
+            return View::make("system.developments.form.edit")->render();
         }
         return redirect()->back();
+    }
+
+    public function removeToken(string $token_id)
+    {
+        $location = Token::find($token_id);
+        $location->delete();
+        return redirect()->back()->with('error', 'Token removed.');;
+    }
+
+    public function removeClient(int $client_id)
+    {
+        $location = Client::find($client_id);
+        $location->delete();
+        return redirect()->back()->with('error', 'Client removed.');;
+    }
+
+    public function revokeToken(string $token_id)
+    {
+        $location = Token::find($token_id);
+        $location->revoke();
+        return redirect()->back()->with('error', 'Token revoked.');;
     }
 }
 

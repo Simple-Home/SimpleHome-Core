@@ -154,10 +154,15 @@ Route::namespace('system')->prefix('system')->group(function () {
     
     //DEVILOPMENTS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\DevelopmentsController::class, 'index'])->name('system.developments.index');
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/{token_id}/remove', [App\Http\Controllers\DevelopmentsController::class, 'removeToken'])->name('system.developments.token.remove');
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/{token_id}/revoke', [App\Http\Controllers\DevelopmentsController::class, 'revokeToken'])->name('system.developments.token.revoke');
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments/client/{client_id}/revoke', [App\Http\Controllers\DevelopmentsController::class, 'removeClient'])->name('system.developments.clients.remove');
+
+
     //DEVILOPMENTS: Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/list/ajax', [App\Http\Controllers\DevelopmentsController::class, 'listAjax'])->name('system.developments.ajax.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.personnal.ajax.new');
-    Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.ajax.new');
+    Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newAjax'])->name('system.developments.ajax.new');
 
 
     //LOCATIONS: Main Location route

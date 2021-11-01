@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
         loadingAnimation, "GET");
 });
 
-$('body').on('click', 'button.token-edit', function (e) {
+$('body').on('click', 'button.development-edit', function (e) {
     map = null;
     url = $(this).data("url");
     console.log(url);
