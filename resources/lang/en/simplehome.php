@@ -122,6 +122,7 @@ return [
     'create' => 'Create',
     'search' => 'Search',
     'logout' => 'Logout',
+    'last.change' => 'Last Change',
     //LOG
     'logs.exception' => 'Exception',
     //LOCATION

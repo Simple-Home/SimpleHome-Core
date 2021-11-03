@@ -95,7 +95,7 @@ class Devices extends Model
             $sleep = empty($this->sleep) ? 1000 : $this->sleep;
             
             $heartbeat->modify("+" . $sleep . " ms");
-            $heartbeat->modify("+3 seconds");
+            $heartbeat->modify("+10 seconds");
             
             $now = new DateTime();
             if ($heartbeat->getTimestamp() < $now->getTimestamp()) {

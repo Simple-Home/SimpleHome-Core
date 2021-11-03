@@ -66,7 +66,10 @@
                 <div>
                     <h3 class="mb-0">{{ $property->nick_name }}</h3>
                     @if (isset($property->latestRecord->created_at))
-                        <p class="mb-0">{{ $property->latestRecord->created_at->diffForHumans() }}</p>
+                        <p class="mb-0">
+                            {{ __('simplehome.last.change') }}
+                            {{ $property->latestRecord->created_at->diffForHumans() }}
+                        </p>
                     @endif
                 </div>
             </div>
