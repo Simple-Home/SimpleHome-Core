@@ -161,32 +161,25 @@ class UsersController extends Controller
         }
 
         $user = $request->user();
-        $notifications = "";
+        $notifications = [];
         if (!empty($request->input('mail'))) {
-            if ($notifications == "") {
-                $notifications = "mail";
-            } else {
-                $notifications .= ",mail";
+            if ($notifications != "") {
+                $notifications[] = 'mail';
             }
         }
-        if (!empty($request->input('database'))) {
-            if ($notifications == "") {
-                $notifications = "database";
-            } else {
-                $notifications .= ",database";
+         if (!empty($request->input('database'))) {
+            if ($notifications != "") {
+                $notifications[] = 'database';
             }
         }
-        if (!empty($request->input('fcm'))) {
-            if ($notifications == "") {
-                $notifications = "fcm";
-            } else {
-                $notifications .= ",fcm";
+         if (!empty($request->input('firebase'))) {
+            if ($notifications != "") {
+                $notifications[] = 'firebase';
             }
         }
-
         $user->notification_preferences = $notifications;
-
         $user->save();
+
         return redirect()->route('system.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
     }
 
