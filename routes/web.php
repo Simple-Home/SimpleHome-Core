@@ -2,6 +2,8 @@
 
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\DeviceRebootNotification;
+use App\Models\Devices;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +138,15 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/changePassword', [App\Http\Controllers\UsersController::class, 'changePassword'])->name('system.profile.changePassword');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('system.profile.verifyDelete');
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');
+    Route::middleware(['auth', 'verified', 'language'])->post('/profile/subscribe', [App\Http\Controllers\UsersController::class, 'subscribe'])->name('system.profile.notifications.subscribe');
+    
+    // Route::middleware(['auth', 'verified', 'language'])->get('/profile/send', function() {
+        
+    //     $user = auth()->user();
+    //     $response = $user->notifyNow(new DeviceRebootNotification(Devices::find(513)));
+    //     return response()->json(["status"=>"send","response" => $response]);
+
+    // })->name('notifications.send');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations/{integration_slug}/detail', [App\Http\Controllers\SettingsController::class, 'detail'])->name('system.integrations.detail');

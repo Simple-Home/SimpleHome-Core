@@ -98,17 +98,37 @@
 
                         var pushtoken = localStorage.getItem('pushtoken') || null;
 
-                        if (pushtoken == null) {
-                            messaging.getToken({
-                                vapidKey: '{{ env('FIREBASE_VAPY_KEY') }}',
-                                serviceWorkerRegistration: registration
-                            }).then(function(token) {
-                                pushtoken = token;
-                                localStorage.setItem('pushtoken', token);
-                            });
-                        }
 
-                        console.log(pushtoken);
+                        messaging.getToken({
+                            vapidKey: '{{ env('FIREBASE_VAPY_KEY') }}',
+                            serviceWorkerRegistration: registration
+                        }).then(function(token) {
+                            pushtoken = token;
+                            localStorage.setItem('pushtoken', token);
+
+                            $.ajax({
+                                url: '{{ route('system.profile.notifications.subscribe') }}',
+                                type: 'POST',
+                                data: {
+                                    token: pushtoken
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                        'content')
+                                },
+                                success: function(data) {
+                                    console.log('saved', data);
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+
+
+
+
+                        console.log("token FCM", pushtoken);
                     }
 
                 },

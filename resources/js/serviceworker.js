@@ -1,4 +1,22 @@
-var staticCacheName = "pwa-v-" + new Date().getTime();
+importScripts('https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.1.0/firebase-messaging.js');
+
+if (firebase.messaging.isSupported()) {
+    if (!firebase.apps.length) {
+        firebase.initializeApp({
+            messagingSenderId: "93473765978",
+        });
+    } else {
+        firebase.app(); // if already initialized, use that one
+    }
+    const messaging = firebase.messaging();
+    // messaging.onMessage((payload) => {
+    //     console.log('Message received. ', payload);
+    // });
+}
+
+
+var staticCacheName = "pwa-v2-" + new Date().getTime();
 
 var filesToCache = [
     'controls',
@@ -66,8 +84,16 @@ self.addEventListener("fetch", event => {
 // Push Recive
 self.addEventListener("push", function (event) {
     if (event.data) {
+        var Content = event.data.json().notification;
+        var Data = event.data.json().data;
+        console.log(Data);
+        var Options = {
+            body: Content.body,
+            icon: Content.icon || null,
+            actions: Content.actions || null
+        };
         event.waitUntil(
-            self.registration.showNotification(event.data + "test ggg test")
+            self.registration.showNotification(Content.title, Options)
         );
     }
 });

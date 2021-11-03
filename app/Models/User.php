@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function routeNotificationForFirebase ($notifiable) {
-        return 'subscriber id for FB';
+        return $this->pushNotificationSubscription->pluck('token')->toArray();
     }
 
     public function locator()
@@ -53,5 +53,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getGavatarUrl(){
         return 'https://secure.gravatar.com/avatar/'.md5($this->email);
+    }
+
+     public function pushNotificationSubscription()
+    {
+        return $this->hasMany('App\Models\PushNotificationsSubscribers', 'recipient_id');
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use App\Models\PushNotificationsSubscribers;
 
 
 
@@ -296,5 +297,18 @@ class UsersController extends Controller
         return View::make("components.locators")->with("usersLocators", $usersLocators)->render();
     }
 
+    public function subscribe(Request $request){
+        $user = auth()->user();
+        $token = $request->token;
+        
+        $subscription = PushNotificationsSubscribers::where("recipient_id",$user->id)->where('token', $token)->first();
+        if ($subscription != null){
+            return true;
+        }
 
+        $subscriber = new PushNotificationsSubscribers();
+        $subscriber->recipient_id = $user->id;
+        $subscriber->token = $token;
+        return $subscriber->save();
+    }
 }
