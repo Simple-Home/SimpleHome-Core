@@ -10,6 +10,15 @@ const mix = require("laravel-mix");
 |
 */
 
+require('mix-env-file');
+
+// Then pass your file to this plugin
+// If this is not set, this plugin won't do anything and the default .env variables will remain
+mix.env(process.env.ENV_FILE);
+
+const fs = require('fs');
+const path = require('path');
+
 mix.setPublicPath("public");
 mix.setResourceRoot("../");
 
@@ -50,8 +59,28 @@ mix.scripts([
 
 mix.scripts([
     'resources/js/serviceworker.js',
-], 'public/serviceworker.js').version();
+], 'public/serviceworker.js').after(stats => {
+    // webpack compilation has completed
+    fs.readFile(path.resolve(__dirname, 'public/serviceworker.js'), 'utf8', (readError, data) => {
+        if (readError) {
+            console.error("\x1b[31mError: \x1b[0m" + readError);
+            return;
+        }
 
+        var result = data.replace('process.env.MIX_FIREBASE_MESSAGING_SENDER_ID', process.env.MIX_FIREBASE_MESSAGING_SENDER_ID);
+
+        fs.writeFile(path.resolve(__dirname, 'public/serviceworker.js'), result, writeError => {
+            if (writeError) {
+                console.error("\x1b[31mError: \x1b[0m" + writeError);
+                return;
+            }
+
+            console.log("Relative theme directory references replaced to full urls!");
+        });
+    })
+}).version();
+
+mix.minify('public/serviceworker.js').version();
 
 mix.scripts([
     'resources/js/push-notifications.js',

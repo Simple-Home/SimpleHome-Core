@@ -15,7 +15,6 @@ if (firebase.messaging.isSupported()) {
     // });
 }
 
-
 var staticCacheName = "pwa-v2-" + new Date().getTime();
 
 var filesToCache = [
