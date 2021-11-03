@@ -80,7 +80,7 @@ class UsersController extends Controller
         $notificationForm = $formBuilder->create(\App\Forms\NotificationForm::class, [
             'method' => 'POST',
             'url' => route('system.profile.notifications', ['user' => $user])
-        ]);
+        ], ['user' => $user]);
         $settingForm = $formBuilder->create(\App\Forms\SettingForm::class, [
             'method' => 'POST',
             'url' => route('system.profile.setting', ['user' => $user])

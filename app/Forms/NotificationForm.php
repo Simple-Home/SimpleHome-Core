@@ -11,7 +11,7 @@ class NotificationForm extends Form
 {
     public function buildForm()
     {
-        $user = auth()->user();
+        $user = $this->getData('user');
         $userNotificationPreferencies = ($user->notification_preferences != null ? $user->notification_preferences : []);
         
         foreach (["mail","database","firebase"] as $key => $value) {
