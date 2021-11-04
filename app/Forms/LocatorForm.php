@@ -12,7 +12,7 @@ class LocatorForm extends Form
     {
         $this
             ->add('locator_id', Field::SELECT, [
-                'choices' => (!empty($this->getData('properties')) ? $this->getData('properties') : array(0 => "Nothing")),
+                'choices' => (!empty($this->getData('properties')) ? $this->getData('properties') : array(null => "Nothing")),
                 'label' => "Properties"
             ])
             ->add('saveLocator', Field::BUTTON_SUBMIT, [
