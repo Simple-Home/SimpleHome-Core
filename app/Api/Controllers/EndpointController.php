@@ -43,6 +43,7 @@ class EndpointController extends Controller
             );
         }
         
+        //Test
         $device = Devices::where('token', '=', $token[1])->first();
         if ($device == null) {
             $devices            = new Devices;
