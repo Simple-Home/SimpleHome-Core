@@ -25,6 +25,7 @@
         "nanigans/single-table-inheritance": "~1.0",
         "nwidart/laravel-modules": "^8.0",
         "pavel-mironchik/laravel-backup-panel": "^2.1",
+        "php-mqtt/client": "^1.1",
         "pusher/pusher-php-server": "^6.0",
         "rachidlaasri/laravel-installer": "^4.1",
         "silviolleite/laravelpwa": "^2.0",

@@ -43,13 +43,14 @@ class EndpointController extends Controller
             );
         }
         
-        $device = Devices::where('token', '=', $token[1])->first()->id;
-        if (!$device) {
+        $device = Devices::where('token', '=', $token[1])->first();
+        if ($device == null) {
             $devices            = new Devices;
             $devices->token     = $token[1];
             $devices->hostname  = $token[1];
             $devices->type      = 'custome';
             $devices->save();
+            $device->setHeartbeat();
             return response()->json(
                 [
                     'setup' => true
@@ -57,6 +58,7 @@ class EndpointController extends Controller
                 JsonResponse::HTTP_OK
             );
         }
+        $device->setHeartbeat();
         
         if ($device->approved == 1) {
             $defaultRoom = Rooms::query()->where('default', 1)->first();
