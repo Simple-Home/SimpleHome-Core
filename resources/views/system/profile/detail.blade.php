@@ -72,6 +72,18 @@
             </div>
         </div>
         <br />
+        <div class="row justify-content-center" id="locator">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('user.locator') }}</div>
+
+                    <div class="card-body">
+                        {!! form($locatorForm) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
         <div class="row justify-content-center" id="settings">
             <div class="col-md-8">
                 <div class="card">
