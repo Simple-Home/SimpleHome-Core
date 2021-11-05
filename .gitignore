@@ -56,3 +56,4 @@ Modules/*/
 /cypress/screenshots/
 /cypress/videos/
 /.env.cypress
+.vscode/settings.json

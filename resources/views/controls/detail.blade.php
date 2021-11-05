@@ -66,7 +66,10 @@
                 <div>
                     <h3 class="mb-0">{{ $property->nick_name }}</h3>
                     @if (isset($property->latestRecord->created_at))
-                        <p class="mb-0">{{ $property->latestRecord->created_at->diffForHumans() }}</p>
+                        <p class="mb-0">
+                            {{ __('simplehome.last.change') }}
+                            {{ $property->latestRecord->created_at->diffForHumans() }}
+                        </p>
                     @endif
                 </div>
             </div>
@@ -100,16 +103,9 @@
                         </div>
                     @endif
                 @else
-                    {{ $property->getLocation() }}
                     @php
                         $lat = explode(',', $property->latestRecord->value)[0];
                         $long = explode(',', $property->latestRecord->value)[1];
-                        
-                        $minLat = $lat - 0.001;
-                        $maxLat = $lat + 0.001;
-                        $minLong = $long - 0.001;
-                        $maxLong = $long + 0.001;
-                        
                     @endphp
 
                     <link rel="stylesheet"
@@ -123,7 +119,6 @@
 
                     </style>
                     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
-                    <h2>My Map</h2>
                     <div id="map" class="map"></div>
                     <script type="text/javascript">
                         const iconFeature = new ol.Feature({

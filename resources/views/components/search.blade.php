@@ -1,4 +1,4 @@
-<form action="{{ route(str_replace('list', 'search', Route::currentRouteName())) }}" method="GET">
+<form id="search" action="{{ route(str_replace('index', 'ajax.search', Route::currentRouteName())) }}" method="GET">
     <div class="d-flex mb-2">
         <div class="flex-grow-1 me-1">
             <input class="form-control" value="{{ app('request')->input('search') }}" type="search" name="search"

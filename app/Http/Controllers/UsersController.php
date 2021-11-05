@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Properties;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use App\Models\PushNotificationsSubscribers;
 
 
 
@@ -71,6 +73,15 @@ class UsersController extends Controller
     public function edit(User $user, FormBuilder $formBuilder)
     {
         $user = auth()->user();
+
+        $properties = Properties::all();
+        $propertiesSelect = [null => "Nothing"];
+        if(!empty ($properties)) {
+            foreach ($properties as $property) {
+                $propertiesSelect[$property['id']] = $property['nick_name'];
+            }
+        }
+
         $profileInformationForm = $formBuilder->create(\App\Forms\ProfileInformationForm::class, [
             'model' => $user,
             'method' => 'POST',
@@ -79,7 +90,12 @@ class UsersController extends Controller
         $notificationForm = $formBuilder->create(\App\Forms\NotificationForm::class, [
             'method' => 'POST',
             'url' => route('system.profile.notifications', ['user' => $user])
-        ]);
+        ], ['user' => $user]);
+        $locatorForm = $formBuilder->create(\App\Forms\LocatorForm::class, [
+            'model' => ['locator_id' => $user['locator_id']],
+            'method' => 'POST',
+            'url' => route('system.profile.locator', ['user' => $user])
+        ], ['properties' => $propertiesSelect]);
         $settingForm = $formBuilder->create(\App\Forms\SettingForm::class, [
             'method' => 'POST',
             'url' => route('system.profile.setting', ['user' => $user])
@@ -97,7 +113,7 @@ class UsersController extends Controller
             'url' => route('system.profile.delete', ['user' => $user])
         ]);
 
-        return view('system.profile.detail', ['user' => $user] + compact('notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm'));
+        return view('system.profile.detail', ['user' => $user] + compact('notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm', 'locatorForm'));
     }
 
     /**
@@ -153,40 +169,55 @@ class UsersController extends Controller
      */
     public function notifications(Request $request, User $user, FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(\App\Forms\NotificationForm::class);
+        $user = $request->user();
+        $form = $formBuilder->create(\App\Forms\NotificationForm::class, [], ['user' => $user]);
 
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
 
-        $user = $request->user();
-        $notifications = "";
+        $notifications = [];
         if (!empty($request->input('mail'))) {
-            if ($notifications == "") {
-                $notifications = "mail";
-            } else {
-                $notifications .= ",mail";
+            if ($notifications != "") {
+                $notifications[] = 'mail';
             }
         }
-        if (!empty($request->input('database'))) {
-            if ($notifications == "") {
-                $notifications = "database";
-            } else {
-                $notifications .= ",database";
+         if (!empty($request->input('database'))) {
+            if ($notifications != "") {
+                $notifications[] = 'database';
             }
         }
-        if (!empty($request->input('fcm'))) {
-            if ($notifications == "") {
-                $notifications = "fcm";
-            } else {
-                $notifications .= ",fcm";
+         if (!empty($request->input('firebase'))) {
+            if ($notifications != "") {
+                $notifications[] = 'firebase';
             }
         }
-
         $user->notification_preferences = $notifications;
+        $user->save();
+
+        return redirect()->route('system.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function locator(Request $request, User $user, FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(\App\Forms\LocatorForm::class);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $user = $request->user();
+
+        $user->locator_id = $request->input('locator_id');
 
         $user->save();
-        return redirect()->route('system.profile', ['#notifications'])->with('success', __('web.notificationsSaved'));
+        return redirect()->route('system.profile', ['#locator'])->with('success', __('web.locatorSaved'));
     }
 
     /**
@@ -288,7 +319,7 @@ class UsersController extends Controller
     {
         $locationSlug = "home";
         $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
-                if ($item->locator->getLocation() == $locationSlug) {
+                if ($item->locator->getLocation() !== false and $item->locator->getLocation()->name == $locationSlug) {
                     return $item;
                 }
             });
@@ -296,5 +327,18 @@ class UsersController extends Controller
         return View::make("components.locators")->with("usersLocators", $usersLocators)->render();
     }
 
+    public function subscribe(Request $request){
+        $user = auth()->user();
+        $token = $request->token;
+        
+        $subscription = PushNotificationsSubscribers::where("recipient_id",$user->id)->where('token', $token)->first();
+        if ($subscription != null){
+            return true;
+        }
 
+        $subscriber = new PushNotificationsSubscribers();
+        $subscriber->recipient_id = $user->id;
+        $subscriber->token = $token;
+        return $subscriber->save();
+    }
 }

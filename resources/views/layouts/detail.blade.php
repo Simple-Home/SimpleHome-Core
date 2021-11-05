@@ -43,9 +43,9 @@
     <!-- PWA Manifest -->
     @laravelPWA
     <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        <script
-        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        refreshCSRF('{{ route('system.refresh.csrf') }}');
+        < script
+        src = "{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" >
+            refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 
     </script>

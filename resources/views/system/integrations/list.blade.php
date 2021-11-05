@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings')
 @section('title', 'integrations')
 
 @section('subnavigation')

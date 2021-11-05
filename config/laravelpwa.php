@@ -50,9 +50,10 @@ return [
         'custom' => [
             'appleMobileWebAppCapable' => 'yes',
             'appleMobileWebAppStatusBarStyle' => 'black-translucent',
-                    'description' => env('APP_DESCRIPTION', 'My PWA App Desc'),
-                    "title_bar_color" => "#1cca50",
-                    "display_override" => ["window-controls-overlay"]
-        ]
-    ]
+            'description' => env('APP_DESCRIPTION', 'My PWA App Desc'),
+            "title_bar_color" => "#1cca50",
+            "display_override" => ["window-controls-overlay"],
+            "gcm_sender_id" => "93473765978",
+        ],
+    ],
 ];

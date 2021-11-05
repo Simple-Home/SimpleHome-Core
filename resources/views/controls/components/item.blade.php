@@ -1,4 +1,5 @@
-<div class="card p-2 m-0 rounded-5" style="height: 100px; cursor: pointer;">
+<div class="card p-2 m-0 rounded-5 {{ $property->device->offline ? 'is-offline' : 'is-online' }} }}"
+    style="height: 100px; cursor: pointer;">
     <div class="container p-0 device-container">
         <div class="d-flex justify-content-between">
             <a class="h2 my-auto device-icon" href="{{ route('controls.detail', $property->id) }}">

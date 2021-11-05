@@ -112,4 +112,29 @@ return [
     'period.year' => 'Year',
     'automations.pageTitle' => 'Automation',
     'automations.create' => 'Create Automation',
+    //GENERAL
+    'name' => 'Name',
+    'close' => 'Close',
+    'edite' => 'Edit',
+    'delete' => 'Delete',
+    'icon' => 'Delete',
+    'actions' => 'Actions',
+    'create' => 'Create',
+    'search' => 'Search',
+    'logout' => 'Logout',
+    'last.change' => 'Last Change',
+    //LOG
+    'logs.exception' => 'Exception',
+    //LOCATION
+    'locations' => 'locations',
+    'locations.pageTitle' => 'Locations',
+    'locations.lattitude' => 'Latitude',
+    'locations.longtitude' => 'Longtitude',
+    'locations.radius' => 'Radius',
+    'locations.new' => 'new location',
+    //DEVELOPMENTS
+    'oauth.personal.tokens' => "Personal Tokens",
+    'oauth.tokens' => "Tokens",
+    'oauth.clients' => "Clients",
+    'oauth.authorized.apps' => "Authorizet Apps",
 ];

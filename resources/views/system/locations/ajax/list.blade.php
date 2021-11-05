@@ -1,8 +1,8 @@
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.oauth.clients') }}
+    <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.locations') }}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" onClick="$('#locationCreation').modal('show')"
-            title=" {{ __('simplehome.locations.create') }}">
+        <button type="button" class="location-edit btn btn-primary" data-url="{{ route('system.locations.ajax.new') }}"
+            title="{{ __('simplehome.create') }}">
             <i class="fas fa-plus"></i>
         </button>
     </div>
@@ -12,24 +12,29 @@
                 <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th scope="col">{{ __('simplehome.room.name') }}</th>
-                            <th></th>
+                            <th>{{ __('simplehome.icon') }}</th>
+                            <th scope="col">{{ __('simplehome.name') }}</th>
+                            <th>{{ __('simplehome.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($locations as $location)
                             <tr>
                                 <td class="col">
-                                    {{ $location->icon }}
+                                    <i class="fas {{ isset($location) ? $location->icon : 'fa-warehouse' }}"></i>
                                 </td>
                                 <td class="col-auto">
                                     {{ $location->name }}
                                 </td>
                                 <td class="col">
                                     <div>
+                                        <button
+                                            data-url="{{ route('system.locations.ajax.edit', ['location_id' => $location->id]) }}"
+                                            class="location-edit btn btn-primary" title="{{ __('simplehome.edit') }}">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
                                         <a href="{{ route('system.locations.remove', ['location_id' => $location->id]) }}"
-                                            class="btn btn-danger" title="{{ __('simplehome.room.delete') }}">
+                                            class="btn btn-danger" title="{{ __('simplehome.delete') }}">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </div>

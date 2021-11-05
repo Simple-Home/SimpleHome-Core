@@ -2,7 +2,9 @@
     "Blog": false,
     "ExampleBinding": false,
     "MQTT": false,
-    "PiHole": false,
+    "PiHole": true,
     "ShellyCloud": true,
-    "GoogleHome": true
+    "GoogleHome": true,
+    "Mqtt": true,
+    "OpenWeatherMap": true
 }

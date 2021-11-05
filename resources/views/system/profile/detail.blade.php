@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings')
 @section('title', 'profile')
 
 @section('subnavigation')
@@ -67,6 +67,18 @@
 
                     <div class="card-body">
                         {!! form($notificationForm) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row justify-content-center" id="locator">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('user.locator') }}</div>
+
+                    <div class="card-body">
+                        {!! form($locatorForm) !!}
                     </div>
                 </div>
             </div>

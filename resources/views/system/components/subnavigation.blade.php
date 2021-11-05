@@ -36,7 +36,7 @@
 </li>
 <li class="nav-item">
     <a class="nav-link {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
-        href="{{ route('system.developments.list') }}">{{ __('Developments') }}</a>
+        href="{{ route('system.developments.index') }}">{{ __('Developments') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"

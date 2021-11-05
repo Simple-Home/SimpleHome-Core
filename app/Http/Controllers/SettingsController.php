@@ -120,8 +120,8 @@ class SettingsController extends Controller
                 $index = $key;
             }
 
-            if (SettingManager::get($key, $group)->value != $value){
-                SettingManager::set($key, $value, $group);
+            if (SettingManager::get($index, $group)->value != $value){
+                SettingManager::set($index, $value, $group);
             }
         }
 
@@ -315,31 +315,5 @@ class SettingsController extends Controller
         return !(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on');
     }
 
-    public function developments()
-    {
-        $user = auth()->user();
-        $tokens = Token::with('client')->get();
-        $personalAccessTokens = $tokens->load('client')->filter(function ($token) {
-            return $token->client->personal_access_client;
-        })->all();
 
-        //oAuth
-        $authorizedClients = Client::all();
-        $authenticatedApps = Token::all();
-        $personalTokens  =  $personalAccessTokens;
-
-        //https: //developers.google.com/oauthplayground/#step1&scopes=*&url=https%3A%2F%2F&content_type=application%2Fjson&http_method=GET&useDefaultOauthCred=unchecked&oauthEndpointSelect=Custom&oauthAuthEndpointValue=http%3A%2F%2Fdev.steelants.cz%2Fvasek%2Fsimple-home-v4%2Fpublic%2Foauth%2Fauthorize&oauthTokenEndpointValue=http%3A%2F%2Fdev.steelants.cz%2Fvasek%2Fsimple-home-v4%2Fpublic%2Foauth%2Ftoken&oauthClientId=6&oauthClientSecret=m7JVBeurxudwZR3ManIPd4Eb9FS3Oj2EZ8nXeYHp&includeCredentials=checked&accessTokenType=bearer&autoRefreshToken=unchecked&accessType=offline&prompt=consent&response_type=code&wrapLines=on
-        return view('system.developments.index', ['user' => $user] + compact("authorizedClients", "authenticatedApps", "personalTokens"));
-    }
-
-    public function ajaxGeneratePersonalAccessToken(Request $request)
-    {
-        $values = $request->all();
-        if ($request->ajax()) {
-            $user = auth()->user();
-            $token = $user->createToken($values['tokenName'])->accessToken;
-            return $token;
-        }
-        return redirect()->back();
-    }
 }

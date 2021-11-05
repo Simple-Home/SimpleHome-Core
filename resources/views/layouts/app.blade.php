@@ -11,6 +11,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @hasSection('title')
         <title>@yield('title') - {{ config('app.name') }}</title>
     @else
@@ -39,14 +40,21 @@
 
     </style>
 
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    <script>
+        refreshCSRF('{{ route('system.refresh.csrf') }}');
+    </script>
+
     @yield('customHead')
 
-    <!-- PWA Manifest -->
+    <!--PWA Manifest-->
     @laravelPWA
 
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-
-    </script>
     <script defer>
         var darkThemeSelected =
             localStorage.getItem("darkSwitch") !== null &&
@@ -63,13 +71,6 @@
         if (!isMobile()) {
             $('head meta[name="theme-color"]').attr('content', '#1cca50');
         }
-    </script>
-
-    <script
-        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-    <script>
-        refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 </head>
 
@@ -189,7 +190,7 @@
             </div>
         </div>
 
-        <div class="row flex-grow-1">
+        <div class="row flex-grow-1 pb-3">
             <div class="col p-md-0">
                 @auth
                     @yield('content')
@@ -258,7 +259,6 @@
                 });
             </script>
         @endif
-        @yield('beforeBodyEnd')
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script
                 src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
@@ -268,6 +268,7 @@
         </script>
         <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
+
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
             <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
             </script>
@@ -275,6 +276,7 @@
             <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
             </script>
         @endif
+        @yield('beforeBodyEnd')
 </body>
 
 </html>

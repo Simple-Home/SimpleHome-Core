@@ -2,7 +2,7 @@
 @section('title', trans('simplehome.home.pageTitle'))
 
 @section('subnavigation')
-    @include('controls.components.subnavigation', $rooms)
+    <div class="ajax-subnavigation" data-url="{{ route('controls.ajax.subnavigation') }}"></div>
 @endsection
 
 @section('content')
