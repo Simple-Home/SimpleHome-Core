@@ -2,7 +2,6 @@ describe('Installation', () => {
     it('Goto installer and click button to requirements', () => {
         cy.visit('/install')
         cy.get('.button').click()
-        //@TODO check requirements
     })
 
     it('Goto permissions and check', () => {
@@ -23,7 +22,7 @@ describe('Installation', () => {
         cy.get('#setup_database').click()
 
         cy.get('#database_connection').select('mysql')
-        cy.get('#database_hostname').clear().type('173.20.0.3')
+        cy.get('#database_hostname').clear().type('db')
         cy.get('#database_port').clear().type('3306')
         cy.get('#database_name').clear().type('simplehome')
         cy.get('#database_username').clear().type('simplehome')
@@ -39,8 +38,9 @@ describe('Installation', () => {
         cy.get('#create_account_password_confirmation').clear().type('simplehome123456')
         cy.get('#start_install').click()
 
+        cy.get('#error_alert').should('not.exist');
 
-        cy.get('#error_alert').should('not.have.descendants', 'ul')
+        cy.get('.button').click();
 
 
     })
