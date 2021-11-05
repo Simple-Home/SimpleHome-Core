@@ -33,9 +33,40 @@
 
     <meta name="color-scheme" content="dark light">
 
+
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
     <script>
         refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
+
+    @yield('customHead')
+
+    <!--PWA Manifest-->
+    @laravelPWA
+
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected) {
+            localStorage.setItem("darkSwitch", "dark");
+            $('head meta[name="theme-color"]').attr('content', '#111');
+        } else {
+            localStorage.removeItem("darkSwitch");
+            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+        }
+
+        if (!isMobile()) {
+            $('head meta[name="theme-color"]').attr('content', '#1cca50');
+        }
+    </script>
+
     <style>
         /*
  * Sidebar
@@ -107,8 +138,10 @@
                     <li class="nav-item my-auto">
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.profile') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Profile') }}</span></a>
+                            <img src="{{ auth()->user()->getGavatarUrl() }}" alt="{{ auth()->user()->name }}"
+                                style="height: 30px; width:30px" class="my-auto rounded-circle border-primary border-3">
+                            <span class="d-none ms-md-2 d-md-inline py-auto">{{ auth()->user()->name }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -116,7 +149,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.diagnostics.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Diagnostics') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Diagnostics') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -124,7 +158,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.integrations.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Integrations') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Integrations') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -132,7 +167,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.housekeepings') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Housekeeping') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Housekeeping') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -140,7 +176,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.users.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Users') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Users') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -148,7 +185,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
                             title="test" href="{{ route('system.rooms.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Rooms') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Rooms') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -156,7 +194,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
                             href="{{ route('system.backups') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Backups') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Backups') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -164,7 +203,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
                             href="{{ route('system.devices.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Devices') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Devices') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -172,7 +212,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
                             href="{{ route('system.settings.list') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Settings') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Settings') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -180,7 +221,8 @@
                         <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
                             href="{{ route('system.developments.index') }}">
                             <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Developments') }}</span></a>
+                            <span class="d-none ms-md-2 d-md-inline">{{ __('Developments') }}</span>
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav flex-column">
@@ -245,6 +287,25 @@
             </nav>
         </div>
     </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script
+        src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    @if (strpos(Route::currentRouteName(), 'controls') > -1)
+        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+    @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
+        <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+    @endif
+    @yield('beforeBodyEnd')
 </body>
 
 </html>
