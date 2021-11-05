@@ -42,18 +42,7 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        $rooms = Cache::remember('controls.rooms', 1, function () {
-            return Rooms::with(['properties', 'properties.device' => function ($query) {
-                $query->select('id');
-                return $query->where('approved', 1);
-            }])->get()->filter(function ($item) {
-                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
-                    return $item;
-                }
-            });
-        });
-
-        return view('controls.list', compact('rooms', 'roomForm'));
+        return view('controls.list');
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -248,6 +237,25 @@ class ControlsController extends Controller
                 return $query->where('approved', 1)->get(["integration"]);
             }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
             return View::make("controls.controls")->with("propertyes", $propertyes)->render();
+        }
+        return redirect()->back();
+    }
+
+    public function roomsAjax($room_id = 0, Request $request)
+    {
+        if ($request->ajax()) {
+
+            $rooms = Cache::remember('controls.rooms', 1, function () {
+                return Rooms::with(['properties', 'properties.device' => function ($query) {
+                    $query->select('id');
+                    return $query->where('approved', 1);
+                }])->get()->filter(function ($item) {
+                    if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                        return $item;
+                    }
+                });
+            });
+            return View::make("controls.subnavigation")->with("rooms", $rooms)->render();
         }
         return redirect()->back();
     }

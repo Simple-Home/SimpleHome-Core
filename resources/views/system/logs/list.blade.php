@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings')
 @section('title', 'Diagnostics')
 
 @section('subnavigation')
@@ -45,8 +45,8 @@
         <div class="col">
             @if (!empty($content))
                 <pre class="bg-secondary" style="overflow: auto;">
-            {{ $content }}
-            </pre>
+                {{ $content }}
+                </pre>
             @endif
         </div>
     </div>

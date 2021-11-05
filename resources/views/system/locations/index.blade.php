@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings')
 @section('title', trans('simplehome.locations.pageTitle'))
 
 @section('customHead')

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings')
 @section('title', 'dev')
 
 @section('subnavigation')
@@ -80,16 +80,16 @@
                     success: function(msg) {
                         var responseWraper =
                             "<div class=\"modal-body\"> \
-                                                                                                <code id=\"accessToken\">" +
+                                                                                                    <code id=\"accessToken\">" +
                             msg +
                             "</code> \
-                                                                                                <button class=\"btn\" data-clipboard-target=\"#accessToken\">\
-                                                                                                    <i class=\"fas fa-paperclip\"></i>\
-                                                                                                </button>\
-                                                                                            </div> \
-                                                                                            <div class=\"modal-footer\"> \
-                                                                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> \
-                                                                                            </div>"
+                                                                                                    <button class=\"btn\" data-clipboard-target=\"#accessToken\">\
+                                                                                                        <i class=\"fas fa-paperclip\"></i>\
+                                                                                                    </button>\
+                                                                                                </div> \
+                                                                                                <div class=\"modal-footer\"> \
+                                                                                                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> \
+                                                                                                </div>"
                         form.replaceWith(responseWraper);
                     }
                 });

@@ -1,5 +1,23 @@
 console.log("Loading JS Controller for -> Control Namme Space")
 window.addEventListener("load", function () {
+    var subNavigation = $("div.ajax-subnavigation")
+    $.ajax({
+        start_time: new Date().getTime(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'POST',
+        url: subNavigation.data("url"),
+        success: function (msg) {
+            subNavigation.html(msg);
+            console.log((new Date().getTime() - this.start_time) + ' ms');
+        },
+        error: function () {
+            console.log((new Date().getTime() - this.start_time) + ' ms');
+        },
+        timeout: 3000,
+    });
+
     var loadingAnimation = true;
     if ($("div.carousel-item").length) {
 
