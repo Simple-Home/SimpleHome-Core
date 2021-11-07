@@ -42,7 +42,18 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        return view('controls.list');
+        $rooms = Cache::remember('controls.rooms', 1, function () {
+            return Rooms::with(['properties', 'properties.device' => function ($query) {
+                $query->select('id');
+                return $query->where('approved', 1);
+            }])->get()->filter(function ($item) {
+                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                    return $item;
+                }
+            });
+        });
+
+        return view('controls.list', compact('rooms','roomForm'));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -255,7 +266,7 @@ class ControlsController extends Controller
                     }
                 });
             });
-            return View::make("controls.subnavigation")->with("rooms", $rooms)->render();
+            return View::make("controls.components.subnavigation")->with("rooms", $rooms)->render();
         }
         return redirect()->back();
     }

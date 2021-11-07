@@ -81,6 +81,8 @@ Route::namespace('notifications')->prefix('notifications')->group(function () {
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/room/{room_id}/ajax', [App\Http\Controllers\ControlsController::class, 'listAjax'])->name('controls.ajax.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/ajax', [App\Http\Controllers\ControlsController::class, 'roomsAjax'])->name('controls.ajax.subnavigation');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail/{period?}', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/remove', [App\Http\Controllers\ControlsController::class, 'remove'])->name('controls.remove');
