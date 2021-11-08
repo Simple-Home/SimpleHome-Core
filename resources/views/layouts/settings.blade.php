@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
 
     <link
         href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&amp;display=swap&amp;subset=latin-ext"
@@ -11,6 +12,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     @hasSection('title')
         <title>@yield('title') - {{ config('app.name') }}</title>
@@ -25,18 +27,25 @@
     </script>
     <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script>
+        refreshCSRF('{{ route('system.refresh.csrf') }}');
+    </script>
+
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link href="{{ asset(mix('css/app.css'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
         rel="stylesheet">
+    <style>
+        .nav-bar-padding {
+            padding-bottom: 60px;
+        }
 
-    <meta name="color-scheme" content="dark light">
-
-    <script>
-        refreshCSRF('{{ route('system.refresh.csrf') }}');
-    </script>
-
+    </style>
 </head>
 
 <body>
@@ -84,8 +93,6 @@
                                     </a>
                                 </li>
                             </ul>
-
-
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto ">
                                     <a class="nav-link  {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
@@ -252,7 +259,6 @@
     </script>
     <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-
     @if (strpos(Route::currentRouteName(), 'controls') > -1)
         <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
         </script>
