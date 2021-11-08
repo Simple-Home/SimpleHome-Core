@@ -48,7 +48,7 @@ $line-height-base: 1.5;
 }
 
 .header {
-    height: 80px;
+    height: 50px;
 }
 
 .avatar img {
@@ -107,4 +107,10 @@ input.range-value {
     width:2ch;
     color: black;
     height: 24px; 
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
 }

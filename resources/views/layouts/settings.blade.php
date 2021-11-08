@@ -53,173 +53,214 @@
         }
     </script>
     <div class="container-fluid">
-        <div class="col-auto p-md-0 my-auto">
-            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">test</span>
-            </button>
-            <h1 class="mb-0 header-title">@yield('title')</h1>
+        <div class="row justify-content-between header">
+            <div class="col-auto p-md-0 my-auto">
+                <button class="navbar-toggler d-md-none border-primary border-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="col ms-2 p-md-0 my-auto">
+                <h1 class="mb-0 header-title">@yield('title')</h1>
+            </div>
         </div>
-        <div class="row m-2" style="overflow: auto">
-            <div class="sidebar col-auto">
-                <div class="navbar nav-pills navbar-expand-lg">
-                    <div class="container-fluid">
-                        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                            <div class="subNav">
-                                {{-- Menu Items Start --}}
 
-                                <ul class="nav flex-column">
-                                    <li class="nav-item my-auto">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.profile') }}">
-                                            <img src="{{ auth()->user()->getGavatarUrl() }}"
-                                                alt="{{ auth()->user()->name }}" style="height: 30px; width:30px"
-                                                class="my-auto rounded-circle border-primary border-3">
-                                            <span class="py-auto">{{ auth()->user()->name }}</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item my-auto btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.diagnostics.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Diagnostics') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item my-auto btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.integrations.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Integrations') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item my-auto btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.housekeepings') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Housekeeping') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item my-auto btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.users.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Users') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item my-auto btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
-                                            title="test" href="{{ route('system.rooms.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Rooms') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.backups') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Backups') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.devices.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Devices') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.settings.list') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Settings') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.developments.index') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Developments') }}</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.logs') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Logs') }}</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="nav flex-column ps-2">
-                                    <li class="nav-item btn-sq">
-                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'locations') > -1 ? 'active' : '' }}"
-                                            href="{{ route('system.locations.index') }}">
-                                            <i class="ms-3 fa fa-bell"></i>
-                                            <span class="ms-md-2 ">{{ __('Locations') }}</span>
-                                        </a>
-                                    </li>
-                                </ul>
+        <div class="row m-0 m-md-2 mt-md-0">
+            <div class="col-12 col-md-auto">
+                <nav class="navbar navbar-expand-md">
+                    <div class="collapse navbar-collapse nav-pills" id="navbarTogglerDemo01">
+                        <div class="subNav ">
+                            {{-- Menu Items Start --}}
 
-                                {{-- Menu Items End --}}
-                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.profile') }}">
+                                        <img src="{{ auth()->user()->getGavatarUrl() }}"
+                                            alt="{{ auth()->user()->name }}" style="height: 30px; width:30px"
+                                            class="my-auto rounded-circle border-primary border-3">
+                                        <span class="py-auto">{{ auth()->user()->name }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto ">
+                                    <a class="nav-link  {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.integrations.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Integrations') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto ">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.housekeepings') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Housekeeping') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto ">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.users.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Users') }}</span></a>
+                                </li>
+                            </ul>
+
+
+
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.developments.index') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Developments') }}</span></a>
+                                </li>
+                            </ul>
+
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <p>{{ __('home') }}</p>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.rooms.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Rooms') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'locations') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.locations.index') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Locations') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.devices.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Devices') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <p>{{ __('system') }}</p>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto ">
+                                    <a class="nav-link  {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
+                                        title="test" href="{{ route('system.diagnostics.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Diagnostics') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.settings.list') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Settings') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.backups') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Backups') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.logs') }}">
+                                        <i class=" fa fa-bell"></i>
+                                        <span class="ms-md-2 ">{{ __('Logs') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            {{-- Menu Items End --}}
+
                         </div>
                     </div>
-                </div>
+                </nav>
             </div>
             <div class="col">
-                <div class="row">
-                    <div class="col p-md-0">
-                        @auth
-                            @include('components.alerts')
-                        @endauth
-                    </div>
+                <div class="col p-md-0">
+                    @auth
+                        @include('components.alerts')
+                    @endauth
                 </div>
-                <div class="row d-none" id="notification">
-                    <div class="col p-md-0">
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between mb-0">
-                                <a class="btn btn-primary my-auto" id="reload" href="#">UPDATE</a>
-                                <p class="ms-2 mb-0 my-auto"> new version of this app is available</p>
-                            </div>
+
+                <div class="col p-md-0 d-none" id="notification">
+                    <div class="card mb-2">
+                        <div class="card-body d-flex justify-content-between mb-0">
+                            <a class="btn btn-primary my-auto" id="reload" href="#">UPDATE</a>
+                            <p class="ms-2 mb-0 my-auto"> new version of this app is available</p>
                         </div>
                     </div>
                 </div>
-                <div class="row flex-grow-1 pb-3">
+
+                <div class="flex-grow-1 pb-3">
                     <div class="col p-md-0">
                         @auth
                             @yield('content')
                         @endauth
                     </div>
                 </div>
+
+
+                <div class="">
+                    <!-- Botom Fixed Menu -->
+                    <nav class="navbar fixed-bottom bg-light fw-900 p-0"
+                        style="z-index: 1056; height: 60px; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
+                        <div class="container-fluid p-0">
+                            <div class="navbar-expand w-100">
+                                <ul class="navbar-nav justify-content-around nav-pills">
+                                    @auth
+                                        @include('components.navigation')
+                                    @endauth
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <!-- Botom Fixed Menu -->
-            <nav class="navbar fixed-bottom bg-light fw-900 p-0"
-                style="z-index: 1056; height: 60px; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
-                <div class="container-fluid p-0">
-                    <div class="navbar-expand w-100">
-                        <ul class="navbar-nav justify-content-around nav-pills">
-                            @auth
-                                @include('components.navigation')
-                            @endauth
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
     </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script
+        src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+    <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    @if (strpos(Route::currentRouteName(), 'controls') > -1)
+        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+    @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
+        <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+        </script>
+    @endif
+    @yield('beforeBodyEnd')
 </body>
 
 </html>

@@ -6,10 +6,11 @@ window.addEventListener("load", function () {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        type: 'POST',
+        type: 'GET',
         url: subNavigation.data("url"),
+        async: false,
         success: function (msg) {
-            subNavigation.html(msg);
+            subNavigation.replaceWith(msg);
             console.log((new Date().getTime() - this.start_time) + ' ms');
         },
         error: function () {
@@ -20,7 +21,7 @@ window.addEventListener("load", function () {
 
     var loadingAnimation = true;
     if ($("div.carousel-item").length) {
-
+        console.log("loading");
         //Initial Load
         var lastRoom = localStorage.getItem("lastRoomId");
         if (lastRoom) {
@@ -61,7 +62,7 @@ window.addEventListener("load", function () {
         });
     }
 
-    $('div.subnavigation ').click(function (event) {
+    $('body').on('click', 'div.subnavigation', function (event) {
         loadingAnimation = false;
 
         //Load Thinks
