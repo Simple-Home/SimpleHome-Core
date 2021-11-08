@@ -97,7 +97,7 @@
                                 <li class="nav-item my-auto ">
                                     <a class="nav-link  {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
                                         title="test" href="{{ route('system.integrations.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-th-large"></i>
                                         <span class="ms-md-2 ">{{ __('Integrations') }}</span></a>
                                 </li>
                             </ul>
@@ -105,7 +105,7 @@
                                 <li class="nav-item my-auto ">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
                                         title="test" href="{{ route('system.housekeepings') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-recycle"></i>
                                         <span class="ms-md-2 ">{{ __('Housekeeping') }}</span></a>
                                 </li>
                             </ul>
@@ -113,14 +113,10 @@
                                 <li class="nav-item my-auto ">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
                                         title="test" href="{{ route('system.users.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-users"></i>
                                         <span class="ms-md-2 ">{{ __('Users') }}</span></a>
                                 </li>
                             </ul>
-
-
-
-
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
@@ -129,8 +125,6 @@
                                         <span class="ms-md-2 ">{{ __('Developments') }}</span></a>
                                 </li>
                             </ul>
-
-
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
                                     <p>{{ __('home') }}</p>
@@ -140,7 +134,7 @@
                                 <li class="nav-item my-auto">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
                                         title="test" href="{{ route('system.rooms.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class=" fa fa-home"></i>
                                         <span class="ms-md-2 ">{{ __('Rooms') }}</span></a>
                                 </li>
                             </ul>
@@ -148,7 +142,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'locations') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.locations.index') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-map-marker-alt"></i>
                                         <span class="ms-md-2 ">{{ __('Locations') }}</span>
                                     </a>
                                 </li>
@@ -157,7 +151,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.devices.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-ethernet"></i>
                                         <span class="ms-md-2 ">{{ __('Devices') }}</span></a>
                                 </li>
                             </ul>
@@ -170,7 +164,7 @@
                                 <li class="nav-item my-auto ">
                                     <a class="nav-link  {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
                                         title="test" href="{{ route('system.diagnostics.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-tachometer-alt"></i>
                                         <span class="ms-md-2 ">{{ __('Diagnostics') }}</span></a>
                                 </li>
                             </ul>
@@ -178,7 +172,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.settings.list') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-cog"></i>
                                         <span class="ms-md-2 ">{{ __('Settings') }}</span></a>
                                 </li>
                             </ul>
@@ -186,7 +180,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.backups') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-file-archive"></i>
                                         <span class="ms-md-2 ">{{ __('Backups') }}</span></a>
                                 </li>
                             </ul>
@@ -194,7 +188,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.logs') }}">
-                                        <i class=" fa fa-bell"></i>
+                                        <i class="fas fa-bug"></i>
                                         <span class="ms-md-2 ">{{ __('Logs') }}</span>
                                     </a>
                                 </li>
