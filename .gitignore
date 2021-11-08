@@ -54,3 +54,4 @@ Modules/*/
 .env copy
 !/public/images/icons
 .vscode/settings.json
+.vscode/settings.json

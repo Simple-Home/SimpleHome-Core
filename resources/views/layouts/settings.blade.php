@@ -33,89 +33,10 @@
 
     <meta name="color-scheme" content="dark light">
 
-
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-
-    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-
     <script>
         refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 
-    @yield('customHead')
-
-    <!--PWA Manifest-->
-    @laravelPWA
-
-    <script defer>
-        var darkThemeSelected =
-            localStorage.getItem("darkSwitch") !== null &&
-            localStorage.getItem("darkSwitch") === "dark";
-
-        if (darkThemeSelected) {
-            localStorage.setItem("darkSwitch", "dark");
-            $('head meta[name="theme-color"]').attr('content', '#111');
-        } else {
-            localStorage.removeItem("darkSwitch");
-            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
-        }
-
-        if (!isMobile()) {
-            $('head meta[name="theme-color"]').attr('content', '#1cca50');
-        }
-    </script>
-
-    <style>
-        /*
- * Sidebar
- */
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #333;
-        }
-
-        .sidebar .nav-link .feather {
-            margin-right: 4px;
-            color: #727272;
-        }
-
-        .sidebar .nav-link.active {
-            color: #2470dc;
-        }
-
-        .sidebar .nav-link:hover .feather,
-        .sidebar .nav-link.active .feather {
-            color: inherit;
-        }
-
-        .sidebar-heading {
-            font-size: .75rem;
-            text-transform: uppercase;
-        }
-
-        /*
- * Navbar
- */
-        .navbar-brand {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
-            font-size: 1rem;
-        }
-
-        .navbar .navbar-toggler {
-            top: .25rem;
-            right: 1rem;
-        }
-
-        .navbar .form-control {
-            padding: .75rem 1rem;
-            border-width: 0;
-            border-radius: 0;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -132,117 +53,129 @@
         }
     </script>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-auto sidebar" style="font-size: 22px;">
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.profile') }}">
-                            <img src="{{ auth()->user()->getGavatarUrl() }}" alt="{{ auth()->user()->name }}"
-                                style="height: 30px; width:30px" class="my-auto rounded-circle border-primary border-3">
-                            <span class="d-none ms-md-2 d-md-inline py-auto">{{ auth()->user()->name }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.diagnostics.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Diagnostics') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.integrations.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Integrations') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.housekeepings') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Housekeeping') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.users.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Users') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item my-auto">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
-                            title="test" href="{{ route('system.rooms.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Rooms') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.backups') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Backups') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.devices.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Devices') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.settings.list') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Settings') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.developments.index') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Developments') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.logs') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Logs') }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'locations') > -1 ? 'active' : '' }}"
-                            href="{{ route('system.locations.index') }}">
-                            <i class="fa fa-bell"></i>
-                            <span class="d-none ms-md-2 d-md-inline">{{ __('Locations') }}</span>
-                        </a>
-                    </li>
-                </ul>
+        <div class="col-auto p-md-0 my-auto">
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">test</span>
+            </button>
+            <h1 class="mb-0 header-title">@yield('title')</h1>
+        </div>
+        <div class="row m-2" style="overflow: auto">
+            <div class="sidebar col-auto">
+                <div class="navbar nav-pills navbar-expand-lg">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                            <div class="subNav">
+                                {{-- Menu Items Start --}}
+
+                                <ul class="nav flex-column">
+                                    <li class="nav-item my-auto">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.profile') }}">
+                                            <img src="{{ auth()->user()->getGavatarUrl() }}"
+                                                alt="{{ auth()->user()->name }}" style="height: 30px; width:30px"
+                                                class="my-auto rounded-circle border-primary border-3">
+                                            <span class="py-auto">{{ auth()->user()->name }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item my-auto btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'diagnostics') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.diagnostics.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Diagnostics') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item my-auto btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'integrations') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.integrations.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Integrations') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item my-auto btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'housekeepings') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.housekeepings') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Housekeeping') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item my-auto btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'users') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.users.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Users') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item my-auto btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'rooms') > -1 ? 'active' : '' }}"
+                                            title="test" href="{{ route('system.rooms.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Rooms') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.backups') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Backups') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'devices') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.devices.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Devices') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'settings') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.settings.list') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Settings') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'developments') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.developments.index') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Developments') }}</span></a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.logs') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Logs') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav flex-column ps-2">
+                                    <li class="nav-item btn-sq">
+                                        <a class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'locations') > -1 ? 'active' : '' }}"
+                                            href="{{ route('system.locations.index') }}">
+                                            <i class="ms-3 fa fa-bell"></i>
+                                            <span class="ms-md-2 ">{{ __('Locations') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                {{-- Menu Items End --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <div class="row">
@@ -287,25 +220,6 @@
             </nav>
         </div>
     </div>
-
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script
-        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-    <script
-        src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-    <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-    </script>
-
-    @if (strpos(Route::currentRouteName(), 'controls') > -1)
-        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-    @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
-        <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-    @endif
-    @yield('beforeBodyEnd')
 </body>
 
 </html>
