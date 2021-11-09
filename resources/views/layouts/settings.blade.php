@@ -45,7 +45,41 @@
             padding-bottom: 60px;
         }
 
+        .custom-zoom {
+            bottom: .5em;
+            left: .5em;
+        }
+
+        .custom-zoom button {
+            background-color: rgba(40, 40, 40, .7);
+            border-radius: 50%;
+        }
+
     </style>
+
+    <!-- Custome Head -->
+    @yield('customHead')
+
+    <!--PWA Manifest-->
+    @laravelPWA
+
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected) {
+            localStorage.setItem("darkSwitch", "dark");
+            $('head meta[name="theme-color"]').attr('content', '#111');
+        } else {
+            localStorage.removeItem("darkSwitch");
+            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+        }
+
+        if (!isMobile()) {
+            $('head meta[name="theme-color"]').attr('content', '#1cca50');
+        }
+    </script>
 </head>
 
 <body>
@@ -77,20 +111,24 @@
 
         <div class="row m-0 m-md-2 mt-md-0">
             <div class="col-12 col-md-auto">
-                <nav class="navbar navbar-expand-md">
+                <nav class="navbar navbar-expand-md sticky-top">
                     <div class="collapse navbar-collapse nav-pills" id="navbarTogglerDemo01">
                         <div class="subNav ">
                             {{-- Menu Items Start --}}
-
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
-                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }}"
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }} ps-0"
                                         title="test" href="{{ route('system.profile') }}">
                                         <img src="{{ auth()->user()->getGavatarUrl() }}"
                                             alt="{{ auth()->user()->name }}" style="height: 30px; width:30px"
                                             class="my-auto rounded-circle border-primary border-3">
-                                        <span class="py-auto">{{ auth()->user()->name }}</span>
+                                        <span class="py-auto  ms-1">{{ auth()->user()->name }}</span>
                                     </a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <p class="m-0">{{ __('general') }}</p>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
@@ -127,7 +165,7 @@
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
-                                    <p>{{ __('home') }}</p>
+                                    <p class="m-0">{{ __('home') }}</p>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
@@ -157,7 +195,7 @@
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
-                                    <p>{{ __('system') }}</p>
+                                    <p class="m-0">{{ __('system') }}</p>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
@@ -224,25 +262,62 @@
                 </div>
 
 
-                <div class="">
-                    <!-- Botom Fixed Menu -->
-                    <nav class="navbar fixed-bottom bg-light fw-900 p-0"
-                        style="z-index: 1056; height: 60px; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
-                        <div class="container-fluid p-0">
-                            <div class="navbar-expand w-100">
-                                <ul class="navbar-nav justify-content-around nav-pills">
-                                    @auth
-                                        @include('components.navigation')
-                                    @endauth
-                                </ul>
-                            </div>
+            </div>
+        </div>
+        <div class="">
+            <!-- Botom Fixed Menu -->
+            <nav class="navbar fixed-bottom bg-light fw-900 p-0"
+                style="z-index: 1056; height: 60px; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
+                <div class="container-fluid p-0">
+                    <div class="navbar-expand w-100">
+                        <ul class="navbar-nav justify-content-around nav-pills">
+                            @auth
+                                @include('components.navigation')
+                            @endauth
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Full screen modal -->
+    @auth
+        @yield('modal')
+        <div class="modal" id="notifications" tabindex="-1" aria-labelledby="notifications" aria-hidden="true"
+            role="dialog">
+            <div class="modal-dialog modal-fullscreen-md-down">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
+                        </h5>
+                        <div class="btn-group">
+                            <a data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                        data-url="{{ route('notifications.read', ['notification_id' => 'all']) }}">
+                                        readAll
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                        data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                        deleteAll
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                    </nav>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="notifications-list" data-url="{{ route('notifications.list') }}"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    @endauth
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script
@@ -253,13 +328,6 @@
     </script>
     <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    @if (strpos(Route::currentRouteName(), 'controls') > -1)
-        <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-    @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
-        <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        </script>
-    @endif
     @yield('beforeBodyEnd')
 </body>
 
