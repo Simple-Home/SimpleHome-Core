@@ -257,7 +257,6 @@ class ControlsController extends Controller
     public function roomsAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-
             $rooms = Cache::remember('controls.rooms', 1, function () {
                 return Rooms::with(['properties', 'properties.device' => function ($query) {
                     $query->select('id');

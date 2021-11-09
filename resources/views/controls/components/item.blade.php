@@ -1,4 +1,4 @@
-          <div class="card p-2 m-0 rounded-5 {{ $property->device->offline ? 'is-offline' : 'is-online' }} }}"
+          <div class="card p-2 m-0 rounded-5 {{ $property->device->offline ? 'is-offline' : 'is-online' }}"
               style="height: 100px; cursor: pointer;">
               <div class="container p-0 device-container">
                   <div class="d-flex justify-content-between">
@@ -25,26 +25,60 @@
                       </div>
                   </div>
                   <p class="">{{ ucwords($property->nick_name) }}</p>
-                  <canvas style="display: block; box-sizing: border-box;" id="chartJSContainer-{{ $property->id }}">
+              </div>
+              @if ($property->device->type != 'relay' && false)
+                  <canvas id="chartJSContainer-{{ $property->id }}" style="height: 30px">
                       <script>
-                          window.addEventListener("load", function() {
-                              var options = {
-                                  type: 'line',
-                                  data: {
-                                      labels: [""],
-                                      datasets: [{
-                                          data: [12, 19, 3, 5, 2, 3],
-                                      }]
+                          var options = {
+                              type: 'line',
+                              data: {
+                                  labels: [12, 19, 3, 5, 2, 3],
+                                  datasets: [{
+                                      data: [12, 19, 3, 5, 2, 3],
+                                      borderColor: 'rgb(75, 192, 192)',
+                                  }],
+                              },
+                              options: {
+                                  animation: {
+                                      duration: 0
                                   },
-                                  plugin: {
-                                      legend: false,
-                                  }
-                              }
+                                  tooltips: {
+                                      enabled: false
+                                  },
+                                  plugins: {
+                                      legend: {
+                                          display: false
+                                      },
+                                      tooltips: {
+                                          enabled: false
+                                      },
+                                  },
+                                  scales: {
+                                      y: {
+                                          ticks: {
+                                              display: false,
+                                          },
+                                          grid: {
+                                              drawBorder: false,
+                                              display: false,
+                                          }
+                                      },
+                                      x: {
+                                          ticks: {
+                                              display: false,
+                                          },
+                                          grid: {
+                                              drawBorder: false,
+                                              display: false
+                                          }
+                                      }
+                                  },
+                              },
+                          };
 
-                              var ctx = $('#chartJSContainer-{{ $property->id }}');
-                              new Chart(ctx, options);
-                          });
+                          var ctx = $('#chartJSContainer-{{ $property->id }}');
+                          new Chart(ctx, options);
                       </script>
                   </canvas>
-              </div>
+              @endif
           </div>
