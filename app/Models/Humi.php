@@ -11,6 +11,12 @@ class Humi extends Properties
     protected $historyDefault = 90;
     protected $unitsDefault = "%";
     protected $iconDefault = "fas fa-tint";
+    protected $graphSupport = true;
+
+    public function getGraphSupport()
+    {
+        return $this->graphSupport;
+    }
 
     public function save(array $options = [])
     {

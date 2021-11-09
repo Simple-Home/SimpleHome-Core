@@ -1,4 +1,9 @@
 console.log("Loading JS Controller for -> Control Namme Space")
+//Load Graph For Each Tile
+// for (var i = 0; i < 6; i++) {
+//     $('body').on('blur', '#input' + i, getValue);
+// }
+
 window.addEventListener("load", function () {
     var subNavigation = $("div.ajax-subnavigation")
     $.ajax({

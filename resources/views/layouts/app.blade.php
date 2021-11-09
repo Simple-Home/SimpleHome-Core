@@ -190,7 +190,7 @@
             </div>
         </div>
 
-        <div class="row flex-grow-1 pb-3">
+        <div class="row flex-grow-1 pb-3 nav-bar-padding">
             <div class="col p-md-0">
                 @auth
                     @yield('content')

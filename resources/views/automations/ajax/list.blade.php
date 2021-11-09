@@ -9,5 +9,5 @@
         @endforeach
     </div>
 @else
-    <p class="text-center">{{ __('simplehome.automation.nothing') }}</p>
+    <p class="text-center">{{ __('simplehome.automations.nothing') }}</p>
 @endif
