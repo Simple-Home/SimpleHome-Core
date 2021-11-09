@@ -117,12 +117,12 @@
                             {{-- Menu Items Start --}}
                             <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
-                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }} ps-0"
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'profile') > -1 ? 'active' : '' }} ps-1"
                                         title="test" href="{{ route('system.profile') }}">
                                         <img src="{{ auth()->user()->getGavatarUrl() }}"
                                             alt="{{ auth()->user()->name }}" style="height: 30px; width:30px"
-                                            class="my-auto rounded-circle border-primary border-3">
-                                        <span class="py-auto  ms-1">{{ auth()->user()->name }}</span>
+                                            class="my-auto rounded-circle border-primary border-3 ms-1">
+                                        <span class="py-auto ms-1">{{ auth()->user()->name }}</span>
                                     </a>
                                 </li>
                             </ul>
