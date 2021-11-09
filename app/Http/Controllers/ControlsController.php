@@ -53,7 +53,7 @@ class ControlsController extends Controller
             });
         });
 
-        return view('controls.list', compact('rooms','roomForm'));
+        return view('controls.list', compact('rooms', 'roomForm'));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -121,40 +121,40 @@ class ControlsController extends Controller
             ->labels($labels)
             ->datasets($datasets)
             ->optionsRaw("{
-                plugins:{
-                    maintainAspectRatio: false,
-                    spanGaps: false,
-                    filler: {
-                            propagate: false
+            plugins:{
+                maintainAspectRatio: false,
+                spanGaps: false,
+                filler: {
+                    propagate: false
+                },
+                legend:{
+                    display: true,
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
+                        max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
+                        display: false,
                     },
-                    legend:{
-                        display: true,
-                        position: 'bottom'
+                    grid:{
+                        drawBorder: false,
+                        display:false,
                     }
                 },
-                scales: {
-                    y: {
-                        ticks: {
-                            min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
-                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
-                            display: false,
-                        },
-                        grid:{
-                            drawBorder: false,
-                            display:false,
-                        }
+                x: {
+                    ticks: { 
+                        display: false,
                     },
-                    x: {
-                        ticks: { 
-                            display: false,
-                        },
-                        grid:{
-                            drawBorder: false,
-                            display:false
-                        }
+                    grid:{
+                        drawBorder: false,
+                        display:false
                     }
-                },
-            }");
+                }
+            },
+        }");
 
         return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
     }
@@ -243,10 +243,12 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes =  Properties::where("room_id", $room_id)->with(['device' => function ($query) {
-
+            $propertyes = Properties::where("room_id", $room_id)->whereHas('device', function ($query) {
+                return $query->where('approved', 1);
+            })->with(['device' => function ($query) {
                 return $query->where('approved', 1)->get(["integration"]);
             }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+
             return View::make("controls.controls")->with("propertyes", $propertyes)->render();
         }
         return redirect()->back();
