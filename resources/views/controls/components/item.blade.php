@@ -28,7 +28,8 @@
               </div>
               @if (method_exists($property, 'getGraphSupport') && $property->getGraphSupport())
                   <div style="width:100%;height:100%;">
-                      <canvas id="chartJSContainer-{{ $property->id }}" height="40vh" width="80vw">
+                      <canvas id="chartJSContainer-{{ $property->id }}" height="40vh" width="80vw"
+                          class="rounded-bottom">
                           <script>
                               var style = getComputedStyle(document.body);
                               var primCol = style.getPropertyValue('--bs-primary');
@@ -55,7 +56,7 @@
                                           autoPadding: false,
                                       },
                                       animation: {
-                                          duration: 0
+                                          duration: 555
                                       },
                                       tooltips: {
                                           enabled: false

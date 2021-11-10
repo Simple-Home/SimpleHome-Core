@@ -284,13 +284,14 @@ class ControlsController extends Controller
             $property->period = GraphPeriod::DAY;
 
             foreach ($property->agregated_values  as $key => $item) {
-                $values[] = $item->value;
+                $values[] = (($item->value < 0) ? abs($item->value) : $item->value);
                 $labels[] = $item->created_at->diffForHumans(null, true);
             }
 
             $datasets = [
                 [
-                    "fill" => false,
+                    "fill" => true,
+                    "backgroundColor" => ' #1cca50',
                     "tension" => 0.5,
                     "data" => $values,
                 ],
