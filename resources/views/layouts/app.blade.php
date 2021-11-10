@@ -212,6 +212,21 @@
                     </div>
                 </div>
             </nav>
+            {{-- <div class="fixed-bottom container mb-3 ">
+                <div class="bg-light rounded p-2"
+                    style="z-index: 1056; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
+                    <nav class="navbar fw-900 p-0">
+                        <div class="navbar-expand w-100">
+                            <ul class="navbar-nav justify-content-between nav-pills">
+                                @auth
+                                    @include('components.navigation')
+                                @endauth
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
+            </div> --}}
         @endif
         <!-- Full screen modal -->
         @auth
