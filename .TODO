@@ -1,23 +1,22 @@
 # New:
 
-* When asichroniously refreshing the page + setting value inwoke refresh Otherwise thhe value actualized by switch vont be wisible on frontend 
-* Token Delete Button & Revoke
-* Client Delete Button & Revoke
-* optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
-* Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
-* Redo Setting sto ajax loader an carousell :) like home screen
-* Add Search to token wiev 
-* Remove Custome CSS from app.sass to custome sass file
-* Periodical check for update of SW
-* Remove unused language from app\lang
-* write automate manual to documentation :) 
-*  + example applet to download
-* Add description to housekeeping for Records cleaning interval that value is used onl id history is not defined (hitory != null)
-* Add Visualization of other points to map picker
-* Check if time and timezone shown in diagnostic relai to .env file
-* Simplem DB Sesion Based Manager (https://laracasts.com/discuss/channels/laravel/get-current-sessions-for-user-laravel)
-* make the click on rectangles expand the view / details
-* consider control part background (Below):
+1. When asichroniously refreshing the page + setting value inwoke refresh Otherwise thhe value actualized by switch vont be wisible on frontend 
+2. Token Delete Button & Revoke
+3. Client Delete Button & Revoke
+4. optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
+5. Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
+6. Redo Setting sto ajax loader an carousell :) like home screen
+7. Add Search to token wiev 
+8. Remove Custome CSS from app.sass to custome sass file
+9. Periodical check for update of SW
+10. Remove unused language from app\lang
+11. write automate manual to documentation :) + example applet to download
+12. Add description to housekeeping for Records cleaning interval that value is used onl id history is not defined (hitory != null)
+13. Add Visualization of other points to map picker
+14. Check if time and timezone shown in diagnostic relai to .env file
+15. Simplem DB Sesion Based Manager (https://laracasts.com/discuss/channels/laravel/get-current-sessions-for-user-laravel)
+16. make the click on rectangles expand the view / details
+17. consider control part background (Below):
 
 ```css 
     border-bottom-left-radius: 9px;
@@ -40,22 +39,19 @@
     </div>
 ```
 
-
-
-
-
+18. Make top-bar in detail of "Control" sticky
 
 # Done:
 
-* Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21
-* noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples
-* add notification Counter and Dot Functions 
-* Nastilovat SW Update Notifikaci
-* Add Server Time & TImezone to Settings>Diagnostics
+1. ~~Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21~~
+2. ~~noitification number badge https://getbootstrap.com/docs/5.0/utilities/position/#examples~~
+3. ~~add notification Counter and Dot Functions ~~
+4. ~~Nastilovat SW Update Notifikaci~~
+5. ~~Add Server Time & TImezone to Settings>Diagnostics~~
 
 
 # Resources:
 
-http://developers.sonoff.tech/
-https://shelly-api-docs.shelly.cloud/
-https://developers.meethue.com/develop/get-started-2/
+* http://developers.sonoff.tech/
+* https://shelly-api-docs.shelly.cloud/
+* https://developers.meethue.com/develop/get-started-2/
