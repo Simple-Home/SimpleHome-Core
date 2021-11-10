@@ -96,22 +96,22 @@
         }
     </script>
     <div class="container-fluid">
-        <div class="row justify-content-between header">
+        <div class="row justify-content-between header ms-md-2">
+            <div class="col-auto p-md-0 my-auto ">
+                <h1 class="mb-0 header-title">@yield('title')</h1>
+            </div>
             <div class="col-auto p-md-0 my-auto">
-                <button class="navbar-toggler d-md-none border-primary border-3" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler d-md-none border-3 text-primary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <div class="col ms-2 p-md-0 my-auto">
-                <h1 class="mb-0 header-title">@yield('title')</h1>
-            </div>
         </div>
 
         <div class="row m-0 m-md-2 mt-md-0">
-            <div class="col-12 col-md-auto">
-                <nav class="navbar navbar-expand-md sticky-top">
+            <div class="col-12 col-md-auto p-0 pe-md-2">
+                <nav class="navbar navbar-expand-md sticky-top py-0">
                     <div class="collapse navbar-collapse nav-pills" id="navbarTogglerDemo01">
                         <div class="subNav ">
                             {{-- Menu Items Start --}}
@@ -237,7 +237,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="col">
+            <div class="col p-0">
                 <div class="col p-md-0">
                     @auth
                         @include('components.alerts')
@@ -254,14 +254,12 @@
                 </div>
 
                 <div class="flex-grow-1 pb-3 nav-bar-padding">
-                    <div class="col p-md-0">
+                    <div class="col m-0">
                         @auth
                             @yield('content')
                         @endauth
                     </div>
                 </div>
-
-
             </div>
         </div>
         <div class="">

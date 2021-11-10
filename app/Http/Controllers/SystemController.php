@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Helpers\SettingManager;
 use Nwidart\Modules\Module;
+use App\Models\Devices;
 
 
 class SystemController extends Controller
@@ -21,9 +22,11 @@ class SystemController extends Controller
         $integrations = [];
 
         foreach ($integrationsRaw as $key => $integration) {
+            $providetDevices = count(Devices::where('integration', $integration->getLowerName())->get());
             $integrations[] = [
                 "name" => $integration->getName(),
                 "slug" => $integration->getLowerName(),
+                "providetDevices" => $providetDevices,
             ];
         }
 

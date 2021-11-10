@@ -32,15 +32,7 @@
                           <script>
                               var options = {
                                   type: 'line',
-                                  data: {
-                                      labels: [12, 19, 3, 5, 2, 3],
-                                      datasets: [{
-                                          data: [12, 19, 3, 5, 2, 3],
-                                          borderColor: 'rgb(75, 192, 192)',
-                                          tension: 0.5,
-                                          fill: false
-                                      }],
-                                  },
+                                  data: {},
                                   options: {
                                       elements: {
                                           point: {
@@ -51,6 +43,7 @@
                                       maintainAspectRatio: false,
                                       layout: {
                                           padding: {
+                                              top: 0.79,
                                               left: -10,
                                               bottom: -10
                                           },
@@ -96,6 +89,34 @@
 
                               var ctx = $('#chartJSContainer-{{ $property->id }}');
                               var chart = new Chart(ctx, options);
+
+                              ajax_chart(chart);
+
+                              function ajax_chart(chart) {
+                                  var data = data || {};
+
+                                  $.ajax({
+                                      dataType: "json",
+                                      start_time: new Date().getTime(),
+                                      headers: {
+                                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                      },
+                                      type: 'GET',
+                                      url: '{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}',
+                                      success: function(json) {
+
+
+                                          chart.data = json;
+                                          chart.update();
+
+                                          console.log((new Date().getTime() - this.start_time) + ' ms');
+                                      },
+                                      error: function() {
+                                          console.log((new Date().getTime() - this.start_time) + ' ms');
+                                      },
+                                      timeout: 3000,
+                                  });
+                              }
                           </script>
                       </canvas>
                   </div>

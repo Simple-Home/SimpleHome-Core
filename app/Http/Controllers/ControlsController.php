@@ -271,4 +271,39 @@ class ControlsController extends Controller
         }
         return redirect()->back();
     }
+
+
+    public function chartAjax($property_id = 0, Request $request)
+    {
+        if ($request->ajax()) {
+            $property = Properties::find($property_id);
+
+            $labels = [];
+
+            $values = [];
+
+
+            $property->period = GraphPeriod::DAY;
+            foreach ($property->agregated_values  as $key => $item) {
+                $values[] = $item->value;
+                $labels[] = $item->created_at->diffForHumans(null, true);
+            }
+
+            $datasets = [
+                [
+                    "fill" => false,
+                    "borderColor" => "rgb(75, 192, 192)",
+                    "tension" => 0.5,
+                    "data" => $values,
+                ],
+            ];
+
+
+            return response()->json([
+                "labels" => $labels,
+                "datasets" => $datasets,
+            ]);
+        }
+        return redirect()->back();
+    }
 }
