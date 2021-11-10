@@ -279,11 +279,10 @@ class ControlsController extends Controller
             $property = Properties::find($property_id);
 
             $labels = [];
-
             $values = [];
 
-
             $property->period = GraphPeriod::DAY;
+
             foreach ($property->agregated_values  as $key => $item) {
                 $values[] = $item->value;
                 $labels[] = $item->created_at->diffForHumans(null, true);
@@ -292,17 +291,15 @@ class ControlsController extends Controller
             $datasets = [
                 [
                     "fill" => false,
-                    "borderColor" => "rgb(75, 192, 192)",
                     "tension" => 0.5,
                     "data" => $values,
                 ],
             ];
 
-
             return response()->json([
                 "labels" => $labels,
                 "datasets" => $datasets,
-            ]);
+            ], 200, [], JSON_UNESCAPED_UNICODE);
         }
         return redirect()->back();
     }

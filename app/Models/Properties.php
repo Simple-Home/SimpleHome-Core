@@ -103,7 +103,7 @@ class Properties extends Model
     public function getMaxSettingValueAttribute()
     {
         if ($max = SettingManager::get('max', 'property-' . $this->id)) {
-             return $max->value;
+            return $max->value;
         }
         return 10;
     }
@@ -111,7 +111,7 @@ class Properties extends Model
     public function getMinSettingValueAttribute()
     {
         if ($min = SettingManager::get('min', 'property-' . $this->id)) {
-             return $min->value;
+            return $min->value;
         }
         return 1;
     }
@@ -124,7 +124,7 @@ class Properties extends Model
     public function getStepSettingValueAttribute()
     {
         if ($step = SettingManager::get('step', 'property-' . $this->id)) {
-             return ($step->value < 1 ? $step->value : 1);
+            return ($step->value < 1 ? $step->value : 1);
         }
         return 5;
     }
@@ -180,7 +180,7 @@ class Properties extends Model
             ->selectRaw("ROUND(MAX(value), 1) AS max")
             ->selectRaw("ROUND(AVG(value), 1) AS value")
             ->where('property_id', $this->id)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->groupBy('period');
 
         $agregatedData->where('created_at', '>=', $dateFrom);
@@ -214,7 +214,7 @@ class Properties extends Model
         return false;
     }
 
-  
+
 
 
 
@@ -227,7 +227,7 @@ class Properties extends Model
         if ($origin != null) {
             $record->origin    = $origin;
         }
-        
+
         $record->save();
         return true;
     }

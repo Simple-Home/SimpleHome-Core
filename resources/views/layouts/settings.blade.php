@@ -231,6 +231,20 @@
                                     </a>
                                 </li>
                             </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <p class="m-0">{{ __('simplehome.debug') }}</p>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'pwa') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.pwa') }}">
+                                        <i class="fas fa-bug"></i>
+                                        <span class="ms-md-2 ">{{ __('simplehome.pwa') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
                             {{-- Menu Items End --}}
 
                         </div>

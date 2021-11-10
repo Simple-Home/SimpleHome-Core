@@ -30,10 +30,15 @@
                   <div style="width:100%;height:100%;">
                       <canvas id="chartJSContainer-{{ $property->id }}" height="40vh" width="80vw">
                           <script>
+                              var style = getComputedStyle(document.body);
+                              var primCol = style.getPropertyValue('--bs-primary');
+
+                              var timeFormat = 'Y-m-d H:i:s';
                               var options = {
                                   type: 'line',
                                   data: {},
                                   options: {
+                                      borderColor: primCol,
                                       elements: {
                                           point: {
                                               radius: 0
@@ -64,6 +69,16 @@
                                           },
                                       },
                                       scales: {
+                                          x: {
+                                              ticks: {
+                                                  beginAtZero: true,
+                                                  display: false,
+                                              },
+                                              grid: {
+                                                  drawBorder: false,
+                                                  display: false
+                                              },
+                                          },
                                           y: {
                                               ticks: {
                                                   beginAtZero: true,
@@ -72,15 +87,6 @@
                                               grid: {
                                                   drawBorder: false,
                                                   display: false,
-                                              }
-                                          },
-                                          x: {
-                                              ticks: {
-                                                  display: false,
-                                              },
-                                              grid: {
-                                                  drawBorder: false,
-                                                  display: false
                                               }
                                           }
                                       },

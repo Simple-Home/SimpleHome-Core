@@ -2,7 +2,7 @@
     <div class="container p-0">
         <div class="row">
             <div class="col my-auto">
-                <a class="h2"
+                <a class="h2 text-decoration-none"
                     href="{{ route('system.integrations.detail', strtolower($integration['name'])) }}">
                     {{ $integration['name'] }}
                 </a>

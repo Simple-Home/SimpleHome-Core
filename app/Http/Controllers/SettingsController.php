@@ -120,7 +120,7 @@ class SettingsController extends Controller
                 $index = $key;
             }
 
-            if (SettingManager::get($index, $group)->value != $value){
+            if (SettingManager::get($index, $group)->value != $value) {
                 SettingManager::set($index, $value, $group);
             }
         }
@@ -315,5 +315,8 @@ class SettingsController extends Controller
         return !(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on');
     }
 
-
+    public function pwa()
+    {
+        return view('system.pwa.index');
+    }
 }
