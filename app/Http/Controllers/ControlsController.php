@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
-use App\Types\GraphPeriod;
-use App\Notifications\NewDeviceNotification;
-use App\Models\User;
-use App\Models\Rooms;
-use App\Models\Records;
-use App\Models\Properties;
 use App\Helpers\SettingManager;
+use App\Models\Properties;
+use App\Models\Records;
+use App\Models\Rooms;
+use App\Models\User;
+use App\Notifications\NewDeviceNotification;
+use App\Types\GraphPeriod;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 
 class ControlsController extends Controller

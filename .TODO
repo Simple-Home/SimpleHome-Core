@@ -15,6 +15,35 @@
 * Add description to housekeeping for Records cleaning interval that value is used onl id history is not defined (hitory != null)
 * Add Visualization of other points to map picker
 * Check if time and timezone shown in diagnostic relai to .env file
+* Simplem DB Sesion Based Manager (https://laracasts.com/discuss/channels/laravel/get-current-sessions-for-user-laravel)
+* make the click on rectangles expand the view / details
+* consider control part background (Below):
+
+```css 
+    border-bottom-left-radius: 9px;
+```
+
+```html
+    <div class="ps-2 device-container">
+        <div class="d-flex justify-content-between">
+            <a class="h2 my-auto pt-2 device-icon" href="https://dev.steelants.cz/vasek/simple-home-v4/public/controls/18/detail">
+                <i class="fas fas fa-sun"></i>
+            </a>
+            <div class="text-right text-nowrap bg-secondary w-auto px-2">
+                <div class="d-flex justify-content-start device-value">
+                    <i class="fas fa-toggle-off"></i>
+                    <small style="color: #686e73;"></small>
+                </div>
+            </div>
+        </div>
+        <p class="m-0">Asrassrar158</p>
+    </div>
+```
+
+
+
+
+
 
 # Done:
 

@@ -10,5 +10,9 @@
     "intelephense.diagnostics.undefinedSymbols": false,
     "enableCommentFormatting": false,
     "expression": "",
-    "actionTypes": "TODO:"
+    "actionTypes": "TODO:",
+    "namespaceResolver.autoSort": true,
+    "namespaceResolver.sortAlphabetically": true,
+    "namespaceResolver.sortNatural": true,
+    "namespaceResolver.sortOnSave": true
 }
