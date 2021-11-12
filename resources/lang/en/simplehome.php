@@ -137,4 +137,8 @@ return [
     'oauth.tokens' => "Tokens",
     'oauth.clients' => "Clients",
     'oauth.authorized.apps' => "Authorizet Apps",
+    //AUTOMATIONS
+    'automations.automations' => "Automations",
+    'automations.scenes' => "Scenes",
+    'automations.nothing' => "No automation found",
 ];

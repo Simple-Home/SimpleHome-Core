@@ -16,13 +16,15 @@
             </button>
         </div>
         <div class="card-body">
+
+
             @if (!empty($rooms) && count($rooms) > 0)
                 <div class="table-responsive">
                     <table class="table mb-0">
                         <thead>
                             <tr>
                                 <th scope="col">{{ __('simplehome.room.name') }}</th>
-                                <th></th>
+                                <th class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,8 +33,8 @@
                                     <td class="col-auto">
                                         {!! form($roomsForm[$room->id]) !!}
                                     </td>
-                                    <td class="col">
-                                        <div>
+                                    <td class="col-auto text-end fit">
+                                        <div class="btn btn-info p-1">
                                             @if ($room->default)
                                                 <a href="{{ route('system.rooms.default', ['room_id' => $room->id]) }}"
                                                     class="btn btn-primary" title="{{ __('simplehome.room.default') }}"><i

@@ -16,7 +16,7 @@ if (firebase.messaging.isSupported()) {
 }
 
 
-var staticCacheName = "pwa-v2-" + new Date().getTime();
+var staticCacheName = "pwa-v-" + new Date().getTime();
 
 var filesToCache = [
     'controls',
@@ -119,5 +119,29 @@ self.addEventListener('message', function (event) {
                     }
                 })
         )
+    } else if (event.data.action === 'refreshCache') {
+
+        caches.keys().then(function (staticCacheName) {
+            for (let name of staticCacheName)
+                caches.delete(name);
+        });
+        console.log("Cache - Deleted")
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith("pwa-v-")))
+                    .filter(cacheName => (cacheName !== staticCacheName))
+                    .map(cacheName => caches.delete(cacheName))
+            );
+        })
+        console.log("Cache - Created")
+
+        self.clients.matchAll().then(function (clients) {
+            clients.forEach(function (client) {
+                client.postMessage({
+                    action: "refresh",
+                });
+            });
+        });
     }
 });

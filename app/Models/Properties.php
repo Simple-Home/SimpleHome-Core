@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
-
+use App\Helpers\SettingManager;
 use App\Models\Devices;
 use App\Models\Records;
 use App\Models\Rooms;
 
 use App\Types\DeviceTypes;
-
-use App\Helpers\SettingManager;
 use App\Types\GraphPeriod;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Properties extends Model
 {
@@ -68,7 +66,7 @@ class Properties extends Model
         return Records::where("property_id", $this->id)->where("value", "!=", null)->where("value", "!=", 0)->first();
     }
 
-    //OVERIDES
+    //OVERRIDES
     public function newFromBuilder($attributes = [], $connection = null)
     {
         $class = "\\App\\Models\\" . ucfirst($attributes->type);
@@ -94,7 +92,7 @@ class Properties extends Model
     use HasFactory;
 
 
-    //Add Function for mutator for vaue (vith units) and rav value
+    //Add Function for mutator for value (with units) and rav value
     public function getNiceValueAttribute()
     {
         return $this->value . " " . $this->units;
@@ -103,7 +101,7 @@ class Properties extends Model
     public function getMaxSettingValueAttribute()
     {
         if ($max = SettingManager::get('max', 'property-' . $this->id)) {
-             return $max->value;
+            return $max->value;
         }
         return 10;
     }
@@ -111,20 +109,20 @@ class Properties extends Model
     public function getMinSettingValueAttribute()
     {
         if ($min = SettingManager::get('min', 'property-' . $this->id)) {
-             return $min->value;
+            return $min->value;
         }
         return 1;
     }
 
     /**
-     * step value used to increment each value usualy used for range type or termostats, graphs also.
+     * step value used to increment each value usually used for range type or thermostats, graphs also.
      *
      * @return int
      */
     public function getStepSettingValueAttribute()
     {
         if ($step = SettingManager::get('step', 'property-' . $this->id)) {
-             return ($step->value < 1 ? $step->value : 1);
+            return ($step->value < 1 ? $step->value : 1);
         }
         return 5;
     }
@@ -180,7 +178,7 @@ class Properties extends Model
             ->selectRaw("ROUND(MAX(value), 1) AS max")
             ->selectRaw("ROUND(AVG(value), 1) AS value")
             ->where('property_id', $this->id)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->groupBy('period');
 
         $agregatedData->where('created_at', '>=', $dateFrom);
@@ -214,7 +212,7 @@ class Properties extends Model
         return false;
     }
 
-  
+
 
 
 
@@ -227,7 +225,7 @@ class Properties extends Model
         if ($origin != null) {
             $record->origin    = $origin;
         }
-        
+
         $record->save();
         return true;
     }

@@ -11,6 +11,12 @@ class Wifi extends Properties
     protected $historyDefault = 90;
     protected $unitsDefault = "dbm";
     protected $iconDefault = "fas fa-wifi";
+    protected $graphSupport = true;
+
+    public function getGraphSupport()
+    {
+        return $this->graphSupport;
+    }
 
     public function save(array $options = [])
     {

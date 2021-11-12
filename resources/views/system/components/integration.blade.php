@@ -2,9 +2,13 @@
     <div class="container p-0">
         <div class="row">
             <div class="col my-auto">
-                <a class="h2" href="{{ route('system.integrations.detail', strtolower($integration['name'])) }}">
-                    {{$integration["name"]}}
+                <a class="h2 text-decoration-none"
+                    href="{{ route('system.integrations.detail', strtolower($integration['name'])) }}">
+                    {{ $integration['name'] }}
                 </a>
+                @if ($integration['providetDevices'] > 0)
+                    <p>{{ __('simplehome.integrations.devices') }} {{ $integration['providetDevices'] }}</p>
+                @endif
             </div>
         </div>
         <div class="row">

@@ -59,14 +59,13 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/run', [App\Http\Controllers\AutomationsController::class, 'runAjax'])->name('automations.run');
 
     Route::middleware(['auth', 'verified', 'language'])->post('/list/{type}/ajax', [App\Http\Controllers\AutomationsController::class, 'listAjax'])->name('automations.ajax.list');
-    
+
     Route::middleware(['auth', 'verified', 'language'])->get('/tasks/ajax', [App\Http\Controllers\AutomationsController::class, 'tasksAjax'])->name('automations.tasks');
-    
+
     Route::middleware(['auth', 'verified', 'language'])->get('/properties/selection/ajax', [App\Http\Controllers\AutomationsController::class, 'propertyesAjax'])->name('automations.propertie.selection');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/rules/ajax', [App\Http\Controllers\AutomationsController::class, 'rulesAjax'])->name('automations.propertie.rules');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setAjax'])->name('automations.propertie.set');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/finish/ajax', [App\Http\Controllers\AutomationsController::class, 'finishAjax'])->name('automations.propertie.finish');
-
 });
 
 //Notifications
@@ -81,6 +80,9 @@ Route::namespace('notifications')->prefix('notifications')->group(function () {
 Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\ControlsController::class, 'list'])->name('controls.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/room/{room_id}/ajax', [App\Http\Controllers\ControlsController::class, 'listAjax'])->name('controls.ajax.list');
+    Route::middleware(['auth', 'verified', 'language'])->get('/rooms/ajax', [App\Http\Controllers\ControlsController::class, 'roomsAjax'])->name('controls.ajax.subnavigation');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/chart/prewiev/ajax', [App\Http\Controllers\ControlsController::class, 'chartAjax'])->name('controls.ajax.chart.prewiev');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/detail/{period?}', [App\Http\Controllers\ControlsController::class, 'detail'])->name('controls.detail');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/remove', [App\Http\Controllers\ControlsController::class, 'remove'])->name('controls.remove');
@@ -97,7 +99,7 @@ Route::namespace('room')->prefix('room')->group(function () {
 
 //System Settings
 Route::namespace('system')->prefix('system')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('/refresh-csrf', function() {
+    Route::middleware(['auth', 'verified', 'language'])->get('/refresh-csrf', function () {
         // if ($request->header('X-CSRF-TOKEN') != csrf_token()) {
         // }
         return response()->json(['token' => csrf_token()]);
@@ -140,9 +142,11 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/verifyDelete', [App\Http\Controllers\UsersController::class, 'verifyDelete'])->name('system.profile.verifyDelete');
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/subscribe', [App\Http\Controllers\UsersController::class, 'subscribe'])->name('system.profile.notifications.subscribe');
-    
+
+
+
     // Route::middleware(['auth', 'verified', 'language'])->get('/profile/send', function() {
-        
+
     //     $user = auth()->user();
     //     $response = $user->notifyNow(new DeviceRebootNotification(Devices::find(513)));
     //     return response()->json(["status"=>"send","response" => $response]);
@@ -156,14 +160,14 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('system.settings.update');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
-    
-    
+
+
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
-    
-    
-    
-    
-    
+
+
+
+
+
     //DEVILOPMENTS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\DevelopmentsController::class, 'index'])->name('system.developments.index');
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/{token_id}/remove', [App\Http\Controllers\DevelopmentsController::class, 'removeToken'])->name('system.developments.token.remove');
@@ -188,8 +192,8 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/edit/ajax', [App\Http\Controllers\LocationsController::class, 'editAjax'])->name('system.locations.ajax.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/new/ajax', [App\Http\Controllers\LocationsController::class, 'newAjax'])->name('system.locations.ajax.new');
 
-
-
+    //PWA
+    Route::middleware(['auth', 'verified', 'language'])->get('/pwa', [App\Http\Controllers\SettingsController::class, 'pwa'])->name('system.pwa');
 });
 
 //Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;

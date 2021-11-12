@@ -1,10 +1,6 @@
 @extends('layouts.settings')
 @section('title', 'integrations')
 
-@section('subnavigation')
-    @include('system.components.subnavigation')
-@endsection
-
 @section('content')
     @if (!empty($integrations) && count($integrations) > 0)
         @foreach ($integrations as $integration)

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
-use App\Types\GraphPeriod;
-use App\Notifications\NewDeviceNotification;
-use App\Models\User;
-use App\Models\Rooms;
-use App\Models\Records;
-use App\Models\Properties;
 use App\Helpers\SettingManager;
+use App\Models\Properties;
+use App\Models\Records;
+use App\Models\Rooms;
+use App\Models\User;
+use App\Notifications\NewDeviceNotification;
+use App\Types\GraphPeriod;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 
 class ControlsController extends Controller
@@ -42,7 +42,18 @@ class ControlsController extends Controller
             'url' => route('rooms.store'),
         ], ['edit' => false]);
 
-        return view('controls.list');
+        $rooms = Cache::remember('controls.rooms', 1, function () {
+            return Rooms::with(['properties', 'properties.device' => function ($query) {
+                $query->select('id');
+                return $query->where('approved', 1);
+            }])->get()->filter(function ($item) {
+                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                    return $item;
+                }
+            });
+        });
+
+        return view('controls.list', compact('rooms', 'roomForm'));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
@@ -110,40 +121,40 @@ class ControlsController extends Controller
             ->labels($labels)
             ->datasets($datasets)
             ->optionsRaw("{
-                plugins:{
-                    maintainAspectRatio: false,
-                    spanGaps: false,
-                    filler: {
-                            propagate: false
+            plugins:{
+                maintainAspectRatio: false,
+                spanGaps: false,
+                filler: {
+                    propagate: false
+                },
+                legend:{
+                    display: true,
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
+                        max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
+                        display: false,
                     },
-                    legend:{
-                        display: true,
-                        position: 'bottom'
+                    grid:{
+                        drawBorder: false,
+                        display:false,
                     }
                 },
-                scales: {
-                    y: {
-                        ticks: {
-                            min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
-                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
-                            display: false,
-                        },
-                        grid:{
-                            drawBorder: false,
-                            display:false,
-                        }
+                x: {
+                    ticks: { 
+                        display: false,
                     },
-                    x: {
-                        ticks: { 
-                            display: false,
-                        },
-                        grid:{
-                            drawBorder: false,
-                            display:false
-                        }
+                    grid:{
+                        drawBorder: false,
+                        display:false
                     }
-                },
-            }");
+                }
+            },
+        }");
 
         return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
     }
@@ -232,10 +243,12 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes =  Properties::where("room_id", $room_id)->with(['device' => function ($query) {
-
+            $propertyes = Properties::where("room_id", $room_id)->whereHas('device', function ($query) {
+                return $query->where('approved', 1);
+            })->with(['device' => function ($query) {
                 return $query->where('approved', 1)->get(["integration"]);
             }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+
             return View::make("controls.controls")->with("propertyes", $propertyes)->render();
         }
         return redirect()->back();
@@ -244,7 +257,6 @@ class ControlsController extends Controller
     public function roomsAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-
             $rooms = Cache::remember('controls.rooms', 1, function () {
                 return Rooms::with(['properties', 'properties.device' => function ($query) {
                     $query->select('id');
@@ -255,7 +267,40 @@ class ControlsController extends Controller
                     }
                 });
             });
-            return View::make("controls.subnavigation")->with("rooms", $rooms)->render();
+            return View::make("controls.components.subnavigation")->with("rooms", $rooms)->render();
+        }
+        return redirect()->back();
+    }
+
+
+    public function chartAjax($property_id = 0, Request $request)
+    {
+        if ($request->ajax()) {
+            $property = Properties::find($property_id);
+
+            $labels = [];
+            $values = [];
+
+            $property->period = GraphPeriod::DAY;
+
+            foreach ($property->agregated_values  as $key => $item) {
+                $values[] = (($item->value < 0) ? abs($item->value) : $item->value);
+                $labels[] = $item->created_at->diffForHumans(null, true);
+            }
+
+            $datasets = [
+                [
+                    "fill" => true,
+                    "backgroundColor" => ' #1cca50',
+                    "tension" => 0.5,
+                    "data" => $values,
+                ],
+            ];
+
+            return response()->json([
+                "labels" => $labels,
+                "datasets" => $datasets,
+            ], 200, [], JSON_UNESCAPED_UNICODE);
         }
         return redirect()->back();
     }

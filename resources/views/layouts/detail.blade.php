@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row nav-bar-padding">
             <div class="col p-md-0 mt-2">
                 @auth
                     @yield('content')

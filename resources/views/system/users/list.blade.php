@@ -24,7 +24,7 @@
                             <tr>
                                 <th scope="col" class="d-none d-md-table-cell">{{ __('simplehome.hostname') }}</th>
                                 <th>{{ __('simplehome.email') }}</th>
-                                <th></th>
+                                <th class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,10 +32,13 @@
                                 <tr>
                                     <td class="d-none d-md-table-cell">{{ $user->name }}</td>
                                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
-                                    <td class="text-end"><a
-                                            href="{{ route('system.users.remove', ['user_id' => $user->id]) }}"
-                                            class="btn btn-danger" title="{{ __('simplehome.users.delete') }}"><i
-                                                class="fas fa-times"></i></a></td>
+                                    <td class="col-auto text-end fit">
+                                        <div class="btn btn-info p-1">
+                                            <a href="{{ route('system.users.remove', ['user_id' => $user->id]) }}"
+                                                class="btn btn-danger" title="{{ __('simplehome.users.delete') }}"><i
+                                                    class="fas fa-times"></i></a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

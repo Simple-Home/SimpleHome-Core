@@ -10,6 +10,10 @@
         "natizyskunk.sftp",
         "mehedidracula.php-namespace-resolver",
         "ecmel.vscode-html-css",
-        "felixfbecker.php-debug"
+        "felixfbecker.php-debug",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        "streetsidesoftware.code-spell-checker",
+        "mikestead.dotenv"
     ]
 }

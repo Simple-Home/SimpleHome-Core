@@ -144,5 +144,14 @@
             window.location.reload();
             refreshing = true;
         });
+
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.action === 'refresh') {
+                if (refreshing) return;
+                console.log("Update Reload");
+                window.location.reload();
+                refreshing = true;
+            }
+        });
     });
 </script>

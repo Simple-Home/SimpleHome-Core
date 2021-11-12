@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Properties;
 
-class Relay extends Properties
+class battery extends Properties
 {
     protected $historyDefault = 90;
-    protected $unitsDefault = "";
-    protected $iconDefault = "fas fa-power-off";
-    protected $graphSupport = false;
+    protected $unitsDefault = "v";
+    protected $iconDefault = "fas fa-car-battery";
+    protected $graphSupport = true;
 
     public function getGraphSupport()
     {
@@ -35,7 +33,6 @@ class Relay extends Properties
         $result = parent::update($attributes, $options); // returns boolean
         // after save code
         return $result; // do not ignore it eloquent calculates this value and returns this, not just to ignore
-
     }
 
     private function setDefaultValues()
@@ -48,5 +45,10 @@ class Relay extends Properties
 
         if ($this->units == "")
             $this->units = $this->unitsDefault;
+    }
+
+    public function getIconAttribute($value)
+    {
+        return $value;
     }
 }

@@ -9,6 +9,13 @@ class Temp extends Properties
     protected $historyDefault = 90;
     protected $unitsDefault = "°C";
     protected $iconDefault = "fas fa-thermometer-empty";
+    protected $graphSupport = true;
+
+    public function getGraphSupport()
+    {
+        return $this->graphSupport;
+    }
+
 
     public function save(array $options = [])
     {
