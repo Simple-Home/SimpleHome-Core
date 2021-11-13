@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Properties;
-use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\View;
 use App\Models\PushNotificationsSubscribers;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rule;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 
 
@@ -78,7 +78,7 @@ class UsersController extends Controller
         $propertiesSelect = [null => "Nothing"];
         if(!empty ($properties)) {
             foreach ($properties as $property) {
-                $propertiesSelect[$property['id']] = $property['nick_name'];
+                $propertiesSelect[$property['id']] = $property['nick_name'] . " (" . $property['type'] . ")" ;
             }
         }
 
@@ -318,9 +318,9 @@ class UsersController extends Controller
     public function userLocationsAjax(Request $request)
     {
         $locationSlug = "home";
-        $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
-                if ($item->locator->getLocation() !== false and $item->locator->getLocation()->name == $locationSlug) {
-                    return $item;
+        $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($user) use ($locationSlug) {          
+                if ($user->locator->getLocation() !== false and $user->locator->getLocation()->name == $locationSlug) {
+                    return $user;
                 }
             });
 
