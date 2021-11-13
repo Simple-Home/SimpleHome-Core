@@ -2,20 +2,20 @@
 
 namespace App\Api\Controllers;
 
-use PhpParser\Node\Stmt\Foreach_;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Notifications\NewDeviceNotification;
-use App\Models\User;
-use App\Models\Rooms;
-use App\Models\Records;
-use App\Models\Properties;
-use App\Models\Devices;
-use App\Http\Controllers\Controller;
-use App\Helpers\SettingManager;
 use App\Events\DeviceSetupEvent;
+use App\Helpers\SettingManager;
+use App\Http\Controllers\Controller;
+use App\Models\Devices;
+use App\Models\Properties;
+use App\Models\Records;
+use App\Models\Rooms;
+use App\Models\User;
+use App\Notifications\NewDeviceNotification;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use PhpParser\Node\Stmt\Foreach_;
 
 class EndpointController extends Controller
 {
@@ -75,7 +75,7 @@ class EndpointController extends Controller
                 }
                 $property               = new Properties;
                 $property->type         = $propertyItem;
-                $property->nick_name    = $propertyItem;
+                $property->nick_name    = $device->type . ":" . $propertyItem;
                 $property->icon         = "fas fa-robot";
                 $property->device_id    = $device->id;
                 $property->room_id      = $defaultRoom->id;
