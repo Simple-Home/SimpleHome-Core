@@ -1,5 +1,5 @@
 @extends('layouts.settings')
-@section('title', 'integrations')
+@section('title', trans('simplehome.integrations.page.title'))
 
 @section('content')
     @if (!empty($integrations) && count($integrations) > 0)

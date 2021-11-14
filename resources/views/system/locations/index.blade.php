@@ -1,5 +1,5 @@
 @extends('layouts.settings')
-@section('title', trans('simplehome.locations.pageTitle'))
+@section('title', trans('simplehome.locations.page.title'))
 
 @section('customHead')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css"

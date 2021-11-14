@@ -1,5 +1,5 @@
 <form id="search" action="{{ route(str_replace('index', 'ajax.search', Route::currentRouteName())) }}" method="GET">
-    <div class="d-flex mb-2">
+    <div class="d-flex mb-3">
         <div class="flex-grow-1 me-1">
             <input class="form-control" value="{{ app('request')->input('search') }}" type="search" name="search"
                 placeholder="{{ __('simplehome.search') }}" aria-label="{{ __('simplehome.search') }}" required>

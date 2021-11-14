@@ -1,14 +1,22 @@
 @extends('layouts.settings')
-@section('pageTitle', trans('simplehome.properties.detail.pageTitle') )
+@section('title', trans('simplehome.integrations.page.title'))
 @section('content')
-    @include('system.components.controls', $integration)
-    @if(!empty($settings) && count($settings) > 0)
-    <div class="col">
-        <div class="row row-cols-1 row-cols-md-3">
-            {!! form($systemSettingsForm) !!}
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('simplehome.controls') }}
+        </div>
+        <div class="card-body">
+            @include('system.components.controls', $integration)
         </div>
     </div>
-    @else
-    <p class="text-center">{{ __('No Modules Found') }}</p>
+    @if (!empty($settings) && count($settings) > 0)
+        <div class="card mb-3">
+            <div class="card-header">
+                {{ __('simplehome.settings') }}
+            </div>
+            <div class="card-body">
+                {!! form($systemSettingsForm) !!}
+            </div>
+        </div>
     @endif
 @endsection

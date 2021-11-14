@@ -122,12 +122,16 @@ return [
     'create' => 'Create',
     'search' => 'Search',
     'logout' => 'Logout',
+    'settings' => "Settings",
     'last.change' => 'Last Change',
+    'controls' => "Controls",
+    'run.job' => "Run Job",
+    'jobs' => "Run Job",
     //LOG
     'logs.exception' => 'Exception',
     //LOCATION
     'locations' => 'locations',
-    'locations.pageTitle' => 'Locations',
+    'locations.page.title' => 'Locations',
     'locations.lattitude' => 'Latitude',
     'locations.longtitude' => 'Longtitude',
     'locations.radius' => 'Radius',
@@ -137,8 +141,22 @@ return [
     'oauth.tokens' => "Tokens",
     'oauth.clients' => "Clients",
     'oauth.authorized.apps' => "Authorizet Apps",
+    "developments.page.title" => "Developments",
     //AUTOMATIONS
     'automations.automations' => "Automations",
     'automations.scenes' => "Scenes",
     'automations.nothing' => "No automation found",
+    //INTEGRATIONS
+    'integrations.nothing' => "No integration installed",
+    "integrations.page.title" => "Integrations",
+    //HOUSEKEEPINF
+    'housekeepings.logs.size' => 'Logs files size',
+    "housekeepings.page.title" => "Housekeeping",
+    //DEVICES
+    "devices.page.title" => "Devices",
+    //USERS
+    "users.page.title" => "Users",
+    //ROOMS
+    "rooms.page.title" => "Users",
+
 ];

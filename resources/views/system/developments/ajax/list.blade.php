@@ -10,7 +10,7 @@
                     <th scope="col">Client ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Secret</th>
-                    <th scope="col text-end"></th>
+                    <th  class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Scope</th>
                     <th scope="col">expire</th>
-                    <th scope="col"></th>
+                    <th  class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                 </tr>
             </thead>
             <tbody>

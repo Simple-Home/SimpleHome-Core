@@ -14,7 +14,7 @@
                         <tr>
                             <th>{{ __('simplehome.icon') }}</th>
                             <th scope="col">{{ __('simplehome.name') }}</th>
-                            <th>{{ __('simplehome.actions') }}</th>
+                            <th  class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,8 +26,8 @@
                                 <td class="col-auto">
                                     {{ $location->name }}
                                 </td>
-                                <td class="col">
-                                    <div>
+                                <td class="col-auto text-end fit">
+                                    <div class="btn btn-info p-1">
                                         <button
                                             data-url="{{ route('system.locations.ajax.edit', ['location_id' => $location->id]) }}"
                                             class="location-edit btn btn-primary" title="{{ __('simplehome.edit') }}">
