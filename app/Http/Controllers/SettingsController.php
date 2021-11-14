@@ -91,7 +91,8 @@ class SettingsController extends Controller
             'variables' => $settings
         ]);
 
-        return view('system.integrations.detail', compact('settings', 'systemSettingsForm'));
+        $integration = \Module::find($integrationSlug);
+        return view('system.integrations.detail', compact('settings', 'systemSettingsForm', 'integration'));
     }
 
     function setDark()
