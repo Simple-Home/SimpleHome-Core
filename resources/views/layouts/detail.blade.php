@@ -43,28 +43,11 @@
     <!-- PWA Manifest -->
     @laravelPWA
     <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-        < script
+    </script>
+
+    <script
         src = "{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" >
             refreshCSRF('{{ route('system.refresh.csrf') }}');
-    </script>
-
-    </script>
-    <script defer>
-        var darkThemeSelected =
-            localStorage.getItem("darkSwitch") !== null &&
-            localStorage.getItem("darkSwitch") === "dark";
-
-        if (darkThemeSelected) {
-            localStorage.setItem("darkSwitch", "dark");
-            $('head meta[name="theme-color"]').attr('content', '#111');
-        } else {
-            localStorage.removeItem("darkSwitch");
-            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
-        }
-
-        if (!isMobile()) {
-            $('head meta[name="theme-color"]').attr('content', '#1cca50');
-        }
     </script>
 </head>
 
