@@ -1,4 +1,4 @@
-<div class="card p-2 m-1">
+<div class="card p-2 m-1 h-100">
     <div class="container p-0">
         <div class="row">
             <div class="col my-auto">

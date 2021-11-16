@@ -6,16 +6,16 @@
 @endsection
 
 @section('content')
-        @include('components.search')
-        @if (!empty($devices) && count($devices) > 0)
-            
-                @foreach ($devices as $device)
-                    <div class="col-lg-4 col-md-6 col-12 p-0">
-                        @include('system.components.device', $device)
-                    </div>
-                @endforeach
-            
-        @else
-            <p class="text-center">{{ __('simplehome.noDevices') }}</p>
-        @endif
+    @include('components.search')
+    @if (!empty($devices) && count($devices) > 0)
+        <div class="row g-2 equal">
+            @foreach ($devices as $device)
+                <div class="col-lg-4 col-md-6 col-12 p-0">
+                    @include('system.components.device', $device)
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-center">{{ __('simplehome.noDevices') }}</p>
+    @endif
 @endsection
