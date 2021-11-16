@@ -40,7 +40,8 @@
 ```
 
 18. Make top-bar in detail of "Control" sticky
-
+19. .env File Editor https://stackoverflow.com/questions/32307426/how-to-change-variables-in-the-env-file-dynamically-in-laravel For edit of Debug mode true/false
+20. add support for model pressure main.pressure Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
 # Done:
 
 1. ~~Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21~~
