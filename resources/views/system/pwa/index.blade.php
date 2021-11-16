@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="card">
-        <div class=" card-header">{{ __('simplehome.pwa') }}</div>
+        <div class=" card-header">{{ __('simplehome.controls') }}</div>
         <div class="card-body">
             <button type="button" onclick="navigator.serviceWorker.controller.postMessage({ action: 'refreshCache'});"
                 class="btn btn-primary">Delete local Cache </button>

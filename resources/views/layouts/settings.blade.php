@@ -223,17 +223,17 @@
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
+                                <li class="nav-item my-auto">
+                                    <p class="m-0">{{ __('simplehome.debug') }}</p>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link {{ strpos(Route::currentRouteName(), 'logs') > -1 ? 'active' : '' }}"
                                         href="{{ route('system.logs') }}">
                                         <i class="fas fa-bug"></i>
                                         <span class="ms-md-2 ">{{ __('Logs') }}</span>
                                     </a>
-                                </li>
-                            </ul>
-                            <ul class="nav flex-column">
-                                <li class="nav-item my-auto">
-                                    <p class="m-0">{{ __('simplehome.debug') }}</p>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
@@ -246,7 +246,6 @@
                                 </li>
                             </ul>
                             {{-- Menu Items End --}}
-
                         </div>
                     </div>
                 </nav>
