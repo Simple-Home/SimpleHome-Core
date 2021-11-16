@@ -100,6 +100,8 @@
                     @if ($propertyDetailChart)
                         <div class="h-30">
                             {!! $propertyDetailChart->render() !!}
+                            <script>
+                            </script>
                         </div>
                     @endif
                 @else

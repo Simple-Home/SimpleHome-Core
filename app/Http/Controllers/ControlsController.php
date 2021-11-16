@@ -80,18 +80,17 @@ class ControlsController extends Controller
             [
                 "label" => "value",
                 "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "rgba(0,0,0,1)",
-                //"tension" => 0.4,
+                "borderColor" => "#1cca50",
+                "tension" => 0.5,
                 //"borderWidth" => 1.2,
                 "pointRadius" => 0,
-                "data" => $maxs,
                 "data" => $values,
             ],
             [
                 "label" => "min",
                 "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "rgba(0,0,0,1)",
-                //"tension" => 0.4,
+                "borderColor" => "#1cca50",
+                "tension" => 0.5,
                 //"borderWidth" => 1.5,
                 "borderDash" => [5, 5],
                 "pointRadius" => 0,
@@ -100,20 +99,15 @@ class ControlsController extends Controller
             [
                 "label" => "max",
                 "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "rgba(0,0,0,1)",
-                //"tension" => 0.4,
+                "borderColor" => "#1cca50",
+                "tension" => 0.5,
                 //"borderWidth" => 1.5,
                 "borderDash" => [5, 5],
-                "pointRadius" => 0,
+                "pointRadius" => 0.5,
+
                 "data" => $maxs,
             ],
         ];
-
-        $dataset["fill"] = True;
-        $dataset["backgroundColor"] = "rgba(220,220,220,0.5)";
-        $dataset["borderColor"] = "rgba(220,220,220,1)";
-        $dataset["tension"] = 0.4;
-        $dataset["pointRadius"] = 0;
 
         $propertyDetailChart = app()->chartjs
             ->name('propertyDetailChart')
