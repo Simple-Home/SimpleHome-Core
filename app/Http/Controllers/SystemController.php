@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SettingManager;
+use App\Models\Devices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Helpers\SettingManager;
+use Kris\LaravelFormBuilder\FormBuilder;
 use Nwidart\Modules\Module;
-use App\Models\Devices;
-
 
 class SystemController extends Controller
 {
@@ -15,12 +15,12 @@ class SystemController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     public function integrationsList()
     {
         $integrationsRaw = \Module::all();
         $integrations = [];
-
+        
         foreach ($integrationsRaw as $key => $integration) {
             $providetDevices = count(Devices::where('integration', $integration->getLowerName())->get());
             $integrations[] = [
@@ -29,10 +29,10 @@ class SystemController extends Controller
                 "providetDevices" => $providetDevices,
             ];
         }
-
+        
         return view('system.integrations.list', compact('integrations'));
     }
-
+    
     public function detail($integrationSlug, FormBuilder $formBuilder)
     {
         $settings = SettingManager::getGroup($integrationSlug);
@@ -42,6 +42,14 @@ class SystemController extends Controller
             'variables' => $settings
         ]);
 
-        return view('system.integrations.detail', compact('settings', 'systemSettingsForm'));
+        $module = \Module::find($integrationSlug);
+        $providetDevices = count(Devices::where('integration', $module->getLowerName())->get());
+        
+        $integration = [
+            "name" => $module->getName(),
+            "slug" => $module->getLowerName(),
+            "providetDevices" => $providetDevices
+        ];
+        return view('system.integrations.detail', compact('settings', 'systemSettingsForm', 'integration'));
     }
 }

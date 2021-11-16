@@ -1,5 +1,5 @@
 @extends('layouts.settings')
-@section('title', 'users')
+@section('title', trans('simplehome.users.page.title'))
 
 @section('subnavigation')
     @include('system.components.subnavigation')

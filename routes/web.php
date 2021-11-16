@@ -1,9 +1,9 @@
 <?php
 
-use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Route;
-use App\Notifications\DeviceRebootNotification;
 use App\Models\Devices;
+use App\Notifications\DeviceRebootNotification;
+use Illuminate\Support\Facades\Route;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -154,7 +154,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     // })->name('notifications.send');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
-    Route::middleware(['auth', 'verified', 'language'])->get('/integrations/{integration_slug}/detail', [App\Http\Controllers\SettingsController::class, 'detail'])->name('system.integrations.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/integrations/{integration_slug}/detail', [App\Http\Controllers\SystemController::class, 'detail'])->name('system.integrations.detail');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('system.settings.update');

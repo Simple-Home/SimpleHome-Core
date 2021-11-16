@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Http\Request;
+use App\Helpers\SettingManager;
+use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
-use Nwidart\Modules\Module;
-use App\Helpers\SettingManager;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Laravel\Passport\Client;
-use Laravel\Passport\Token;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
+use Laravel\Passport\Token;
 use Laravel\Passport\TokenRepository;
+use Nwidart\Modules\Module;
 
 class SettingsController extends Controller
 {
@@ -91,7 +91,8 @@ class SettingsController extends Controller
             'variables' => $settings
         ]);
 
-        return view('settings.integrations.detail', compact('settings', 'systemSettingsForm'));
+        $integration = \Module::find($integrationSlug);
+        return view('system.integrations.detail', compact('settings', 'systemSettingsForm', 'integration'));
     }
 
     function setDark()

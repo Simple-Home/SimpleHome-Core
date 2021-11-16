@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Listeners\InstallFinishedListener;
 use Illuminate\Support\ServiceProvider;
 use RachidLaasri\LaravelInstaller\Controllers\FinalController;
+use RachidLaasri\LaravelInstaller\Events\LaravelInstallerFinished;
 use RachidLaasri\LaravelInstaller\Helpers\EnvironmentManager;
 use Illuminate\Support\Facades\Schema;
 

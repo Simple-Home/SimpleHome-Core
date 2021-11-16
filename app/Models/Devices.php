@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\DeviceRebootNotification;
+use App\Notifications\NewDeviceNotification;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Properties;
-use DateTime;
-use App\Notifications\NewDeviceNotification;
 use Illuminate\Support\Facades\Log;
-use App\Notifications\DeviceRebootNotification;
+use app\Models\Properties;
 
 class Devices extends Model
 {
@@ -210,7 +210,14 @@ class Devices extends Model
             $this->save();
         }
         
-        
+        public function save(array $options = [])
+        {
+            $result = parent::save($options);
+            foreach (User::all() as $user) {
+                $user->notify(new NewDeviceNotification($this));
+            }
+            return $result;
+        }
         
         use HasFactory;
     }
