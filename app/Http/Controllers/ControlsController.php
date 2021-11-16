@@ -104,7 +104,6 @@ class ControlsController extends Controller
                 //"borderWidth" => 1.5,
                 "borderDash" => [5, 5],
                 "pointRadius" => 0.5,
-
                 "data" => $maxs,
             ],
         ];
