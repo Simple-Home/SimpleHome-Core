@@ -213,9 +213,13 @@ class Devices extends Model
         public function save(array $options = [])
         {
             $result = parent::save($options);
-            foreach (User::all() as $user) {
-                $user->notify(new NewDeviceNotification($this));
+
+            if (isset($this->id) && empty($this->id)){
+                foreach (User::all() as $user) {
+                    $user->notify(new NewDeviceNotification($this));
+                }
             }
+
             return $result;
         }
         
