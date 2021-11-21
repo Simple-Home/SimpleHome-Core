@@ -127,6 +127,7 @@ return [
     'controls' => "Controls",
     'run.job' => "Run Job",
     'jobs' => "Run Job",
+    'count' => "Count",
     //LOG
     'logs.exception' => 'Exception',
     //LOCATION
@@ -158,5 +159,6 @@ return [
     "users.page.title" => "Users",
     //ROOMS
     "rooms.page.title" => "Users",
-
+    //PROPERTIES
+    "properties" => "Properties",
 ];

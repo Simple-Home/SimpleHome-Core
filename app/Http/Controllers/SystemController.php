@@ -43,7 +43,7 @@ class SystemController extends Controller
         ]);
 
         $module = \Module::find($integrationSlug);
-        $providetDevices = count(Devices::where('integration', $module->getLowerName())->get());
+        $providetDevices = Devices::where('integration', $module->getLowerName())->get();
         
         $integration = [
             "name" => $module->getName(),

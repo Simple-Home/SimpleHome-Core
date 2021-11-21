@@ -6,7 +6,7 @@
                     {{ $device->hostname }}
                 </a>
                 <p class="m-0 text-left">
-                    {{ __('properties.count') . ': ' . $device->getProperties->count() }}
+                    {{  __('simplehome.properties') . " " . __('simplehome.count') . ': ' . $device->getProperties->count() }}
                 </p>
                 @if (!empty($device->heartbeat))
                     <p class="m-0 text-left {{ $device->offline ? 'text-danger' : 'text-success' }}">
