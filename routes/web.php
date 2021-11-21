@@ -124,6 +124,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/devices/firmware', [App\Http\Controllers\EndpointsController::class, 'firmware'])->name('system.devices.firmware');
 
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/detail', [App\Http\Controllers\EndpointsController::class, 'devicesDetail'])->name('system.devices.detail');
+    Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/info', [App\Http\Controllers\DevicesController::class, 'info'])->name('system.devices.info');
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/edit', [App\Http\Controllers\EndpointsController::class, 'devicesEdit'])->name('system.devices.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/remove', [App\Http\Controllers\EndpointsController::class, 'deviceRemove'])->name('system.devices.remove');
     Route::middleware(['auth', 'verified', 'language'])->get('/device/{device_id}/command/reboot', [App\Http\Controllers\EndpointsController::class, 'deviceReboot'])->name('others.devices.reboot');

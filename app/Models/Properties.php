@@ -29,6 +29,10 @@ class Properties extends Model
 
     public $period = GraphPeriod::DAY;
 
+    protected $casts = [
+        'is_disabled' => 'boolean',
+        'is_hidden' => 'boolean',
+    ];
 
     //NEW RELATIONS
     public function records()
@@ -58,7 +62,6 @@ class Properties extends Model
         }
         return false;
     }
-
 
     //FUNCTIONS
     public function getLatestRecordNotNull()
@@ -90,7 +93,6 @@ class Properties extends Model
 
     //Virtual  Values
     use HasFactory;
-
 
     //Add Function for mutator for value (with units) and rav value
     public function getNiceValueAttribute()
@@ -127,12 +129,7 @@ class Properties extends Model
         return 5;
     }
 
-
-
-
-
-
-
+    //OLD
     public function values()
     {
         $dateFrom = Carbon::now()->subDays(1);
@@ -211,10 +208,6 @@ class Properties extends Model
         }
         return false;
     }
-
-
-
-
 
     public function setValue($value, $origin = null)
     {
