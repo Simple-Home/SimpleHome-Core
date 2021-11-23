@@ -107,6 +107,9 @@
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
 
         <div class="row m-0 m-md-2 mt-md-0">
@@ -220,6 +223,14 @@
                                         href="{{ route('system.backups') }}">
                                         <i class="fas fa-file-archive"></i>
                                         <span class="ms-md-2 ">{{ __('Backups') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.backups') }}">
+                                        <i class="fas fa-code"></i>
+                                        <span class="ms-md-2 ">{{ __('Env  Editor') }}</span></a>
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
