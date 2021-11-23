@@ -266,7 +266,7 @@
                     </div>
                 </div>
 
-                <div class="flex-grow-1 pb-3 nav-bar-padding">
+                <div class="flex-grow-1 nav-bar-padding">
                     <div class="col m-0">
                         @auth
                             @yield('content')

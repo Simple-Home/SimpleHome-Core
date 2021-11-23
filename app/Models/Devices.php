@@ -19,7 +19,7 @@ class Devices extends Model
         'Blocked',
     ];
     */
-    
+
     protected $table = 'sh_devices';
     protected $dates = [
         'heartbeat'
