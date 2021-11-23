@@ -11,7 +11,7 @@
         <div class="row g-2 equal">
             @foreach ($devices as $device)
                 <div class="col-lg-4 col-md-6 col-12 p-0">
-                    @include('system.components.device', $device)
+                    @include('system.components.device', ['device' => $device])
                 </div>
             @endforeach
         </div>
