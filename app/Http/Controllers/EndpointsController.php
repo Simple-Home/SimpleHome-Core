@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Properties;
 use App\Models\Devices;
-use DateTime;
-use Illuminate\Support\Carbon;
-use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\Storage;
-use App\Notifications\NewDeviceNotification;
+use App\Models\Properties;
 use App\Models\User;
+use App\Notifications\NewDeviceNotification;
+use DateTime;
 use File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 class EndpointsController extends Controller
 {

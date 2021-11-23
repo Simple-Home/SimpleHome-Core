@@ -19,14 +19,14 @@
             </div>
         </div>
     @endif
-    @if (!empty($integration["providetDevices"]) && count($integration["providetDevices"]) > 0)
+    @if (!empty($integration['providetDevices']) && count($integration['providetDevices']) > 0)
         <div class="card mb-3">
             <div class="card-header">
                 {{ __('simplehome.devices') }}
             </div>
             <div class="card-body">
                 <div class="row g-2 equal">
-                    @foreach ($integration["providetDevices"] as $device)
+                    @foreach ($integration['providetDevices'] as $device)
                         <div class="col-lg-4 col-md-6 col-12 p-0">
                             @include('system.components.device', $device)
                         </div>

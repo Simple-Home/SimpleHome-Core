@@ -5,7 +5,7 @@
 3. Client Delete Button & Revoke
 4. optimaliuze notificatio_preferences load and save mutator for user json retipe colum in DB to json
 5. Device Reboot notification maybe all notification dont show time of creation but time of execution so pass parameter from constructor, <= because quable
-6. Redo Setting sto ajax loader an carousell :) like home screen
+
 7. Add Search to token wiev 
 8. Remove Custome CSS from app.sass to custome sass file
 9. Periodical check for update of SW
@@ -41,7 +41,9 @@
 
 18. Make top-bar in detail of "Control" sticky
 19. .env File Editor https://stackoverflow.com/questions/32307426/how-to-change-variables-in-the-env-file-dynamically-in-laravel For edit of Debug mode true/false
-20. add support for model pressure main.pressure Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
+21. Add User on location based to prewiew list
+
+
 # Done:
 
 1. ~~Fix APP_KEY in .env, needs to be random prior to install. - FIXED 6/8/21~~
@@ -49,7 +51,10 @@
 3. ~~add notification Counter and Dot Functions ~~
 4. ~~Nastilovat SW Update Notifikaci~~
 5. ~~Add Server Time & TImezone to Settings>Diagnostics~~
+20. ~~add support for model pressure main.pressure Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa~~
 
+# Depricated:
+6. Redo Setting sto ajax loader an carousell :) like home screen
 
 # Resources:
 

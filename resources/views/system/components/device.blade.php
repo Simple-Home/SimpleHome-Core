@@ -21,7 +21,6 @@
         <div class="row">
             <div class="col m-0">
                 <div class="d-flex justify-content-between">
-                    
                     @include('system.components.device_controls', ['device' => $device])
                 </div>
             </div>

@@ -107,6 +107,9 @@
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
 
         <div class="row m-0 m-md-2 mt-md-0">
@@ -223,6 +226,14 @@
                                 </li>
                             </ul>
                             <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.backups') }}">
+                                        <i class="fas fa-code"></i>
+                                        <span class="ms-md-2 ">{{ __('Env  Editor') }}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column">
                                 <li class="nav-item my-auto">
                                     <p class="m-0">{{ __('simplehome.debug') }}</p>
                                 </li>
@@ -266,7 +277,7 @@
                     </div>
                 </div>
 
-                <div class="flex-grow-1 pb-3 nav-bar-padding">
+                <div class="flex-grow-1 nav-bar-padding">
                     <div class="col m-0">
                         @auth
                             @yield('content')
