@@ -61,14 +61,12 @@ class EnvController extends Controller
     private function setEnv($key, $value)
     {
         $fileContent = file_get_contents(app()->environmentFilePath());
-
         $fileContent =  str_replace(
-            $key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)),
-            $key . '=' . "\"" . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)) . "\"",
+            $key . '=' . strval(env($key)),
+            $key . '=' . strval($value),
             $fileContent,
         );
-
-        dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
+        //dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
 
         //dump($key . '=' . "$value");
 
