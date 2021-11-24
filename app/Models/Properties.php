@@ -102,6 +102,7 @@ class Properties extends Model
 
     public function getMaxSettingValueAttribute()
     {
+
         if ($max = SettingManager::get('max', 'property-' . $this->id)) {
             return $max->value;
         }
