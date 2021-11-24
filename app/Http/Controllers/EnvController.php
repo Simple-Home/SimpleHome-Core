@@ -40,9 +40,8 @@ class EnvController extends Controller
     {
         $inputs = $request->all();
         unset($inputs['_token']);
-
         foreach ($inputs as $key => $value) {
-            if (env($key) == $value)
+            if (str_replace("'", "", var_export(env($key), true)) == str_replace("'", "", var_export($value, true)))
                 continue;
 
             dump($key);
@@ -53,6 +52,8 @@ class EnvController extends Controller
         // Artisan::call('cache:clear');
         // Artisan::call('config:cache');
 
+        cache()->flush();
+
         //die();
 
         return redirect()->route('system.env')->with('success', 'Environment Variables were changed.');
@@ -62,8 +63,8 @@ class EnvController extends Controller
     {
         $fileContent = file_get_contents(app()->environmentFilePath());
         $fileContent =  str_replace(
-            $key . '=' . strval(env($key)),
-            $key . '=' . strval($value),
+            $key . '=' . str_replace("'", "", var_export(env($key), true)),
+            $key . '=' . str_replace("'", "", var_export($value, true)),
             $fileContent,
         );
         //dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
