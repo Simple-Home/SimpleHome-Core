@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Artisan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 
