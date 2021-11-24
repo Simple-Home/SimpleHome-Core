@@ -269,9 +269,6 @@
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
             <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
             </script>
-        @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
-            <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-            </script>
         @endif
         @yield('beforeBodyEnd')
 </body>

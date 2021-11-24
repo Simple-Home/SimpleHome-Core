@@ -145,6 +145,7 @@ $('body').on('click', 'div.control-relay', function (event) {
         },
         timeout: 3000,
     });
+    event.preventDefault()
 });
 
 

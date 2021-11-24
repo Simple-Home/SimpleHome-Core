@@ -100,27 +100,7 @@
     </div>
 @endsection
 
-
 @section('beforeBodyEnd')
-    <script>
-        $('body').on('click', 'button.automation-type', function(e) {
-            thisObj = $(this);
-            console.log(thisObj.data("url"));
-            thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
-            e.preventDefault();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    type: thisObj.data("automation-type")
-                },
-                type: 'GET',
-                url: thisObj.data("url"),
-                success: function(msg) {
-                    $('div.automation-content').replaceWith(msg);
-                }
-            });
-        });
+    <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 @endsection

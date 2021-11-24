@@ -87,13 +87,16 @@ class AutomationsController extends Controller
         $result = false;
 
         $automation = Automations::find($automation_id);
-        if ($automation->is_enabled) {
-            $automation->run_at = Carbon::now();
-            $automation->save();
-            $result = $automation->run();
+        if (!$automation->is_enabled) {
+            return redirect()->back()->with("error", "Automation is not enabled!");
         }
 
-        return redirect()->back()->with("error", (string)json_encode([
+        $automation->run_at = Carbon::now();
+        $automation->save();
+        $result = $automation->run();
+        $automation->run();
+
+        return redirect()->back()->with("info", (string)json_encode([
             "result" => $result,
             "execution_time" => (microtime(true) - $start),
         ]));
