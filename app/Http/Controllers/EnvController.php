@@ -50,7 +50,7 @@ class EnvController extends Controller
             $this->setEnv($key, $value);
         }
 
-        // //Artisan::call('cache:clear');
+        // Artisan::call('cache:clear');
         // Artisan::call('config:cache');
 
         //die();
@@ -64,11 +64,12 @@ class EnvController extends Controller
 
         $fileContent =  str_replace(
             $key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)),
-            $key . '=' . "$value",
+            $key . '=' . "\"" . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)) . "\"",
             $fileContent,
         );
 
-        //dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
+        dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
+
         //dump($key . '=' . "$value");
 
         file_put_contents(app()->environmentFilePath(), $fileContent);
