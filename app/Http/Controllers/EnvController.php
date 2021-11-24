@@ -53,7 +53,7 @@ class EnvController extends Controller
         // //Artisan::call('cache:clear');
         // Artisan::call('config:cache');
 
-        die();
+        //die();
 
         return redirect()->route('system.env')->with('success', 'Environment Variables were changed.');
     }
