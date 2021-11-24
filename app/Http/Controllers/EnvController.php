@@ -55,8 +55,6 @@ class EnvController extends Controller
 
         cache()->flush();
 
-        //die();
-
         return redirect()->route('system.env')->with('success', 'Environment Variables were changed.');
     }
 
@@ -68,15 +66,7 @@ class EnvController extends Controller
             $key . '=' . str_replace("'", "", var_export($value, true)),
             $fileContent,
         );
-        //dump($key . '=' . (boolval(env($key)) ? (env($key) ? 'true' : 'false') : env($key)));
-
-        //dump($key . '=' . "$value");
 
         file_put_contents(app()->environmentFilePath(), $fileContent);
-        /*file_put_contents(app()->environmentFilePath(), str_replace(
-            $key . '=' . env($key),
-            $key . '=' . "$value",
-            file_get_contents(app()->environmentFilePath())
-        ));*/
     }
 }
