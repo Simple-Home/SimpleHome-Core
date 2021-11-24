@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Artisan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 
@@ -52,6 +53,8 @@ class EnvController extends Controller
 
         // Artisan::call('cache:clear');
         // Artisan::call('config:cache');
+
+        Cache::flush();
 
         //die();
 
