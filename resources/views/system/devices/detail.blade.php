@@ -6,7 +6,7 @@
             {{ __('simplehome.controls') }}
         </div>
         <div class="card-body">
-
+            @include('system.components.device_controls', ['device' => $device])
         </div>
     </div>
     <div class="card mb-3">

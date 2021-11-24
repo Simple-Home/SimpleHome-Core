@@ -165,6 +165,11 @@ Route::namespace('system')->prefix('system')->group(function () {
 
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
 
+    Route::middleware(['auth', 'verified', 'language'])->any('/env', [App\Http\Controllers\EnvController::class, 'index'])->name('system.env');
+    Route::middleware(['auth', 'verified', 'language'])->post('/env/store', [App\Http\Controllers\EnvController::class, 'store'])->name('system.env.store');
+
+
+
 
 
 

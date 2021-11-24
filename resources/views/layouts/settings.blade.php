@@ -227,8 +227,8 @@
                             </ul>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'backups') > -1 ? 'active' : '' }}"
-                                        href="{{ route('system.backups') }}">
+                                    <a class="nav-link {{ strpos(Route::currentRouteName(), 'env') > -1 ? 'active' : '' }}"
+                                        href="{{ route('system.env') }}">
                                         <i class="fas fa-code"></i>
                                         <span class="ms-md-2 ">{{ __('Env  Editor') }}</span></a>
                                 </li>
