@@ -42,11 +42,10 @@ class EnvController extends Controller
         $inputs = $request->all();
         unset($inputs['_token']);
         foreach ($inputs as $key => $value) {
-            if (str_replace("'", "", var_export(env($key), true)) == str_replace("'", "", var_export($value, true)))
+            if (str_replace("'", "", var_export(env($key), true)) == str_replace("'", "", var_export($value, true))) {
                 continue;
+            }
 
-            dump($key);
-            dump($value);
             $this->setEnv($key, $value);
         }
 
