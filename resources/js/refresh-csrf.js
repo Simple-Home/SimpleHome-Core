@@ -4,7 +4,7 @@ function refreshCSRF(url) {
         method: 'get',
     }).then(function (response) {
         if (response.token != null) {
-            console.log("Refreshing CSRF Token!");
+            console.log("[csrf]-refreshing");
             $('meta[name="csrf-token"]').attr('content', response.token);
         }
     });

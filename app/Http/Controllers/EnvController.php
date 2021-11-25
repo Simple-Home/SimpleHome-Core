@@ -23,6 +23,9 @@ class EnvController extends Controller
             if (str_starts_with($environmentVariableKey, "MIX_")) {
                 unset($environmentVariables[$environmentVariableKey]);
             }
+            if (str_starts_with($environmentVariableKey, "PASSPORT_PERSONAL_")) {
+                unset($environmentVariables[$environmentVariableKey]);
+            }
             if ($environmentVariableKey == "APP_KEY") {
                 unset($environmentVariables[$environmentVariableKey]);
             }
