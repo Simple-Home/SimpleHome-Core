@@ -38,25 +38,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <div class="position-relative m-4">
-                                        <div class="progress" style="height: 1px;">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%;"
-                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <button type="button"
-                                            class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
-                                            style="width: 2rem; height:2rem;">1</button>
-                                        <button type="button"
-                                            class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-primary rounded-pill"
-                                            style="width: 2rem; height:2rem;">2</button>
+                        <div class="automation-content">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        @progressbar(1, 6)
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="automation-content">
                             <div class="row">
                                 <div class="col mb-3">
                                     <button type="button" class="automation-type btn btn-primary btn-lg w-100 text-start"
@@ -101,6 +90,27 @@
 @endsection
 
 @section('beforeBodyEnd')
+    <script>
+        $('body').on('click', 'button.automation-type', function(e) {
+            thisObj = $(this);
+            console.log(thisObj.data("url"));
+            thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+            e.preventDefault();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    type: thisObj.data("automation-type")
+                },
+                type: 'GET',
+                url: thisObj.data("url"),
+                success: function(msg) {
+                    $('div.automation-content').replaceWith(msg);
+                }
+            });
+        });
+    </script>
     <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 @endsection

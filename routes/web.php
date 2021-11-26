@@ -65,6 +65,7 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/properties/selection/ajax', [App\Http\Controllers\AutomationsController::class, 'propertyesAjax'])->name('automations.propertie.selection');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/rules/ajax', [App\Http\Controllers\AutomationsController::class, 'rulesAjax'])->name('automations.propertie.rules');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setAjax'])->name('automations.propertie.set');
+    Route::middleware(['auth', 'verified', 'language'])->post('/properties/recap/ajax', [App\Http\Controllers\AutomationsController::class, 'recapAjax'])->name('automations.propertie.recap');
     Route::middleware(['auth', 'verified', 'language'])->post('/properties/finish/ajax', [App\Http\Controllers\AutomationsController::class, 'finishAjax'])->name('automations.propertie.finish');
 });
 

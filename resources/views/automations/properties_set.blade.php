@@ -1,4 +1,11 @@
 <div class="automation-content">
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                @progressbar(4, 6)
+            </div>
+        </div>
+    </div>
     <form id="properties-selection">
         <div class="row">
             <div class="col mb-3">
@@ -8,14 +15,19 @@
                         @if (!empty($propertyes) && count($propertyes) > 0)
                             @foreach ($propertyes as $property)
                                 <tr>
-                                    <th>
+                                    <th scope="col">
                                         {{ $property->nick_name }}
                                     </th>
-                                    <td>
+                                    <td scope="col">
                                         <input class="form-control" type="text"
                                             name="property[{{ $property->id }}][value]" value=""
                                             id="text-input-{{ $property->id }}"
                                             placeholder="{{ $property->latestRecord->value }}" maxlength="5" required>
+                                    </td>
+                                    <td scope="col" class="text-end">
+                                        <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -44,10 +56,10 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: '{{ route('automations.propertie.finish') }}',
+                url: '{{ route('automations.propertie.recap') }}',
                 data: form.serialize(),
                 success: function(msg) {
-                    form.replaceWith(msg);
+                    $("div.automation-content").replaceWith(msg);
                 }
             });
         });

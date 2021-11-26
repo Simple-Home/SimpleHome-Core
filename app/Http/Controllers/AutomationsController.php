@@ -144,15 +144,44 @@ class AutomationsController extends Controller
         return redirect()->back();
     }
 
+    public function recapAjax(Request $request)
+    {
+        if ($request->ajax()) {
+            $propertyesActions = [];
+            $propertyesTriggers = [];
+
+
+            foreach ($request->input('property') as $propertyId => $propertyValue) {
+                $propertyesActions[$propertyId] = [
+                    "value" => $propertyValue["value"],
+                    "name" => Properties::find($propertyId)->nick_name,
+                ];
+            }
+
+            if (!is_array($request->input('automation_type'))) {
+                $propertyesTriggers[] = $request->input('automation_type');
+            }
+
+            $automation = [
+                "automation_name" => "Test",
+                "automation_triggers" => $propertyesTriggers,
+                "automation_actions" => $propertyesActions,
+            ];
+            return View::make("automations.modal.recap")->with("automation", $automation)->render();
+        }
+        return redirect()->back();
+    }
+
+
     public function finishAjax(Request $request)
     {
         if ($request->ajax()) {
             $automation = new Automations;
 
             $automation->owner_id = auth()->user()->id;
-            $automation->name = "test";
-            $automation->conditions = $request->input('automation_type');
-            $automation->actions = $request->input('property');
+            $automation->name = $request->input('automation_name');
+            $automation->conditions = $request->input('automation_triggers');
+            $automation->actions = $request->input('automation_actions');
 
             $automation->save();
         }

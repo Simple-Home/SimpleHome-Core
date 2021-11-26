@@ -142,6 +142,12 @@ function setRange(inpurtTarget) {
     });
 }
 
+function deleteRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+
 /*
 if ($(window).width() < 768) {
 
