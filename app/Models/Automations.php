@@ -42,7 +42,7 @@ class Automations extends Model
         $restart = false;
         $error = false;
 
-        if ($this->conditions != "manual") {
+        if ($this->conditions[0] != "manual") {
             foreach ($this->conditions as $key => $value) {
                 # code...
             }
@@ -51,7 +51,7 @@ class Automations extends Model
             $restart = true;
         }
 
-        //TODO: hiest sleep time from all devices based on thies properties
+        //TODO: highest sleep time from all devices based on those properties
         $waitTime = 1000000;
 
         $recordsIds = [];
