@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Helpers\SettingManager;
 use App\Models\Devices;
 use App\Models\Property;
-use Kris\LaravelFormBuilder\FormBuilder;
+use DateTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Helpers\SettingManager;
-use DateTime;
+use Kris\LaravelFormBuilder\FormBuilder;
 
 
 class DevicesController extends Controller
@@ -114,6 +114,12 @@ class DevicesController extends Controller
         }
 
         return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
+    }
+
+    public function info($device_id)
+    {
+        $device = Devices::find($device_id);
+        return view('system.devices.info', compact("device"));
     }
 
     public function settings($device_id, FormBuilder $formBuilder)

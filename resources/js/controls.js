@@ -1,4 +1,9 @@
 console.log("Loading JS Controller for -> Control Namme Space")
+//Load Graph For Each Tile
+// for (var i = 0; i < 6; i++) {
+//     $('body').on('blur', '#input' + i, getValue);
+// }
+
 window.addEventListener("load", function () {
     var subNavigation = $("div.ajax-subnavigation")
     $.ajax({
@@ -6,10 +11,11 @@ window.addEventListener("load", function () {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        type: 'POST',
+        type: 'GET',
         url: subNavigation.data("url"),
+        async: false,
         success: function (msg) {
-            subNavigation.html(msg);
+            subNavigation.replaceWith(msg);
             console.log((new Date().getTime() - this.start_time) + ' ms');
         },
         error: function () {
@@ -20,7 +26,7 @@ window.addEventListener("load", function () {
 
     var loadingAnimation = true;
     if ($("div.carousel-item").length) {
-
+        console.log("loading");
         //Initial Load
         var lastRoom = localStorage.getItem("lastRoomId");
         if (lastRoom) {
@@ -61,7 +67,7 @@ window.addEventListener("load", function () {
         });
     }
 
-    $('div.subnavigation ').click(function (event) {
+    $('body').on('click', 'div.subnavigation', function (event) {
         loadingAnimation = false;
 
         //Load Thinks
@@ -139,6 +145,7 @@ $('body').on('click', 'div.control-relay', function (event) {
         },
         timeout: 3000,
     });
+    event.preventDefault()
 });
 
 

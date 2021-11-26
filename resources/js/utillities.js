@@ -21,7 +21,7 @@ function isMobile() {
 }
 
 function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'POST') {
-    console.log("loading from: ", sourceUrl, "loading to: ", target)
+    console.log("[ajaxLoader]-loading from:", sourceUrl, "loading to:", target)
     $.ajax({
         start_time: new Date().getTime(),
         headers: {
@@ -38,7 +38,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
         },
         success: function (msg) {
             target.html(msg);
-            console.log((new Date().getTime() - this.start_time) + ' ms');
+            console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         error: function (jqXHR, exception) {
             if (jqXHR.status === 0) {
@@ -59,14 +59,14 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
                 msg = 'Uncaught Error.\n' + jqXHR.responseText;
             }
             target.html("Unable to load\n" + msg);
-            console.log((new Date().getTime() - this.start_time) + ' ms');
+            console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         timeout: 3000,
     });
 }
 
 function display_c() {
-    var refresh = 30000; // Refresh rate in milli seconds
+    var refresh = 30000; // Refresh rate in milliseconds seconds
     mytime = setTimeout('display_ct()', refresh)
 }
 
@@ -105,10 +105,11 @@ function display_notifications() {
                     $(".notification-badge").removeClass("d-md-inline");
                 }
             }
-            console.log((new Date().getTime() - this.start_time) + ' ms');
+            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         error: function (jqXHR, exception) {
-            console.log((new Date().getTime() - this.start_time) + ' ms');
+            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+            console.log('[notificationChecker]-exception:', exception)
         },
         timeout: 3000,
     });

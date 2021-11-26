@@ -11,6 +11,13 @@ class Relay extends Properties
     protected $historyDefault = 90;
     protected $unitsDefault = "";
     protected $iconDefault = "fas fa-power-off";
+    protected $graphSupport = false;
+
+    public function getGraphSupport()
+    {
+        return $this->graphSupport;
+    }
+
 
     public function save(array $options = [])
     {

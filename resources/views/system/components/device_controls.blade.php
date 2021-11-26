@@ -1,8 +1,8 @@
 <div class="btn btn-info p-1">
     @if ($device->integration == '0' || $device->integration == 'others')
         <div class="btn btn-primary">
-            <form method="POST" action="{{ route('system.devices.firmware') }}" accept-charset="UTF-8"
-                class="d-flex justify-content-between ml-auto" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('system.devices.firmware', ['FormBuilder' => $device->firmware]) }}"
+                accept-charset="UTF-8" class="d-flex justify-content-between ml-auto" enctype="multipart/form-data">
                 <input name="_token" type="hidden" value="jOEGhgYzhBdKRkMUNUneHhOVVUj6jTuiMu6jAnjQ">
                 <input required="required" name="id" type="hidden" value="{{ $device->id }}">
                 <label for="firmware" aria-hidden="true">
@@ -13,6 +13,7 @@
             </form>
         </div>
     @endif
+
     <a href="{{ route('system.devices.edit', $device->id) }}" class="btn btn-primary"
         title="{{ __('simplehome.edit') }}"><i class="fa fa-pen"></i></a>
 

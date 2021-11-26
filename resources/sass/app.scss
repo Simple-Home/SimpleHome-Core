@@ -10,6 +10,7 @@
 
 $body-bg: #f0f1f5;
 $primary: #1cca50;
+
 $carousel-transition-duration: 0.5s;
 $font-family-sans-serif: 'Nunito Sans','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif';
 $line-height-base: 1.5;
@@ -48,7 +49,7 @@ $line-height-base: 1.5;
 }
 
 .header {
-    height: 80px;
+    height: 50px;
 }
 
 .avatar img {
@@ -107,4 +108,10 @@ input.range-value {
     width:2ch;
     color: black;
     height: 24px; 
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
 }

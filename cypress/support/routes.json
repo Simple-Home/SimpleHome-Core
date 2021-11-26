@@ -1,0 +1,1699 @@
+{
+  "debugbar.openhandler": {
+    "name": "debugbar.openhandler",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\OpenHandlerController@handle",
+    "uri": "_debugbar/open",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "debugbar.clockwork": {
+    "name": "debugbar.clockwork",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\OpenHandlerController@clockwork",
+    "uri": "_debugbar/clockwork/{id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "debugbar.telescope": {
+    "name": "debugbar.telescope",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\TelescopeController@show",
+    "uri": "_debugbar/telescope/{id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "debugbar.assets.css": {
+    "name": "debugbar.assets.css",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\AssetController@css",
+    "uri": "_debugbar/assets/stylesheets",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "debugbar.assets.js": {
+    "name": "debugbar.assets.js",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\AssetController@js",
+    "uri": "_debugbar/assets/javascript",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "debugbar.cache.delete": {
+    "name": "debugbar.cache.delete",
+    "domain": null,
+    "action": "Barryvdh\\Debugbar\\Controllers\\CacheController@delete",
+    "uri": "_debugbar/cache/{key}/{tags?}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "LaravelInstaller::welcome": {
+    "name": "LaravelInstaller::welcome",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\WelcomeController@welcome",
+    "uri": "install",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::environment": {
+    "name": "LaravelInstaller::environment",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\EnvironmentController@environmentMenu",
+    "uri": "install/environment",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::environmentWizard": {
+    "name": "LaravelInstaller::environmentWizard",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\EnvironmentController@environmentWizard",
+    "uri": "install/environment/wizard",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::environmentSaveWizard": {
+    "name": "LaravelInstaller::environmentSaveWizard",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\EnvironmentController@saveWizard",
+    "uri": "install/environment/saveWizard",
+    "method": [
+      "POST"
+    ]
+  },
+  "LaravelInstaller::environmentClassic": {
+    "name": "LaravelInstaller::environmentClassic",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\EnvironmentController@environmentClassic",
+    "uri": "install/environment/classic",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::environmentSaveClassic": {
+    "name": "LaravelInstaller::environmentSaveClassic",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\EnvironmentController@saveClassic",
+    "uri": "install/environment/saveClassic",
+    "method": [
+      "POST"
+    ]
+  },
+  "LaravelInstaller::requirements": {
+    "name": "LaravelInstaller::requirements",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\RequirementsController@requirements",
+    "uri": "install/requirements",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::permissions": {
+    "name": "LaravelInstaller::permissions",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\PermissionsController@permissions",
+    "uri": "install/permissions",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::database": {
+    "name": "LaravelInstaller::database",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\DatabaseController@database",
+    "uri": "install/database",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelInstaller::final": {
+    "name": "LaravelInstaller::final",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\FinalController@finish",
+    "uri": "install/final",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelUpdater::welcome": {
+    "name": "LaravelUpdater::welcome",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\UpdateController@welcome",
+    "uri": "update",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelUpdater::overview": {
+    "name": "LaravelUpdater::overview",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\UpdateController@overview",
+    "uri": "update/overview",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelUpdater::database": {
+    "name": "LaravelUpdater::database",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\UpdateController@database",
+    "uri": "update/database",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "LaravelUpdater::final": {
+    "name": "LaravelUpdater::final",
+    "domain": null,
+    "action": "RachidLaasri\\LaravelInstaller\\Controllers\\UpdateController@finish",
+    "uri": "update/final",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.factory": {
+    "name": "cypress.factory",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@factory",
+    "uri": "__cypress__/factory",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.login": {
+    "name": "cypress.login",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@login",
+    "uri": "__cypress__/login",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.logout": {
+    "name": "cypress.logout",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@logout",
+    "uri": "__cypress__/logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.artisan": {
+    "name": "cypress.artisan",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@artisan",
+    "uri": "__cypress__/artisan",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.run-php": {
+    "name": "cypress.run-php",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@runPhp",
+    "uri": "__cypress__/run-php",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.csrf-token": {
+    "name": "cypress.csrf-token",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@csrfToken",
+    "uri": "__cypress__/csrf_token",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.routes": {
+    "name": "cypress.routes",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@routes",
+    "uri": "__cypress__/routes",
+    "method": [
+      "POST"
+    ]
+  },
+  "livewire.message": {
+    "name": "livewire.message",
+    "domain": null,
+    "action": "Livewire\\Controllers\\HttpConnectionHandler",
+    "uri": "livewire/message/{name}",
+    "method": [
+      "POST"
+    ]
+  },
+  "livewire.upload-file": {
+    "name": "livewire.upload-file",
+    "domain": null,
+    "action": "Livewire\\Controllers\\FileUploadHandler@handle",
+    "uri": "livewire/upload-file",
+    "method": [
+      "POST"
+    ]
+  },
+  "livewire.preview-file": {
+    "name": "livewire.preview-file",
+    "domain": null,
+    "action": "Livewire\\Controllers\\FilePreviewHandler@handle",
+    "uri": "livewire/preview-file/{filename}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::Is1cNMKGzdU1DaJv": {
+    "name": "generated::Is1cNMKGzdU1DaJv",
+    "domain": null,
+    "action": "Livewire\\Controllers\\LivewireJavaScriptAssets@source",
+    "uri": "livewire/livewire.js",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::2LT7MIYl8Hg8BdMD": {
+    "name": "generated::2LT7MIYl8Hg8BdMD",
+    "domain": null,
+    "action": "Livewire\\Controllers\\LivewireJavaScriptAssets@maps",
+    "uri": "livewire/livewire.js.map",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::qwh54rx8LYw2JNUo": {
+    "name": "generated::qwh54rx8LYw2JNUo",
+    "domain": null,
+    "action": "\\Illuminate\\Routing\\ViewController",
+    "uri": "backup",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "laravelpwa.manifest": {
+    "name": "laravelpwa.manifest",
+    "domain": null,
+    "action": "LaravelPWA\\Http\\Controllers\\LaravelPWAController@manifestJson",
+    "uri": "manifest.json",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::SqRXLczs5nXFneqH": {
+    "name": "generated::SqRXLczs5nXFneqH",
+    "domain": null,
+    "action": "Closure",
+    "uri": "offline",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::3gPNQ6nMbdLFz0v5": {
+    "name": "generated::3gPNQ6nMbdLFz0v5",
+    "domain": null,
+    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
+    "uri": "broadcasting/auth",
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ]
+  },
+  "passport.authorizations.authorize": {
+    "name": "passport.authorizations.authorize",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\AuthorizationController@authorize",
+    "uri": "oauth/authorize",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "passport.authorizations.approve": {
+    "name": "passport.authorizations.approve",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ApproveAuthorizationController@approve",
+    "uri": "oauth/authorize",
+    "method": [
+      "POST"
+    ]
+  },
+  "passport.authorizations.deny": {
+    "name": "passport.authorizations.deny",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\DenyAuthorizationController@deny",
+    "uri": "oauth/authorize",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "passport.token": {
+    "name": "passport.token",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\AccessTokenController@issueToken",
+    "uri": "oauth/token",
+    "method": [
+      "POST"
+    ]
+  },
+  "passport.tokens.index": {
+    "name": "passport.tokens.index",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@forUser",
+    "uri": "oauth/tokens",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "passport.tokens.destroy": {
+    "name": "passport.tokens.destroy",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@destroy",
+    "uri": "oauth/tokens/{token_id}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "passport.token.refresh": {
+    "name": "passport.token.refresh",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\TransientTokenController@refresh",
+    "uri": "oauth/token/refresh",
+    "method": [
+      "POST"
+    ]
+  },
+  "passport.clients.index": {
+    "name": "passport.clients.index",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ClientController@forUser",
+    "uri": "oauth/clients",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "passport.clients.store": {
+    "name": "passport.clients.store",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ClientController@store",
+    "uri": "oauth/clients",
+    "method": [
+      "POST"
+    ]
+  },
+  "passport.clients.update": {
+    "name": "passport.clients.update",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ClientController@update",
+    "uri": "oauth/clients/{client_id}",
+    "method": [
+      "PUT"
+    ]
+  },
+  "passport.clients.destroy": {
+    "name": "passport.clients.destroy",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ClientController@destroy",
+    "uri": "oauth/clients/{client_id}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "passport.scopes.index": {
+    "name": "passport.scopes.index",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\ScopeController@all",
+    "uri": "oauth/scopes",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "passport.personal.tokens.index": {
+    "name": "passport.personal.tokens.index",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@forUser",
+    "uri": "oauth/personal-access-tokens",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "passport.personal.tokens.store": {
+    "name": "passport.personal.tokens.store",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@store",
+    "uri": "oauth/personal-access-tokens",
+    "method": [
+      "POST"
+    ]
+  },
+  "passport.personal.tokens.destroy": {
+    "name": "passport.personal.tokens.destroy",
+    "domain": null,
+    "action": "\\Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@destroy",
+    "uri": "oauth/personal-access-tokens/{token_id}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::bFHv730fzf1QewjP": {
+    "name": "generated::bFHv730fzf1QewjP",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\EndpointController@depricatedData",
+    "uri": "api/depricated/endpoint",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::LTtrq3fwBcStHd3r": {
+    "name": "generated::LTtrq3fwBcStHd3r",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\EndpointController@depricatedOta",
+    "uri": "api/depricated/ota",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::vO1l87ToWW4JSnwV": {
+    "name": "generated::vO1l87ToWW4JSnwV",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\EndpointController@setup",
+    "uri": "api/v1/setup",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::UqbaZZ6rS11nRwDM": {
+    "name": "generated::UqbaZZ6rS11nRwDM",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\EndpointController@data",
+    "uri": "api/v1/data",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::TeXMGI6Ie7T896Ti": {
+    "name": "generated::TeXMGI6Ie7T896Ti",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\EndpointController@ota",
+    "uri": "api/v1/ota",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "api.login": {
+    "name": "api.login",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ApiAuthenticationController@login",
+    "uri": "api/v2/login",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::UnKaunajBchpfMTV": {
+    "name": "generated::UnKaunajBchpfMTV",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ApiAuthenticationController@logout",
+    "uri": "api/v2/logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::ceQuhD3Gng3YfCBa": {
+    "name": "generated::ceQuhD3Gng3YfCBa",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@getAll",
+    "uri": "api/v2/devices",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::ds7wnmI85QsgWGgj": {
+    "name": "generated::ds7wnmI85QsgWGgj",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@getDevice",
+    "uri": "api/v2/device/{hostname}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::eQ7jklIoAfuryVzY": {
+    "name": "generated::eQ7jklIoAfuryVzY",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@getProperty",
+    "uri": "api/v2/device/{hostname}/{propertyID}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::c4oKraulnFSAlrfZ": {
+    "name": "generated::c4oKraulnFSAlrfZ",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@create",
+    "uri": "api/v2/device",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::5BISOIe4h2WQPFaQ": {
+    "name": "generated::5BISOIe4h2WQPFaQ",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@update",
+    "uri": "api/v2/device",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::cQ9gAiSkO19APw07": {
+    "name": "generated::cQ9gAiSkO19APw07",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\DeviceController@delete",
+    "uri": "api/v2/device",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::mtqPgbXji0WMKWlD": {
+    "name": "generated::mtqPgbXji0WMKWlD",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\PropertyController@getAll",
+    "uri": "api/v2/properties",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::Nvrgu65f6cXz88ZE": {
+    "name": "generated::Nvrgu65f6cXz88ZE",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\PropertyController@getProperty",
+    "uri": "api/v2/property/{propertyID}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::4Ec0LNYwW35Q3Tul": {
+    "name": "generated::4Ec0LNYwW35Q3Tul",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\PropertyController@create",
+    "uri": "api/v2/property",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::BnejEFRGl1A8FiXv": {
+    "name": "generated::BnejEFRGl1A8FiXv",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\PropertyController@update",
+    "uri": "api/v2/property",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::L5hpuFNPqkhLw4ih": {
+    "name": "generated::L5hpuFNPqkhLw4ih",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\PropertyController@delete",
+    "uri": "api/v2/property",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "device.control": {
+    "name": "device.control",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\ControlController@controlProperty",
+    "uri": "api/v2/device/{hostname}/{feature}/{value?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::TziQ8iEjuPI85FMG": {
+    "name": "generated::TziQ8iEjuPI85FMG",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\RoomController@getAll",
+    "uri": "api/v2/rooms",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::7ShMSblId13DUnvt": {
+    "name": "generated::7ShMSblId13DUnvt",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\RoomController@getRoom",
+    "uri": "api/v2/room/{name}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::rvKnkfiVET05hP6R": {
+    "name": "generated::rvKnkfiVET05hP6R",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\RoomController@create",
+    "uri": "api/v2/room",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::iw7wE3Cj6zaEdyc5": {
+    "name": "generated::iw7wE3Cj6zaEdyc5",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\RoomController@update",
+    "uri": "api/v2/room",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::uVXzNgukkcTxkmSq": {
+    "name": "generated::uVXzNgukkcTxkmSq",
+    "domain": null,
+    "action": "App\\Api\\Controllers\\RoomController@delete",
+    "uri": "api/v2/room",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::kbBAXmDzOHvZnrzA": {
+    "name": "generated::kbBAXmDzOHvZnrzA",
+    "domain": null,
+    "action": "Closure",
+    "uri": "/",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "login": {
+    "name": "login",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\LoginController@showLoginForm",
+    "uri": "login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::XcMeB7COxNkJgyur": {
+    "name": "generated::XcMeB7COxNkJgyur",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\LoginController@login",
+    "uri": "login",
+    "method": [
+      "POST"
+    ]
+  },
+  "logout": {
+    "name": "logout",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\LoginController@logout",
+    "uri": "logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "register": {
+    "name": "register",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\RegisterController@showRegistrationForm",
+    "uri": "register",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::DKhwqGTc7pGTnyb2": {
+    "name": "generated::DKhwqGTc7pGTnyb2",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\RegisterController@register",
+    "uri": "register",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.request": {
+    "name": "password.request",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ForgotPasswordController@showLinkRequestForm",
+    "uri": "password/reset",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.email": {
+    "name": "password.email",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ForgotPasswordController@sendResetLinkEmail",
+    "uri": "password/email",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.reset": {
+    "name": "password.reset",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ResetPasswordController@showResetForm",
+    "uri": "password/reset/{token}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "password.update": {
+    "name": "password.update",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ResetPasswordController@reset",
+    "uri": "password/reset",
+    "method": [
+      "POST"
+    ]
+  },
+  "password.confirm": {
+    "name": "password.confirm",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@showConfirmForm",
+    "uri": "password/confirm",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::aTpw2kLVluaBn6gf": {
+    "name": "generated::aTpw2kLVluaBn6gf",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@confirm",
+    "uri": "password/confirm",
+    "method": [
+      "POST"
+    ]
+  },
+  "verification.notice": {
+    "name": "verification.notice",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\VerificationController@show",
+    "uri": "email/verify",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.verify": {
+    "name": "verification.verify",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\VerificationController@verify",
+    "uri": "email/verify/{id}/{hash}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "verification.resend": {
+    "name": "verification.resend",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\VerificationController@resend",
+    "uri": "email/resend",
+    "method": [
+      "POST"
+    ]
+  },
+  "devices_settings": {
+    "name": "devices_settings",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@settings",
+    "uri": "devices/settings/{device_id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "devices_settings_update": {
+    "name": "devices_settings_update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@saveSettings",
+    "uri": "devices/settings/{device_id}/save",
+    "method": [
+      "POST"
+    ]
+  },
+  "devices_update": {
+    "name": "devices_update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@update",
+    "uri": "devices/update/{device_id}",
+    "method": [
+      "POST"
+    ]
+  },
+  "devices_update_property": {
+    "name": "devices_update_property",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@updateProperty",
+    "uri": "devices/update/property/{device_id}",
+    "method": [
+      "POST"
+    ]
+  },
+  "devices.store": {
+    "name": "devices.store",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@store",
+    "uri": "devices/store",
+    "method": [
+      "POST"
+    ]
+  },
+  "devices.control": {
+    "name": "devices.control",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DevicesController@store",
+    "uri": "devices/control",
+    "method": [
+      "POST"
+    ]
+  },
+  "properties_edit": {
+    "name": "properties_edit",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\PropertiesController@edit",
+    "uri": "properties/edit/{property_id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::SUAJOr8kk7m9EmLN": {
+    "name": "generated::SUAJOr8kk7m9EmLN",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\PropertiesController@control",
+    "uri": "properties/control/{property_id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "properties_set": {
+    "name": "properties_set",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\PropertiesController@set",
+    "uri": "properties/{properti_id}/set/{value}",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "automations.index": {
+    "name": "automations.index",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@index",
+    "uri": "automations",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.locators.ajax.list": {
+    "name": "users.locators.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@userLocationsAjax",
+    "uri": "users",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "automations.remove": {
+    "name": "automations.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@remove",
+    "uri": "automations/{automation_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "automations.enable": {
+    "name": "automations.enable",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@enableAjax",
+    "uri": "automations/{automation_id}/enable",
+    "method": [
+      "POST"
+    ]
+  },
+  "automations.disable": {
+    "name": "automations.disable",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@disableAjax",
+    "uri": "automations/{automation_id}/disable",
+    "method": [
+      "POST"
+    ]
+  },
+  "automations.run": {
+    "name": "automations.run",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@runAjax",
+    "uri": "automations/{automation_id}/run",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "automations.ajax.list": {
+    "name": "automations.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@listAjax",
+    "uri": "automations/list/{type}/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "automations.tasks": {
+    "name": "automations.tasks",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@tasksAjax",
+    "uri": "automations/tasks/ajax",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "automations.propertie.selection": {
+    "name": "automations.propertie.selection",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@propertyesAjax",
+    "uri": "automations/properties/selection/ajax",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "automations.propertie.rules": {
+    "name": "automations.propertie.rules",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@rulesAjax",
+    "uri": "automations/properties/rules/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "automations.propertie.set": {
+    "name": "automations.propertie.set",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@setAjax",
+    "uri": "automations/properties/set/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "automations.propertie.finish": {
+    "name": "automations.propertie.finish",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\AutomationsController@finishAjax",
+    "uri": "automations/properties/finish/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "notifications.list": {
+    "name": "notifications.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\NotificationsController@list",
+    "uri": "notifications",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "notifications.ajax.count": {
+    "name": "notifications.ajax.count",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\NotificationsController@countAjax",
+    "uri": "notifications/count/ajax",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "notifications.read": {
+    "name": "notifications.read",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\NotificationsController@read",
+    "uri": "notifications/{notification_id}/read",
+    "method": [
+      "POST"
+    ]
+  },
+  "notifications.delete": {
+    "name": "notifications.delete",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\NotificationsController@remove",
+    "uri": "notifications/{notification_id}/delete",
+    "method": [
+      "POST"
+    ]
+  },
+  "controls.list": {
+    "name": "controls.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@list",
+    "uri": "controls",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "controls.ajax.list": {
+    "name": "controls.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@listAjax",
+    "uri": "controls/room/{room_id}/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "controls.detail": {
+    "name": "controls.detail",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@detail",
+    "uri": "controls/{property_id}/detail/{period?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "controls.edit": {
+    "name": "controls.edit",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@edit",
+    "uri": "controls/{property_id}/edit",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "controls.remove": {
+    "name": "controls.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@remove",
+    "uri": "controls/{property_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "controls.update": {
+    "name": "controls.update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@update",
+    "uri": "controls/{property_id}/update",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "controls.settings.update": {
+    "name": "controls.settings.update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\ControlsController@settingsUpdate",
+    "uri": "controls/{property_id}/settings/update",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "rooms.store": {
+    "name": "rooms.store",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@store",
+    "uri": "room/store",
+    "method": [
+      "POST"
+    ]
+  },
+  "rooms.update": {
+    "name": "rooms.update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@update",
+    "uri": "room/{id}/update",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "rooms.delete": {
+    "name": "rooms.delete",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\RoomsController@destroy",
+    "uri": "room/{id}/delete",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "system.refresh.csrf": {
+    "name": "system.refresh.csrf",
+    "domain": null,
+    "action": "Closure",
+    "uri": "system/refresh-csrf",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.housekeepings": {
+    "name": "system.housekeepings",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\HousekeepingController@index",
+    "uri": "system/housekeeping",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.housekeepings.save": {
+    "name": "system.housekeepings.save",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\HousekeepingController@saveForm",
+    "uri": "system/housekeeping/save",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.housekeepings.records.run": {
+    "name": "system.housekeepings.records.run",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\HousekeepingController@cleanRecords",
+    "uri": "system/housekeeping/records/run",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.housekeepings.logs.run": {
+    "name": "system.housekeepings.logs.run",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\HousekeepingController@cleanLogs",
+    "uri": "system/housekeeping/logs/run",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.users.list": {
+    "name": "system.users.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@list",
+    "uri": "system/users",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.users.search": {
+    "name": "system.users.search",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@search",
+    "uri": "system/users/search",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.users.remove": {
+    "name": "system.users.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@remove",
+    "uri": "system/users/{user_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.users.storage": {
+    "name": "system.users.storage",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@storage",
+    "uri": "system/user/storage",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.rooms.list": {
+    "name": "system.rooms.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@list",
+    "uri": "system/rooms",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.rooms.search": {
+    "name": "system.rooms.search",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@search",
+    "uri": "system/rooms/search",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.rooms.default": {
+    "name": "system.rooms.default",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@default",
+    "uri": "system/rooms/{room_id}/default",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.rooms.remove": {
+    "name": "system.rooms.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\RoomsController@remove",
+    "uri": "system/rooms/{room_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.list": {
+    "name": "system.devices.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@devicesList",
+    "uri": "system/devices",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.search": {
+    "name": "system.devices.search",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@devicesSearch",
+    "uri": "system/devices/search",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.firmware": {
+    "name": "system.devices.firmware",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@firmware",
+    "uri": "system/devices/firmware",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.devices.detail": {
+    "name": "system.devices.detail",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@devicesDetail",
+    "uri": "system/device/{device_id}/detail",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.edit": {
+    "name": "system.devices.edit",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@devicesEdit",
+    "uri": "system/device/{device_id}/edit",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.remove": {
+    "name": "system.devices.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@deviceRemove",
+    "uri": "system/device/{device_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "others.devices.reboot": {
+    "name": "others.devices.reboot",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@deviceReboot",
+    "uri": "system/device/{device_id}/command/reboot",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.approve": {
+    "name": "system.devices.approve",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@deviceApprove",
+    "uri": "system/device/{device_id}/approve",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.devices.disapprove": {
+    "name": "system.devices.disapprove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\EndpointsController@deviceDisapprove",
+    "uri": "system/device/{device_id}/disapprove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.diagnostics.list": {
+    "name": "system.diagnostics.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DiagnosticsController@list",
+    "uri": "system/diagnostics",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.diagnostics.chart.data": {
+    "name": "system.diagnostics.chart.data",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\DiagnosticsController@chartData",
+    "uri": "system/diagnostics/chart/data",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.profile": {
+    "name": "system.profile",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@edit",
+    "uri": "system/profile",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.profile.update": {
+    "name": "system.profile.update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@update",
+    "uri": "system/profile/update",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.profile.setting": {
+    "name": "system.profile.setting",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@setting",
+    "uri": "system/profile/setting",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.profile.notifications": {
+    "name": "system.profile.notifications",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@notifications",
+    "uri": "system/profile/notification",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.profile.changePassword": {
+    "name": "system.profile.changePassword",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@changePassword",
+    "uri": "system/profile/changePassword",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.profile.verifyDelete": {
+    "name": "system.profile.verifyDelete",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\UsersController@verifyDelete",
+    "uri": "system/profile/verifyDelete",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.profile.delete": {
+    "name": "system.profile.delete",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\UsersController@delete",
+    "uri": "system/profile/delete/{user}",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "system.integrations.list": {
+    "name": "system.integrations.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SystemController@integrationsList",
+    "uri": "system/integrations",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.integrations.detail": {
+    "name": "system.integrations.detail",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SettingsController@detail",
+    "uri": "system/integrations/{integration_slug}/detail",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.settings.list": {
+    "name": "system.settings.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SettingsController@system",
+    "uri": "system/settings",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.settings.update": {
+    "name": "system.settings.update",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SettingsController@saveSettings",
+    "uri": "system/edit",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.backups": {
+    "name": "system.backups",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\BackupController@backup",
+    "uri": "system/backup",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.developments.list": {
+    "name": "system.developments.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SettingsController@developments",
+    "uri": "system/developments",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.developments.ajax.private.token": {
+    "name": "system.developments.ajax.private.token",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\SettingsController@ajaxGeneratePersonalAccessToken",
+    "uri": "system/developments/token/personal/ajax",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.logs": {
+    "name": "system.logs",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LogsController@list",
+    "uri": "system/logs",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "system.locations.index": {
+    "name": "system.locations.index",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@index",
+    "uri": "system/locations",
+    "method": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ]
+  },
+  "system.locations.create": {
+    "name": "system.locations.create",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@create",
+    "uri": "system/locations/create",
+    "method": [
+      "POST"
+    ]
+  },
+  "system.locations.remove": {
+    "name": "system.locations.remove",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@remove",
+    "uri": "system/locations/{location_id}/remove",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "system.locations.ajax.list": {
+    "name": "system.locations.ajax.list",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\LocationsController@listAjax",
+    "uri": "system/locations/list/ajax",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "others.set": {
+    "name": "others.set",
+    "domain": null,
+    "action": "\\App\\Http\\Controllers\\PropertiesController@set",
+    "uri": "others/{properti_id}/set/{value}",
+    "method": [
+      "POST"
+    ]
+  },
+  "oauth.authorize": {
+    "name": "oauth.authorize",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\OauthContoller@redirect",
+    "uri": "oauth/redirect",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "oauth.callback": {
+    "name": "oauth.callback",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\OauthContoller@callback",
+    "uri": "oauth/callback",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "oauth.login": {
+    "name": "oauth.login",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\PropertiesController@login",
+    "uri": "oauth/login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  }
+}

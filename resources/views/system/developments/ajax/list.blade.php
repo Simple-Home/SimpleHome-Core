@@ -10,7 +10,7 @@
                     <th scope="col">Client ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Secret</th>
-                    <th scope="col text-end"></th>
+                    <th class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Scope</th>
                     <th scope="col">expire</th>
-                    <th scope="col"></th>
+                    <th class="col-auto text-end fit">{{ __('simplehome.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +83,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         {{ __('simplehome.oauth.personal.tokens') }}
-        <button class="btn btn-primary" title="{{ __('simplehome.create') }}"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-primary" title="{{ __('simplehome.create') }}"
+            onClick="$('#personalAccessTokenCreation').modal('show')"><i class="fas fa-plus"></i></button>
     </div>
     <div class="card-body">
         <table class="table">

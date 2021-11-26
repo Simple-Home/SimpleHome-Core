@@ -49,19 +49,15 @@
                     scope: 'https:{{ env('APP_URL') }}'
                 }).then(function(registration) {
                     // Registration was successful
-                    console.log(
-                        'Laravel PWA: ServiceWorker registration successful with scope: ',
-                        registration.scope);
-
+                    console.log('[PWA]-registrationSuccessful-scope:', registration.scope);
                     registration.addEventListener('updatefound', function() {
-                        console.log("Update Found");
-
+                        console.log(`[PWA]-updateFound`);
                         newWorker = registration.installing;
                         newWorker.addEventListener('statechange', () => {
                             // Has service worker state changed?
                             switch (newWorker.state) {
                                 case 'installed':
-                                    console.log("Update installed");
+                                    console.log(`[PWA]-updateInstalled`);
                                     // There is a new service worker available, show the notification
                                     if (navigator.serviceWorker.controller) {
                                         let notification = document
@@ -98,7 +94,6 @@
 
                         var pushtoken = localStorage.getItem('pushtoken') || null;
 
-
                         messaging.getToken({
                             vapidKey: '{{ env('FIREBASE_VAPY_KEY') }}',
                             serviceWorkerRegistration: registration
@@ -117,32 +112,37 @@
                                         'content')
                                 },
                                 success: function(data) {
-                                    console.log('saved', data);
+                                    console.log('[FCM]-tokenSaved:', data);
                                 },
                                 error: function(error) {
                                     console.log(error);
                                 }
                             });
                         });
-
-
-
-
-                        console.log("token FCM", pushtoken);
+                        console.log(`[FCM]-token:`, pushtoken);
                     }
 
                 },
                 function(err) {
                     // registration failed :(
-                    console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+                    console.log(`[PWA]-sw-refistrationFailed`);
                 });
         }
 
         navigator.serviceWorker.addEventListener('controllerchange', function() {
             if (refreshing) return;
-            console.log("Update Reload");
+            console.log(`[PWA]-controllerChange`);
             window.location.reload();
             refreshing = true;
+        });
+
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.action === 'refresh') {
+                if (refreshing) return;
+                console.log(`[PWA]-updateReload`);
+                window.location.reload();
+                refreshing = true;
+            }
         });
     });
 </script>

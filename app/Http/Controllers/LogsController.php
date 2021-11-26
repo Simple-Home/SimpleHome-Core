@@ -12,38 +12,45 @@ class LogsController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function list(Request $request, FormBuilder $formBuilder)
     {
         $content = "";
-        
-        if (file_exists(storage_path('logs/' . $request->input('logFile')))){
-            if ($request->input('delete') !== null){
-                unlink(storage_path('logs/' . $request->input('logFile')));
+        $fileName = "laravel-" . date("Y-m-d") . ".log";
+
+        if (!empty($request->input('logFile'))) {
+            $fileName = $request->input('logFile');
+        }
+
+        if (file_exists(storage_path('logs/' . $fileName))) {
+            if ($request->input('delete') !== null) {
+                unlink(storage_path('logs/' . $fileName));
                 $request->request->remove('logFile');
                 $request->request->remove('delete');
-                return redirect()->back()->with('danger', $request->input('logFile') . __('simplehome.file.deleted'));
-            } else if ($request->input('logFile') !== null) {
-                $actualLogFilePath = storage_path('logs/' . $request->input('logFile'));
+                return redirect()->back()->with('danger', $fileName  . __('simplehome.file.deleted'));
+            } else if ($fileName  !== null) {
+                $actualLogFilePath = storage_path('logs/' . $fileName);
                 if ($actualLogFilePath != null && file_exists($actualLogFilePath)) {
                     $content = file_get_contents($actualLogFilePath);
                 }
-                $request->request->remove('logFile');
+                if (!empty($request->input('logFile'))) {
+                    $request->request->remove('logFile');
+                }
             }
         }
-        
+
         $logsAll = $this->logFile();
         $logForm = $formBuilder->create(\App\Forms\LogForm::class, [
-            'model' => (!empty($request->input('logFile')) ? $request->input('logFile') : ""),
+            'model' => $fileName,
             'method' => 'POST',
             'url' => route('system.logs'),
         ], ['logFiles' => (!empty($logsAll) ? $logsAll : array())]);
-        
+
         $logsStats = $this->getStats();
-        
+
         return view('system.logs.list', compact('logsStats', 'logForm', 'content'));
     }
-    
+
     private function logFile()
     {
         $result = array();
@@ -57,18 +64,18 @@ class LogsController extends Controller
         }
         return $result;
     }
-    
+
     private function bytesToHuman($bytes)
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-        
+
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
-        
+
         return round($bytes, 2) . ' ' . $units[$i];
     }
-    
+
     private function getStats()
     {
         $stats = array(
@@ -77,37 +84,36 @@ class LogsController extends Controller
             'EXEPTION' => 0,
             'INFO' => 0,
         );
-        
+
         $actualLogFilePath = storage_path('logs/laravel-' . date("Y-m-d") . ".log");
         if (!file_exists($actualLogFilePath)) return $stats;
-        
+
         $content = file_get_contents($actualLogFilePath);
-        
+
         $matches = array();
         $re = '/ERROR|WARNING|INFO/';
         preg_match_all($re, $content, $matches, PREG_PATTERN_ORDER);
-        
-        
+
+
         if (count($matches[0]) == 0) return $stats;
-        
+
         foreach ($matches[0] as $match) {
             switch ($match) {
                 case 'ERROR':
                     $stats['ERROR']++;
                     break;
-                    case 'WARNING':
-                        $stats['WARNING']++;
-                        break;
-                        case 'EXEPTION':
-                            $stats['EXEPTION']++;
-                            break;
-                            default:
-                            $stats['INFO']++;
-                            break;
-                        }
-                    }
-                    
-                    return $stats;
-                }
+                case 'WARNING':
+                    $stats['WARNING']++;
+                    break;
+                case 'EXEPTION':
+                    $stats['EXEPTION']++;
+                    break;
+                default:
+                    $stats['INFO']++;
+                    break;
             }
-            
+        }
+
+        return $stats;
+    }
+}

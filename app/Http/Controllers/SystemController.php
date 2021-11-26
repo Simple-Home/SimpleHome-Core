@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SettingManager;
+use App\Models\Devices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Helpers\SettingManager;
+use Kris\LaravelFormBuilder\FormBuilder;
 use Nwidart\Modules\Module;
-
 
 class SystemController extends Controller
 {
@@ -21,9 +22,11 @@ class SystemController extends Controller
         $integrations = [];
 
         foreach ($integrationsRaw as $key => $integration) {
+            $providetDevices = count(Devices::where('integration', $integration->getLowerName())->get());
             $integrations[] = [
                 "name" => $integration->getName(),
                 "slug" => $integration->getLowerName(),
+                "providetDevices" => $providetDevices,
             ];
         }
 
@@ -39,6 +42,14 @@ class SystemController extends Controller
             'variables' => $settings
         ]);
 
-        return view('system.integrations.detail', compact('settings', 'systemSettingsForm'));
+        $module = \Module::find($integrationSlug);
+        $providetDevices = Devices::where('integration', $module->getLowerName())->get();
+
+        $integration = [
+            "name" => $module->getName(),
+            "slug" => $module->getLowerName(),
+            "providetDevices" => $providetDevices
+        ];
+        return view('system.integrations.detail', compact('settings', 'systemSettingsForm', 'integration'));
     }
 }

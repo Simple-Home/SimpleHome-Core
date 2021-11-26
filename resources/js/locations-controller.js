@@ -65,6 +65,7 @@ $('body').on('click', 'button#positionIconOpener', function (e) {
 
 $('#locationCreation').on('shown.bs.modal', function (e) {
     console.log("Loading - OpenLayers");
+
     if ($('#map').html() == undefined || $('#map').html() == null || $('#map').html() == '') {
         console.log("Initializing - OpenLayers");
 

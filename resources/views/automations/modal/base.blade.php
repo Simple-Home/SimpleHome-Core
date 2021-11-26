@@ -1,4 +1,9 @@
  <div class="automation-content">
+     <div class="mb-3">
+         <label for="automation-name" class="form-label required">{{ __('simplehome.name') }}</label>
+         <input class="form-control" required="required" maxlength="255" name="automation-name" type="text"
+             id="automation-name">
+     </div>
      <div class="row">
          <div class="col mb-3">
              <button type="button" class="automation-type btn btn-primary btn-lg w-100 text-start"

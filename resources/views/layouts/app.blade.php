@@ -54,24 +54,6 @@
 
     <!--PWA Manifest-->
     @laravelPWA
-
-    <script defer>
-        var darkThemeSelected =
-            localStorage.getItem("darkSwitch") !== null &&
-            localStorage.getItem("darkSwitch") === "dark";
-
-        if (darkThemeSelected) {
-            localStorage.setItem("darkSwitch", "dark");
-            $('head meta[name="theme-color"]').attr('content', '#111');
-        } else {
-            localStorage.removeItem("darkSwitch");
-            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
-        }
-
-        if (!isMobile()) {
-            $('head meta[name="theme-color"]').attr('content', '#1cca50');
-        }
-    </script>
 </head>
 
 <body>
@@ -190,7 +172,7 @@
             </div>
         </div>
 
-        <div class="row flex-grow-1 pb-3">
+        <div class="row flex-grow-1 pb-3 nav-bar-padding">
             <div class="col p-md-0">
                 @auth
                     @yield('content')
@@ -212,6 +194,21 @@
                     </div>
                 </div>
             </nav>
+            {{-- <div class="fixed-bottom container mb-3 ">
+                <div class="bg-light rounded p-2"
+                    style="z-index: 1056; font-size: 22px; padding-bottom: env(safe-area-inset-bottom);">
+                    <nav class="navbar fw-900 p-0">
+                        <div class="navbar-expand w-100">
+                            <ul class="navbar-nav justify-content-between nav-pills">
+                                @auth
+                                    @include('components.navigation')
+                                @endauth
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
+            </div> --}}
         @endif
         <!-- Full screen modal -->
         @auth
@@ -271,9 +268,6 @@
 
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
             <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
-            </script>
-        @elseif (strpos(Route::currentRouteName(), 'automations') > -1)
-            <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
             </script>
         @endif
         @yield('beforeBodyEnd')

@@ -36,7 +36,7 @@ if (!file_exists("../.env")) {
 }
 
 $explodedURI = explode("/", $_SERVER['REQUEST_URI']);
-if (!file_exists(__DIR__ . '/../storage/installed') && !in_array("install", $explodedURI)) {
+if (!file_exists(__DIR__ . '/../storage/installed') && !in_array("install", $explodedURI) && !in_array('__cypress__', $explodedURI)) {
     header("Location: ./install");
     exit;
 }

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Properties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Properties;
 
 class Records extends Model
 {
@@ -32,5 +32,19 @@ class Records extends Model
     public function properti()
     {
         return $this->belongsTo(Properties::class);
+    }
+
+    public function getValueAttribute($value) {
+       $detectedType = gettype ($value);
+       $rawValue = $value;
+
+       try {
+           if (settype($value,  $detectedType)) {
+               return $value;
+           }
+       } catch (\Throwable $th) {
+           //dump($this->type);
+       }
+       return $rawValue;
     }
 }

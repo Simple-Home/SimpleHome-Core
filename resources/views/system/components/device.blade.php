@@ -1,27 +1,27 @@
-<div class="card p-2 m-1">
+<div class="card p-2 m-1 h-100">
     <div class="container p-0">
         <div class="row">
             <div class="col my-auto">
-                <a class="h2" href="{{ route('system.devices.detail', $device->id) }}">
-                    {{$device->hostname}}
+                <a class="h2 text-decoration-none" href="{{ route('system.devices.detail', $device->id) }}">
+                    {{ $device->hostname }}
                 </a>
                 <p class="m-0 text-left">
-                    {{__('properties.count') . ': ' . $device->getProperties->count()}}
+                    {{ __('simplehome.properties') . ' ' . __('simplehome.count') . ': ' . $device->getProperties->count() }}
                 </p>
-                @if(!empty($device->heartbeat))
-                <p class="m-0 text-left {{ $device->offline ? 'text-danger' : 'text-success'  }}">
-                    <b>{{ $device->offline ? 'Offline' : 'Online'  }}</b>
-                </p>
+                @if (!empty($device->heartbeat))
+                    <p class="m-0 text-left {{ $device->offline ? 'text-danger' : 'text-success' }}">
+                        <b>{{ $device->offline ? 'Offline' : 'Online' }}</b>
+                    </p>
                 @else<p class="m-0 text-left text-danger">
-                    <b>Offline</b>
-                </p>
+                        <b>Offline</b>
+                    </p>
                 @endif
             </div>
         </div>
         <div class="row">
             <div class="col m-0">
                 <div class="d-flex justify-content-between">
-                    @include('system.components.device_controls', $device)
+                    @include('system.components.device_controls', ['device' => $device])
                 </div>
             </div>
         </div>

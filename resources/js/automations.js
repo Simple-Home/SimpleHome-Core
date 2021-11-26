@@ -45,6 +45,7 @@ window.addEventListener("load", function () {
     }
 
     $('div.subnavigation ').click(function (event) {
+        console.log("[subNavigation]-clicked");
         loadingAnimation = false;
 
         //Load Thinks
@@ -52,10 +53,10 @@ window.addEventListener("load", function () {
         url = targetObj.data("url");
         automationType = url.split('/').reverse()[1];
         localStorage.setItem('lastAutomationType', url.split('/').reverse()[1]);
-        console.log("savingAutoamtionType", localStorage.lastAutomationType);
+        console.log("[subNavigation]-savingType-" + automationType);
 
         //Menu Handling
-        $(".subnavigation").removeClass("active");
+        $("div.subnavigation").removeClass("active");
         $("div.carousel-item").removeClass("active");
         $("div.nav-link[data-automation-type='" + automationType + "']").addClass("active");
         $("div.carousel-item[data-automation-type='" + automationType + "']").addClass("active");
@@ -63,9 +64,11 @@ window.addEventListener("load", function () {
         //Load load content from URL
         ajaxContentLoader($("div.carousel-item[data-automation-type='" + automationType + "']"), url,
             loadingAnimation);
+        console.log("[subNavigation]-loadingContent");
+        event.preventDefault();
     });
 
-    //Desktop Arow Control
+    //Desktop Arrow Keys Control
     $(document).bind('keyup', function (e) {
         if (e.which == 39) {
             loadingAnimation = false;
@@ -74,5 +77,29 @@ window.addEventListener("load", function () {
             loadingAnimation = false;
             $('#carouselExampleSlidesOnly').carousel('prev');
         }
+    });
+
+    //TODO: Enable Disable Autmation Handler Later Move to Page Ajax Driver For later Use 
+    $('body').on('click', 'div.control-relay', function (event) {
+        navigator.vibrate([10]);
+        thisObj = $(this);
+        thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+        console.log(thisObj.data("url"));
+        $.ajax({
+            type: 'POST',
+            url: thisObj.data("url"),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (msg) {
+                thisObj.html(msg.icon);
+                thisObj.data("url", msg.url)
+            },
+            error: function () {
+                //timeout
+            },
+            timeout: 3000,
+        });
+        event.preventDefault()
     });
 });
