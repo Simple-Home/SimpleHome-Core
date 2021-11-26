@@ -42,6 +42,7 @@
 * MySQL Server
 
 ## Installation
+### Basic
 * Download the Simple Home Project to your web server (/var/www/)  
   ```git clone https://github.com/Simple-Home/Simple-Home.git```
 * cd into the LAR_v4_Simple_Home_Server-master
@@ -50,6 +51,11 @@
 * Run the command: ```php artisan passport:install``` 
 * Create a database in MySQL
 * Visit your webservers URL and proceed with setup
+### Docker 
+some Info
+
+## Officinal Modules
+![Integration Repository](https://github.com/Simple-Home/SimpleHome-Integrations)
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
