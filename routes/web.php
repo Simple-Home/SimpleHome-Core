@@ -54,9 +54,9 @@ Route::namespace('automations')->prefix('automations')->group(function () {
 
 
     Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/remove', [App\Http\Controllers\AutomationsController::class, 'remove'])->name('automations.remove');
-    Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/enable', [App\Http\Controllers\AutomationsController::class, 'enableAjax'])->name('automations.enable');
-    Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/disable', [App\Http\Controllers\AutomationsController::class, 'disableAjax'])->name('automations.disable');
-    Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/run', [App\Http\Controllers\AutomationsController::class, 'runAjax'])->name('automations.run');
+    Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/toggle', [App\Http\Controllers\AutomationsController::class, 'toggleAjax'])->name('automations.toggle');
+    Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/run', [App\Http\Controllers\AutomationsController::class, 'runAjax'])->name('automations.run');
+    Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/edit', [App\Http\Controllers\AutomationsController::class, 'recapAjax'])->name('automations.edit');
 
     Route::middleware(['auth', 'verified', 'language'])->post('/list/{type}/ajax', [App\Http\Controllers\AutomationsController::class, 'listAjax'])->name('automations.ajax.list');
 

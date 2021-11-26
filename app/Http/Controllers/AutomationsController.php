@@ -49,36 +49,17 @@ class AutomationsController extends Controller
         return redirect()->back();
     }
 
-    public function enableAjax($automation_id, Request $request)
+    public function toggleAjax($automation_id, Request $request)
     {
         $automation = Automations::find($automation_id);
-        $automation->is_enabled = True;
-        $automation->save();
-
-        if (!$request->ajax()) {
-            return redirect()->back();
-        }
-
-        return response()->json([
-            "icon" => ($automation->is_enabled == 1 ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>"),
-            "url" => route('automations.disable', ['automation_id' => $automation->id]),
-        ]);
-    }
-
-    public function disableAjax($automation_id, Request $request)
-    {
-        $automation = Automations::find($automation_id);
-        $automation->is_enabled = False;
+        $automation->is_enabled = !$automation->is_enabled;
         $automation->save();
 
         if (!$request->ajax()) {
             return redirect()->route('automations.list');
         }
 
-        return response()->json([
-            "icon" => ($automation->is_enabled == 1 ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>"),
-            "url" => route('automations.enable', ['automation_id' => $automation->id]),
-        ]);
+        return ($automation->is_enabled == 1 ? "<i class=\"fas fa-toggle-on\"></i>" : "<i class=\"fas fa-toggle-off\"></i>");
     }
 
     public function runAjax($automation_id, Request $request)
@@ -94,7 +75,10 @@ class AutomationsController extends Controller
         $automation->run_at = Carbon::now();
         $automation->save();
         $result = $automation->run();
-        $automation->run();
+
+        if ($request->ajax()) {
+            return ['false', 'true'][$result];
+        }
 
         return redirect()->back()->with("info", (string)json_encode([
             "result" => $result,
@@ -144,29 +128,45 @@ class AutomationsController extends Controller
         return redirect()->back();
     }
 
-    public function recapAjax(Request $request)
+    public function recapAjax(Request $request, int $automation_id = null)
     {
         if ($request->ajax()) {
-            $propertyesActions = [];
             $propertyesTriggers = [];
+            $propertyesActions = [];
+            $automationName = null;
 
+            if ($automation_id == null) {
+                foreach ($request->input('property') as $propertyId => $propertyValue) {
+                    $propertyesActions[$propertyId] = [
+                        "value" => $propertyValue["value"],
+                        "name" => Properties::find($propertyId)->nick_name,
+                    ];
+                }
 
-            foreach ($request->input('property') as $propertyId => $propertyValue) {
-                $propertyesActions[$propertyId] = [
-                    "value" => $propertyValue["value"],
-                    "name" => Properties::find($propertyId)->nick_name,
-                ];
-            }
+                if (!is_array($request->input('automation_type'))) {
+                    $propertyesTriggers[] = $request->input('automation_type');
+                }
+            } else {
+                $automation = Automations::find($automation_id);
+                $automationName = $automation->name;
 
-            if (!is_array($request->input('automation_type'))) {
-                $propertyesTriggers[] = $request->input('automation_type');
+                foreach ((array) $automation->actions as $propertyId => $propertyValue) {
+                    $propertyesActions[$propertyId] = [
+                        "value" => $propertyValue->value,
+                        "name" => Properties::find($propertyId)->nick_name,
+                    ];
+                }
+
+                $propertyesTriggers = $automation->conditions;
             }
 
             $automation = [
-                "automation_name" => "Test",
-                "automation_triggers" => $propertyesTriggers,
+                "automation_name" => $automationName,
                 "automation_actions" => $propertyesActions,
+                "automation_triggers" => $propertyesTriggers,
+                "automation_id" => $automation_id,
             ];
+
             return View::make("automations.modal.recap")->with("automation", $automation)->render();
         }
         return redirect()->back();
@@ -176,7 +176,11 @@ class AutomationsController extends Controller
     public function finishAjax(Request $request)
     {
         if ($request->ajax()) {
-            $automation = new Automations;
+            if (!empty($request->input('automation_id'))) {
+                $automation = Automations::find($request->input('automation_id'));
+            } else {
+                $automation = new Automations;
+            }
 
             $automation->owner_id = auth()->user()->id;
             $automation->name = $request->input('automation_name');

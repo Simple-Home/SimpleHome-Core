@@ -79,27 +79,40 @@ window.addEventListener("load", function () {
         }
     });
 
-    //TODO: Enable Disable Autmation Handler Later Move to Page Ajax Driver For later Use 
-    $('body').on('click', 'div.control-relay', function (event) {
-        navigator.vibrate([10]);
+    $('body').on('click', '[data-ajax-action-loader]', function (event) {
         thisObj = $(this);
-        thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
-        console.log(thisObj.data("url"));
-        $.ajax({
-            type: 'POST',
-            url: thisObj.data("url"),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (msg) {
-                thisObj.html(msg.icon);
-                thisObj.data("url", msg.url)
-            },
-            error: function () {
-                //timeout
-            },
-            timeout: 3000,
-        });
-        event.preventDefault()
+        console.log("[ajaxAction]-start");
+        console.log("[ajaxAction]-source", thisObj);
+        console.log("[ajaxAction]-url:", thisObj.data("[ajaxActionLoader]"));
+        event.preventDefault();
+
+        ajaxContentLoader(thisObj, thisObj.data("ajaxActionLoader"), "small");
+
+        event.stopPropagation();
+        console.log("[ajaxAction]-finish");
     });
+
+    //TODO: Enable Disable Autmation Handler Later Move to Page Ajax Driver For later Use 
+    // $('body').on('click', 'div.control-relay', function (event) {
+    //     navigator.vibrate([10]);
+    //     thisObj = $(this);
+    //     thisObj.html("<div class=\"spinner-border text-primary\" role=\"status\"></div>");
+    //     console.log(thisObj.data("url"));
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: thisObj.data("url"),
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         success: function (msg) {
+    //             thisObj.html(msg.icon);
+    //             thisObj.data("url", msg.url)
+    //         },
+    //         error: function () {
+    //             //timeout
+    //         },
+    //         timeout: 3000,
+    //     });
+    //     event.preventDefault()
+    // });
 });

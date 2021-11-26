@@ -6,17 +6,14 @@
                     <h2 class="text-decoration-none">{{ $automation->name }}</h2>
                     <div class="text-right text-nowrap">
                         <div class="d-flex justify-content-start">
-                            @if ($automation->is_enabled)
-                                <div class="control-relay h3 m-0"
-                                    data-url="{{ route('automations.disable', ['automation_id' => $automation->id]) }}">
+                            <div class="h3 m-0"
+                                data-ajax-action-loader="{{ route('automations.toggle', ['automation_id' => $automation->id]) }}">
+                                @if ($automation->is_enabled)
                                     <i class="fas fa-toggle-on"></i>
-                                </div>
-                            @else
-                                <div class="control-relay h3 m-0"
-                                    data-url="{{ route('automations.enable', ['automation_id' => $automation->id]) }}">
+                                @else
                                     <i class="fas fa-toggle-off"></i>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

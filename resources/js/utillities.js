@@ -22,6 +22,8 @@ function isMobile() {
 
 function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'POST') {
     console.log("[ajaxLoader]-loading from:", sourceUrl, "loading to:", target)
+    var initialHtmlContent = target.html();
+
     $.ajax({
         start_time: new Date().getTime(),
         headers: {
@@ -30,14 +32,28 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
         type: method,
         url: sourceUrl,
         beforeSend: function () {
-            if (loadingSpinner) {
-                target.html(
-                    '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
-                );
+            if (loadingSpinner !== false) {
+                switch (loadingSpinner) {
+                    case "small":
+                        target.html(
+                            '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border-sm text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                        );
+                        break;
+
+                    default:
+                        target.html(
+                            '<div class="d-flex h-100"><div class="text-center m-auto"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div></div>'
+                        );
+                        break;
+                }
             }
         },
         success: function (msg) {
-            target.html(msg);
+            if (msg == "true" || msg == "false") {
+                target.html(initialHtmlContent)
+            } else {
+                target.html(msg);
+            }
             console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         error: function (jqXHR, exception) {

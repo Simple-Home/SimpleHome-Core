@@ -90,6 +90,23 @@
 @endsection
 
 @section('beforeBodyEnd')
+
+    <script>
+        $('body').on('click', '[data-form-url]', function(event) {
+            thisObj = $(this);
+            console.log("[ajaxAction]-start");
+            console.log("[ajaxAction]-source", thisObj);
+            console.log("[ajaxAction]-url:", thisObj.data("[formUrl]"));
+            event.preventDefault();
+
+            $('#' + thisObj.data("formId")).modal('show');
+            ajaxContentLoader($('#' + thisObj.data("formId")).find(".automation-content"), thisObj.data("formUrl"),
+                true, "GET");
+
+            event.stopPropagation();
+            console.log("[ajaxAction]-finish");
+        });
+    </script>
     <script>
         $('body').on('click', 'button.automation-type', function(e) {
             thisObj = $(this);

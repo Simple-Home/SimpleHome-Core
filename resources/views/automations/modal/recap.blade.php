@@ -11,6 +11,8 @@
             <label for="automation_name" class="form-label required">{{ __('simplehome.name') }}</label>
             <input class="form-control" required="required" maxlength="255" name="automation_name" type="text"
                 id="automation_name" value="{{ $automation['automation_name'] }}">
+            <input class="form-control" required="required" name="automation_id" type="hidden" id="automation_id"
+                value="{{ $automation['automation_id'] }}">
         </div>
         <div class="row">
             <label class="form-label required">{{ __('simplehome.trigger') }}</label>
@@ -37,15 +39,13 @@
                     @endif
                 </tbody>
             </table>
-
-
         </div>
         <div class="row">
             <label class="form-label required">{{ __('simplehome.actions') }}</label>
             <table class="table">
                 <tbody>
-                    @if (!empty($automation['automation_actions']) && count($automation['automation_actions']) > 0)
-                        @foreach ($automation['automation_actions'] as $propery_id => $action)
+                    @if (!empty($automation['automation_actions']) && count((array) $automation['automation_actions']) > 0)
+                        @foreach (((array) $automation['automation_actions']) as $propery_id => $action)
                             <tr scope="row">
                                 <th scope="col">
                                     {{ $action['name'] }}
