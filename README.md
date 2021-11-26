@@ -54,8 +54,8 @@
 ### Docker 
 some Info
 
-## Officinal Modules
-[Integration Repository](https://github.com/Simple-Home/SimpleHome-Integrations)
+## Modules
+[Officinal Integration Repository](https://github.com/Simple-Home/SimpleHome-Integrations)
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
