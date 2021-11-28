@@ -37,6 +37,7 @@ jobs:
 
       - name: Test code
         run: |
+          ls
           composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --dev
           ./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
           ./vendor/bin/phpcs -s -p -n --colors --standard=PHPCompatibility --runtime-set testVersion 7.4 app/
