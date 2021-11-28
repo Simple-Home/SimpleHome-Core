@@ -14,7 +14,7 @@ env:
 
 jobs:
   test-code-image:
-    runs-on: ubuntu-latest
+    runs-on: ghcr.io/simple-home/simplehome-container-dev:master
     permissions:
       contents: read
       packages: write
@@ -24,7 +24,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test code
-        uses: ghcr.io/simple-home/simplehome-container-dev:master
         run: |
           composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --dev
           ./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
