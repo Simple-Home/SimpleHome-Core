@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull image
-      - run: |
+        run: |
           docker pull ghcr.io/simple-home/simplehome-container-dev:master
 
       - name: Checkout repository
