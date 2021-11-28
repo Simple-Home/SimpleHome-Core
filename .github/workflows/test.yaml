@@ -36,7 +36,6 @@ jobs:
 
 
       - name: Test code
-        container: ghcr.io/simple-home/simplehome-container-dev:master
         run: |
           composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --dev
           ./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
