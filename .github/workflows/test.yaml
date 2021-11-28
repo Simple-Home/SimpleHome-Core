@@ -1,24 +1,32 @@
-name: Test UX/UI
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Create and publish a Docker image
 
 on: [ push ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
 jobs:
-  test-container:
-    runs-on: ubuntu-20.04
-    container: simple-home/simplehome-container:dev
-    env:
-      APP_ENV: test
-    services:
-      database:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: root
+  build-and-push-dev-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - name: Clone platform
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Shopware
+      - name: Test code
+        runs-on: simple-home/simplehome-container-dev:master
         run: |
-          composer install
-          npx cypress run
+          composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --dev
+          ./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
+          ./vendor/bin/phpcs -s -p -n --colors --standard=PHPCompatibility --runtime-set testVersion 7.4 app/
+          ./vendor/bin/phpunit
