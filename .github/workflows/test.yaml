@@ -14,16 +14,29 @@ env:
 
 jobs:
   test-code-image:
-    runs-on: ghcr.io/simple-home/simplehome-container-dev:master
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull image
+      - run: |
+          docker pull ghcr.io/simple-home/simplehome-container-dev:master
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
+
       - name: Test code
+        container: ghcr.io/simple-home/simplehome-container-dev:master
         run: |
           composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts --dev
           ./vendor/bin/phpcs --config-set installed_paths vendor/phpcompatibility/php-compatibility
