@@ -103,44 +103,41 @@ function display_ct() {
 }
 
 function display_notifications() {
-    if (typeof document.hidden === "undefined" && typeof document.msHidden === "undefined" && typeof document.webkitHidden === "undefined") { // Opera 12.10 and Firefox 18 and later support
-        $.ajax({
-            start_time: new Date().getTime(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'GET',
-            url: $('#notification-button').data("url"),
-            success: function (msg) {
-                if (msg > 0) {
-                    if (!$(".notification-badge").is(":visible")) {
-                        $(".notification-badge").addClass("d-inline");
-                        $(".notification-badge").addClass("d-md-inline");
-                    }
-                    if (msg < 99) {
-                        $("#notification-count").html(msg);
-                    } else {
-                        $("#notification-count").html("99+");
-                    }
-                    console.log(msg);
-                } else {
-                    if ($(".notification-badge").is(":visible")) {
-                        $(".notification-badge").hide();
-                        $(".notification-badge").removeClass("d-inline");
-                        $(".notification-badge").removeClass("d-md-inline");
-                    }
+    //Add Check if user is not wisible
+    $.ajax({
+        start_time: new Date().getTime(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: 'GET',
+        url: $('#notification-button').data("url"),
+        success: function (msg) {
+            if (msg > 0) {
+                if (!$(".notification-badge").is(":visible")) {
+                    $(".notification-badge").addClass("d-inline");
+                    $(".notification-badge").addClass("d-md-inline");
                 }
-                console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
-            },
-            error: function (jqXHR, exception) {
-                console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
-                console.log('[notificationChecker]-exception:', exception)
-            },
-            timeout: 3000,
-        });
-    } else {
-        console.log("[notificationFetcher]-paused")
-    }
+                if (msg < 99) {
+                    $("#notification-count").html(msg);
+                } else {
+                    $("#notification-count").html("99+");
+                }
+                console.log(msg);
+            } else {
+                if ($(".notification-badge").is(":visible")) {
+                    $(".notification-badge").hide();
+                    $(".notification-badge").removeClass("d-inline");
+                    $(".notification-badge").removeClass("d-md-inline");
+                }
+            }
+            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+        },
+        error: function (jqXHR, exception) {
+            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+            console.log('[notificationChecker]-exception:', exception)
+        },
+        timeout: 3000,
+    });
     display_notifications_deamon();
 }
 
