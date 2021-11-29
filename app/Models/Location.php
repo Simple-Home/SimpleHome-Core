@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Helpers\SettingManager;
 use App\Models\HasFactory;
+use App\Models\Properties;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use App\Helpers\SettingManager;
-use App\Models\Properties;
 
 class Location extends Properties
 {
@@ -54,7 +54,10 @@ class Location extends Properties
 
     public function getLocation()
     {
-        //TODO: DINAMICALY LOAD FOR EACH USER
+        if (empty($this->latestRecord->value)) {
+            return false;
+        }
+
         $places = $this->getPlaces();
         $lat = explode(",", $this->latestRecord->value)[1];
         $long = explode(",", $this->latestRecord->value)[0];

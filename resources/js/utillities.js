@@ -75,6 +75,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
                 msg = 'Uncaught Error.\n' + jqXHR.responseText;
             }
             target.html("Unable to load\n" + msg);
+            //console.log('[ajaxLoader]-exception:', jqXHR.responseText);
             console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         timeout: 3000,
