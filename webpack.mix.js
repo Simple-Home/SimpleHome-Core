@@ -24,8 +24,29 @@ mix.setResourceRoot("../");
 
 mix.scripts([
     'resources/js/utillities.js',
-], 'public/js/utillities.js').version();
+], 'public/js/utillities.js').after(stats => {
+    // webpack compilation has completed
+    fs.readFile(path.resolve(__dirname, 'public/js/utillities.js'), 'utf8', (readError, data) => {
+        if (readError) {
+            console.error("\x1b[31mError: \x1b[0m" + readError);
+            return;
+        }
 
+        var result = data.replace('process.env.MIX_AP_BASE_URL', process.env.MIX_AP_BASE_URL);
+
+
+        fs.writeFile(path.resolve(__dirname, 'public/js/utillities.js'), result, writeError => {
+            if (writeError) {
+                console.error("\x1b[31mError: \x1b[0m" + writeError);
+                return;
+            }
+
+            console.log("Relative theme directory references replaced to full urls!");
+        });
+    })
+}).version();
+
+mix.minify('public/js/utillities.js').version();
 
 mix.scripts([
     'resources/js/controls.js',

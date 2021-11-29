@@ -1,11 +1,13 @@
-function refreshCSRF(url) {
-    $.ajax({
+function refreshCSRF(url, callback = null) {
+    return $.ajax({
         url: url,
-        method: 'get',
-    }).then(function (response) {
-        if (response.token != null) {
-            console.log("[csrf]-refreshing");
-            $('meta[name="csrf-token"]').attr('content', response.token);
+        method: 'GET',
+        success: function (response) {
+            if (response.token != null) {
+                console.log("[csrf]-refreshing");
+                $('meta[name="csrf-token"]').attr('content', response.token);
+            }
+            if (callback) callback();
         }
     });
 }

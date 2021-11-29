@@ -24,7 +24,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
     console.log("[ajaxLoader]-loading from:", sourceUrl, "loading to:", target)
     var initialHtmlContent = target.html();
 
-    $.ajax({
+    return $.ajax({
         start_time: new Date().getTime(),
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -61,7 +61,14 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
-            } else if (jqXHR.status == 500) {
+            }
+            else if (jqXHR.status == 419) {
+                refreshCSRF("https:" + "process.env.MIX_AP_BASE_URL" + "system/refresh-csrf", function () {
+                    ajaxContentLoader(target, sourceUrl, loadingSpinner, method);
+                });
+                msg = 'SCFR Token Mismatch';
+            }
+            else if (jqXHR.status == 500) {
                 msg = 'Internal Server Error [500].';
             } else if (jqXHR.status == 405) {
                 msg = 'Method not alowed [405].';
@@ -75,7 +82,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
                 msg = 'Uncaught Error.\n' + jqXHR.responseText;
             }
             target.html("Unable to load\n" + msg);
-            //console.log('[ajaxLoader]-exception:', jqXHR.responseText);
+            console.log('[ajaxLoader]-exception:', jqXHR);
             console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },
         timeout: 3000,
@@ -96,40 +103,44 @@ function display_ct() {
 }
 
 function display_notifications() {
-    $.ajax({
-        start_time: new Date().getTime(),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        type: 'GET',
-        url: $('#notification-button').data("url"),
-        success: function (msg) {
-            if (msg > 0) {
-                if (!$(".notification-badge").is(":visible")) {
-                    $(".notification-badge").addClass("d-inline");
-                    $(".notification-badge").addClass("d-md-inline");
-                }
-                if (msg < 99) {
-                    $("#notification-count").html(msg);
+    if (typeof document.hidden === "undefined" && typeof document.msHidden === "undefined" && typeof document.webkitHidden === "undefined") { // Opera 12.10 and Firefox 18 and later support
+        $.ajax({
+            start_time: new Date().getTime(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'GET',
+            url: $('#notification-button').data("url"),
+            success: function (msg) {
+                if (msg > 0) {
+                    if (!$(".notification-badge").is(":visible")) {
+                        $(".notification-badge").addClass("d-inline");
+                        $(".notification-badge").addClass("d-md-inline");
+                    }
+                    if (msg < 99) {
+                        $("#notification-count").html(msg);
+                    } else {
+                        $("#notification-count").html("99+");
+                    }
+                    console.log(msg);
                 } else {
-                    $("#notification-count").html("99+");
+                    if ($(".notification-badge").is(":visible")) {
+                        $(".notification-badge").hide();
+                        $(".notification-badge").removeClass("d-inline");
+                        $(".notification-badge").removeClass("d-md-inline");
+                    }
                 }
-                console.log(msg);
-            } else {
-                if ($(".notification-badge").is(":visible")) {
-                    $(".notification-badge").hide();
-                    $(".notification-badge").removeClass("d-inline");
-                    $(".notification-badge").removeClass("d-md-inline");
-                }
-            }
-            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
-        },
-        error: function (jqXHR, exception) {
-            console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
-            console.log('[notificationChecker]-exception:', exception)
-        },
-        timeout: 3000,
-    });
+                console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+            },
+            error: function (jqXHR, exception) {
+                console.log('[notificationChecker]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+                console.log('[notificationChecker]-exception:', exception)
+            },
+            timeout: 3000,
+        });
+    } else {
+        console.log("[notificationFetcher]-paused")
+    }
     display_notifications_deamon();
 }
 
@@ -163,7 +174,6 @@ function deleteRow(btn) {
     var row = btn.parentNode.parentNode;
     row.parentNode.removeChild(row);
 }
-
 
 /*
 if ($(window).width() < 768) {

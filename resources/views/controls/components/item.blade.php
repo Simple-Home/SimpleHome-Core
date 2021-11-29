@@ -96,35 +96,34 @@
 
                               var ctx = $('#chartJSContainer-{{ $property->id }}');
                               var chart = new Chart(ctx, options);
-
-                              ajax_chart(chart);
-
-                              function ajax_chart(chart) {
-                                  var data = data || {};
-
-                                  $.ajax({
-                                      dataType: "json",
-                                      start_time: new Date().getTime(),
-                                      headers: {
-                                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                      },
-                                      type: 'GET',
-                                      url: '{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}',
-                                      success: function(json) {
-
-
-                                          chart.data = json;
-                                          chart.update();
-
-                                          console.log((new Date().getTime() - this.start_time) + ' ms');
-                                      },
-                                      error: function() {
-                                          console.log((new Date().getTime() - this.start_time) + ' ms');
-                                      },
-                                      timeout: 3000,
-                                  });
-                              }
                           </script>
+                          @if (!$property->device->offline)
+                              <script>
+                                  ajax_chart(chart);
+
+                                  function ajax_chart(chart) {
+                                      var data = data || {};
+                                      $.ajax({
+                                          dataType: "json",
+                                          start_time: new Date().getTime(),
+                                          headers: {
+                                              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                          },
+                                          type: 'GET',
+                                          url: '{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}',
+                                          success: function(json) {
+                                              chart.data = json;
+                                              chart.update();
+                                              console.log((new Date().getTime() - this.start_time) + ' ms');
+                                          },
+                                          error: function() {
+                                              console.log((new Date().getTime() - this.start_time) + ' ms');
+                                          },
+                                          timeout: 3000,
+                                      });
+                                  }
+                              </script>
+                          @endif
                       </canvas>
                   </div>
               @endif
