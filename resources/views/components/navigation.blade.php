@@ -1,4 +1,4 @@
-<li class="nav-ite">
+<li class="nav-item">
     <a href="{{ route('controls.list') }}"
         class="nav-link btn-sq {{ strpos(Route::currentRouteName(), 'controls') > -1 ? 'active' : '' }} text-center ">
         <i class="fa fa-home"></i><span class="d-none ms-md-2 d-md-inline">Rooms</span>

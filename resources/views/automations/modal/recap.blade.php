@@ -73,24 +73,24 @@
             </div>
         </div>
     </form>
-</div>
-<script>
-    $(function() {
-        $('form#recap').on('submit', function(e) {
-            var form = $('form#recap');
-            console.log(form.serialize())
-            e.preventDefault();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: '{{ route('automations.propertie.finish') }}',
-                data: form.serialize(),
-                success: function(msg) {
-                    $("div.automation-content").replaceWith(msg);
-                }
+    <script>
+        $(function() {
+            $('form#recap').on('submit', function(e) {
+                var form = $('form#recap');
+                console.log(form.serialize())
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: '{{ route($nextUrl) }}',
+                    data: form.serialize(),
+                    success: function(msg) {
+                        $("div.automation-content").replaceWith(msg);
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+</div>

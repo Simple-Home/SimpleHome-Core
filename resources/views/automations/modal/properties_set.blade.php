@@ -9,7 +9,6 @@
     <form id="properties-selection">
         <div class="row">
             <div class="col mb-3">
-                <input type="hidden" name="automation_type" value="{{ $automationType }}" />
                 <table class="table">
                     <tbody>
                         @if (!empty($propertyes) && count($propertyes) > 0)
@@ -44,24 +43,24 @@
             </div>
         </div>
     </form>
-</div>
-<script>
-    $(function() {
-        $('form#properties-selection').on('submit', function(e) {
-            var form = $('form#properties-selection');
-            console.log(form.serialize())
-            e.preventDefault();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: '{{ route('automations.propertie.recap') }}',
-                data: form.serialize(),
-                success: function(msg) {
-                    $("div.automation-content").replaceWith(msg);
-                }
+    <script>
+        $(function() {
+            $('form#properties-selection').on('submit', function(e) {
+                var form = $('form#properties-selection');
+                console.log(form.serialize())
+                e.preventDefault();
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: '{{ route($nextUrl) }}',
+                    data: form.serialize(),
+                    success: function(msg) {
+                        form.replaceWith(msg);
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+</div>

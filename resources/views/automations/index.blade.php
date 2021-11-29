@@ -49,7 +49,8 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <button type="button" class="automation-type btn btn-primary btn-lg w-100 text-start"
-                                        data-url="{{ route('automations.tasks') }}" data-automation-type="manual">
+                                        data-url="{{ route('automations.form.type.save.ajax') }}"
+                                        data-automation-type="manual">
                                         <i class="fas fa-toggle-on pr-2 me-2" aria-hidden="true"></i>Manual
                                     </button>
                                 </div>
@@ -73,8 +74,9 @@
                                             <i class="fas fa-hourglass-half pr-2 me-2" aria-hidden="true"></i>Schedule
                                         </button>
                                         <button type="button"
-                                            class="automation-type btn btn-primary btn-lg w-100 text-start disabled"
-                                            data-url="#">
+                                            class="automation-type btn btn-primary btn-lg w-100 text-start"
+                                            data-url="{{ route('automations.form.type.save.ajax') }}"
+                                            data-automation-type="state_change">
                                             <i class="fas fa-sync pr-2 me-2" aria-hidden="true"></i>Device Status Change
                                         </button>
                                     </div>
@@ -120,7 +122,7 @@
                 data: {
                     type: thisObj.data("automation-type")
                 },
-                type: 'GET',
+                type: 'POST',
                 url: thisObj.data("url"),
                 success: function(msg) {
                     $('div.automation-content').replaceWith(msg);

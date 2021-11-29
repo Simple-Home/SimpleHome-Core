@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
 class AutomationsController extends Controller
@@ -86,66 +87,125 @@ class AutomationsController extends Controller
         ]));
     }
 
-    public function tasksAjax(Request $request)
-    {
-        if ($request->ajax()) {
-            $automationType = $request->input('type');
-            return View::make("automations.tasks")->with('automationType', $automationType)->render();
-        }
-        return redirect()->back();
-    }
 
-
-    public function propertyesAjax(Request $request)
+    /*
+    TYPE
+    */
+    public function saveTypeAjax(Request $request)
     {
 
         if ($request->ajax()) {
             $automationType = $request->input('type');
-            $propertyes =  Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
-            return View::make("automations.properties_selection")->with("propertyes", $propertyes)->with("automationType", $automationType)->render();
+
+            session([
+                'automation_creation' => [
+                    'type' => $request->input('type'),
+                ]
+            ]);
+
+            switch ($automationType) {
+                case 'state_change':
+                    $nextUrl = 'automations.form.triggers.set.ajax';
+                    $properties =  Properties::all(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+                    break;
+
+                default:
+                    $automationSessionStore = session('automation_creation');
+                    $automationSessionStore['actions'] = 'manual';
+                    session(['automation_creation' => $automationSessionStore]);
+
+                    $nextUrl = 'automations.form.actions.set.ajax';
+                    $properties =  Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+                    break;
+            }
+            return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("automationType", $automationType)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
     }
 
-    public function rulesAjax(Request $request)
+    /*
+    TRIGGERS
+    */
+
+    public function setTriggersAjax(Request $request)
     {
         if ($request->ajax()) {
+            //Save Triggers IDS
+            $automationSessionStore = session('automation_creation');
+            $automationSessionStore['triggers'] = $request->input('properties_selection');
+            session(['automation_creation' => $automationSessionStore]);
+
+            $nextUrl = 'automations.form.actions.creation.ajax';
             $propertyesSelectionIds = $request->input('properties_selection');
             $propertyes =  Properties::whereIn("id", $propertyesSelectionIds)->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
-            return View::make("automations.properties_rules")->with("propertyes", $propertyes)->render();
+            return View::make("automations.modal.properties_rules")->with("propertyes", $propertyes)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
     }
 
-    public function setAjax(Request $request)
+    /*
+        ACTIONS
+        */
+
+    public function selectActionsAjax(Request $request)
     {
         if ($request->ajax()) {
-            $propertyesSelectionIds = $request->input('properties_selection');
-            $automationType = $request->input('automation_type');
-            $propertyes =  Properties::whereIn("id", $propertyesSelectionIds)->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
-            return View::make("automations.properties_set")->with("propertyes", $propertyes)->with("automationType", $automationType)->render();
+            //Save Triggers
+            $automationSessionStore = session('automation_creation');
+            $automationSessionStore['triggers'] = $request->input('property');
+            session(['automation_creation' => $automationSessionStore]);
+
+            $automationSessionStore = session('automation_creation');
+
+            $nextUrl = 'automations.form.actions.set.ajax';
+            $properties = Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+            return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
     }
 
+    public function setActionsAjax(Request $request)
+    {
+        if ($request->ajax()) {
+            //Save actions IDS
+            $automationSessionStore = session('automation_creation');
+            $automationSessionStore['actions'] = $request->input('properties_selection');
+            session(['automation_creation' => $automationSessionStore]);
+
+            $nextUrl = 'automations.form.recap.ajax';
+            $propertyesSelectionIds = $request->input('properties_selection');
+            $propertyes =  Properties::whereIn("id", $propertyesSelectionIds)->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+            return View::make("automations.modal.properties_set")->with("propertyes", $propertyes)->with("nextUrl", $nextUrl)->render();
+        }
+        return redirect()->back();
+    }
+
+    /*
+    RECAP
+     */
     public function recapAjax(Request $request, int $automation_id = null)
     {
         if ($request->ajax()) {
+            //Save actions
+            $automationSessionStore = session('automation_creation');
+            $automationSessionStore['actions'] = $request->input('property');
+            session(['automation_creation' => $automationSessionStore]);
+            dd($automationSessionStore);
             $propertyesTriggers = [];
             $propertyesActions = [];
             $automationName = null;
 
-            if ($automation_id == null) {
-                foreach ($request->input('property') as $propertyId => $propertyValue) {
+            if (
+                $automation_id == null
+            ) {
+                foreach ($automationSessionStore["actions"] as $propertyId => $propertyValue) {
                     $propertyesActions[$propertyId] = [
                         "value" => $propertyValue["value"],
                         "name" => Properties::find($propertyId)->nick_name,
                     ];
                 }
 
-                if (!is_array($request->input('automation_type'))) {
-                    $propertyesTriggers[] = $request->input('automation_type');
-                }
+                $propertyesTriggers[] = $automationSessionStore["triggers"];
             } else {
                 $automation = Automations::find($automation_id);
                 $automationName = $automation->name;
@@ -166,29 +226,11 @@ class AutomationsController extends Controller
                 "automation_triggers" => $propertyesTriggers,
                 "automation_id" => $automation_id,
             ];
+            dd($automation);
 
-            return View::make("automations.modal.recap")->with("automation", $automation)->render();
+            $nextUrl = 'automations.form.finish';
+            return View::make("automations.modal.recap")->with("automation", $automation)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
-    }
-
-
-    public function finishAjax(Request $request)
-    {
-        if ($request->ajax()) {
-            if (!empty($request->input('automation_id'))) {
-                $automation = Automations::find($request->input('automation_id'));
-            } else {
-                $automation = new Automations;
-            }
-
-            $automation->owner_id = auth()->user()->id;
-            $automation->name = $request->input('automation_name');
-            $automation->conditions = $request->input('automation_triggers');
-            $automation->actions = $request->input('automation_actions');
-
-            $automation->save();
-        }
-        return "done";
     }
 }
