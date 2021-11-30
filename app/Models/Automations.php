@@ -12,6 +12,11 @@ class Automations extends Model
     protected $table = 'sh_automations';
     protected $primaryKey = 'id';
     protected $dates = ['run_at'];
+    protected $casts = [
+        'is_locked' => 'boolean',
+        'is_runed' => 'boolean',
+        'is_enabled' => 'boolean',
+    ];
 
     use HasFactory;
 
@@ -39,57 +44,39 @@ class Automations extends Model
     //FUNCTIONS [ACTIONS]
     public function run($waiting = true)
     {
+        if ($this->is_locked) {
+            return false;
+        }
+        $this->is_locked = true;
+        $this->Save();
+
         $run = false;
         $restart = false;
         $error = false;
 
         if (!empty($this->conditions)) {
-            $runTempState = true;
             foreach ($this->conditions as $key => $trigger) {
+
                 $propertyInQuestion = Properties::find($key);
-                switch ($trigger->operator) {
-                    case '<':
-                        if ($propertyInQuestion->latestRecord->value < $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    case '>':
-                        if ($propertyInQuestion->latestRecord->value > $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    case '!=':
-                        if ($propertyInQuestion->latestRecord->value != $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    default:
-                        if ($propertyInQuestion->latestRecord->value == $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
+                $conditionValueActual = "";
+                if (!call_user_func($propertyInQuestion->type, $conditionValueActual, $propertyInQuestion, $trigger)) {
+                    $conditionValueActual = $propertyInQuestion->latestRecord->value;
                 }
-                $run = $runTempState;
+
+                $run = compare($trigger->operator, $conditionValueActual, $trigger->value);
+
                 $restart = true;
             }
         } else {
             $run = true;
             $restart = true;
         }
-
         //TODO: highest sleep time from all devices based on those properties
-        $waitTime = 1000000;
+        $waitTime = 2000;
 
         $recordsIds = [];
         if ($this->actions != null && $run) {
+            //TODO: Add notification on running the notification
             foreach ($this->actions as $propertyId => $propertyCommand) {
                 $record                 = new Records;
                 $record->origin         = "automation";
@@ -121,5 +108,22 @@ class Automations extends Model
         }
 
         return true;
+    }
+
+    public function compare($condition, $a, $b){
+        switch ($condition) {
+            case '<': return $a < $b;
+            case '>': return $a > $b;
+            case '!=': return $a != $b;
+            default: return $a == $b;
+        }
+    }
+
+    private function location(&$value, $model, $trigger){
+        $value = ($model->getLocation() ? $model->getLocation()->id : null);
+    }
+
+    private function sun(&$value, $model, $trigger){
+        //
     }
 }
