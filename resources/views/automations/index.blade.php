@@ -56,12 +56,12 @@
             thisObj = $(this);
             console.log("[ajaxAction]-start");
             console.log("[ajaxAction]-source", thisObj);
-            console.log("[ajaxAction]-url:", thisObj.data("[formUrl]"));
+            console.log("[ajaxAction]-url:", thisObj.data("formUrl"));
             event.preventDefault();
 
             $('#' + thisObj.data("formId")).modal('show');
             ajaxContentLoader($('#' + thisObj.data("formId")).find(".automation-content"), thisObj.data("formUrl"),
-                true, "GET");
+                true, "POST");
 
             event.stopPropagation();
             console.log("[ajaxAction]-finish");
@@ -92,13 +92,14 @@
         $('#automatonForm').on('hidden.bs.modal', function(e) {
             ajaxContentLoader($('#automatonForm').find(".automation-content"),
                 "{{ route('automations.form.load') }}",
-                true, "GET");
-        })
-        $('#automatonForm').on('show.bs.modal', function(e) {
+                true, "GET", true);
+        });
+        $(document).ready(function() {
             ajaxContentLoader($('#automatonForm').find(".automation-content"),
                 "{{ route('automations.form.load') }}",
                 true, "GET", true);
-        })
+
+        });
     </script>
     <script src="{{ asset(mix('js/automations.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>

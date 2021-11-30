@@ -24,6 +24,9 @@
                                             placeholder="{{ $property->latestRecord->value }}" maxlength="5" required>
                                     </td>
                                     <td scope="col" class="text-end">
+                                        {{ $property->units }}
+                                    </td>
+                                    <td scope="col" class="text-end">
                                         @if ($loop->index > 0)
                                             <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
                                                 <i class="fas fa-trash"></i>

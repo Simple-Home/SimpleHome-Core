@@ -204,6 +204,7 @@ class AutomationsController extends Controller
             $automationSessionStore = session('automation_creation');
             $automationSessionStore['actions'] = $request->input('property');
             session(['automation_creation' => $automationSessionStore]);
+
             $propertyesTriggers = [];
             $propertyesActions = [];
             $automationName = null;
@@ -214,39 +215,47 @@ class AutomationsController extends Controller
 
                 if (is_array($automationSessionStore["triggers"])) {
                     foreach ($automationSessionStore["triggers"] as $triggerId => $triggerValues) {
+                        $propertyObj = Properties::find($triggerId);
+
                         $propertyesTriggers[$triggerId] = [
                             "value" => $triggerValues["value"],
                             "operator" => $triggerValues["operator"],
-                            "name" => Properties::find($triggerId)->nick_name,
+                            "name" => $propertyObj->nick_name,
+                            "units" => $propertyObj->units,
                         ];
                     }
                 }
 
-
                 foreach ($automationSessionStore["actions"] as $propertyId => $propertyValue) {
+                    $propertyObj = Properties::find($propertyId);
                     $propertyesActions[$propertyId] = [
                         "value" => $propertyValue["value"],
-                        "name" => Properties::find($propertyId)->nick_name,
+                        "name" => $propertyObj->nick_name,
+                        "units" => $propertyObj->units,
                     ];
                 }
             } else {
                 $automation = Automations::find($automation_id);
                 $automationName = $automation->name;
 
-                if (is_array($automation->conditions)) {
+                if (is_object($automation->conditions)) {
                     foreach ((array) $automation->conditions as $triggerId => $triggerValues) {
+                        $propertyObj = Properties::find($triggerId);
                         $propertyesTriggers[$triggerId] = [
                             "value" => $triggerValues->value,
                             "operator" => $triggerValues->operator,
-                            "name" => Properties::find($triggerId)->nick_name,
+                            "name" => $propertyObj->nick_name,
+                            "units" => $propertyObj->units,
                         ];
                     }
                 }
 
                 foreach ((array) $automation->actions as $propertyId => $propertyValue) {
+                    $propertyObj = Properties::find($propertyId);
                     $propertyesActions[$propertyId] = [
                         "value" => $propertyValue->value,
-                        "name" => Properties::find($propertyId)->nick_name,
+                        "name" => $propertyObj->nick_name,
+                        "units" => $propertyObj->units,
                     ];
                 }
             }
@@ -270,8 +279,8 @@ class AutomationsController extends Controller
     }
 
     /*
-                    FINISH
-                    */
+    FINISH
+    */
     public function finishAjax(Request $request, int $automation_id = null)
     {
         if ($request->ajax()) {
@@ -288,6 +297,7 @@ class AutomationsController extends Controller
 
             $automation->save();
         }
+        session()->forget('automation_creation');
         return "done";
     }
 }

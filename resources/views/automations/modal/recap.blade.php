@@ -26,7 +26,7 @@
                                 </th>
                                 <td scope="col">
                                     <select class="form-select" aria-label="Default select example"
-                                        name="property[{{ $trigger_key }}][operator]">
+                                        name="automation_triggers[{{ $trigger_key }}][operator]">
                                         <option value="=" {{ $trigger['operator'] == '=' ? 'selected' : '' }}>
                                             (equal)</option>
                                         <option value="<" {{ $trigger['operator'] == '<' ? 'selected' : '' }}>
@@ -38,9 +38,13 @@
                                     </select>
                                 </td>
                                 <td scope="col">
-                                    <input class="form-control" type="text" name="automation_triggers[]"
+                                    <input class="form-control" type="text"
+                                        name="automation_triggers[{{ $trigger_key }}][value]"
                                         value="{{ $trigger['value'] }}" id="text-input-{{ $trigger_key }}"
                                         placeholder="{{ $trigger['value'] }}" maxlength="5" required>
+                                </td>
+                                <td scope="col" class="text-end">
+                                    {{ $trigger['units'] }}
                                 </td>
                                 <td scope="col" class="text-end">
                                     @if ($loop->index > 0)
@@ -78,6 +82,9 @@
                                         placeholder="{{ $action['value'] }}" maxlength="5" required>
                                 </td>
                                 <td scope="col" class="text-end">
+                                    {{ $action['units'] }}
+                                </td>
+                                <td scope="col" class="text-end">
                                     @if ($loop->index > 0)
                                         <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
                                             <i class="fas fa-trash"></i>
@@ -92,7 +99,7 @@
         </div>
         <div class="row">
             <div class="col mb-3">
-                <button class="form-control" type="submit">Next</button>
+                <button class="form-control" type="submit">{{ __('simplehome.finish') }}</button>
             </div>
         </div>
     </form>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Properties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,8 +44,41 @@ class Automations extends Model
         $error = false;
 
         if (!empty($this->conditions)) {
-            foreach ($this->conditions as $key => $value) {
-                # code...
+            $runTempState = true;
+            foreach ($this->conditions as $key => $trigger) {
+                $propertyInQuestion = Properties::find($key);
+                switch ($trigger->operator) {
+                    case '<':
+                        if ($propertyInQuestion->latestRecord->value < $trigger->value) {
+                            $runTempState = true;
+                        } else {
+                            $runTempState = false;
+                        }
+                        break;
+                    case '>':
+                        if ($propertyInQuestion->latestRecord->value > $trigger->value) {
+                            $runTempState = true;
+                        } else {
+                            $runTempState = false;
+                        }
+                        break;
+                    case '!=':
+                        if ($propertyInQuestion->latestRecord->value != $trigger->value) {
+                            $runTempState = true;
+                        } else {
+                            $runTempState = false;
+                        }
+                        break;
+                    default:
+                        if ($propertyInQuestion->latestRecord->value == $trigger->value) {
+                            $runTempState = true;
+                        } else {
+                            $runTempState = false;
+                        }
+                        break;
+                }
+                $run = $runTempState;
+                $restart = true;
             }
         } else {
             $run = true;

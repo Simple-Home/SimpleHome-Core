@@ -42,7 +42,7 @@
 18. Make top-bar in detail of "Control" sticky
 19. .env File Editor https://stackoverflow.com/questions/32307426/how-to-change-variables-in-the-env-file-dynamically-in-laravel For edit of Debug mode true/false
 21. Add User on location based to prewiew list
-
+22. Add Back Button to automation editor.
 
 # Done:
 
