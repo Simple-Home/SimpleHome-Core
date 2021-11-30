@@ -46,9 +46,9 @@
     <script>
         $(function() {
             $('form#properties-selection').on('submit', function(e) {
+                e.preventDefault();
                 var form = $('form#properties-selection');
                 console.log(form.serialize())
-                e.preventDefault();
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

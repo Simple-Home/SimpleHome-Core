@@ -91,6 +91,7 @@ class AutomationsController extends Controller
     /*
     TYPE
     */
+
     public function saveTypeAjax(Request $request)
     {
 
@@ -111,7 +112,7 @@ class AutomationsController extends Controller
 
                 default:
                     $automationSessionStore = session('automation_creation');
-                    $automationSessionStore['actions'] = 'manual';
+                    $automationSessionStore['triggers'] = 'manual';
                     session(['automation_creation' => $automationSessionStore]);
 
                     $nextUrl = 'automations.form.actions.set.ajax';
@@ -144,11 +145,12 @@ class AutomationsController extends Controller
     }
 
     /*
-        ACTIONS
-        */
+    ACTIONS
+    */
 
     public function selectActionsAjax(Request $request)
     {
+        echo "action";
         if ($request->ajax()) {
             //Save Triggers
             $automationSessionStore = session('automation_creation');
@@ -156,7 +158,6 @@ class AutomationsController extends Controller
             session(['automation_creation' => $automationSessionStore]);
 
             $automationSessionStore = session('automation_creation');
-
             $nextUrl = 'automations.form.actions.set.ajax';
             $properties = Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
             return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("nextUrl", $nextUrl)->render();
@@ -182,54 +183,24 @@ class AutomationsController extends Controller
 
     /*
     RECAP
-     */
+    */
+
     public function recapAjax(Request $request, int $automation_id = null)
     {
+        //if ($request->ajax()) {
+        echo "test";
+        //}
+        //return redirect()->back();
+    }
+
+    /*
+    FINISH
+    */
+
+    public function finishAjax(Request $request, int $automation_id = null)
+    {
         if ($request->ajax()) {
-            //Save actions
-            $automationSessionStore = session('automation_creation');
-            $automationSessionStore['actions'] = $request->input('property');
-            session(['automation_creation' => $automationSessionStore]);
-            dd($automationSessionStore);
-            $propertyesTriggers = [];
-            $propertyesActions = [];
-            $automationName = null;
-
-            if (
-                $automation_id == null
-            ) {
-                foreach ($automationSessionStore["actions"] as $propertyId => $propertyValue) {
-                    $propertyesActions[$propertyId] = [
-                        "value" => $propertyValue["value"],
-                        "name" => Properties::find($propertyId)->nick_name,
-                    ];
-                }
-
-                $propertyesTriggers[] = $automationSessionStore["triggers"];
-            } else {
-                $automation = Automations::find($automation_id);
-                $automationName = $automation->name;
-
-                foreach ((array) $automation->actions as $propertyId => $propertyValue) {
-                    $propertyesActions[$propertyId] = [
-                        "value" => $propertyValue->value,
-                        "name" => Properties::find($propertyId)->nick_name,
-                    ];
-                }
-
-                $propertyesTriggers = $automation->conditions;
-            }
-
-            $automation = [
-                "automation_name" => $automationName,
-                "automation_actions" => $propertyesActions,
-                "automation_triggers" => $propertyesTriggers,
-                "automation_id" => $automation_id,
-            ];
-            dd($automation);
-
-            $nextUrl = 'automations.form.finish';
-            return View::make("automations.modal.recap")->with("automation", $automation)->with("nextUrl", $nextUrl)->render();
+            echo "test";
         }
         return redirect()->back();
     }
