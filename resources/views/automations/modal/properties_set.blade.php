@@ -24,9 +24,11 @@
                                             placeholder="{{ $property->latestRecord->value }}" maxlength="5" required>
                                     </td>
                                     <td scope="col" class="text-end">
-                                        <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        @if ($loop->index > 0)
+                                            <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

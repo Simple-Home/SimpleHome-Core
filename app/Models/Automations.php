@@ -42,7 +42,7 @@ class Automations extends Model
         $restart = false;
         $error = false;
 
-        if ($this->conditions[0] != "manual") {
+        if (!empty($this->conditions)) {
             foreach ($this->conditions as $key => $value) {
                 # code...
             }

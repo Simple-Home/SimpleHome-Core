@@ -18,7 +18,7 @@
             <label class="form-label required">{{ __('simplehome.trigger') }}</label>
             <table class="table">
                 <tbody>
-                    @if (!empty($automation['automation_triggers']) && count($automation['automation_triggers']) > 0)
+                    @if (!empty($automation['automation_triggers']) && count($automation['automation_triggers']) > 0 && is_array($automation['automation_triggers']))
                         @foreach ($automation['automation_triggers'] as $trigger_key => $trigger)
                             <tr scope="row">
                                 <th scope="col">
@@ -43,12 +43,20 @@
                                         placeholder="{{ $trigger['value'] }}" maxlength="5" required>
                                 </td>
                                 <td scope="col" class="text-end">
-                                    <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    @if ($loop->index > 0)
+                                        <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
+                    @else
+                        <tr scope="row">
+                            <td scope="col">
+                                Manual
+                            </td>
+                        </tr>
                     @endif
                 </tbody>
             </table>
@@ -70,9 +78,11 @@
                                         placeholder="{{ $action['value'] }}" maxlength="5" required>
                                 </td>
                                 <td scope="col" class="text-end">
-                                    <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    @if ($loop->index > 0)
+                                        <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

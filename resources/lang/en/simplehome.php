@@ -128,6 +128,7 @@ return [
     'run.job' => "Run Job",
     'jobs' => "Run Job",
     'count' => "Count",
+    'trigger' => "Trigger",
     //LOG
     'logs.exception' => 'Exception',
     //LOCATION
