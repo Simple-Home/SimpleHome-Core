@@ -108,6 +108,15 @@ class SettingsController extends Controller
 
     public function saveSettings(Request $request, FormBuilder $formBuilder)
     {
+        dd($formBuilder);
+
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $form->getFieldValues();
+
+        DD($form->getFieldValues());
         foreach ($request->input() as $key => $value) {
             if ($key == '_token') {
                 continue;
