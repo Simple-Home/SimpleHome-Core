@@ -36,7 +36,13 @@ class AutomationsController extends Controller
     public function listAjax($type = "automations", Request $request)
     {
         if ($request->ajax()) {
-            $automations = Automations::all();
+            if ($type == "automations") {
+                $automations = Automations::where("conditions", "!=", "")->get(["id", "name", "is_enabled", "run_at"]);
+            } elseif ($type == "scenes") {
+                $automations = Automations::where("conditions", "")->get(["id", "name", "is_enabled", "run_at"]);
+            } else {
+                $automations = Automations::all(["id", "name", "is_enabled", "run_at"]);
+            }
             return View::make("automations.ajax.list")->with("automations", $automations)->render();
         }
         return redirect()->back();
