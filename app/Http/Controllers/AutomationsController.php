@@ -93,6 +93,13 @@ class AutomationsController extends Controller
         ]));
     }
 
+    public function loadAjax(Request $request)
+    {
+        if ($request->ajax()) {
+            return View::make("automations.modal.base")->render();
+        }
+        return redirect()->back();
+    }
 
     /*
     TYPE
@@ -114,6 +121,7 @@ class AutomationsController extends Controller
                 case 'state_change':
                     $nextUrl = 'automations.form.triggers.set.ajax';
                     $properties =  Properties::all(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+                    $stepsTotal = 6;
                     break;
 
                 default:
@@ -123,9 +131,10 @@ class AutomationsController extends Controller
 
                     $nextUrl = 'automations.form.actions.set.ajax';
                     $properties =  Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+                    $stepsTotal = 5;
                     break;
             }
-            return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("automationType", $automationType)->with("nextUrl", $nextUrl)->render();
+            return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("automationType", $automationType)->with("nextUrl", $nextUrl)->with("stepsTotal", $stepsTotal)->render();
         }
         return redirect()->back();
     }

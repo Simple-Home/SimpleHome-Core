@@ -20,7 +20,7 @@ function isMobile() {
     }
 }
 
-function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'POST') {
+function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'POST', replace = false) {
     console.log("[ajaxLoader]-loading from:", sourceUrl, "loading to:", target)
     var initialHtmlContent = target.html();
 
@@ -49,10 +49,14 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
             }
         },
         success: function (msg) {
+            newBody = msg;
             if (msg == "true" || msg == "false") {
-                target.html(initialHtmlContent)
+                newBody = initialHtmlContent;
+            }
+            if (replace) {
+                target.replaceWith(newBody);
             } else {
-                target.html(msg);
+                target.html(newBody);
             }
             console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
         },

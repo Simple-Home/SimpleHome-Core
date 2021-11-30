@@ -61,19 +61,11 @@ Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->post('/list/{type}/ajax', [App\Http\Controllers\AutomationsController::class, 'listAjax'])->name('automations.ajax.list');
 
     //rewrite
-
-
-
-
-
-
+    Route::middleware(['auth', 'verified', 'language'])->get('/form/properties/load/ajax', [App\Http\Controllers\AutomationsController::class, 'loadAjax'])->name('automations.form.load');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/type/save/ajax', [App\Http\Controllers\AutomationsController::class, 'saveTypeAjax'])->name('automations.form.type.save.ajax');
-
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/triggers/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setTriggersAjax'])->name('automations.form.triggers.set.ajax');
-
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/actions/select/ajax', [App\Http\Controllers\AutomationsController::class, 'selectActionsAjax'])->name('automations.form.actions.creation.ajax');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/actions/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setActionsAjax'])->name('automations.form.actions.set.ajax');
-
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/recap/ajax', [App\Http\Controllers\AutomationsController::class, 'recapAjax'])->name('automations.form.recap.ajax');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/finish/ajax', [App\Http\Controllers\AutomationsController::class, 'finishAjax'])->name('automations.form.finish');
 });

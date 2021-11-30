@@ -7,5 +7,9 @@
         @endforeach
     </div>
 @else
-    <p class="text-center">{{ __('simplehome.automations.nothing') }}</p>
+    <p class="text-center">{{ __('simplehome.automations.nothing') }}
+        <a href="#" data-bs-toggle="modal" data-bs-target="#automatonForm" title="Add room">
+            {{ __('simplehome.create.one') }}
+        </a>
+    </p>
 @endif

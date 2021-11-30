@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <div class="mb-3">
-                @progressbar(3, 6)
+                @progressbar(3, 5)
             </div>
         </div>
     </div>

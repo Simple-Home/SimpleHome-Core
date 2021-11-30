@@ -129,6 +129,7 @@ return [
     'jobs' => "Run Job",
     'count' => "Count",
     'trigger' => "Trigger",
+    'create.one' => "create one",
     //LOG
     'logs.exception' => 'Exception',
     //LOCATION
