@@ -22,12 +22,25 @@
                         @foreach ($automation['automation_triggers'] as $trigger_key => $trigger)
                             <tr scope="row">
                                 <th scope="col">
-                                    {{ __('Trigger_') . $trigger_key }}
+                                    {{ $trigger['name'] }}
                                 </th>
-                                <td scope="col" class="w-100">
+                                <td scope="col">
+                                    <select class="form-select" aria-label="Default select example"
+                                        name="property[{{ $trigger_key }}][operator]">
+                                        <option value="=" {{ $trigger['operator'] == '=' ? 'selected' : '' }}>
+                                            (equal)</option>
+                                        <option value="<" {{ $trigger['operator'] == '<' ? 'selected' : '' }}>
+                                            (less)</option>
+                                        <option value=">" {{ $trigger['operator'] == '>' ? 'selected' : '' }}>
+                                            (great)</option>
+                                        <option value="!=" {{ $trigger['operator'] == '!=' ? 'selected' : '' }}>
+                                            (not equal)</option>
+                                    </select>
+                                </td>
+                                <td scope="col">
                                     <input class="form-control" type="text" name="automation_triggers[]"
-                                        value="{{ $trigger }}" id="text-input-{{ $trigger_key }}"
-                                        placeholder="{{ $trigger }}" maxlength="5" required>
+                                        value="{{ $trigger['value'] }}" id="text-input-{{ $trigger_key }}"
+                                        placeholder="{{ $trigger['value'] }}" maxlength="5" required>
                                 </td>
                                 <td scope="col" class="text-end">
                                     <a onclick="deleteRow(this)" href="#" class="btn btn-danger">

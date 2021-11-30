@@ -56,7 +56,7 @@
                     url: '{{ route($nextUrl) }}',
                     data: form.serialize(),
                     success: function(msg) {
-                        form.replaceWith(msg);
+                        $("div.automation-content").replaceWith(msg);
                     }
                 });
             });

@@ -147,10 +147,8 @@ class AutomationsController extends Controller
     /*
     ACTIONS
     */
-
     public function selectActionsAjax(Request $request)
     {
-        echo "action";
         if ($request->ajax()) {
             //Save Triggers
             $automationSessionStore = session('automation_creation');
@@ -184,24 +182,91 @@ class AutomationsController extends Controller
     /*
     RECAP
     */
-
     public function recapAjax(Request $request, int $automation_id = null)
     {
-        //if ($request->ajax()) {
-        echo "test";
-        //}
-        //return redirect()->back();
+        if ($request->ajax()) {
+            //Save actions
+            $automationSessionStore = session('automation_creation');
+            $automationSessionStore['actions'] = $request->input('property');
+            session(['automation_creation' => $automationSessionStore]);
+            $propertyesTriggers = [];
+            $propertyesActions = [];
+            $automationName = null;
+
+            if (
+                $automation_id == null
+            ) {
+                foreach ($automationSessionStore["actions"] as $propertyId => $propertyValue) {
+                    $propertyesActions[$propertyId] = [
+                        "value" => $propertyValue["value"],
+                        "name" => Properties::find($propertyId)->nick_name,
+                    ];
+                }
+
+                foreach ($automationSessionStore["triggers"] as $triggerId => $triggerValues) {
+                    $propertyesTriggers[$triggerId] = [
+                        "value" => $triggerValues["value"],
+                        "operator" => $triggerValues["operator"],
+                        "name" => Properties::find($triggerId)->nick_name,
+                    ];
+                }
+            } else {
+                $automation = Automations::find($automation_id);
+                $automationName = $automation->name;
+
+                foreach ((array) $automation->actions as $propertyId => $propertyValue) {
+                    $propertyesActions[$propertyId] = [
+                        "value" => $propertyValue->value,
+                        "name" => Properties::find($propertyId)->nick_name,
+                    ];
+                }
+
+                foreach ((array) $automation->conditions as $triggerId => $triggerValues) {
+                    $propertyesTriggers[$triggerId] = [
+                        "value" => $triggerValues->value,
+                        "operator" => $triggerValues->operator,
+                        "name" => Properties::find($triggerId)->nick_name,
+                    ];
+                }
+            }
+
+            //Generate Initial ame
+            if ($automationName == null) {
+                //TODO: Translate
+                $automationName = "simplehome.automation" . "_" . Automations::all()->count();
+            }
+
+            $automation = [
+                "automation_name" => $automationName,
+                "automation_actions" => $propertyesActions,
+                "automation_triggers" => $propertyesTriggers,
+                "automation_id" => $automation_id,
+            ];
+            $nextUrl = 'automations.form.finish';
+            return View::make("automations.modal.recap")->with("automation", $automation)->with("nextUrl", $nextUrl)->render();
+        }
+        return redirect()->back();
     }
 
     /*
     FINISH
     */
-
     public function finishAjax(Request $request, int $automation_id = null)
     {
         if ($request->ajax()) {
-            echo "test";
+            if (!empty($request->input('automation_id'))) {
+                $automation = Automations::find($request->input('automation_id'));
+            } else {
+                $automation = new Automations;
+            }
+
+            $automation->owner_id = auth()->user()->id;
+            $automation->name = $request->input('automation_name');
+            $automation->conditions = $request->input('automation_triggers');
+            $automation->actions = $request->input('automation_actions');
+
+            $automation->save();
         }
-        return redirect()->back();
+        return "done";
     }
 }
