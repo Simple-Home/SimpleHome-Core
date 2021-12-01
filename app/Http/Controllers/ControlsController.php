@@ -232,11 +232,35 @@ class ControlsController extends Controller
         return redirect()->back()->with('danger', 'Property Sucessfully removed.');
     }
 
+    public function hide($property_id)
+    {
+        $property = Properties::find($property_id);
+        if ($property->is_hidden) {
+            $property->show();
+            return redirect()->back()->with('danger', 'Property successfully enabled.');
+        } else {
+            $property->hide();
+            return redirect()->back()->with('danger', 'Property successfully disabled.');
+        }
+    }
+
+    public function enable($property_id)
+    {
+        $property = Properties::find($property_id);
+        if ($property->is_disabled) {
+            $property->enable();
+            return redirect()->back()->with('danger', 'Property successfully enabled.');
+        } else {
+            $property->disable();
+            return redirect()->back()->with('danger', 'Property successfully disabled.');
+        }
+    }
+
     //AJAX
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes = Properties::where("room_id", $room_id)->whereHas('device', function ($query) {
+            $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->whereHas('device', function ($query) {
                 return $query->where('approved', 1);
             })->with(['device' => function ($query) {
                 return $query->where('approved', 1)->get(["integration"]);

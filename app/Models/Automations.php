@@ -46,37 +46,60 @@ class Automations extends Model
         if (!empty($this->conditions)) {
             $runTempState = true;
             foreach ($this->conditions as $key => $trigger) {
+
                 $propertyInQuestion = Properties::find($key);
+
+                switch ($propertyInQuestion->type) {
+                    case 'location':
+                        $conditionValueActual = ($propertyInQuestion->getLocation() ? $propertyInQuestion->getLocation()->id : null);
+                        //$conditionValueActual = ($propertyInQuestion->getLocation ? $propertyInQuestion->getLocation->id : null);
+                        // date_sunrise()
+                        // date_sunset()
+                        // $conditionValueActural = 
+                        break;
+
+                    case 'sun':
+                        // date_sunrise()
+                        // date_sunset()
+                        // $conditionValueActural
+                        break;
+
+                    default:
+                        $conditionValueActual = $propertyInQuestion->latestRecord->value;
+                        break;
+                }
+
                 switch ($trigger->operator) {
                     case '<':
-                        if ($propertyInQuestion->latestRecord->value < $trigger->value) {
+                        if ($conditionValueActual < $trigger->value) {
                             $runTempState = true;
                         } else {
                             $runTempState = false;
                         }
                         break;
                     case '>':
-                        if ($propertyInQuestion->latestRecord->value > $trigger->value) {
+                        if ($conditionValueActual > $trigger->value) {
                             $runTempState = true;
                         } else {
                             $runTempState = false;
                         }
                         break;
                     case '!=':
-                        if ($propertyInQuestion->latestRecord->value != $trigger->value) {
+                        if ($conditionValueActual != $trigger->value) {
                             $runTempState = true;
                         } else {
                             $runTempState = false;
                         }
                         break;
                     default:
-                        if ($propertyInQuestion->latestRecord->value == $trigger->value) {
+                        if ($conditionValueActual == $trigger->value) {
                             $runTempState = true;
                         } else {
                             $runTempState = false;
                         }
                         break;
                 }
+
                 $run = $runTempState;
                 $restart = true;
             }
@@ -84,12 +107,12 @@ class Automations extends Model
             $run = true;
             $restart = true;
         }
-
         //TODO: highest sleep time from all devices based on those properties
-        $waitTime = 1000000;
+        $waitTime = 2000;
 
         $recordsIds = [];
         if ($this->actions != null && $run) {
+            //TODO: Add notification on running the notification
             foreach ($this->actions as $propertyId => $propertyCommand) {
                 $record                 = new Records;
                 $record->origin         = "automation";

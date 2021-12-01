@@ -222,4 +222,32 @@ class Properties extends Model
         $record->save();
         return true;
     }
+
+    public function hide()
+    {
+        $this->is_hidden = true;
+        $this->save();
+        return true;
+    }
+
+    public function show()
+    {
+        $this->is_hidden = false;
+        $this->save();
+        return true;
+    }
+
+    public function enable()
+    {
+        $this->is_enabled = true;
+        $this->save();
+        return true;
+    }
+
+    public function disable()
+    {
+        $this->is_enabled = false;
+        $this->save();
+        return true;
+    }
 }

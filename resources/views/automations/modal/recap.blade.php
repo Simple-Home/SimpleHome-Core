@@ -24,28 +24,49 @@
                                 <th scope="col">
                                     {{ $trigger['name'] }}
                                 </th>
-                                <td scope="col">
-                                    <select class="form-select" aria-label="Default select example"
-                                        name="automation_triggers[{{ $trigger_key }}][operator]">
-                                        <option value="=" {{ $trigger['operator'] == '=' ? 'selected' : '' }}>
-                                            (equal)</option>
-                                        <option value="<" {{ $trigger['operator'] == '<' ? 'selected' : '' }}>
-                                            (less)</option>
-                                        <option value=">" {{ $trigger['operator'] == '>' ? 'selected' : '' }}>
-                                            (great)</option>
-                                        <option value="!=" {{ $trigger['operator'] == '!=' ? 'selected' : '' }}>
-                                            (not equal)</option>
-                                    </select>
-                                </td>
-                                <td scope="col">
-                                    <input class="form-control" type="text"
-                                        name="automation_triggers[{{ $trigger_key }}][value]"
-                                        value="{{ $trigger['value'] }}" id="text-input-{{ $trigger_key }}"
-                                        placeholder="{{ $trigger['value'] }}" maxlength="5" required>
-                                </td>
-                                <td scope="col" class="text-end">
-                                    {{ $trigger['units'] }}
-                                </td>
+                                @if ($trigger['type'] == 'location')
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="automation_triggers[{{ $trigger_key }}][operator]">
+                                            <option value="=" {{ $trigger['operator'] == '=' ? 'selected' : '' }}>
+                                                (equal)</option>
+                                            <option value="!=" {{ $trigger['operator'] == '!=' ? 'selected' : '' }}>
+                                                (not equal)</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="automation_triggers[{{ $trigger_key }}][value]">
+                                            @foreach ($places as $place)
+                                                <option value="{{ $place->id }}" selected>{{ $place->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                @else
+                                    <td scope="col">
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="automation_triggers[{{ $trigger_key }}][operator]">
+                                            <option value="=" {{ $trigger['operator'] == '=' ? 'selected' : '' }}>
+                                                (equal)</option>
+                                            <option value="<" {{ $trigger['operator'] == '<' ? 'selected' : '' }}>
+                                                (less)</option>
+                                            <option value=">" {{ $trigger['operator'] == '>' ? 'selected' : '' }}>
+                                                (great)</option>
+                                            <option value="!=" {{ $trigger['operator'] == '!=' ? 'selected' : '' }}>
+                                                (not equal)</option>
+                                        </select>
+                                    </td>
+                                    <td scope="col">
+                                        <input class="form-control" type="text"
+                                            name="automation_triggers[{{ $trigger_key }}][value]"
+                                            value="{{ $trigger['value'] }}" id="text-input-{{ $trigger_key }}"
+                                            placeholder="{{ $trigger['value'] }}" maxlength="5" required>
+                                    </td>
+                                    <td scope="col" class="text-end">
+                                        {{ $trigger['units'] }}
+                                    </td>
+                                @endif
                                 <td scope="col" class="text-end">
                                     @if ($loop->index > 0)
                                         <a onclick="deleteRow(this)" href="#" class="btn btn-danger">

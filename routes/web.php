@@ -89,6 +89,8 @@ Route::namespace('controls')->prefix('controls')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/edit', [App\Http\Controllers\ControlsController::class, 'edit'])->name('controls.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/{property_id}/remove', [App\Http\Controllers\ControlsController::class, 'remove'])->name('controls.remove');
     Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/update', [App\Http\Controllers\ControlsController::class, 'update'])->name('controls.update');
+    Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/enable', [App\Http\Controllers\ControlsController::class, 'enable'])->name('controls.enable.toggle');
+    Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/hide', [App\Http\Controllers\ControlsController::class, 'hide'])->name('controls.hide.toggle');
     Route::middleware(['auth', 'verified', 'language'])->any('/{property_id}/settings/update', [App\Http\Controllers\ControlsController::class, 'settingsUpdate'])->name('controls.settings.update');
 });
 

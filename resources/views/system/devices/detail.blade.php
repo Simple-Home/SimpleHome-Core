@@ -24,7 +24,9 @@
         <div class="card-body">
             <div>
                 <h3 class="mb-0">{{ $device->hostname }}</h3>
-                <p class="mb-0">{{ $device->heartbeat }}</p>
+                <p class="mb-0">{{ $device->heartbeat }}
+                    {{ $device->heartbeat->diffForHumans() }}
+                </p>
             </div>
             @if (!empty(round($device->created)))
                 {{ __('First Seen') }}: {{ $device->createdat }}</br>
@@ -34,8 +36,8 @@
             {{ __('Gateway') }}:</br>
             {{ __('subnet') }}:</br>
             @if (!empty(round($device->signal_strength)))
-                {{ __('Signal') }}: {{ $device->signal_strength }} dbm ({{ $device->signal_strength_percent }}
-                %)
+                {{ __('Signal') }}: {{ $device->signal_strength }} dbm
+                ({{ $device->signal_strength_percent }} %)
                 </br>
             @endif
             @if (!empty(round($device->battery_level)))
@@ -74,12 +76,20 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        <a href="{{ route('controls.detail', $property->id) }}"
-                                            class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
-                                        <a href="{{ route('controls.edit', $property->id) }}" class="btn btn-primary"><i
-                                                class="fa fa-cog"></i></a>
-                                        <a href="{{ route('controls.remove', $property->id) }}" class="btn btn-danger"><i
-                                                class="fa fa-trash"></i></a>
+                                        <div class="btn btn-info p-1">
+                                            <a href="{{ route('controls.detail', $property->id) }}"
+                                                class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
+                                            <a href="{{ route('controls.edit', $property->id) }}"
+                                                class="btn btn-primary"><i class="fa fa-cog"></i></a>
+                                            <a href="{{ route('controls.hide.toggle', $property->id) }}"
+                                                class="btn btn-primary">
+                                                {!! $property->is_hidden ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>' !!}
+                                            </a>
+                                            <a href="{{ route('controls.enable.toggle', $property->id) }}"
+                                                class="btn btn-danger"><i class="fas fa-ban"></i></a>
+                                            <a href="{{ route('controls.remove', $property->id) }}"
+                                                class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

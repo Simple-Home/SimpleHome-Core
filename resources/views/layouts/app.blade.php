@@ -54,6 +54,23 @@
 
     <!--PWA Manifest-->
     @laravelPWA
+    <script defer>
+        var darkThemeSelected =
+            localStorage.getItem("darkSwitch") !== null &&
+            localStorage.getItem("darkSwitch") === "dark";
+
+        if (darkThemeSelected) {
+            localStorage.setItem("darkSwitch", "dark");
+            $('head meta[name="theme-color"]').attr('content', '#111');
+        } else {
+            localStorage.removeItem("darkSwitch");
+            $('head meta[name="theme-color"]').attr('content', "{{ $config['theme_color'] }}");
+        }
+
+        if (!isMobile()) {
+            $('head meta[name="theme-color"]').attr('content', '#1cca50');
+        }
+    </script>
 </head>
 
 <body>

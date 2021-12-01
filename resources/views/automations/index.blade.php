@@ -93,7 +93,17 @@
             ajaxContentLoader($('#automatonForm').find(".automation-content"),
                 "{{ route('automations.form.load') }}",
                 true, "GET", true);
+
+            //TODO: ADD REfresh Event
+            //Initial Load
+            var automationType = localStorage.getItem("automationType");
+            url = $("div.carousel-item[data-automation-type='" + automationType + "']").data("url");
+
+            //Load load content from URL
+            ajaxContentLoader($("div.carousel-item[data-automation-type='" + automationType + "']"), url,
+                false);
         });
+
         $(document).ready(function() {
             ajaxContentLoader($('#automatonForm').find(".automation-content"),
                 "{{ route('automations.form.load') }}",

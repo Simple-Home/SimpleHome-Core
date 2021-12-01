@@ -10,26 +10,45 @@
                                     <th>
                                         {{ $property->nick_name }}
                                     </th>
-                                    <td>
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="property[{{ $property->id }}][operator]">
-                                            <option value="=" selected>=</option>
-                                            <option value="<">
-                                                < </option>
-                                            <option value=">"> > </option>
-                                            <option value="!=">!=</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text"
-                                            name="property[{{ $property->id }}][value]" value=""
-                                            id="text-input-{{ $property->id }}"
-                                            placeholder="{{ $property->latestRecord->value ?? '' }}" maxlength="5"
-                                            required>
-                                    </td>
-                                    <td scope="col" class="text-end">
-                                        {{ $property->units }}
-                                    </td>
+                                    @if ($property->type == 'location')
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="property[{{ $property->id }}][operator]">
+                                                <option value="=" selected>=</option>
+                                                <option value="!=">!=</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="property[{{ $property->id }}][value]">
+                                                @foreach ($places as $place)
+                                                    <option value="{{ $place->id }}" selected>{{ $place->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example"
+                                                name="property[{{ $property->id }}][operator]">
+                                                <option value="=" selected>=</option>
+                                                <option value="<">
+                                                    < </option>
+                                                <option value=">"> > </option>
+                                                <option value="!=">!=</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text"
+                                                name="property[{{ $property->id }}][value]" value=""
+                                                id="text-input-{{ $property->id }}"
+                                                placeholder="{{ $property->latestRecord->value ?? '' }}" maxlength="5"
+                                                required>
+                                        </td>
+                                        <td scope="col" class="text-end">
+                                            {{ $property->units }}
+                                        </td>
+                                    @endif
                                     <td scope="col" class="text-end">
                                         @if ($loop->index > 0)
                                             <a onclick="deleteRow(this)" href="#" class="btn btn-danger">
