@@ -12,6 +12,11 @@ class Automations extends Model
     protected $table = 'sh_automations';
     protected $primaryKey = 'id';
     protected $dates = ['run_at'];
+    protected $casts = [
+        'is_locked' => 'boolean',
+        'is_runed' => 'boolean',
+        'is_enabled' => 'boolean',
+    ];
 
     use HasFactory;
 
@@ -39,68 +44,33 @@ class Automations extends Model
     //FUNCTIONS [ACTIONS]
     public function run($waiting = true)
     {
+        if ($this->is_locked) {
+            return false;
+        }
+        $this->is_locked = true;
+        $this->Save();
+
+        if (empty($this->actions)) {
+            $this->is_locked = false;
+            $this->Save();
+            return false;
+        }
+
         $run = false;
         $restart = false;
         $error = false;
 
         if (!empty($this->conditions)) {
-            $runTempState = true;
             foreach ($this->conditions as $key => $trigger) {
 
                 $propertyInQuestion = Properties::find($key);
-
-                switch ($propertyInQuestion->type) {
-                    case 'location':
-                        $conditionValueActual = ($propertyInQuestion->getLocation() ? $propertyInQuestion->getLocation()->id : null);
-                        //$conditionValueActual = ($propertyInQuestion->getLocation ? $propertyInQuestion->getLocation->id : null);
-                        // date_sunrise()
-                        // date_sunset()
-                        // $conditionValueActural = 
-                        break;
-
-                    case 'sun':
-                        // date_sunrise()
-                        // date_sunset()
-                        // $conditionValueActural
-                        break;
-
-                    default:
-                        $conditionValueActual = $propertyInQuestion->latestRecord->value;
-                        break;
+                $conditionValueActual = "";
+                if (!call_user_func($propertyInQuestion->type, $conditionValueActual, $propertyInQuestion, $trigger)) {
+                    $conditionValueActual = $propertyInQuestion->latestRecord->value;
                 }
 
-                switch ($trigger->operator) {
-                    case '<':
-                        if ($conditionValueActual < $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    case '>':
-                        if ($conditionValueActual > $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    case '!=':
-                        if ($conditionValueActual != $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                    default:
-                        if ($conditionValueActual == $trigger->value) {
-                            $runTempState = true;
-                        } else {
-                            $runTempState = false;
-                        }
-                        break;
-                }
+                $run = compare($trigger->operator, $conditionValueActual, $trigger->value);
 
-                $run = $runTempState;
                 $restart = true;
             }
         } else {
@@ -111,7 +81,8 @@ class Automations extends Model
         $waitTime = 2000;
 
         $recordsIds = [];
-        if ($this->actions != null && $run) {
+
+        if ($run) {
             //TODO: Add notification on running the notification
             foreach ($this->actions as $propertyId => $propertyCommand) {
                 $record                 = new Records;
@@ -143,6 +114,32 @@ class Automations extends Model
             }
         }
 
+        $this->is_locked = false;
+        $this->Save();
         return true;
+    }
+
+    public function compare($condition, $a, $b)
+    {
+        switch ($condition) {
+            case '<':
+                return $a < $b;
+            case '>':
+                return $a > $b;
+            case '!=':
+                return $a != $b;
+            default:
+                return $a == $b;
+        }
+    }
+
+    private function location(&$value, $model, $trigger)
+    {
+        $value = ($model->getLocation() ? $model->getLocation()->id : null);
+    }
+
+    private function sun(&$value, $model, $trigger)
+    {
+        //
     }
 }
