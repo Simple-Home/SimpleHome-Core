@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Properties;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,6 +48,8 @@ class Automations extends Model
         if ($this->is_locked) {
             return false;
         }
+
+        $this->run_at = Carbon::now();
         $this->is_locked = true;
         $this->Save();
 
@@ -65,12 +68,15 @@ class Automations extends Model
 
                 $propertyInQuestion = Properties::find($key);
                 $conditionValueActual = "";
-                if (!call_user_func($propertyInQuestion->type, $conditionValueActual, $propertyInQuestion, $trigger)) {
+
+                if (method_exists($this, $propertyInQuestion->type)) {
+                    $methodName = $propertyInQuestion->type;
+                    $conditionValueActual =  $this->$methodName($propertyInQuestion, $trigger);
+                } else {
                     $conditionValueActual = $propertyInQuestion->latestRecord->value;
                 }
 
-                $run = compare($trigger->operator, $conditionValueActual, $trigger->value);
-
+                $run = $this->compare($trigger->operator, $conditionValueActual, $trigger->value);
                 $restart = true;
             }
         } else {
@@ -78,9 +84,9 @@ class Automations extends Model
             $restart = true;
         }
         //TODO: highest sleep time from all devices based on those properties
-        $waitTime = 2000;
-
+        $waitTime = 200000;
         $recordsIds = [];
+
 
         if ($run) {
             //TODO: Add notification on running the notification
@@ -110,6 +116,8 @@ class Automations extends Model
             }
 
             if ($timeout <= 0) {
+                $this->is_locked = false;
+                $this->Save();
                 return false;
             }
         }
@@ -133,12 +141,12 @@ class Automations extends Model
         }
     }
 
-    private function location(&$value, $model, $trigger)
+    public function location($model, $trigger)
     {
-        $value = ($model->getLocation() ? $model->getLocation()->id : null);
+        return ($model->getLocation() ? $model->getLocation()->id : null);
     }
 
-    private function sun(&$value, $model, $trigger)
+    public function sun(&$value, $model, $trigger)
     {
         //
     }

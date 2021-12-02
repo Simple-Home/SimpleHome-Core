@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Automations;
+use App\Models\Locations;
 use App\Models\Properties;
 use Carbon\Carbon;
 use DateTime;
@@ -37,9 +38,9 @@ class AutomationsController extends Controller
     {
         if ($request->ajax()) {
             if ($type == "automations") {
-                $automations = Automations::where("conditions", "!=", "")->get(["id", "name", "is_enabled", "run_at"]);
+                $automations = Automations::where("conditions", "!=", "")->get(["id", "name", "is_enabled", "run_at", "is_locked"]);
             } elseif ($type == "scenes") {
-                $automations = Automations::where("conditions", "")->get(["id", "name", "is_enabled", "run_at"]);
+                $automations = Automations::where("conditions", "")->get(["id", "name", "is_enabled", "run_at", "is_locked"]);
             } else {
                 $automations = Automations::all(["id", "name", "is_enabled", "run_at"]);
             }
@@ -153,8 +154,9 @@ class AutomationsController extends Controller
 
             $nextUrl = 'automations.form.actions.creation.ajax';
             $propertyesSelectionIds = $request->input('properties_selection');
+            $places = Locations::all("id", "name");
             $propertyes =  Properties::whereIn("id", $propertyesSelectionIds)->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
-            return View::make("automations.modal.properties_rules")->with("propertyes", $propertyes)->with("nextUrl", $nextUrl)->render();
+            return View::make("automations.modal.properties_rules")->with("propertyes", $propertyes)->with("places", $places)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
     }
@@ -222,6 +224,7 @@ class AutomationsController extends Controller
                             "operator" => $triggerValues["operator"],
                             "name" => $propertyObj->nick_name,
                             "units" => $propertyObj->units,
+                            "type" => $propertyObj->type,
                         ];
                     }
                 }
@@ -246,6 +249,7 @@ class AutomationsController extends Controller
                             "operator" => $triggerValues->operator,
                             "name" => $propertyObj->nick_name,
                             "units" => $propertyObj->units,
+                            "type" => $propertyObj->type,
                         ];
                     }
                 }
@@ -272,8 +276,10 @@ class AutomationsController extends Controller
                 "automation_triggers" => $propertyesTriggers,
                 "automation_id" => $automation_id,
             ];
+
             $nextUrl = 'automations.form.finish';
-            return View::make("automations.modal.recap")->with("automation", $automation)->with("nextUrl", $nextUrl)->render();
+            $places = Locations::all("id", "name");
+            return View::make("automations.modal.recap")->with("automation", $automation)->with("places", $places)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
     }
