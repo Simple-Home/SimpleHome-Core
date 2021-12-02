@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Properties;
+use App\Notifications\AutomationsRanNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -83,13 +84,12 @@ class Automations extends Model
             $run = true;
             $restart = true;
         }
+
         //TODO: highest sleep time from all devices based on those properties
         $waitTime = 200000;
         $recordsIds = [];
 
-
         if ($run) {
-            //TODO: Add notification on running the notification
             foreach ($this->actions as $propertyId => $propertyCommand) {
                 $record                 = new Records;
                 $record->origin         = "automation";
@@ -98,6 +98,10 @@ class Automations extends Model
                 $record->save();
 
                 $recordsIds[] = $record->id;
+            }
+
+            foreach (User::all() as $user) {
+                $user->notify(new AutomationsRanNotification($this));
             }
         }
 
@@ -141,12 +145,12 @@ class Automations extends Model
         }
     }
 
-    public function location($model, $trigger)
+    private function location($model, $trigger)
     {
         return ($model->getLocation() ? $model->getLocation()->id : null);
     }
 
-    public function sun(&$value, $model, $trigger)
+    private function sun(&$value, $model, $trigger)
     {
         //
     }
