@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-between">
-                    <h2 class="text-decoration-none">@if ($automation->is_locked) <i class="fas fa-lock me-1"></i> @endif {{ $automation->name }}</h2>
+                    <h2 class="text-decoration-none text-truncate">@if ($automation->is_locked) <i class="fas fa-lock me-1"></i> @endif {{ $automation->name }}
+                    </h2>
                     <div class="text-right text-nowrap">
                         <div class="d-flex justify-content-start">
                             <div class="h3 m-0"
