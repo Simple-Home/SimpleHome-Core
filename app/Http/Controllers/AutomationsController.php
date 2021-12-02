@@ -80,8 +80,6 @@ class AutomationsController extends Controller
             return redirect()->back()->with("error", "Automation is not enabled!");
         }
 
-        $automation->run_at = Carbon::now();
-        $automation->save();
         $result = $automation->run();
 
         if ($request->ajax()) {
