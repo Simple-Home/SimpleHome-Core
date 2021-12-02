@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Properties;
 use App\Models\PushNotificationsSubscribers;
+
+use App\Models\Sessions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,7 +115,9 @@ class UsersController extends Controller
             'url' => route('system.profile.delete', ['user' => $user])
         ]);
 
-        return view('system.profile.detail', ['user' => $user] + compact('notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm', 'locatorForm'));
+        $sessions = Sessions::where('user_id', $user->id)->orderBy('last_activity', 'DESC')->get();
+
+        return view('system.profile.detail', ['user' => $user] + compact('sessions', 'notificationForm', 'profileInformationForm', 'settingForm', 'changePasswordForm', 'deleteProfileForm', 'realyDeleteProfileForm', 'locatorForm'));
     }
 
     /**

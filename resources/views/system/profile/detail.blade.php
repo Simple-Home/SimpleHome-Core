@@ -73,6 +73,38 @@
             {!! form($changePasswordForm) !!}
         </div>
     </div>
+    @if (env('SESSION_DRIVER') == 'database')
+        <div class="card mb-3">
+            <div class="card-header">{{ __('simplehome.sessions') }}</div>
+            <div class="card-body">
+                @if (!empty($sessions) && count($sessions) > 0)
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="d-none d-md-table-cell">{{ __('simplehome.ip.address') }}</th>
+                                    <th>{{ __('simplehome.user.agent') }}</th>
+                                    <th class="col-auto text-end fit">{{ __('simplehome.last.activity') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sessions as $session)
+                                    <tr>
+                                        <td class="d-none d-md-table-cell">{{ $session->ip_address }}</td>
+                                        <td class="d-none d-md-table-cell">{{ $session->user_agent['name'] }}</td>
+                                        <td class="d-none d-md-table-cell">{{ $session->last_activity->diffForHumans() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-center">{{ __('simplehome.sessions.notFound') }}</p>
+                @endif
+            </div>
+        </div>
+    @endif
     <div class="card mb-3">
         <div class="card-header">{{ __('simplehome.users.delete') }}</div>
         <div class="card-body">

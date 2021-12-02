@@ -15,12 +15,21 @@ class SettingEnvFieldsForm extends Form
     {
         if (count($this->formOptions['variables']) > 0) {
             foreach ($this->formOptions['variables'] as $key => $value) {
-                $args = [
-                    'label' => $key,
-                    'value' => $value,
-                ];
+                if (strtolower($value) == 'true' || strtolower($value) == 'false') {
+                    $args = [
+                        'label' => $key,
+                        'selected' => $value,
+                        'choices' => ['true' => 'True', 'false' => 'False'],
+                    ];
 
-                $this->add($key, Field::TEXT, $args);
+                    $this->add($key, Field::SELECT, $args);
+                } else {
+                    $args = [
+                        'label' => $key,
+                        'value' => $value,
+                    ];
+                    $this->add($key, Field::TEXT, $args);
+                }
             }
 
             $this->add('saveSetting', Field::BUTTON_SUBMIT, [

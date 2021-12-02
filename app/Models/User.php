@@ -51,21 +51,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\Properties', 'id', "locator_id");
     }
 
-    public function getGavatarUrl(){
-        return 'https://secure.gravatar.com/avatar/'.md5($this->email);
+    public function getGavatarUrl()
+    {
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email);
     }
 
-     public function pushNotificationSubscription()
+    public function sessions()
+    {
+        return $this->hasMany('App\Models\Sessions', 'user_id');
+    }
+
+    public function pushNotificationSubscription()
     {
         return $this->hasMany('App\Models\PushNotificationsSubscribers', 'recipient_id');
     }
 
-    public function setNotificationPreferencesAttribute($value){
+    public function setNotificationPreferencesAttribute($value)
+    {
         $this->attributes['notification_preferences'] = json_encode($value);
     }
 
-    public function getNotificationPreferencesAttribute($value){
+    public function getNotificationPreferencesAttribute($value)
+    {
         return json_decode($value);
     }
-    
 }

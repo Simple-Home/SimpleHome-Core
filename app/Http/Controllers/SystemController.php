@@ -6,8 +6,10 @@ use App\Helpers\SettingManager;
 use App\Models\Devices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Nwidart\Modules\Module;
+
 
 class SystemController extends Controller
 {
@@ -22,14 +24,23 @@ class SystemController extends Controller
         $integrations = [];
 
         foreach ($integrationsRaw as $key => $integration) {
-            $providetDevices = count(Devices::where('integration', $integration->getLowerName())->get());
-            $integrations[] = [
+            $integrations[$integration->getLowerName()] = [
                 "name" => $integration->getName(),
                 "slug" => $integration->getLowerName(),
-                "providetDevices" => $providetDevices,
             ];
         }
 
+        $providetDevices = Devices::whereIn('integration', array_column($integrations, 'slug'))
+            ->groupBy('integration')
+            ->select('integration', DB::raw('count(*) as total'))
+            ->get()
+            ->pluck('total', 'integration');
+
+        foreach ($integrations as $integrationSlug => $integrationObj) {
+            $integrations[$integrationSlug]['providetDevices'] = (isset($providetDevices[$integrationSlug]) ? $providetDevices[$integrationSlug] : 0);
+        }
+
+        //$integrations[$integration->getLowerName()]
         return view('system.integrations.list', compact('integrations'));
     }
 
