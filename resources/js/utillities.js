@@ -20,8 +20,32 @@ function isMobile() {
     }
 }
 
+function hashCode(str) {
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'POST', replace = false) {
+    if (localStorage.getItem(hashCode(sourceUrl))) {
+        const SECONDS = 1000 * 5;
+        const anSecondsAgo = Date.now() - SECONDS;
+        if (localStorage.getItem(hashCode(sourceUrl)) < anSecondsAgo) {
+            console.log("[ajaxLoader]-sameOldRequestDeleted")
+            localStorage.removeItem(hashCode(sourceUrl));
+        } else {
+            console.log("[ajaxLoader]-sameRequestAlreadyInProgress")
+            return;
+        }
+    }
     console.log("[ajaxLoader]-loading from:", sourceUrl, "loading to:", target)
+    localStorage.setItem(hashCode(sourceUrl), Date.now());
+
     var initialHtmlContent = target.html();
 
     return $.ajax({
@@ -88,6 +112,9 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
             target.html("Unable to load\n" + msg);
             console.log('[ajaxLoader]-exception:', jqXHR);
             console.log('[ajaxLoader]-loadTime:', new Date().getTime() - this.start_time, 'ms');
+        },
+        complete: function () {
+            localStorage.removeItem(hashCode(sourceUrl));
         },
         timeout: 3000,
     });
