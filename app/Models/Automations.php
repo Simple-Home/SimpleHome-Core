@@ -18,6 +18,7 @@ class Automations extends Model
         'is_locked' => 'boolean',
         'is_runed' => 'boolean',
         'is_enabled' => 'boolean',
+        'is_notified' => 'boolean',
     ];
 
     use HasFactory;
