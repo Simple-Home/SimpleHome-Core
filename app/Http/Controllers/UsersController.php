@@ -76,9 +76,9 @@ class UsersController extends Controller
 
         $properties = Properties::all();
         $propertiesSelect = [null => "Nothing"];
-        if(!empty ($properties)) {
+        if (!empty($properties)) {
             foreach ($properties as $property) {
-                $propertiesSelect[$property['id']] = $property['nick_name'] . " (" . $property['type'] . ")" ;
+                $propertiesSelect[$property['id']] = $property['nick_name'];
             }
         }
 
@@ -182,16 +182,17 @@ class UsersController extends Controller
                 $notifications[] = 'mail';
             }
         }
-         if (!empty($request->input('database'))) {
+        if (!empty($request->input('database'))) {
             if ($notifications != "") {
                 $notifications[] = 'database';
             }
         }
-         if (!empty($request->input('firebase'))) {
+        if (!empty($request->input('firebase'))) {
             if ($notifications != "") {
                 $notifications[] = 'firebase';
             }
         }
+
         $user->notification_preferences = $notifications;
         $user->save();
 
@@ -318,21 +319,22 @@ class UsersController extends Controller
     public function userLocationsAjax(Request $request)
     {
         $locationSlug = "home";
-        $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($user) use ($locationSlug) {          
-                if ($user->locator->getLocation() !== false and $user->locator->getLocation()->name == $locationSlug) {
-                    return $user;
-                }
-            });
+        $usersLocators = User::where('locator_id', "!=", "")->get()->filter(function ($item) use ($locationSlug) {
+            if ($item->locator->getLocation() !== false and $item->locator->getLocation()->name == $locationSlug) {
+                return $item;
+            }
+        });
 
         return View::make("components.locators")->with("usersLocators", $usersLocators)->render();
     }
 
-    public function subscribe(Request $request){
+    public function subscribe(Request $request)
+    {
         $user = auth()->user();
         $token = $request->token;
-        
-        $subscription = PushNotificationsSubscribers::where("recipient_id",$user->id)->where('token', $token)->first();
-        if ($subscription != null){
+
+        $subscription = PushNotificationsSubscribers::where("recipient_id", $user->id)->where('token', $token)->first();
+        if ($subscription != null) {
             return true;
         }
 

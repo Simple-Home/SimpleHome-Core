@@ -237,7 +237,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
                             </h5>
-                            <div class="btn-group">
+                            {{-- <div class="btn-group">
                                 <a data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </a>
@@ -255,7 +255,11 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> --}}
+                            <a id="notification-control-load" class="btn btn-primary ms-1"
+                                data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                <i class="fas fa-tasks"></i>
+                            </a>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
