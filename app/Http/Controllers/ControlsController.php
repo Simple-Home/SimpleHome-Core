@@ -114,49 +114,48 @@ class ControlsController extends Controller
                 ],
             ];
 
-            $rawOptions = [
-                'plugins' => [
-                    'maintainAspectRatio' => false,
-                    'spanGaps' => false,
-                    'filer' => [
-                        'propagate' => false,
-                    ],
-                    'legend' => [
-                        'display' => true,
-                        'position' => 'bottom',
-
-                    ],
-                    'scales' => [
-                        'y' => [
-                            'ticks' => [
-                                'min' => 'Math.min.apply(this, ' . json_encode($mins) . ') - 5',
-                                'max' => 'Math.min.apply(this, ' . json_encode($maxs) . ') 0 5',
-                                'display' => false,
-                            ],
-                            'grid' => [
-                                'drawBorder' => false,
-                                'display' => false,
-                            ],
-                        ],
-                        'x' => [
-                            'ticks' => [
-                                'display' => false,
-                            ],
-                            'grid' => [
-                                'drawBorder' => false,
-                                'display' => false,
-                            ],
-                        ]
-                    ],
-                ],
-            ];
+            $rawOptions = "{
+                plugins:{
+                    maintainAspectRatio: false,
+                    spanGaps: false,
+                    filler: {
+                        propagate: false
+                    },
+                    legend:{
+                        display: true,
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
+                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
+                            display: false,
+                        },
+                        grid:{
+                            drawBorder: false,
+                            display:false,
+                        }
+                    },
+                    x: {
+                        ticks: { 
+                            display: false,
+                        },
+                        grid:{
+                            drawBorder: false,
+                            display:false
+                        }
+                    }
+                },
+            }";
 
             $propertyDetailChart = app()->chartjs
                 ->name('propertyDetailChart')
                 ->type('line')
                 ->labels($labels)
                 ->datasets($datasets)
-                ->optionsRaw(json_encode($rawOptions));
+                ->optionsRaw($rawOptions);
 
             $tableData = $property->agregated_values;
         } else {
