@@ -2,19 +2,22 @@
 
 namespace App\Helpers;
 
-use Exception;
 use App\Models\Settings;
+use Exception;
+use Illuminate\Support\Facades\Cache;
 
 
 class SettingManager
 {
     public static function get($index, $group = null)
     {
-        $option =  Settings::where('name', '=', $index);
-        if ($group != null) {
-            $option = $option->where('group', '=', $group);
-        }
-        $option = $option->get();
+        $option = Cache::remember('settings', 15, function () use ($index, $group) {
+            $option =  Settings::where('name', '=', $index);
+            if ($group != null) {
+                $option = $option->where('group', '=', $group);
+            }
+            return $option->get();
+        });
 
         if (count($option) >= 1) {
             return $option->first();
@@ -38,11 +41,10 @@ class SettingManager
             if ($group != null) {
                 $option->group = $group;
             }
-            $option->save();
         } else {
             SettingManager::register($index, $value, "string", "system");
         }
-
+        Cache::forget('settings');
         return true;
     }
 
@@ -56,12 +58,14 @@ class SettingManager
                 'value' => $value,
             ]
         );
+        Cache::forget('settings');
         return true;
     }
 
     public static function getGroup($group)
     {
         $found_indexes = Settings::where('group', '=', $group)->get();
+        Cache::forget('settings');
         return $found_indexes;
     }
 }

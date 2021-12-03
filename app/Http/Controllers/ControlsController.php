@@ -43,11 +43,12 @@ class ControlsController extends Controller
         ], ['edit' => false]);
 
         $rooms = Cache::remember('controls.rooms', 1, function () {
-            return Rooms::with(['properties', 'properties.device' => function ($query) {
-                $query->select('id');
-                return $query->where('approved', 1);
-            }])->get()->filter(function ($item) {
-                if ($item->properties->where('is_hidden', false)->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+            return Rooms::with(['properties' => function ($query) {
+                return $query->where('is_hidden', false)->where('is_disabled', false)->select();
+            }, 'properties.device' => function ($query) {
+                return $query->where('approved', 1)->select('id');
+            }])->get(["id", "name"])->filter(function ($item) {
+                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
                     return $item;
                 }
             });
@@ -273,7 +274,7 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->whereHas('device', function ($query) {
+            $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_hidden', false)->where('is_disabled', false)->whereHas('device', function ($query) {
                 return $query->where('approved', 1);
             })->with(['device' => function ($query) {
                 return $query->where('approved', 1)->get(["integration"]);
