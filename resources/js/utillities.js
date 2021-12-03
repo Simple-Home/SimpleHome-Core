@@ -21,6 +21,10 @@ function isMobile() {
 }
 
 function hashCode(str) {
+    if (str == undefined) {
+        return false;
+    }
+
     var hash = 0;
     if (str.length == 0) return hash;
     for (i = 0; i < str.length; i++) {

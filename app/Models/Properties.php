@@ -133,23 +133,27 @@ class Properties extends Model
     public function values()
     {
         $dateFrom = Carbon::now()->subDays(1);
+        $periodFormat = "%Y-%m-%d %hh";
 
         switch ($this->period) {
             case GraphPeriod::WEEK:
                 $dateFrom = Carbon::now()->subWeek(1);
+                $periodFormat = "%Y-%m-%d";
                 break;
             case GraphPeriod::MONTH:
                 $dateFrom = Carbon::now()->subMonth(1);
+                $periodFormat = "%Y-%m-%d";
                 break;
             case GraphPeriod::YEAR:
                 $dateFrom = Carbon::now()->subYear(1);
+                $periodFormat = "%Y-%m";
                 break;
         }
 
-        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>', $dateFrom)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Records::class, 'property_id')->whereDate('created_at', '>=', $dateFrom)->orderBy('created_at', 'ASC');
     }
 
-    public function getAgregatedValuesAttribute($period = GraphPeriod::DAY)
+    public function getAgregatedValuesAttribute()
     {
         $dateFrom = Carbon::now()->subDays(1);
         $periodFormat = "%Y-%m-%d %hh";

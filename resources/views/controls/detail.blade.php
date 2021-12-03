@@ -53,8 +53,6 @@
             </div>
         </div>
         <div class="row justify-content-between">
-
-
             @if (!empty($property->icon) && $property->icon != 'empty')
                 <div style="width: 50px; height: 50px;" class="col p-md-0 col-auto d-flex ">
                     <span class="mx-auto my-auto h1">
@@ -94,69 +92,71 @@
                 @endif
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                @if ($property->type != 'location')
-                    @if ($propertyDetailChart)
-                        <div class="h-30">
-                            {!! $propertyDetailChart->render() !!}
-                            <script>
-                            </script>
-                        </div>
-                    @endif
-                @else
-                    @php
-                        $lat = explode(',', $property->latestRecord->value)[0];
-                        $long = explode(',', $property->latestRecord->value)[1];
-                    @endphp
+        @if ($property->type != 'event' || $property->graphSupport == true)
+            <div class="row">
+                <div class="col">
+                    @if ($property->type != 'location')
+                        @if ($propertyDetailChart)
+                            <div class="h-30">
+                                {!! $propertyDetailChart->render() !!}
+                                <script>
+                                </script>
+                            </div>
+                        @endif
+                    @else
+                        @php
+                            $lat = explode(',', $property->latestRecord->value)[0];
+                            $long = explode(',', $property->latestRecord->value)[1];
+                        @endphp
 
-                    <link rel="stylesheet"
-                        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css"
-                        type="text/css">
-                    <style>
-                        .map {
-                            height: 400px;
-                            width: 100%;
-                        }
+                        <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css"
+                            type="text/css">
+                        <style>
+                            .map {
+                                height: 400px;
+                                width: 100%;
+                            }
 
-                    </style>
-                    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
-                    <div id="map" class="map"></div>
-                    <script type="text/javascript">
-                        const iconFeature = new ol.Feature({
-                            geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ $long }}, {{ $lat }}])),
-                            name: 'Somewhere near Nottingham',
-                        });
+                        </style>
+                        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
+                        <div id="map" class="map"></div>
+                        <script type="text/javascript">
+                            const iconFeature = new ol.Feature({
+                                geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ $long }}, {{ $lat }}])),
+                                name: 'Somewhere near Nottingham',
+                            });
 
-                        const map = new ol.Map({
-                            target: 'map',
-                            layers: [
-                                new ol.layer.Tile({
-                                    source: new ol.source.OSM(),
-                                }),
-                                new ol.layer.Vector({
-                                    source: new ol.source.Vector({
-                                        features: [iconFeature]
+                            const map = new ol.Map({
+                                target: 'map',
+                                layers: [
+                                    new ol.layer.Tile({
+                                        source: new ol.source.OSM(),
                                     }),
-                                    style: new ol.style.Style({
-                                        image: new ol.style.Icon({
-                                            anchor: [0.5, 46],
-                                            anchorXUnits: 'fraction',
-                                            anchorYUnits: 'pixels',
-                                            src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+                                    new ol.layer.Vector({
+                                        source: new ol.source.Vector({
+                                            features: [iconFeature]
+                                        }),
+                                        style: new ol.style.Style({
+                                            image: new ol.style.Icon({
+                                                anchor: [0.5, 46],
+                                                anchorXUnits: 'fraction',
+                                                anchorYUnits: 'pixels',
+                                                src: 'https://openlayers.org/en/latest/examples/data/icon.png'
+                                            })
                                         })
                                     })
+                                ],
+                                view: new ol.View({
+                                    center: ol.proj.fromLonLat([{{ $long }}, {{ $lat }}]),
+                                    zoom: 18
                                 })
-                            ],
-                            view: new ol.View({
-                                center: ol.proj.fromLonLat([{{ $long }}, {{ $lat }}]),
-                                zoom: 18
-                            })
-                        });
-                    </script>
-                @endif
+                            });
+                        </script>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endif
         <div class="row">
             <div class="col">
                 @if (!empty($table) && count($table) > 0)
@@ -165,7 +165,11 @@
                             <tr>
                                 <th scope="col">Created</th>
                                 <th scope="col">Origin</th>
-                                <th scope="col">(Min/Avg/Max)</th>
+                                @if ($property->type != 'event' || $property->graphSupport == true)
+                                    <th scope="col">(Min/Avg/Max)</th>
+                                @else
+                                    <th scope="col">Value</th>
+                                @endif
                                 <th scope="col">Done</th>
                             </tr>
                         </thead>
@@ -174,8 +178,12 @@
                                 <tr>
                                     <td>{{ $value->created_at->diffForHumans() }}</td>
                                     <td>{{ $value->origin }}</td>
-                                    <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
-                                        {{ $property->units }}/{{ $value->max }} {{ $property->units }})</td>
+                                    @if ($property->type != 'event' || $property->graphSupport == true)
+                                        <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
+                                            {{ $property->units }}/{{ $value->max }} {{ $property->units }})</td>
+                                    @else
+                                        <td>{{ $value->value }} {{ $property->units }}</td>
+                                    @endif
                                     <td>
                                         @if ($value->done)
                                             <i class="fas fa-check"></i>

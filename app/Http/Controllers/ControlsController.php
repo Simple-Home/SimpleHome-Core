@@ -47,109 +47,123 @@ class ControlsController extends Controller
                 $query->select('id');
                 return $query->where('approved', 1);
             }])->get()->filter(function ($item) {
-                if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                if ($item->properties->where('is_hidden', false)->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
                     return $item;
                 }
             });
         });
 
-        return view('controls.list', compact('rooms', 'roomForm'));
+        return view('controls.list', compact(
+            'rooms',
+            'roomForm'
+        ));
     }
 
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
+        $propertyDetailChart = null;
+        $tableData = [];
 
         $property = Properties::find($property_id);
-
-        $labels = [];
-
-        $values = [];
-        $mins = [];
-        $maxs = [];
-
         $property->period = $period;
-        foreach ($property->agregated_values  as $key => $item) {
-            $values[] = $item->value;
-            $mins[] = $item->max;
-            $maxs[] = $item->min;
 
-            $labels[] = $item->created_at->diffForHumans(null, true);
+        if ($property->type != 'event' || $property->graphSupport == true) {
+
+            $labels = [];
+            $values = [];
+            $mins = [];
+            $maxs = [];
+
+            foreach ($property->agregated_values  as $key => $item) {
+                $values[] = $item->value;
+                $mins[] = $item->max;
+                $maxs[] = $item->min;
+
+                $labels[] = $item->created_at->diffForHumans(null, true);
+            }
+
+            $datasets = [
+                [
+                    "label" => "value",
+                    "backgroundColor" => "rgba(220,220,220,0.5)",
+                    "borderColor" => "#1cca50",
+                    "tension" => 0.5,
+                    //"borderWidth" => 1.2,
+                    "pointRadius" => 0,
+                    "data" => $values,
+                ],
+                [
+                    "label" => "min",
+                    "backgroundColor" => "rgba(220,220,220,0.5)",
+                    "borderColor" => "#1cca50",
+                    "tension" => 0.5,
+                    //"borderWidth" => 1.5,
+                    "borderDash" => [5, 5],
+                    "pointRadius" => 0,
+                    "data" => $mins,
+                ],
+                [
+                    "label" => "max",
+                    "backgroundColor" => "rgba(220,220,220,0.5)",
+                    "borderColor" => "#1cca50",
+                    "tension" => 0.5,
+                    //"borderWidth" => 1.5,
+                    "borderDash" => [5, 5],
+                    "pointRadius" => 0.5,
+                    "data" => $maxs,
+                ],
+            ];
+
+            $rawOptions = [
+                'plugins' => [
+                    'maintainAspectRatio' => false,
+                    'spanGaps' => false,
+                    'filer' => [
+                        'propagate' => false,
+                    ],
+                    'legend' => [
+                        'display' => true,
+                        'position' => 'bottom',
+
+                    ],
+                    'scales' => [
+                        'y' => [
+                            'ticks' => [
+                                'min' => 'Math.min.apply(this, ' . json_encode($mins) . ') - 5',
+                                'max' => 'Math.min.apply(this, ' . json_encode($maxs) . ') 0 5',
+                                'display' => false,
+                            ],
+                            'grid' => [
+                                'drawBorder' => false,
+                                'display' => false,
+                            ],
+                        ],
+                        'x' => [
+                            'ticks' => [
+                                'display' => false,
+                            ],
+                            'grid' => [
+                                'drawBorder' => false,
+                                'display' => false,
+                            ],
+                        ]
+                    ],
+                ],
+            ];
+
+            $propertyDetailChart = app()->chartjs
+                ->name('propertyDetailChart')
+                ->type('line')
+                ->labels($labels)
+                ->datasets($datasets)
+                ->optionsRaw(json_encode($rawOptions));
+
+            $tableData = $property->agregated_values;
+        } else {
+            $tableData = $property->values;
         }
 
-        $datasets = [
-            [
-                "label" => "value",
-                "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "#1cca50",
-                "tension" => 0.5,
-                //"borderWidth" => 1.2,
-                "pointRadius" => 0,
-                "data" => $values,
-            ],
-            [
-                "label" => "min",
-                "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "#1cca50",
-                "tension" => 0.5,
-                //"borderWidth" => 1.5,
-                "borderDash" => [5, 5],
-                "pointRadius" => 0,
-                "data" => $mins,
-            ],
-            [
-                "label" => "max",
-                "backgroundColor" => "rgba(220,220,220,0.5)",
-                "borderColor" => "#1cca50",
-                "tension" => 0.5,
-                //"borderWidth" => 1.5,
-                "borderDash" => [5, 5],
-                "pointRadius" => 0.5,
-                "data" => $maxs,
-            ],
-        ];
-
-        $propertyDetailChart = app()->chartjs
-            ->name('propertyDetailChart')
-            ->type('line')
-            ->labels($labels)
-            ->datasets($datasets)
-            ->optionsRaw("{
-            plugins:{
-                maintainAspectRatio: false,
-                spanGaps: false,
-                filler: {
-                    propagate: false
-                },
-                legend:{
-                    display: true,
-                    position: 'bottom'
-                }
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
-                        max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
-                        display: false,
-                    },
-                    grid:{
-                        drawBorder: false,
-                        display:false,
-                    }
-                },
-                x: {
-                    ticks: { 
-                        display: false,
-                    },
-                    grid:{
-                        drawBorder: false,
-                        display:false
-                    }
-                }
-            },
-        }");
-
-        return view('controls.detail', ["table" => $property->agregated_values, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
+        return view('controls.detail', ["table" => $tableData, "property" => $property, "propertyDetailChart" => $propertyDetailChart]);
     }
 
     public function edit($property_id, FormBuilder $formBuilder)
@@ -279,7 +293,7 @@ class ControlsController extends Controller
                     $query->select('id');
                     return $query->where('approved', 1);
                 }])->get()->filter(function ($item) {
-                    if ($item->properties->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
+                    if ($item->properties->where('is_hidden', false)->count() > 0 || !SettingManager::get("hideEmptyRooms", "system")->value) {
                         return $item;
                     }
                 });
@@ -288,7 +302,6 @@ class ControlsController extends Controller
         }
         return redirect()->back();
     }
-
 
     public function chartAjax($property_id = 0, Request $request)
     {
