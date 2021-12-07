@@ -233,7 +233,7 @@ class EndpointController extends Controller
         $device = Auth::user();
         $device->setHeartbeat();
 
-        $localBinary = storage_path('app/firmware/' . md5($device->token) . '.bin'); // . str_replace(':', '', $macAddress) . ".bin";
+        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . '.bin');
 
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
