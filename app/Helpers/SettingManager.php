@@ -11,14 +11,14 @@ class SettingManager
 {
     public static function get($index, $group = null)
     {
-        $option = Cache::remember('settings', 15, function () use ($index, $group) {
+        $option = Cache::remember('settings-' . md5($index . $group), 15, function () use ($index, $group) {
             $option =  Settings::where('name', '=', $index);
             if ($group != null) {
                 $option = $option->where('group', '=', $group);
             }
             return $option->get();
         });
-
+        
         if (count($option) >= 1) {
             return $option->first();
         } else {
@@ -26,7 +26,7 @@ class SettingManager
             return Settings::where('group', '=', $group)->where('name', '=', $index)->first();
         }
     }
-
+    
     public static function set($index, $value, $group = null)
     {
         $option =  Settings::where('name', '=', $index);
@@ -34,7 +34,7 @@ class SettingManager
             $option = $option->where('group', '=', $group);
         }
         $option = $option->first();
-
+        
         // Make sure you've got the Page model
         if ($option) {
             $option->value = $value;
@@ -44,10 +44,10 @@ class SettingManager
         } else {
             SettingManager::register($index, $value, "string", "system");
         }
-        Cache::forget('settings');
+        Cache::forget('settings-' . md5($index . $group));
         return true;
     }
-
+    
     public static function register($index, $value, $type = "string", $group = "system")
     {
         $option = Settings::firstOrCreate(
@@ -56,16 +56,17 @@ class SettingManager
                 'name' => $index,
                 'type' => $type,
                 'value' => $value,
-            ]
-        );
-        Cache::forget('settings');
-        return true;
+                ]
+            );
+            Cache::forget('settings');
+            return true;
+        }
+        
+        public static function getGroup($group)
+        {
+            $found_indexes = Settings::where('group', '=', $group)->get();
+            Cache::forget('settings');
+            return $found_indexes;
+        }
     }
-
-    public static function getGroup($group)
-    {
-        $found_indexes = Settings::where('group', '=', $group)->get();
-        Cache::forget('settings');
-        return $found_indexes;
-    }
-}
+    
