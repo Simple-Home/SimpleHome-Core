@@ -86,7 +86,7 @@
             document.body.removeAttribute("data-theme");
         }
     </script>
-    <div class="container nav-bar-padding h-100 d-flex flex-column">
+    <div class="container nav-bar-padding h-100 d-flex flex-column min-vh-100">
         <div class="row justify-content-between header">
             @if (!session('dashboard'))
                 <div class="col-auto p-md-0 my-auto">
