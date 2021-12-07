@@ -87,10 +87,10 @@ class EndpointsController extends Controller
         $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
 
         //TODO: ADD MD Hash Of File
-        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension))) {
-            unlink(storage_path('app/firmware/' . $device->id . "-" . $device->token . "." . $fileExtension));
+        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . "." . $fileExtension))) {
+            unlink(storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . "." . $fileExtension));
         }
-        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . $device->token . "." . $fileExtension);
+        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . md5($device->token) . "." . $fileExtension);
 
         return redirect()->route('system.devices.list');
     }
