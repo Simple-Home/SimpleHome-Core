@@ -230,10 +230,10 @@ class EndpointController extends Controller
 
     public function depricatedOta(Request $request)
     {
-        $data = $request->json()->all();
+        $device = Auth::user();
+        $device->setHeartbeat();
 
-        $macAddress = $request->header('HTTP_X_ESP8266_STA_MAC');
-        $localBinary = storage_path('app/firmware/12-asrassrar158.png'); // . str_replace(':', '', $macAddress) . ".bin";
+        $localBinary = storage_path('app/firmware/' . md5($device->token) . '.bin'); // . str_replace(':', '', $macAddress) . ".bin";
 
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
@@ -254,8 +254,27 @@ class EndpointController extends Controller
 
     public function ota(Request $request)
     {
-        $data["error"] = "Not yet supported";
-        return response()->json($data, 200);
+        $data = $request->json()->all();
+
+        $macAddress = $request->header('HTTP_X_ESP8266_STA_MAC');
+
+        $localBinary = storage_path('app/firmware/12-asrassrar158.png'); // . str_replace(':', '', $macAddress) . ".bin";
+
+        if (file_exists($localBinary)) {
+            if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
+                $headers = [
+                    'Content-Type' => 'application/octet-stream',
+                    'Content-Disposition' => 'attachment; filename=' . basename($localBinary),
+                    'Content-Length' => filesize($localBinary),
+                    'x-MD5' => md5_file($localBinary),
+                ];
+                return response()->download($localBinary, null, $headers);
+            } else {
+                return response(null, 304);
+            }
+        } else {
+            return response(null, 404);
+        }
     }
 
     private function createDevice($data)
