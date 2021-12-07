@@ -3,7 +3,7 @@
         <div class="btn btn-primary">
             <form method="POST" action="{{ route('system.devices.firmware', ['FormBuilder' => $device->firmware]) }}"
                 accept-charset="UTF-8" class="d-flex justify-content-between ml-auto" enctype="multipart/form-data">
-                <input name="_token" type="hidden" value="jOEGhgYzhBdKRkMUNUneHhOVVUj6jTuiMu6jAnjQ">
+                <input name="_token" type="hidden" value="{{ csrf_token() }}">
                 <input required="required" name="id" type="hidden" value="{{ $device->id }}">
                 <label for="firmware" aria-hidden="true">
                     <i class="fas fa-upload"></i>
