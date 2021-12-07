@@ -86,11 +86,14 @@ class EndpointsController extends Controller
         $originalFileName = $fileUploaded->getClientOriginalName();
         $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
 
-        //TODO: ADD MD Hash Of File
-        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . "." . $fileExtension))) {
-            unlink(storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . "." . $fileExtension));
+        if (!isset($device->data->settings->network->mac)) {
+            return redirect()->back()->with('danger', 'Mac Address Required for OTA Updates');
         }
-        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . md5($device->token) . "." . $fileExtension);
+
+        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension))) {
+            unlink(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension));
+        }
+        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension);
 
         return redirect()->route('system.devices.list');
     }

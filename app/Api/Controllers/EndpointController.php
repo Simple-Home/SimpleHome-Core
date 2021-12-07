@@ -157,6 +157,11 @@ class EndpointController extends Controller
             );
         }
 
+        if (isset($data['settings'])) {
+            $device->data = $data['settings'];
+            $device->save();
+        }
+
         if (isset($data['values'])) {
             foreach ($data['values'] as $key => $propertyItem) {
                 $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
@@ -230,9 +235,32 @@ class EndpointController extends Controller
 
     public function depricatedOta(Request $request)
     {
+        $data = $request->json()->all();
+        $device = Devices::query()->where('token', '=', $data['token'])->first();
 
+        if (!$device) {
+            $this->createDevice($data);
+            return response()->json(
+                [
+                    'setup' => true
+                ],
+                JsonResponse::HTTP_OK
+            );
+        }
 
-        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . '.bin');
+        $device->setHeartbeat();
+        if (!$device->approved) {
+            return response()->json(
+                [
+                    'approved' => false
+                ],
+                JsonResponse::HTTP_OK,
+                [],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            );
+        }
+
+        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . '.bin');
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
                 $headers = [

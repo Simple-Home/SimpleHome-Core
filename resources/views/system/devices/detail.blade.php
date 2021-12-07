@@ -32,7 +32,11 @@
                 {{ __('First Seen') }}: {{ $device->createdat }}</br>
             @endif
             {{ __('Last Seen') }}: {{ $device->heartbeat }}</br>
-            {{ __('Ip Address') }}:</br>
+            {{ __('Ip Address') }}: {{ $device->data->network->ip }}</br>
+            {{ __('Mac Address') }}: {{ $device->data->network->mac }}</br>
+            {{ __('Firmware') }}: {{ $device->data->firmware_hash }}</br>
+
+
             {{ __('Gateway') }}:</br>
             {{ __('subnet') }}:</br>
             @if (!empty(round($device->signal_strength)))
