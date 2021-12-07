@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Devices;
-use App\Notifications\DeviceRebootNotification;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 
@@ -38,30 +36,22 @@ Route::namespace('properties')->prefix('properties')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->any('/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('properties_set');
 });
 
-Route::namespace('automations')->prefix('automations')->group(function () {
-    Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\AutomationsController::class, 'list'])->name('automations_list');
-});
-
+//User's
 Route::namespace('users')->prefix('users')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('', [App\Http\Controllers\UsersController::class, 'userLocationsAjax'])->name('users.locators.ajax.list');
 });
 
-//Rewrite
-
-//Automations
+//Automation's
 Route::namespace('automations')->prefix('automations')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/', [App\Http\Controllers\AutomationsController::class, 'index'])->name('automations.index');
-
-
     Route::middleware(['auth', 'verified', 'language'])->get('/{automation_id}/remove', [App\Http\Controllers\AutomationsController::class, 'remove'])->name('automations.remove');
     Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/toggle', [App\Http\Controllers\AutomationsController::class, 'toggleAjax'])->name('automations.toggle');
     Route::middleware(['auth', 'verified', 'language'])->post('/{automation_id}/run', [App\Http\Controllers\AutomationsController::class, 'runAjax'])->name('automations.run');
-
     Route::middleware(['auth', 'verified', 'language'])->post('/list/{type}/ajax', [App\Http\Controllers\AutomationsController::class, 'listAjax'])->name('automations.ajax.list');
 
     //rewrite
-    Route::middleware(['auth', 'verified', 'language'])->post('/form/{automation_id}/edit', [App\Http\Controllers\AutomationsController::class, 'recapAjax'])->name('automations.edit');
     Route::middleware(['auth', 'verified', 'language'])->get('/form/properties/load/ajax', [App\Http\Controllers\AutomationsController::class, 'loadAjax'])->name('automations.form.load');
+    Route::middleware(['auth', 'verified', 'language'])->post('/form/{automation_id}/edit', [App\Http\Controllers\AutomationsController::class, 'recapAjax'])->name('automations.edit');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/type/save/ajax', [App\Http\Controllers\AutomationsController::class, 'saveTypeAjax'])->name('automations.form.type.save.ajax');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/triggers/set/ajax', [App\Http\Controllers\AutomationsController::class, 'setTriggersAjax'])->name('automations.form.triggers.set.ajax');
     Route::middleware(['auth', 'verified', 'language'])->post('/form/properties/actions/select/ajax', [App\Http\Controllers\AutomationsController::class, 'selectActionsAjax'])->name('automations.form.actions.creation.ajax');
@@ -108,6 +98,7 @@ Route::namespace('system')->prefix('system')->group(function () {
         // }
         return response()->json(['token' => csrf_token()]);
     })->name('system.refresh.csrf');
+
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping', [App\Http\Controllers\HousekeepingController::class, 'index'])->name('system.housekeepings');
     Route::middleware(['auth', 'verified', 'language'])->post('/housekeeping/save', [App\Http\Controllers\HousekeepingController::class, 'saveForm'])->name('system.housekeepings.save');
     Route::middleware(['auth', 'verified', 'language'])->get('/housekeeping/records/run', [App\Http\Controllers\HousekeepingController::class, 'cleanRecords'])->name('system.housekeepings.records.run');
@@ -148,35 +139,14 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->any('/profile/delete/{user}', [App\Http\Controllers\UsersController::class, 'delete'])->name('system.profile.delete');
     Route::middleware(['auth', 'verified', 'language'])->post('/profile/subscribe', [App\Http\Controllers\UsersController::class, 'subscribe'])->name('system.profile.notifications.subscribe');
 
-
-
-    // Route::middleware(['auth', 'verified', 'language'])->get('/profile/send', function() {
-
-    //     $user = auth()->user();
-    //     $response = $user->notifyNow(new DeviceRebootNotification(Devices::find(513)));
-    //     return response()->json(["status"=>"send","response" => $response]);
-
-    // })->name('notifications.send');
-
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations', [App\Http\Controllers\SystemController::class, 'integrationsList'])->name('system.integrations.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/integrations/{integration_slug}/detail', [App\Http\Controllers\SystemController::class, 'detail'])->name('system.integrations.detail');
-
     Route::middleware(['auth', 'verified', 'language'])->get('/settings', [App\Http\Controllers\SettingsController::class, 'system'])->name('system.settings.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/edit', [App\Http\Controllers\SettingsController::class, 'saveSettings'])->name('system.settings.update');
-
     Route::middleware(['auth', 'verified', 'language'])->get('/backup', [App\Http\Controllers\BackupController::class, 'backup'])->name('system.backups');
-
-
     Route::middleware(['auth', 'verified', 'language'])->any('/logs', [App\Http\Controllers\LogsController::class, 'list'])->name('system.logs');
-
     Route::middleware(['auth', 'verified', 'language'])->any('/env', [App\Http\Controllers\EnvController::class, 'index'])->name('system.env');
     Route::middleware(['auth', 'verified', 'language'])->post('/env/store', [App\Http\Controllers\EnvController::class, 'store'])->name('system.env.store');
-
-
-
-
-
-
 
     //DEVILOPMENTS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->get('/developments', [App\Http\Controllers\DevelopmentsController::class, 'index'])->name('system.developments.index');
@@ -184,18 +154,17 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/{token_id}/revoke', [App\Http\Controllers\DevelopmentsController::class, 'revokeToken'])->name('system.developments.token.revoke');
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/client/{client_id}/revoke', [App\Http\Controllers\DevelopmentsController::class, 'removeClient'])->name('system.developments.clients.remove');
 
-
     //DEVILOPMENTS: Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/list/ajax', [App\Http\Controllers\DevelopmentsController::class, 'listAjax'])->name('system.developments.ajax.list');
     Route::middleware(['auth', 'verified', 'language'])->post('/developments/token/personal/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newPersonalAjax'])->name('system.developments.personnal.ajax.new');
     Route::middleware(['auth', 'verified', 'language'])->get('/developments/token/new/ajax', [App\Http\Controllers\DevelopmentsController::class, 'newAjax'])->name('system.developments.ajax.new');
-
 
     //LOCATIONS: Main Location route
     Route::middleware(['auth', 'verified', 'language'])->any('/locations', [App\Http\Controllers\LocationsController::class, 'index'])->name('system.locations.index');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/{location_id}/remove', [App\Http\Controllers\LocationsController::class, 'remove'])->name('system.locations.remove');
     Route::middleware(['auth', 'verified', 'language'])->post('/locations/save', [App\Http\Controllers\LocationsController::class, 'save'])->name('system.locations.new');
     Route::middleware(['auth', 'verified', 'language'])->post('/locations/{location_id}/save', [App\Http\Controllers\LocationsController::class, 'save'])->name('system.locations.save');
+
     //LOCATIONS: Sub Routes for Ajax
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/list/ajax', [App\Http\Controllers\LocationsController::class, 'listAjax'])->name('system.locations.ajax.list');
     Route::middleware(['auth', 'verified', 'language'])->get('/locations/search/ajax/{therm?}', [App\Http\Controllers\LocationsController::class, 'searchAjax'])->name('system.locations.ajax.search');
@@ -206,9 +175,7 @@ Route::namespace('system')->prefix('system')->group(function () {
     Route::middleware(['auth', 'verified', 'language'])->get('/pwa', [App\Http\Controllers\SettingsController::class, 'pwa'])->name('system.pwa');
 });
 
-//Route::middleware(['auth', 'verified', 'language'])->get('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
-Route::middleware(['auth', 'verified', 'language'])->post('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');;
-
+Route::middleware(['auth', 'verified', 'language'])->post('others/{properti_id}/set/{value}', [App\Http\Controllers\PropertiesController::class, 'set'])->name('others.set');
 
 //PWA Routes
 Route::get('/offline', function () {
