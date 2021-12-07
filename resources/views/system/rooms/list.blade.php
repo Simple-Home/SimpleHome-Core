@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('components.search')
+    @include('system.components.search')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">{{ __('simplehome.oauth.clients') }}
             <!-- Button trigger modal -->
@@ -16,8 +16,6 @@
             </button>
         </div>
         <div class="card-body">
-
-
             @if (!empty($rooms) && count($rooms) > 0)
                 <div class="table-responsive">
                     <table class="table mb-0">

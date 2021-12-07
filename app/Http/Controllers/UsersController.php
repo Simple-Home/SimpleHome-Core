@@ -306,9 +306,14 @@ class UsersController extends Controller
         return redirect()->route('system.users.list');
     }
 
-    public function search(Request $request)
+    public function search(Request $request, FormBuilder $formBuilder)
     {
         $search = $request->input('search');
+
+        $userForm = $formBuilder->create(\App\Forms\UserForm::class, [
+            'method' => 'POST',
+            'url' => route('system.users.storage')
+        ]);
 
         $users = User::query()
             ->where('id', 'LIKE', "%{$search}%")
@@ -316,7 +321,7 @@ class UsersController extends Controller
             ->orWhere('email', 'LIKE', "%{$search}%")
             ->get();
 
-        return view('system.users.list', ["users" => $users]);
+        return view('system.users.list', ["users" => $users] + compact('userForm'));
     }
 
     //Ajax Calls

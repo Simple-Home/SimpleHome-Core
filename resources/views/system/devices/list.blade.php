@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('components.search')
+    @include('system.components.search')
     @if (!empty($devices) && count($devices) > 0)
         <div class="row g-2 equal">
             @foreach ($devices as $device)

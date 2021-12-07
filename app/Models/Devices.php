@@ -225,7 +225,7 @@ class Devices extends Model
     {
         $result = parent::save($options);
 
-        if (isset($this->id) && empty($this->id)) {
+        if (empty($this->id)) {
             foreach (User::all() as $user) {
                 $user->notify(new NewDeviceNotification($this));
             }

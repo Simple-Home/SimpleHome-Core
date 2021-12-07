@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('components.search')
+    @include('system.components.search')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             {{ __('simplehome.users.list.pageTitle') }}
