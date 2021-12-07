@@ -230,11 +230,9 @@ class EndpointController extends Controller
 
     public function depricatedOta(Request $request)
     {
-        $device = Auth::user();
-        $device->setHeartbeat();
+
 
         $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . '.bin');
-
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
                 $headers = [
@@ -252,22 +250,26 @@ class EndpointController extends Controller
         }
     }
 
-    public function ota(Request $request)
+    public function ota(String $deviceToken, Request $request)
     {
-        $data = $request->json()->all();
+        //$data = $request->json()->all();
 
-        $macAddress = $request->header('HTTP_X_ESP8266_STA_MAC');
+        //$macAddress = $request->header('HTTP_X_ESP8266_STA_MAC');
 
-        $localBinary = storage_path('app/firmware/12-asrassrar158.png'); // . str_replace(':', '', $macAddress) . ".bin";
+        if ($device = Devices::where('token', $deviceToken)->get('id') == null) {
+            return response(null, 404);
+        }
 
+        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->token) . '.bin'); // . str_replace(':', '', $macAddress) . ".bin";
         if (file_exists($localBinary)) {
             if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
                 $headers = [
                     'Content-Type' => 'application/octet-stream',
                     'Content-Disposition' => 'attachment; filename=' . basename($localBinary),
                     'Content-Length' => filesize($localBinary),
-                    'x-MD5' => md5_file($localBinary),
+                    'x-MD5' => md5_file($localBinary)
                 ];
+
                 return response()->download($localBinary, null, $headers);
             } else {
                 return response(null, 304);

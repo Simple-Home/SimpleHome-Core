@@ -27,7 +27,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['throttle:60,1']], function () 
 // v1 Device Controller
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api', 'throttle:rate_limit,1']], function () {
     Route::post('/data', [App\Api\Controllers\EndpointController::class, 'data']);
-    Route::get('/ota', [App\Api\Controllers\EndpointController::class, 'ota']);
+    Route::get('/ota/{deviceToken}', [App\Api\Controllers\EndpointController::class, 'ota']);
 });
 
 // OAuth, rate limit 60 requests/min
