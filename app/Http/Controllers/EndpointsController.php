@@ -79,6 +79,7 @@ class EndpointsController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
+
         $device = Devices::find($request->input('id'));
 
         $fileUploaded = $request->file('firmware');
@@ -137,11 +138,21 @@ class EndpointsController extends Controller
     public function devicesDetail(int $device_id, FormBuilder $formBuilder)
     {
         $device = Devices::find($device_id);
+        $device->integration = str_replace(" ", "-", strtolower($device->integration));
         $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'model' => $device,
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
+
+        $devices = Devices::get();
+        $integrations = [];
+        foreach ($devices as $lDevice) {
+            $value = str_replace(" ", "-", strtolower($lDevice->integration));
+            if (!empty ($value)) {
+                $integrations[$value] = $value;
+            }
+        }
 
         $propertyForms = [];
         $historyForms = [];
@@ -159,17 +170,27 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms"));
+        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms", "integrations"));
     }
 
     public function devicesEdit(int $device_id, FormBuilder $formBuilder)
     {
         $device = Devices::find($device_id);
+        $device->integration = str_replace(" ", "-", strtolower($device->integration));
         $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'model' => $device,
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
         ]);
+
+        $devices = Devices::get();
+        $integrations = [];
+        foreach ($devices as $lDevice) {
+            $value = str_replace(" ", "-", strtolower($lDevice->integration));
+            if (!empty ($value)) {
+                $integrations[$value] = $value;
+            }
+        }
 
         $propertyForms = [];
         $historyForms = [];
@@ -187,7 +208,7 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('system.devices.edit', compact("device", "deviceForm", "propertyForms"));
+        return view('system.devices.edit', compact("device", "deviceForm", "propertyForms", "integrations"));
     }
     public function deviceRemove($device_id)
     {
