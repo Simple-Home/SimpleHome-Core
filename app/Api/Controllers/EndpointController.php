@@ -235,47 +235,69 @@ class EndpointController extends Controller
 
     public function depricatedOta(Request $request)
     {
-        $data = $request->json()->all();
-        $device = Devices::query()->where('token', '=', $data['token'])->first();
-
-        if (!$device) {
-            $this->createDevice($data);
+        if (!$request->hasHeader('user-agent') || $request->header('user-agent') != 'ESP8266-http-Update') {
             return response()->json(
-                [
-                    'setup' => true
-                ],
-                JsonResponse::HTTP_OK
+                "only for ESP8266 updater!",
+                JsonResponse::HTTP_FORBIDDEN
             );
         }
 
+        if (
+            !$request->hasHeader('http-x-esp8266-sta-mac') ||
+            !$request->hasHeader('http-x-esp8266-ap-mac') ||
+            !$request->hasHeader('http-x-esp8266-free-space') ||
+            !$request->hasHeader('http-x-esp8266-sketch-size') ||
+            !$request->hasHeader('http-x-esp8266-sketch-md5') ||
+            !$request->hasHeader('http-x-esp8266-chip-size') ||
+            !$request->hasHeader('http-x-esp8266-sta-mac') ||
+            !$request->hasHeader('http-x-esp8266-sdk-version')
+        ) {
+            return response()->json(
+                "only for ESP8266 updater! (header)",
+                JsonResponse::HTTP_FORBIDDEN
+            );
+        }
+
+        $device = Devices::where('data->network->mac', $request->header('http-x-esp8266-sta-mac'))->first();
         $device->setHeartbeat();
+
+        if (null == $device) {
+            return response()->json(
+                "ESP MAC not configured for updates",
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
         if (!$device->approved) {
             return response()->json(
-                [
-                    'approved' => false
-                ],
-                JsonResponse::HTTP_OK,
-                [],
-                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+                "Device not approved on server",
+                JsonResponse::HTTP_FORBIDDEN
             );
         }
 
-        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . '.bin');
-        if (file_exists($localBinary)) {
-            if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') != md5_file($localBinary)) {
-                $headers = [
-                    'Content-Type' => 'application/octet-stream',
-                    'Content-Disposition' => 'attachment; filename=' . basename($localBinary),
-                    'Content-Length' => filesize($localBinary),
-                    'x-MD5' => md5_file($localBinary),
-                ];
-                return response()->download($localBinary, null, $headers);
-            } else {
-                return response(null, 304);
-            }
-        } else {
-            return response(null, 404);
+        $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . '.bin');
+        dd($localBinary);
+        if (!file_exists($localBinary)) {
+            return response()->json(
+                "Firmware Image not found",
+                JsonResponse::HTTP_NOT_FOUND
+            );
         }
+
+        if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') == md5_file($localBinary)) {
+            return response()->json(
+                "Same Image Found",
+                JsonResponse::HTTP_NOT_MODIFIED
+            );
+        }
+
+        $headers = [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename=' . basename($localBinary),
+            'Content-Length' => filesize($localBinary),
+            'x-MD5' => md5_file($localBinary),
+        ];
+        return response()->download($localBinary, null, $headers);
     }
 
     public function ota(String $deviceToken, Request $request)
@@ -369,5 +391,16 @@ class EndpointController extends Controller
         $record->property_id    = $property->id;
         $record->origin         = $origin;
         $record->save();
+    }
+
+    function check_header($name, $value = false)
+    {
+        if (!isset($_SERVER[$name])) {
+            return false;
+        }
+        if ($value && $_SERVER[$name] != $value) {
+            return false;
+        }
+        return true;
     }
 }

@@ -81,19 +81,20 @@ class EndpointsController extends Controller
         }
 
         $device = Devices::find($request->input('id'));
+        dd($request->input());
 
         $fileUploaded = $request->file('firmware');
         $originalFileName = $fileUploaded->getClientOriginalName();
         $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
 
-        if (!isset($device->data->settings->network->mac)) {
+        if (!isset($device->data->network->mac)) {
             return redirect()->back()->with('danger', 'Mac Address Required for OTA Updates');
         }
 
-        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension))) {
-            unlink(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension));
+        if (file_exists(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . "." . $fileExtension))) {
+            unlink(storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . "." . $fileExtension));
         }
-        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . md5($device->data->settings->network->mac) . "." . $fileExtension);
+        Storage::putFileAs('firmware', $fileUploaded, $device->id . "-" . md5($device->data->network->mac) . "." . $fileExtension);
 
         return redirect()->route('system.devices.list');
     }
