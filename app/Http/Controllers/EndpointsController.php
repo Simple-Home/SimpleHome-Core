@@ -81,7 +81,6 @@ class EndpointsController extends Controller
         }
 
         $device = Devices::find($request->input('id'));
-        dd($request->input());
 
         $fileUploaded = $request->file('firmware');
         $originalFileName = $fileUploaded->getClientOriginalName();

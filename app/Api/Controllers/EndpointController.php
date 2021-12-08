@@ -13,8 +13,11 @@ use App\Models\User;
 use App\Notifications\NewDeviceNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+
 use PhpParser\Node\Stmt\Foreach_;
 
 class EndpointController extends Controller
@@ -290,13 +293,13 @@ class EndpointController extends Controller
             );
         }
 
-        $headers = [
-            'Content-Type' => 'application/octet-stream',
-            'Content-Disposition' => 'attachment; filename=' . basename($localBinary),
-            'Content-Length' => filesize($localBinary),
-            'x-MD5' => md5_file($localBinary),
-        ];
-        return response()->download($localBinary, null, $headers);
+        $file = File::get($localBinary);
+        $response = response()->make($file, 200);
+        $response->header('Content-Type', 'application/octet-stream');
+        $response->header('Content-Disposition', 'attachment; filename=' . basename($localBinary));
+        $response->header('Content-Length', filesize($localBinary));
+        $response->header('x-MD5', md5_file($localBinary));
+        return $response;
     }
 
     public function ota(String $deviceToken, Request $request)

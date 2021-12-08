@@ -156,49 +156,87 @@
                     @endif
                 </div>
             </div>
+
+
         @endif
-        <div class="row">
-            <div class="col">
+
+        @if ($property->type == 'event')
+            <div class="row">
                 @if (!empty($table) && count($table) > 0)
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Created</th>
-                                <th scope="col">Origin</th>
-                                @if ($property->type != 'event' || $property->graphSupport == true)
-                                    <th scope="col">(Min/Avg/Max)</th>
-                                @else
-                                    <th scope="col">Value</th>
-                                @endif
-                                <th scope="col">Done</th>
-                            </tr>
-                        </thead>
-                        @foreach ($table as $value)
-                            <tbody>
-                                <tr>
-                                    <td>{{ $value->created_at->diffForHumans() }}</td>
-                                    <td>{{ $value->origin }}</td>
-                                    @if ($property->type != 'event' || $property->graphSupport == true)
-                                        <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
-                                            {{ $property->units }}/{{ $value->max }} {{ $property->units }})</td>
-                                    @else
-                                        <td>{{ $value->value }} {{ $property->units }}</td>
-                                    @endif
-                                    <td>
-                                        @if ($value->done)
-                                            <i class="fas fa-check"></i>
-                                        @else
-                                            <i class="fas fa-times"></i>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </tbody>
-                        @endforeach
-                    </table>
-                @else
-                    <p class="text-center">{{ __('Nothing Found') }}</p>
+                    @foreach ($table as $value)
+                        <!-- Timeline item start -->
+                        <div class="row w-100">
+                            <div class="col-auto text-center flex-column d-none d-sm-flex">
+                                <div class="row h-50">
+                                    <div class="col {{ !$loop->first ? 'border-end' : '' }}">&nbsp;</div>
+                                    <div class="col">&nbsp;</div>
+                                </div>
+                                <h5 class="m-2">
+                                    <span class="badge rounded-circle bg-light border">&nbsp;
+                                    </span>
+                                </h5>
+                                <div class="row h-50">
+                                    <div class="col {{ !$loop->last ? 'border-end' : '' }}">&nbsp;</div>
+                                    <div class="col">&nbsp;</div>
+                                </div>
+                            </div>
+                            <div class="col py-2 py-auto">
+                                <div class="card">
+                                    {{ $value->created_at->diffForHumans() }}
+                                    <h4 class="card-title text-muted">{{ $value->value }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Timeline item start -->
+                    @endforeach
                 @endif
             </div>
-        </div>
+        @else
+            <div class="row">
+                <div class="col">
+                    @if (!empty($table) && count($table) > 0)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Origin</th>
+                                    @if ($property->type != 'event' || $property->graphSupport == true)
+                                        <th scope="col">(Min/Avg/Max)</th>
+                                    @else
+                                        <th scope="col">Value</th>
+                                    @endif
+                                    <th scope="col">Done</th>
+                                </tr>
+                            </thead>
+                            @foreach ($table as $value)
+                                <tbody>
+                                    <tr>
+                                        <td>{{ $value->created_at->diffForHumans() }}</td>
+                                        <td>{{ $value->origin }}</td>
+                                        @if ($property->type != 'event' || $property->graphSupport == true)
+                                            <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
+                                                {{ $property->units }}/{{ $value->max }} {{ $property->units }})
+                                            </td>
+                                        @else
+                                            <td>{{ $value->value }} {{ $property->units }}</td>
+                                        @endif
+                                        <td>
+                                            @if ($value->done)
+                                                <i class="fas fa-check"></i>
+                                            @else
+                                                <i class="fas fa-times"></i>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            @endforeach
+                        </table>
+                    @else
+                        <p class="text-center">{{ __('Nothing Found') }}</p>
+                    @endif
+                </div>
+            </div>
+        @endif
+
     </div>
 @endsection

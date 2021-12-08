@@ -25,7 +25,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        //House Keeping Tasks
         $schedule->command('simplehome:clear:records')->daily();
+
+        //Run all Enabled Automations
+        $schedule->command('simplehome:automations:all')->everyMinutes();
 
         // Dispatch the jobs that are contained in each integration
         $schedule->command('simplehome:integrations:all')->everyThirtyMinutes();
