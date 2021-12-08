@@ -276,7 +276,6 @@ class EndpointController extends Controller
         }
 
         $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . '.bin');
-        dd($localBinary);
         if (!file_exists($localBinary)) {
             return response()->json(
                 "Firmware Image not found",
