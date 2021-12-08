@@ -181,10 +181,11 @@
                                 </div>
                             </div>
                             <div class="col py-2 py-auto">
-                                <div class="card">
-                                    {{ $value->created_at->diffForHumans() }}
-                                    <h4 class="card-title text-muted">{{ $value->value }}</h4>
-                                </div>
+                                {{ $value->created_at->diffForHumans() }}
+                                {{ $value->created_at->format('Y-m-d H:i:s') }}
+
+
+                                <h4 class="card-title text-muted">{{ $value->value }}</h4>
                             </div>
                         </div>
                         <!-- Timeline item start -->
