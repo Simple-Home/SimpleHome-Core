@@ -159,7 +159,6 @@
 
 
         @endif
-
         @if ($property->type == 'event')
             <div class="row">
                 @if (!empty($table) && count($table) > 0)
@@ -238,6 +237,5 @@
                 </div>
             </div>
         @endif
-
     </div>
 @endsection
