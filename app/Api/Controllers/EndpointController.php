@@ -246,14 +246,13 @@ class EndpointController extends Controller
         }
 
         if (
-            !$request->hasHeader('http-x-esp8266-sta-mac') ||
-            !$request->hasHeader('http-x-esp8266-ap-mac') ||
-            !$request->hasHeader('http-x-esp8266-free-space') ||
-            !$request->hasHeader('http-x-esp8266-sketch-size') ||
-            !$request->hasHeader('http-x-esp8266-sketch-md5') ||
-            !$request->hasHeader('http-x-esp8266-chip-size') ||
-            !$request->hasHeader('http-x-esp8266-sta-mac') ||
-            !$request->hasHeader('http-x-esp8266-sdk-version')
+            !$request->hasHeader('x-esp8266-sta-mac') ||
+            !$request->hasHeader('x-esp8266-ap-mac') ||
+            !$request->hasHeader('x-esp8266-free-space') ||
+            !$request->hasHeader('x-esp8266-sketch-size') ||
+            !$request->hasHeader('x-esp8266-sketch-md5') ||
+            !$request->hasHeader('x-esp8266-chip-size') ||
+            !$request->hasHeader('x-esp8266-sdk-version')
         ) {
             return response()->json(
                 "only for ESP8266 updater! (header)",
@@ -261,7 +260,7 @@ class EndpointController extends Controller
             );
         }
 
-        $device = Devices::where('data->network->mac', $request->header('http-x-esp8266-sta-mac'))->first();
+        $device = Devices::where('data->network->mac', $request->header('x-esp8266-sta-mac'))->first();
         $device->setHeartbeat();
 
         if (null == $device) {
@@ -286,7 +285,7 @@ class EndpointController extends Controller
             );
         }
 
-        if ($request->header('HTTP_X_ESP8266_SKETCH_MD5') == md5_file($localBinary)) {
+        if ($request->header('x-esp8266-sketch-md5') == md5_file($localBinary)) {
             return response()->json(
                 "Same Image Found",
                 JsonResponse::HTTP_NOT_MODIFIED
