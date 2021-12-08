@@ -79,7 +79,6 @@ class EndpointsController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-
         $device = Devices::find($request->input('id'));
         dd($request->input());
 

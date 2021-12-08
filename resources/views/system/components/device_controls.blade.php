@@ -2,15 +2,15 @@
     @if ($device->integration == '0' || $device->integration == 'others')
         <div class="btn btn-primary">
             <form method="POST" id="firmware-form-{{ $device->id }}"
-                action="{{ route('system.devices.firmware', ['FormBuilder' => $device->firmware]) }}"
+                action="{{ route('system.devices.firmware') }}"
                 accept-charset="UTF-8" class="d-flex justify-content-between ml-auto" enctype="multipart/form-data">
                 <input name="_token" type="hidden" value="{{ csrf_token() }}">
                 <input required="required" name="id" type="hidden" value="{{ $device->id }}">
-                <label for="firmware" aria-hidden="true">
+                <label for="firmware-{{ $device->id }}" aria-hidden="true">
                     <i class="fas fa-upload"></i>
                 </label>
-                <input class="" id="firmware" style="display:none"
-                    onchange="$('#firmware-form-{{ $device->id }}').submit();" required="required" name="firmware"
+                <input class="" id="firmware-{{ $device->id }}" style="display:none"
+                    onchange="$('form#firmware-form-{{ $device->id }}').submit();" required="required" name="firmware"
                     type="file">
             </form>
         </div>
