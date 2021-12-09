@@ -14,7 +14,16 @@
             {{ __('simplehome.controls') }}
         </div>
         <div class="card-body">
-            {!! form($deviceForm) !!}
+            {!!  form_start($deviceForm) !!}
+            {!!  form_until($deviceForm, 'integration') !!}
+            @if (!empty ($integrations))
+                <datalist id="integrations">
+                    @foreach ($integrations as $value)
+                        <option value="{{ $value }}"></option>
+                    @endforeach
+                </datalist>
+            @endif
+            {!!  form_end($deviceForm) !!}
         </div>
     </div>
     <div class="card mb-3">

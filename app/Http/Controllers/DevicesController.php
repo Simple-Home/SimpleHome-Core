@@ -201,12 +201,12 @@ class DevicesController extends Controller
 
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');
-        $device->integration = $request->input('integration');
+        $device->integration = str_replace(" ", "-", strtolower($request->input('integration')));
         $device->sleep = $request->input('sleep');
         $device->token = $request->input('token');
 
         $device->save();
-        return redirect()->route('devices_detail', ['device_id' => $device_id]);
+        return redirect()->route('system.devices.detail', ['device_id' => $device_id]);
     }
 
     /**

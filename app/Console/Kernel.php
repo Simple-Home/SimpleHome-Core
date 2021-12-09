@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('simplehome:clear:records')->daily();
 
         //Run all Enabled Automations
-        $schedule->command('simplehome:automations:all')->everyMinutes();
+        $schedule->command('simplehome:automations:all')->everyMinute();
 
         // Dispatch the jobs that are contained in each integration
         $schedule->command('simplehome:integrations:all')->everyThirtyMinutes();
