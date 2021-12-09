@@ -208,6 +208,8 @@ class AutomationsController extends Controller
             $propertyesTriggers = [];
             $propertyesActions = [];
             $automationName = null;
+            $automationNotify = true;
+
 
             if (
                 $automation_id == null
@@ -238,6 +240,7 @@ class AutomationsController extends Controller
             } else {
                 $automation = Automations::find($automation_id);
                 $automationName = $automation->name;
+                $automationNotify = $automation->is_notified;
 
                 if (is_object($automation->conditions)) {
                     foreach ((array) $automation->conditions as $triggerId => $triggerValues) {
@@ -273,6 +276,7 @@ class AutomationsController extends Controller
                 "automation_actions" => $propertyesActions,
                 "automation_triggers" => $propertyesTriggers,
                 "automation_id" => $automation_id,
+                "automation_notifiy" => $automationNotify,
             ];
 
             $nextUrl = 'automations.form.finish';
@@ -298,6 +302,11 @@ class AutomationsController extends Controller
             $automation->name = $request->input('automation_name');
             $automation->conditions = $request->input('automation_triggers');
             $automation->actions = $request->input('automation_actions');
+            if ($request->has('automation_notifiy')) {
+                $automation->is_notified = True;
+            } else {
+                $automation->is_notified = False;
+            }
 
             $automation->save();
         }

@@ -24,6 +24,7 @@
     <div>
         <div class="row">
             <div class="col m-0">
+                {{-- TODO: add same feature like in detail of controle nice time to raw time --}}
                 @if (!empty($automation->run_at))
                     <p class="text-decoration-none">{{ $automation->run_at->diffForHumans() }}</p>
                 @endif

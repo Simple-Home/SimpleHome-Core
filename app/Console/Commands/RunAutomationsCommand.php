@@ -38,7 +38,7 @@ class RunAutomationsCommand extends Command
      */
     public function handle()
     {
-        $allEnabledAutomations = Automations::where('is_enabled', true)->where('conditions', "!=", "")->get();
+        $allEnabledAutomations = Automations::where('is_enabled', true)->where('conditions', "!=", "")->where('is_locked', "!=", true)->get();
         foreach ($allEnabledAutomations as $key => $automation) {
             $result = $automation->run();
             if ($result) {

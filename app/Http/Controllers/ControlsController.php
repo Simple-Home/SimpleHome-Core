@@ -130,8 +130,8 @@ class ControlsController extends Controller
                 scales: {
                     y: {
                         ticks: {
-                            min: " . ($property->min_value - 5) . ",
-                            max: " . ($property->max_value + 5) . ",
+                            " . (is_int($property->min_value) ? "min: " . ($property->min_value - 5) . "," : "") . "
+                            " . (is_int($property->max_value) ? "max: " . ($property->max_value + 5) . "," : "") . "
                             display: false,
                         },
                         grid:{

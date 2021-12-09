@@ -61,9 +61,10 @@ class Automations extends Model
             return false;
         }
 
+        $outcome = [];
+
         $run = false;
         $restart = false;
-        $error = false;
 
         if (!empty($this->conditions)) {
             foreach ($this->conditions as $key => $trigger) {
@@ -78,7 +79,18 @@ class Automations extends Model
                     $conditionValueActual = $propertyInQuestion->latestRecord->value;
                 }
 
-                $run = $this->compare($trigger->operator, $conditionValueActual, $trigger->value);
+                $outcome[] = $this->compare($trigger->operator, $conditionValueActual, $trigger->value);
+            }
+
+            $outcomeCounts = array_count_values(
+                array_map(function ($a) {
+                    return ($a ? "true" : "false");
+                }, $outcome)
+            );
+
+            if (!isset($outcomeCounts['false'])) {
+                $run = true;
+            } elseif (!isset($outcomeCounts['true'])) {
                 $restart = true;
             }
         } else {
@@ -86,11 +98,11 @@ class Automations extends Model
             $restart = true;
         }
 
-        //TODO: highest sleep time from all devices based on those properties
-        $waitTime = 200000;
-        $recordsIds = [];
+        if ($run && $this->is_runed == false) {
+            //TODO: highest sleep time from all devices based on those properties
+            $waitTime = 200000;
+            $recordsIds = [];
 
-        if ($run) {
             foreach ($this->actions as $propertyId => $propertyCommand) {
                 $record                 = new Records;
                 $record->origin         = "automation";
@@ -101,30 +113,36 @@ class Automations extends Model
                 $recordsIds[] = $record->id;
             }
 
-            foreach (User::all() as $user) {
-                $user->notify(new AutomationsRanNotification($this));
+            if ($this->is_notified) {
+                foreach (User::all() as $user) {
+                    $user->notify(new AutomationsRanNotification($this));
+                }
             }
-        }
 
-        if ($waiting) {
-            $timeout = 50;
-            while (count($recordsIds) > 0 & $timeout > 0) {
-                foreach ($recordsIds as $key => $value) {
-                    $pendingRecord = Records::find($value);
-                    if ($pendingRecord->done == 1) {
-                        unset($recordsIds[$key]);
+            $this->is_runed = true;
+
+            if ($waiting) {
+                $timeout = 50;
+                while (count($recordsIds) > 0 & $timeout > 0) {
+                    foreach ($recordsIds as $key => $value) {
+                        $pendingRecord = Records::find($value);
+                        if ($pendingRecord->done == 1) {
+                            unset($recordsIds[$key]);
+                        }
                     }
+
+                    usleep($waitTime);
+                    $timeout--;
                 }
 
-                usleep($waitTime);
-                $timeout--;
+                if ($timeout <= 0) {
+                    $this->is_locked = false;
+                    $this->Save();
+                    return false;
+                }
             }
-
-            if ($timeout <= 0) {
-                $this->is_locked = false;
-                $this->Save();
-                return false;
-            }
+        } elseif ($restart) {
+            $this->is_runed = false;
         }
 
         $this->is_locked = false;

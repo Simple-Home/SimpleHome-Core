@@ -13,6 +13,14 @@
                 id="automation_name" value="{{ $automation['automation_name'] }}">
             <input class="form-control" required="required" name="automation_id" type="hidden" id="automation_id"
                 value="{{ $automation['automation_id'] }}">
+            <div class="mt-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="automation_notifiy" name="automation_notifiy"
+                        {{ $automation['automation_notifiy'] ? 'checked' : '' }}>
+                    <label class="form-check-label"
+                        for="automation_notifiy">{{ __('simplehome.notifications.enable') }}</label>
+                </div>
+            </div>
         </div>
         <div class="row">
             <label class="form-label required">{{ __('simplehome.trigger') }}</label>

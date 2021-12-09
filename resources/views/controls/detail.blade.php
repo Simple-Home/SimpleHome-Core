@@ -188,6 +188,7 @@
                                     <div class="col my-auto">
                                         <div>
                                             <h4 class="text-muted">{{ $value->value }}</h4>
+                                            <p class="mb-0">{{ $value->origin }}</p>
                                             <p class="mb-0"
                                                 data-time="{{ $value->created_at->format(config('ui.datetime_format_short')) }}">
                                                 {{ $value->created_at->diffForHumans() }}</p>
@@ -226,6 +227,15 @@
                                                 {{ $value->created_at->diffForHumans() }}</p>
                                         </td>
                                         <td>{{ $value->origin }}</td>
+                                        {{-- TODO: ADD Translation to Visual state if possible :) --}}
+                                        {{-- <div class="control-relay h3 m-0"
+        data-url="{{ route($integration . '.set', ['properti_id' => $property->id, 'value' => ((int) !$lastValue)]) }}">
+        @if ($lastValue == 1)
+            <i class="fas fa-toggle-on text-primary"></i>
+        @else
+            <i class="fas fa-toggle-off"></i>
+        @endif
+    </div> --}}
                                         @if ($property->type != 'event' || $property->graphSupport == true)
                                             <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
                                                 {{ $property->units }}/{{ $value->max }}

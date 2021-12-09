@@ -58,3 +58,5 @@ Modules/*/
 /.env.cypress
 .vscode/settings.json
 .vscode/settings.json
+previousRun.xml
+Todo.txt
