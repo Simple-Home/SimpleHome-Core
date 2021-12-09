@@ -82,7 +82,7 @@
             document.body.removeAttribute("data-theme");
         }
     </script>
-    <div class="container nav-bar-padding">
+    <div class="container">
         <div class="row">
             <div class="col p-md-0">
                 @auth

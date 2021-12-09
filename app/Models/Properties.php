@@ -10,10 +10,11 @@ use App\Models\Rooms;
 use App\Types\DeviceTypes;
 use App\Types\GraphPeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Carbon;
+
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class Properties extends Model
@@ -196,7 +197,9 @@ class Properties extends Model
     public function getMaxValueAttribute()
     {
         if ($this->records) {
-            return $this->records->max("value");
+            return Cache::remember('property-' . $this->id . '-max', 1800, function () {
+                return $this->records->max("value");
+            });
         }
         return false;
     }
@@ -209,7 +212,9 @@ class Properties extends Model
     public function getMinValueAttribute()
     {
         if ($this->records) {
-            return $this->records->min("value");
+            return Cache::remember('property-' . $this->id . '-min', 1800, function () {
+                return $this->records->min("value");
+            });
         }
         return false;
     }

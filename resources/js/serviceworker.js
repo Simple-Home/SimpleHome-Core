@@ -43,14 +43,13 @@ var filesToCache = [
 self.addEventListener("install", event => {
     event.waitUntil(
         caches.open(staticCacheName)
-            .then(cache => {
-                try {
-                    return cache.addAll(filesToCache);
-                }
-                catch (ex) {
-                    Log("Caught exception: " + ex);
-                }
-            })
+        .then(cache => {
+            try {
+                return cache.addAll(filesToCache);
+            } catch (ex) {
+                Log("Caught exception: " + ex);
+            }
+        })
     )
 });
 
@@ -60,9 +59,9 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-v-")))
-                    .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))
+                .filter(cacheName => (cacheName.startsWith("pwa-v-")))
+                .filter(cacheName => (cacheName !== staticCacheName))
+                .map(cacheName => caches.delete(cacheName))
             );
         })
     );
@@ -72,17 +71,17 @@ self.addEventListener('activate', event => {
 self.addEventListener("fetch", event => {
     event.respondWith(
         caches.match(event.request)
-            .then(response => {
-                return response || fetch(event.request);
-            })
-            .catch(() => {
-                return caches.match('offline');
-            })
+        .then(response => {
+            return response || fetch(event.request);
+        })
+        .catch(() => {
+            return caches.match('offline');
+        })
     )
 });
 
 // Push Recive
-self.addEventListener("push", function (event) {
+self.addEventListener("push", function(event) {
     if (event.data) {
         var Content = event.data.json().notification;
         var Data = event.data.json().data;
@@ -104,24 +103,22 @@ self.addEventListener("push", function (event) {
 });
 
 // Message Reciev
-self.addEventListener('message', function (event) {
+self.addEventListener('message', function(event) {
     if (event.data.action === 'skipWaiting') {
         self.skipWaiting();
         event.waitUntil(
             caches.open(staticCacheName)
-                .then(cache => {
-                    try {
-                        console.log("cache clean")
-                        return cache.addAll(filesToCache);
-                    }
-                    catch (ex) {
-                        Log("Caught exception: " + ex);
-                    }
-                })
+            .then(cache => {
+                try {
+                    console.log("cache clean")
+                    return cache.addAll(filesToCache);
+                } catch (ex) {
+                    Log("Caught exception: " + ex);
+                }
+            })
         )
     } else if (event.data.action === 'refreshCache') {
-
-        caches.keys().then(function (staticCacheName) {
+        caches.keys().then(function(staticCacheName) {
             for (let name of staticCacheName)
                 caches.delete(name);
         });
@@ -129,15 +126,15 @@ self.addEventListener('message', function (event) {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-v-")))
-                    .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))
+                .filter(cacheName => (cacheName.startsWith("pwa-v-")))
+                .filter(cacheName => (cacheName !== staticCacheName))
+                .map(cacheName => caches.delete(cacheName))
             );
         })
         console.log("Cache - Created")
 
-        self.clients.matchAll().then(function (clients) {
-            clients.forEach(function (client) {
+        self.clients.matchAll().then(function(clients) {
+            clients.forEach(function(client) {
                 client.postMessage({
                     action: "refresh",
                 });

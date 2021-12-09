@@ -64,10 +64,12 @@
                 <div>
                     <h3 class="mb-0">{{ $property->nick_name }}</h3>
                     @if (isset($property->latestRecord->created_at))
-                        <p class="mb-0">
+                        <p class="mb-0"
+                            data-time=" {{ __('simplehome.last.change') }} {{ $property->latestRecord->created_at->format(config('ui.time_format')) }}">
                             {{ __('simplehome.last.change') }}
                             {{ $property->latestRecord->created_at->diffForHumans() }}
                         </p>
+
                     @endif
                 </div>
             </div>
@@ -160,37 +162,44 @@
 
         @endif
         @if ($property->type == 'event')
-            <div class="row">
-                @if (!empty($table) && count($table) > 0)
-                    @foreach ($table as $value)
-                        <!-- Timeline item start -->
-                        <div class="row w-100">
-                            <div class="col-auto text-center flex-column d-none d-sm-flex">
-                                <div class="row h-50">
-                                    <div class="col {{ !$loop->first ? 'border-end' : '' }}">&nbsp;</div>
-                                    <div class="col">&nbsp;</div>
+            @if (!empty($table) && count($table) > 0)
+                <div class="row">
+                    <div class="col d-flex justify-content-md-around justify-content-after">
+                        <div>
+                            @foreach ($table as $value)
+                                <!-- Timeline item start -->
+                                <div class="row">
+                                    <div class="col-auto text-center">
+                                        <div class="row h-33">
+                                            <div class="col {{ !$loop->first ? 'border-end border-secondary' : '' }}">
+                                                &nbsp;</div>
+                                            <div class="col">&nbsp;</div>
+                                        </div>
+                                        <h5 class="row h-33 m-1">
+                                            <span class="badge rounded-circle bg-primary border">&nbsp;
+                                            </span>
+                                        </h5>
+                                        <div class="row h-33">
+                                            <div class="col {{ !$loop->last ? 'border-end border-secondary' : '' }}">
+                                                &nbsp;</div>
+                                            <div class="col">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                    <div class="col my-auto">
+                                        <div>
+                                            <h4 class="text-muted">{{ $value->value }}</h4>
+                                            <p class="mb-0"
+                                                data-time="{{ $value->created_at->format(config('ui.datetime_format_short')) }}">
+                                                {{ $value->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h5 class="m-2">
-                                    <span class="badge rounded-circle bg-light border">&nbsp;
-                                    </span>
-                                </h5>
-                                <div class="row h-50">
-                                    <div class="col {{ !$loop->last ? 'border-end' : '' }}">&nbsp;</div>
-                                    <div class="col">&nbsp;</div>
-                                </div>
-                            </div>
-                            <div class="col py-2 py-auto">
-                                {{ $value->created_at->diffForHumans() }}
-                                {{ $value->created_at->format('Y-m-d H:i:s') }}
-
-
-                                <h4 class="card-title text-muted">{{ $value->value }}</h4>
-                            </div>
+                                <!-- Timeline item end -->
+                            @endforeach
                         </div>
-                        <!-- Timeline item start -->
-                    @endforeach
-                @endif
-            </div>
+                    </div>
+                </div>
+            @endif
         @else
             <div class="row">
                 <div class="col">
@@ -211,11 +220,16 @@
                             @foreach ($table as $value)
                                 <tbody>
                                     <tr>
-                                        <td>{{ $value->created_at->diffForHumans() }}</td>
+                                        <td>
+                                            <p class="mb-0"
+                                                data-time="{{ $value->created_at->format(config('ui.datetime_format_short')) }}">
+                                                {{ $value->created_at->diffForHumans() }}</p>
+                                        </td>
                                         <td>{{ $value->origin }}</td>
                                         @if ($property->type != 'event' || $property->graphSupport == true)
                                             <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
-                                                {{ $property->units }}/{{ $value->max }} {{ $property->units }})
+                                                {{ $property->units }}/{{ $value->max }}
+                                                {{ $property->units }})
                                             </td>
                                         @else
                                             <td>{{ $value->value }} {{ $property->units }}</td>
@@ -238,4 +252,14 @@
             </div>
         @endif
     </div>
+    <script>
+        $('body').on('click', '[data-time]', function(event) {
+            $('[data-time]').each(function(index) {
+                var oldValue = $(this).text()
+                console.log("[ajaxAction]-url:", $(this).data("time"));
+                $(this).text($(this).data("time"))
+                $(this).data("time", oldValue)
+            });;
+        });
+    </script>
 @endsection

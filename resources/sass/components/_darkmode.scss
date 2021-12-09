@@ -1,89 +1,93 @@
 [data-theme="dark"] {
-  background-color: #111 !important;
-  color: #a1a5a9 !important;
+    background-color: #111 !important;
+    color: #fff !important;
 }
 
 [data-theme="dark"] input[type="number"].range-value {
-  color: #a1a5a9 !important;
+    color: #fff !important;
 }
 
 [data-theme="dark"] .bg-black {
-  background-color: #fff !important;
+    background-color: #fff !important;
 }
 
 [data-theme="dark"] .bg-dark {
-  background-color: #eee !important;
+    background-color: #eee !important;
 }
 
 [data-theme="dark"] .bg-light {
-  background-color: #222 !important;
+    background-color: #222 !important;
 }
 
 [data-theme="dark"] .bg-white {
-  background-color: #000 !important;
+    background-color: #000 !important;
 }
 
 [data-theme="dark"] .navbar-light .navbar-nav .nav-link {
-  color: #a1a5a9 !important;
+    color: #a1a5a9 !important;
 }
 
 [data-theme="dark"] .card {
-  background-color: #212121;
+    background-color: #212121;
 }
 
 [data-theme="dark"] .dropdown-menu {
-  background-color: #212121;
+    background-color: #212121;
 }
 
 [data-theme="dark"] .dropdown-item:hover {
-  background-color: #313131;
+    background-color: #313131;
 }
 
 [data-theme="dark"] .dropdown-item,
 .table {
-  color: #a1a5a9 !important;
+    color: #a1a5a9 !important;
 }
 
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select {
-  background-color: #000;
-  color: darkgrey;
-  border-color: #444848;
+    background-color: #000;
+    color: darkgrey;
+    border-color: #444848;
 }
 
 [data-theme="dark"] .modal-header {
-  background-color: #282727;
-  border-bottom: 1px solid #1f1e1e;
+    background-color: #282727;
+    border-bottom: 1px solid #1f1e1e;
 }
 
 [data-theme="dark"] .modal-body {
-  background-color: #111 !important;
+    background-color: #111 !important;
 }
 
 [data-theme="dark"] .alert-danger {
-  color: #e53d38;
-  background-color: #4c0f0d;
-  border-color: #ff0f0a;
+    color: #e53d38;
+    background-color: #4c0f0d;
+    border-color: #ff0f0a;
 }
 
 [data-theme="dark"] .alert-warning {
-  color: #d9c71d;
-  background-color: #8f8328;
-  border-color: #ffe700;
+    color: #d9c71d;
+    background-color: #8f8328;
+    border-color: #ffe700;
 }
 
 [data-theme="dark"] .alert-info {
-  color: #38a6ff;
-  background-color: #3671a1;
-  border-color: #008dff;
+    color: #38a6ff;
+    background-color: #3671a1;
+    border-color: #008dff;
 }
 
 [data-theme="dark"] .alert-secondary {
-  color: #c9d6e3;
-  background-color: #828489;
-  border-color: #ffffff;
+    color: #c9d6e3;
+    background-color: #828489;
+    border-color: #ffffff;
 }
 
 [data-theme="dark"] .form-check-input:not(:checked) {
-  background-color: #000 !important;
+    background-color: #000 !important;
+}
+
+[data-theme="dark"] .device-value small {
+    color: #eeeeee;
 }

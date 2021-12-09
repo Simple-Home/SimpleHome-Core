@@ -130,8 +130,8 @@ class ControlsController extends Controller
                 scales: {
                     y: {
                         ticks: {
-                            min: Math.min.apply(this, " . json_encode($mins) . ") - 5,
-                            max: Math.max.apply(this, " . json_encode($maxs) . ") + 5,
+                            min: " . ($property->min_value - 5) . ",
+                            max: " . ($property->max_value + 5) . ",
                             display: false,
                         },
                         grid:{
