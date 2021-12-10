@@ -165,7 +165,7 @@ class EndpointController extends Controller
             $device->save();
         }
 
-        $properties = Cache::remember('api.enpoint.properties' . $device->id, 120, function () use ($device) {
+        $properties = Cache::remember('api.enpoint.device' . $device->id, 0, function () use ($device) {
             $preparationForCache = $device->properties->pluck("latestRecord.value", "type");
             foreach ($preparationForCache as $type => $value) {
                 switch ($type) {
@@ -184,28 +184,24 @@ class EndpointController extends Controller
         });  
 
         if (isset($data['values'])) {
-            $device = $this->depricatedCreateProperty($data['values'], $device);
+            $device = $this->depricatedCreateProperty($data['values'], $device, $data['token']);
             
             foreach ($properties as $type => $latestValue) {
-                if (empty($latestValue)) {
-                    continue;
-                }
-
                 if (!isset( $data['values'])) {
                     continue;
                 }
                 
-                if ($latestValue == $data['values'][$type]){
+                if (!isset($data['values'][$type]) || $latestValue == $data['values'][$type]){
                     continue;
                 }
                 
                 // if (isset($latestRecordLocale)) {
                 //     $property->latestRecord->setAsDone();
                 // }
-                    
-                Cache::forget();
-                $this->createRecord($property, $data['values'][$propertyType]['value']);
-                $properties[$propertyType] = $data['values'][$type];
+                
+                Cache::forget('api.enpoint.device' . $device->id);
+                $this->createRecord($device->properties->where("type",($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
+                $properties[$type] = $data['values'][$type]['value'];
                 
                 // TODO: Set all records Before to true
                 // if (!$latestRecor->done) {
@@ -216,7 +212,7 @@ class EndpointController extends Controller
         }
         
         $sleepTime = (int) (($device->sleep / 1000) / 60);
-        $sleepTime = ($sleepTime > 0 ? $sleepTime : 1 );
+        //$sleepTime = ($sleepTime > 0 ? $sleepTime : 1 );
 
         $response = [
             "device" => [
@@ -236,9 +232,9 @@ class EndpointController extends Controller
         );
     }
 
-    private function depricatedCreateProperty($data, $device)
+    private function depricatedCreateProperty($values, $device, $token)
     {
-        foreach ($data['values'] as $key => $propertyItem) {
+        foreach ($values as $key => $propertyItem) {
             $propertyExit = $device->getPropertiesExistence(($key == "on/off" ? "relay" : ($key == "temp_cont" ? "temperature_control" : $key)));
             if ($propertyExit == FALSE) {
                 $defaultRoom = Cache::remember('controls.rooms', 15,    function () {
@@ -252,8 +248,7 @@ class EndpointController extends Controller
                     );
                 }
 
-                $this->createProperty($device, $defaultRoom, $key, $data['token']);
-                Cache::put('api.enpoint.properties' . $property->id, $device->getProperties, 15);
+                $this->createProperty($device, $defaultRoom, $key, $token);
             }
         }
         return $device;
