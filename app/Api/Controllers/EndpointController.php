@@ -203,7 +203,7 @@ class EndpointController extends Controller
                 
                 Cache::forget('api.enpoint.device' . $device->id);
                 $this->createRecord($device->properties->where("type",($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
-                $properties[$type] = $data['values'][$type]['value'];
+                $properties[$type] = (int) $data['values'][$type]['value'];
                 
                 // TODO: Set all records Before to true
                 // if (!$latestRecor->done) {
