@@ -100,36 +100,14 @@ class EndpointsController extends Controller
 
     public function devicesList(FormBuilder $formBuilder)
     {
-        $devices = Devices::all();
+        $devices = Devices::withCount('properties')->get();
         foreach ($devices as $key => $device) {
-            // foreach (User::all() as $user) {
-            //     $user->notify(new NewDeviceNotification($device));
-            // }
-
-            $device->connection_error = true;
-
             $devices[$key]["firmware"] = $formBuilder->create(\App\Forms\FirmwareForm::class, [
                 'model' => ["id" => $device->id],
                 'class' => 'd-flex justify-content-between ml-auto',
                 'method' => 'POST',
                 'url' => route('system.devices.firmware'),
             ]);
-
-            $heartbeat = new DateTime($device->heartbeat);
-            $sleep = empty($device->sleep) ? 1 : $device->sleep;
-            $heartbeat->modify('+' . $sleep . ' ms');
-            $now = new DateTime();
-
-            if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
-                $device->connection_error = false;
-            }
-
-
-            foreach ($device->getProperties as $property) {
-                if (isset($property->latestRecord->value)) {
-                }
-                break;
-            }
         }
 
         return view('system.devices.list', compact('devices'));

@@ -121,7 +121,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
         complete: function () {
             localStorage.removeItem(hashCode(sourceUrl));
         },
-        timeout: 3000,
+        timeout: 7000,
     });
 }
 

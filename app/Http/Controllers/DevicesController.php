@@ -40,6 +40,7 @@ class DevicesController extends Controller
 
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
+        
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
