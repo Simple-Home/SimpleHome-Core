@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\SettingManager;
 use App\Models\Devices;
 use App\Models\Property;
+use App\Models\Rooms;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,7 @@ class DevicesController extends Controller
 
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
+        
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
@@ -156,10 +158,16 @@ class DevicesController extends Controller
      */
     public function store(Request $request, FormBuilder $formBuilder)
     {
+        $rooms = Rooms::all();
+        $sortRooms = array();
+        foreach ($rooms as $room) {
+            $sortRooms[$room->id] = $room->name;
+        }
+
         $form = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'method' => 'POST',
             'url' => route('devices.store'),
-        ], ['edit' => false]);
+        ], ['edit' => false, 'rooms' => $sortRooms]);
 
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
@@ -172,6 +180,17 @@ class DevicesController extends Controller
         $device->approved = "1";
         $device->token = "";
         $device->save();
+
+        if (!empty($request->input('room_id'))) {
+            $room_id = $request->input('room_id');
+            $properties = $device->properties;
+            if (!empty ($properties)) {
+                foreach ($properties as $property) {
+                    $property->room_id = $room_id;
+                    $property->save();
+                }
+            }
+        }
 
         //notify the module a new device has been added
         if (\Module::has($request->input('integration'))) {
@@ -198,6 +217,17 @@ class DevicesController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $device = Devices::find($device_id);
+
+        if (!empty($request->input('room_id'))) {
+            $room_id = $request->input('room_id');
+            $properties = $device->properties;
+            if (!empty ($properties)) {
+                foreach ($properties as $property) {
+                    $property->room_id = $room_id;
+                    $property->save();
+                }
+            }
+        }
 
         $device->hostname = $request->input('hostname');
         $device->type = $request->input('type');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Devices;
 use App\Models\Properties;
+use App\Models\Rooms;
 use App\Models\User;
 use App\Notifications\NewDeviceNotification;
 use DateTime;
@@ -100,36 +101,14 @@ class EndpointsController extends Controller
 
     public function devicesList(FormBuilder $formBuilder)
     {
-        $devices = Devices::all();
+        $devices = Devices::withCount('properties')->get();
         foreach ($devices as $key => $device) {
-            // foreach (User::all() as $user) {
-            //     $user->notify(new NewDeviceNotification($device));
-            // }
-
-            $device->connection_error = true;
-
             $devices[$key]["firmware"] = $formBuilder->create(\App\Forms\FirmwareForm::class, [
                 'model' => ["id" => $device->id],
                 'class' => 'd-flex justify-content-between ml-auto',
                 'method' => 'POST',
                 'url' => route('system.devices.firmware'),
             ]);
-
-            $heartbeat = new DateTime($device->heartbeat);
-            $sleep = empty($device->sleep) ? 1 : $device->sleep;
-            $heartbeat->modify('+' . $sleep . ' ms');
-            $now = new DateTime();
-
-            if ($heartbeat->getTimestamp() >= $now->getTimestamp()) {
-                $device->connection_error = false;
-            }
-
-
-            foreach ($device->getProperties as $property) {
-                if (isset($property->latestRecord->value)) {
-                }
-                break;
-            }
         }
 
         return view('system.devices.list', compact('devices'));
@@ -139,11 +118,33 @@ class EndpointsController extends Controller
     {
         $device = Devices::find($device_id);
         $device->integration = str_replace(" ", "-", strtolower($device->integration));
+
+        $rooms = Rooms::all();
+        $sortRooms = array(0 => "Nothing");
+        foreach ($rooms as $room) {
+            $sortRooms[$room->id] = $room->name;
+        }
+        
+        $device['room_id'] = 0;
+        $lastRoom = -1;
+        $properties = $device->properties;
+        if (!empty ($properties)) {
+            foreach ($properties as $property) {
+                if ($lastRoom == $property->room_id || $lastRoom == -1) {
+                    $lastRoom = $property->room_id;
+                    $device['room_id'] = $lastRoom;
+                } else {
+                    $device['room_id'] = 0;
+                    break;  
+                }
+            }
+        }
+
         $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'model' => $device,
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
-        ]);
+        ], ['rooms' => $sortRooms]);
 
         $devices = Devices::get();
         $integrations = [];
@@ -177,11 +178,33 @@ class EndpointsController extends Controller
     {
         $device = Devices::find($device_id);
         $device->integration = str_replace(" ", "-", strtolower($device->integration));
+
+        $rooms = Rooms::all();
+        $sortRooms = array(0 => "Nothing");
+        foreach ($rooms as $room) {
+            $sortRooms[$room->id] = $room->name;
+        }
+
+        $device['room_id'] = 0;
+        $lastRoom = -1;
+        $properties = $device->properties;
+        if (!empty ($properties)) {
+            foreach ($properties as $property) {
+                if ($lastRoom == $property->room_id || $lastRoom == -1) {
+                    $lastRoom = $property->room_id;
+                    $device['room_id'] = $lastRoom;
+                } else {
+                    $device['room_id'] = 0;
+                    break;  
+                }
+            }
+        }
+
         $deviceForm = $formBuilder->create(\App\Forms\DeviceForm::class, [
             'model' => $device,
             'method' => 'POST',
             'url' => route('devices_update', ['device_id' => $device_id])
-        ]);
+        ], ['edit' => false, 'rooms' => $sortRooms]);
 
         $devices = Devices::get();
         $integrations = [];
