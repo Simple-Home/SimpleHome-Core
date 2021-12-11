@@ -90,6 +90,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
         },
         error: function (jqXHR, exception) {
             if (jqXHR.status === 0) {
+                console.log('[ajaxLoader]-exception:', exception);
                 msg = 'Not connect.\n Verify Network.';
             } else if (jqXHR.status == 404) {
                 msg = 'Requested page not found. [404]';
@@ -120,7 +121,7 @@ function ajaxContentLoader(target, sourceUrl, loadingSpinner = true, method = 'P
         complete: function () {
             localStorage.removeItem(hashCode(sourceUrl));
         },
-        timeout: 3000,
+        timeout: 7000,
     });
 }
 

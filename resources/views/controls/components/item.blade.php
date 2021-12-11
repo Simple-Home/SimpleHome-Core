@@ -73,8 +73,8 @@
                                     ticks: {
                                         beginAtZero: true,
                                         display: false,
-                                        max: {{ $property->max_value }},
-                                        min: {{ $property->min_value }},
+                                        {{  (is_int($property->min_value) ? "min: " . ($property->min_value - 5) . "," : "") }}
+                                        {{  (is_int($property->max_value) ? "max: " . ($property->max_value + 5) . "," : "") }}
                                     },
                                     grid: {
                                         drawBorder: false,

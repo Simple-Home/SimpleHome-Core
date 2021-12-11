@@ -7,6 +7,7 @@ use App\Notifications\NewDeviceNotification;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use app\Models\Properties;
 
@@ -81,7 +82,6 @@ class Devices extends Model
     {
         return $this->hasMany('App\Models\Properties', 'device_id');
     }
-
 
     //OLD
     public function getPropertiesExistence($type)
@@ -207,11 +207,14 @@ class Devices extends Model
 
     public function getSettingsCountAttribute()
     {
-        $settings = Settings::where('group', '=', 'device-' . $this->id)->get();
-        if ($settings) {
+        $settingsCount = Cache::remember('device-' . $this->id . '-settings-count', 900, function () {
+            $settings = Settings::where('group', '=', 'device-' . $this->id)->get();
+            if (null == $settings){
+                return false;
+            }
             return $settings->count();
-        }
-        return false;
+        });
+        return $settingsCount;
     }
 
     public function reboot()
