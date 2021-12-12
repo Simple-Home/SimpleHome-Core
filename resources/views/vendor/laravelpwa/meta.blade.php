@@ -45,9 +45,7 @@
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(
-                "{{ asset('serviceworker.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}", {
-                    scope: 'https:{{ env('APP_URL') }}'
-                }).then(function(registration) {
+                "{{ asset('serviceworker.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}").then(function(registration) {
                     // Registration was successful
                     console.log('[PWA]-registrationSuccessful-scope:', registration.scope);
                     registration.addEventListener('updatefound', function() {

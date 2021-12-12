@@ -19,16 +19,34 @@ if (firebase.messaging.isSupported()) {
 var staticCacheName = "pwa-v-" + new Date().getTime();
 
 var filesToCache = [
+    //PAGESs
     'controls',
     'automations',
     'offline',
     'system/developments',
     'system/locations',
-    'css/app.css',
-    'js/app.js',
-    'js/refresh-csrf.js',
+    //RESOURCES
     'js/manifest.js',
+    'js/manifest.js.map',
     'js/vendor.js',
+    'js/vendor.js.map',
+    'js/app.js',
+    'js/app.js.map',
+    'js/utillities.js',
+    'js/utillities.min.js',
+
+    'js/developments-controller.js',
+    'js/locations-controller.js',
+    'js/automations.js',
+    'js/controls.js',
+    'js/locators.js',
+    'js/notifications.js',
+    'js/push-notifications.js',
+    'js/refresh-csrf.js',
+
+    'css/app.css',
+    'css/app.css.map',
+
     'images/icons/icon-72x72.png',
     'images/icons/icon-96x96.png',
     'images/icons/icon-128x128.png',
@@ -37,7 +55,21 @@ var filesToCache = [
     'images/icons/icon-192x192.png',
     'images/icons/icon-384x384.png',
     'images/icons/icon-512x512.png',
+
+    'img/icons/android-chrome-192x192.png',
+    'img/icons/android-chrome-512x512.png',
+    'img/icons/apple-touch-icon.png',
+    'img/icons/favicon-16x16.png',
+    'img/icons/favicon-32x32.png',
+    'img/icons/favicon-150x150.png',
+    'img/icons/safari-pinned-tab.svg',
 ];
+
+
+var ignoreRequests = new RegExp('(' + [
+    '/ajax'
+].join('(\/?)|\\') + ')$')
+
 
 // Cache on install
 self.addEventListener("install", event => {
@@ -69,19 +101,38 @@ self.addEventListener('activate', event => {
 
 // Serve from Cache
 self.addEventListener("fetch", event => {
+    if (ignoreRequests.test(event.request.url)) {
+        console.log('[SW]-fetch live:', event.request.url)
+        return
+    }
+
     event.respondWith(
-        caches.match(event.request)
-        .then(response => {
-            return response || fetch(event.request);
-        })
-        .catch(() => {
-            return caches.match('offline');
-        })
+        fetch(event.request)
+        .then(response => caches.open('offline')
+            .then(cache => cache.put(response)))
+        .catch(f => caches.open('offline')
+            .then(cache => cache
+                .match(e.request)
+                .then(file => file)
+            )
+        )
     )
+
+
+    // event.respondWith(
+    //     fetch(event.request)
+    //     caches.match(event.request)
+    //     .then(response => {
+    //         return response || fetch(event.request);
+    //     })
+    //     .catch(() => {
+    //         return caches.match('offline');
+    //     })
+    // )
 });
 
 // Push Recive
-self.addEventListener("push", function(event) {
+self.addEventListener("push", function (event) {
     if (event.data) {
         var Content = event.data.json().notification;
         var Data = event.data.json().data;
@@ -103,7 +154,7 @@ self.addEventListener("push", function(event) {
 });
 
 // Message Reciev
-self.addEventListener('message', function(event) {
+self.addEventListener('message', function (event) {
     if (event.data.action === 'skipWaiting') {
         self.skipWaiting();
         event.waitUntil(
@@ -118,7 +169,7 @@ self.addEventListener('message', function(event) {
             })
         )
     } else if (event.data.action === 'refreshCache') {
-        caches.keys().then(function(staticCacheName) {
+        caches.keys().then(function (staticCacheName) {
             for (let name of staticCacheName)
                 caches.delete(name);
         });
@@ -133,8 +184,8 @@ self.addEventListener('message', function(event) {
         })
         console.log("Cache - Created")
 
-        self.clients.matchAll().then(function(clients) {
-            clients.forEach(function(client) {
+        self.clients.matchAll().then(function (clients) {
+            clients.forEach(function (client) {
                 client.postMessage({
                     action: "refresh",
                 });
