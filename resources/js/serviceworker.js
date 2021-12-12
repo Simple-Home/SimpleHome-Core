@@ -112,7 +112,7 @@ self.addEventListener("fetch", event => {
             .then(cache => cache.put(response)))
         .catch(f => caches.open('offline')
             .then(cache => cache
-                .match(e.request)
+                .match(event.request)
                 .then(file => file)
             )
         )
