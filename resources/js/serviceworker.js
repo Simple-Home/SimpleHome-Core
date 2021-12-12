@@ -19,13 +19,11 @@ if (firebase.messaging.isSupported()) {
 var staticCacheName = "pwa-v-" + new Date().getTime();
 
 var filesToCache = [
-    //PAGESs
     'controls',
     'automations',
     'offline',
     'system/developments',
     'system/locations',
-    //RESOURCES
     'js/manifest.js',
     'js/manifest.js.map',
     'js/vendor.js',
@@ -34,7 +32,6 @@ var filesToCache = [
     'js/app.js.map',
     'js/utillities.js',
     'js/utillities.min.js',
-
     'js/developments-controller.js',
     'js/locations-controller.js',
     'js/automations.js',
@@ -43,10 +40,8 @@ var filesToCache = [
     'js/notifications.js',
     'js/push-notifications.js',
     'js/refresh-csrf.js',
-
     'css/app.css',
     'css/app.css.map',
-
     'images/icons/icon-72x72.png',
     'images/icons/icon-96x96.png',
     'images/icons/icon-128x128.png',
@@ -55,14 +50,13 @@ var filesToCache = [
     'images/icons/icon-192x192.png',
     'images/icons/icon-384x384.png',
     'images/icons/icon-512x512.png',
-
-    'img/icons/android-chrome-192x192.png',
-    'img/icons/android-chrome-512x512.png',
-    'img/icons/apple-touch-icon.png',
-    'img/icons/favicon-16x16.png',
-    'img/icons/favicon-32x32.png',
-    'img/icons/favicon-150x150.png',
-    'img/icons/safari-pinned-tab.svg',
+    // 'img/icons/android-chrome-192x192.png',
+    // 'img/icons/android-chrome-512x512.png',
+    // 'img/icons/apple-touch-icon.png',
+    // 'img/icons/favicon-16x16.png',
+    // 'img/icons/favicon-32x32.png',
+    // 'img/icons/favicon-150x150.png',
+    // 'img/icons/safari-pinned-tab.svg',
 ];
 
 
@@ -73,16 +67,28 @@ var ignoreRequests = new RegExp('(' + [
 
 // Cache on install
 self.addEventListener("install", event => {
+    // return caches.open(staticCacheName).then(function (cache) {
+    //     return Promise.all(
+    //         filesToCache.map(function (url) {
+    //             return cache.add(url).catch(function (reason) {
+    //                 return logInTheUIWhenActivated([url + "failed: " + String(reason)]);
+    //             });
+    //         })
+    //     );
+    // });
+    console.log('[SW]-opening-cache:', staticCacheName);
     event.waitUntil(
         caches.open(staticCacheName)
         .then(cache => {
             try {
+                console.log('[SW]-cashing:', filesToCache);
                 return cache.addAll(filesToCache);
             } catch (ex) {
                 Log("Caught exception: " + ex);
             }
         })
     )
+
 });
 
 // Clear cache on activate
@@ -100,35 +106,21 @@ self.addEventListener('activate', event => {
 });
 
 // Serve from Cache
-self.addEventListener("fetch", event => {
+addEventListener('fetch', event => {
     if (ignoreRequests.test(event.request.url)) {
         console.log('[SW]-fetch live:', event.request.url)
         return
     }
 
-    event.respondWith(
-        fetch(event.request)
-        .then(response => caches.open('offline')
-            .then(cache => cache.put(response)))
-        .catch(f => caches.open('offline')
-            .then(cache => cache
-                .match(event.request)
-                .then(file => file)
-            )
-        )
-    )
-
-
-    // event.respondWith(
-    //     fetch(event.request)
-    //     caches.match(event.request)
-    //     .then(response => {
-    //         return response || fetch(event.request);
-    //     })
-    //     .catch(() => {
-    //         return caches.match('offline');
-    //     })
-    // )
+    event.respondWith(async function () {
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        return fetch(event.request).catch(error => {
+            // Return the offline page
+            console.log('[SW]-offline:', event.request.url)
+            return caches.match('offline');
+        });
+    }());
 });
 
 // Push Recive
@@ -183,7 +175,6 @@ self.addEventListener('message', function (event) {
             );
         })
         console.log("Cache - Created")
-
         self.clients.matchAll().then(function (clients) {
             clients.forEach(function (client) {
                 client.postMessage({
