@@ -2,9 +2,9 @@
 
 namespace App\Forms;
 
-use Kris\LaravelFormBuilder\Form;
-use Kris\LaravelFormBuilder\Field;
 use Illuminate\Validation\Rule;
+use Kris\LaravelFormBuilder\Field;
+use Kris\LaravelFormBuilder\Form;
 
 class DeviceForm extends Form
 {
@@ -29,6 +29,11 @@ class DeviceForm extends Form
                 'value' => '0',
                 'rules' => 'required|max:1',
                 'label' => "Sleep time (ms)"
+            ])
+            ->add('room_id', Field::SELECT, [
+                'choices' => (!empty($this->getData('rooms')) ? $this->getData('rooms') : array(0 => "Nothing")),
+                'rules' => 'required',
+                'label' => "Room"
             ])
             ->add('token', Field::TEXT, [
                 'rules' => 'max:191',

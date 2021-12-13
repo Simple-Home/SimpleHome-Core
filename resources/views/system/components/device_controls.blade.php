@@ -24,7 +24,7 @@
             title="{{ __('simplehome.reboot') }}"><i class="fas fa-redo"></i></a>
     @endif
 
-    @if ($device->settingsCount > 0)
+    @if ($device->settings_count > 0)
         <a href="{{ route('system.devices.settings', $device->id) }}" class="btn btn-primary"
             title="{{ __('simplehome.settings') }}"><i class="fas fa-cog"></i></a>
     @endif

@@ -274,13 +274,15 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-            $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_hidden', false)->where('is_disabled', false)->whereHas('device', function ($query) {
-                return $query->where('approved', 1);
-            })->with(['device' => function ($query) {
-                return $query->where('approved', 1)->get(["integration"]);
-            }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+         
+                $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_disabled', false)->whereHas('device', function ($query) {
+                    return $query->where('approved', 1);
+                })->with(['device' => function ($query) {
+                    return $query->where('approved', 1)->get(["integration"]);
+                }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
 
-            return View::make("controls.controls")->with("propertyes", $propertyes)->render();
+                return View::make("controls.controls")->with(['propertyes'=>$propertyes])->render();
+        
         }
         return redirect()->back();
     }

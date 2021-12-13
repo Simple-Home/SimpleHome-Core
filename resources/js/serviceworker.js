@@ -24,11 +24,24 @@ var filesToCache = [
     'offline',
     'system/developments',
     'system/locations',
-    'css/app.css',
-    'js/app.js',
-    'js/refresh-csrf.js',
     'js/manifest.js',
+    'js/manifest.js.map',
     'js/vendor.js',
+    'js/vendor.js.map',
+    'js/app.js',
+    'js/app.js.map',
+    'js/utillities.js',
+    'js/utillities.min.js',
+    'js/developments-controller.js',
+    'js/locations-controller.js',
+    'js/automations.js',
+    'js/controls.js',
+    'js/locators.js',
+    'js/notifications.js',
+    'js/push-notifications.js',
+    'js/refresh-csrf.js',
+    'css/app.css',
+    'css/app.css.map',
     'images/icons/icon-72x72.png',
     'images/icons/icon-96x96.png',
     'images/icons/icon-128x128.png',
@@ -39,20 +52,45 @@ var filesToCache = [
     'images/icons/icon-512x512.png',
     'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&display=swap&subset=latin-ext',
     'https://fonts.googleapis.com/css?family=Nunito',
+    // 'img/icons/android-chrome-192x192.png',
+    // 'img/icons/android-chrome-512x512.png',
+    // 'img/icons/apple-touch-icon.png',
+    // 'img/icons/favicon-16x16.png',
+    // 'img/icons/favicon-32x32.png',
+    // 'img/icons/favicon-150x150.png',
+    // 'img/icons/safari-pinned-tab.svg',
 ];
+
+
+var ignoreRequests = new RegExp('(' + [
+    '/ajax'
+].join('(\/?)|\\') + ')$')
+
 
 // Cache on install
 self.addEventListener("install", event => {
+    // return caches.open(staticCacheName).then(function (cache) {
+    //     return Promise.all(
+    //         filesToCache.map(function (url) {
+    //             return cache.add(url).catch(function (reason) {
+    //                 return logInTheUIWhenActivated([url + "failed: " + String(reason)]);
+    //             });
+    //         })
+    //     );
+    // });
+    console.log('[SW]-opening-cache:', staticCacheName);
     event.waitUntil(
         caches.open(staticCacheName)
         .then(cache => {
             try {
+                console.log('[SW]-cashing:', filesToCache);
                 return cache.addAll(filesToCache);
             } catch (ex) {
                 Log("Caught exception: " + ex);
             }
         })
     )
+
 });
 
 // Clear cache on activate
@@ -70,16 +108,21 @@ self.addEventListener('activate', event => {
 });
 
 // Serve from Cache
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request)
-        .then(response => {
-            return response || fetch(event.request);
-        })
-        .catch(() => {
+addEventListener('fetch', event => {
+    if (ignoreRequests.test(event.request.url)) {
+        console.log('[SW]-fetch live:', event.request.url)
+        return
+    }
+
+    event.respondWith(async function() {
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        return fetch(event.request).catch(error => {
+            // Return the offline page
+            console.log('[SW]-offline:', event.request.url)
             return caches.match('offline');
-        })
-    )
+        });
+    }());
 });
 
 // Push Recive
@@ -134,7 +177,6 @@ self.addEventListener('message', function(event) {
             );
         })
         console.log("Cache - Created")
-
         self.clients.matchAll().then(function(clients) {
             clients.forEach(function(client) {
                 client.postMessage({

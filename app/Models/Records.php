@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Properties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Records extends Model
 {
@@ -18,6 +19,23 @@ class Records extends Model
 
     use HasFactory;
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function($model){
+            Cache::forget('api.enpoint.properties');
+        });
+
+        self::updated(function($model){
+            Cache::forget('api.enpoint.properties');
+        });
+
+        self::deleted(function($model){
+            Cache::forget('api.enpoint.properties');
+        });
+    }
+    
     public function setAsDone()
     {
         $this->done = 1;

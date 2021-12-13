@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('version-depricated')->prefix('depricated')->group(function () {
-    Route::post('/endpoint', [App\Api\Controllers\EndpointController::class, 'depricatedData']);
-    Route::get('/ota', [App\Api\Controllers\EndpointController::class, 'depricatedOta']);
+Route::group(['prefix' => 'depricated', 'middleware' => ['throttle:depricated']], function () {
+     Route::post('/endpoint', [App\Api\Controllers\EndpointController::class, 'depricatedData']);
+     Route::get('/ota', [App\Api\Controllers\EndpointController::class, 'depricatedOta']);
 });
 
 // v1 Device Controller

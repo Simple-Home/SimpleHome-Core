@@ -39,12 +39,14 @@ return [
             'driver' => 'stack',
             'channels' => ['single'],
             'ignore_exceptions' => false,
+            'permission' => 0775,
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+            'permission' => 0775,
         ],
 
         'daily' => [
@@ -52,6 +54,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
+            'permission' => 0775,
         ],
 
         'slack' => [
@@ -60,6 +63,7 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
+            'permission' => 0775,
         ],
 
         'papertrail' => [
@@ -70,6 +74,7 @@ return [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
             ],
+            'permission' => 0775,
         ],
 
         'stderr' => [
@@ -80,25 +85,30 @@ return [
             'with' => [
                 'stream' => 'php://stderr',
             ],
+            'permission' => 0775,
         ],
 
         'syslog' => [
             'driver' => 'syslog',
             'level' => env('LOG_LEVEL', 'debug'),
+            'permission' => 0775,
         ],
 
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => env('LOG_LEVEL', 'debug'),
+            'permission' => 0775,
         ],
 
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+            'permission' => 0775,
         ],
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+            'permission' => 0775,
         ],
     ],
 
