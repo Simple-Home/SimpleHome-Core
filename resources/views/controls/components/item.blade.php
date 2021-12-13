@@ -26,106 +26,79 @@
         </div>
         <p class="m-0">{{ ucwords($property->nick_name) }}</p>
     </div>
-    @if (method_exists($property, 'getGraphSupport') && $property->getGraphSupport())
-        <div style="width:100%;height:100%;" class="position-absolute">
-            <canvas id="chartJSContainer-{{ $property->id }}" height="40vh" width="80vw" class="rounded">
-                <script>
-                    var style = getComputedStyle(document.body);
-                    var primCol = style.getPropertyValue('--bs-primary');
-
-                    var timeFormat = 'Y-m-d H:i:s';
-                    var options = {
-                        type: 'line',
-                        data: {},
-                        options: {
-                            borderColor: primCol,
-                            elements: {
-                                point: {
-                                    radius: 0
-                                }
-                            },
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            layout: {
-                                padding: {
-                                    top: 0.79,
-                                    left: -10,
-                                    bottom: -10
-                                },
-                                autoPadding: false,
-                            },
-                            animation: {
-                                duration: 555
-                            },
-                            tooltips: {
-                                enabled: false
-                            },
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltips: {
-                                    enabled: false
-                                },
-                            },
-                            scales: {
-                                x: {
-                                    ticks: {
-                                        beginAtZero: true,
-                                        display: false,
-                                        max: {{ $property->max_value }},
-                                        min: {{ $property->min_value }},
-                                    },
-                                    grid: {
-                                        drawBorder: false,
-                                        display: false
-                                    },
-                                },
-                                y: {
-                                    ticks: {
-                                        beginAtZero: true,
-                                        display: false,
-                                    },
-                                    grid: {
-                                        drawBorder: false,
-                                        display: false,
-                                    }
-                                }
-                            },
-                        },
-                    };
-
-                    var ctx = $('#chartJSContainer-{{ $property->id }}');
-                    var chart = new Chart(ctx, options);
-                </script>
-                @if (!$property->device->offline)
-                    <script>
-                        ajax_chart(chart);
-
-                        function ajax_chart(chart) {
-                            var data = data || {};
-                            $.ajax({
-                                dataType: "json",
-                                start_time: new Date().getTime(),
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                },
-                                type: 'GET',
-                                url: '{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}',
-                                success: function(json) {
-                                    chart.data = json;
-                                    chart.update();
-                                    console.log((new Date().getTime() - this.start_time) + ' ms');
-                                },
-                                error: function() {
-                                    console.log((new Date().getTime() - this.start_time) + ' ms');
-                                },
-                                timeout: 3000,
-                            });
-                        }
-                    </script>
-                @endif
-            </canvas>
-        </div>
+    @if (method_exists($property, 'getGraphSupport') && $property->getGraphSupport() && !$property->device->offline)
+        <canvas class="chart-js-property-prewiew-graph" id="chart-js-container-{{ $property->id }}"
+            data-data-url="{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}"
+            data-data-max="{{ $property->max_value }}" data-data-min="{{ $property->min_value }}" height="40vh"
+            width="80vw" class="rounded">
+        </canvas>
     @endif
 </div>
+<script>
+    var style = getComputedStyle(document.body);
+    var primCol = style.getPropertyValue('--bs-primary');
+    var timeFormat = 'Y-m-d H:i:s';
+    var options = {
+        type: 'line',
+        data: {},
+        options: {
+            borderColor: primCol,
+            elements: {
+                point: {
+                    radius: 0
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 0.79,
+                    left: -10,
+                    bottom: -10
+                },
+                autoPadding: false,
+            },
+            animation: {
+                duration: 555
+            },
+            tooltips: {
+                enabled: false
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                },
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        beginAtZero: true,
+                        display: false,
+                    },
+                    grid: {
+                        drawBorder: false,
+                        display: false
+                    },
+                },
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        display: false,
+                    },
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                    }
+                }
+            },
+        },
+    };
+
+    $('.chart-js-property-prewiew-graph').each(function(index) {
+        var chart = new Chart($(this), options);
+        ajax_chart(chart, $(this).data("dataUrl"), );
+    });
+</script>

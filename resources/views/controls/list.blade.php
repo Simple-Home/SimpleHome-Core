@@ -53,3 +53,9 @@
         </div>
     </div>
 @endsection
+
+@section('beforeBodyEnd')
+    <script
+        src="{{ asset(mix('js/controls-controller.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+@endsection

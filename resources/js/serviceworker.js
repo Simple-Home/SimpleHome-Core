@@ -37,6 +37,8 @@ var filesToCache = [
     'images/icons/icon-192x192.png',
     'images/icons/icon-384x384.png',
     'images/icons/icon-512x512.png',
+    'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&display=swap&subset=latin-ext',
+    'https://fonts.googleapis.com/css?family=Nunito',
 ];
 
 // Cache on install

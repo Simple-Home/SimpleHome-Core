@@ -62,6 +62,9 @@ mix.scripts([
     'resources/js/locations-controller.js',
 ], 'public/js/locations-controller.js').version();
 
+mix.scripts([
+    'resources/js/controls-controller.js',
+], 'public/js/controls-controller.js').version();
 
 mix.scripts([
     'resources/js/developments-controller.js',
@@ -77,6 +80,9 @@ mix.scripts([
     'resources/js/locators.js',
 ], 'public/js/locators.js').version();
 
+mix.scripts([
+    'resources/js/bootstrap-iconpicker.bundle.js',
+], 'public/js/bootstrap-iconpicker.bundle.js').version();
 
 mix.scripts([
     'resources/js/serviceworker.js',
@@ -109,8 +115,8 @@ mix.scripts([
 
 
 mix.scripts([
-    'resources/js/refresh-csrf.js',
-], 'public/js/refresh-csrf.js')
+        'resources/js/refresh-csrf.js',
+    ], 'public/js/refresh-csrf.js')
     .version();
 
 mix.js("resources/js/app.js", "public/js")
