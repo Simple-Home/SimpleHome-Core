@@ -26,12 +26,16 @@
         </div>
         <p class="m-0">{{ ucwords($property->nick_name) }}</p>
     </div>
+
     @if (method_exists($property, 'getGraphSupport') && $property->getGraphSupport() && !$property->device->offline)
-        <canvas class="chart-js-property-prewiew-graph" id="chart-js-container-{{ $property->id }}"
-            data-data-url="{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}"
-            data-data-max="{{ $property->max_value }}" data-data-min="{{ $property->min_value }}" height="40vh"
-            width="80vw" class="rounded">
-        </canvas>
+        <div style="width:100%;height:100%;" class="position-absolute">
+            <canvas class="chart-js-property-prewiew-graph" id="chart-js-container-{{ $property->id }}"
+                data-data-url="{{ route('controls.ajax.chart.prewiev', ['property_id' => $property->id]) }}"
+                data-data-max="{{ $property->max_value }}" data-data-min="{{ $property->min_value }}" height="40vh"
+                width="80vw" class="rounded">
+            </canvas>
+        </div>
+
     @endif
 </div>
 <script>
@@ -77,6 +81,8 @@
                     ticks: {
                         beginAtZero: true,
                         display: false,
+                        {{ is_int($property->min_value) ? 'min: ' . ($property->min_value - 5) . ',' : '' }}
+                        {{ is_int($property->max_value) ? 'max: ' . ($property->max_value + 5) . ',' : '' }}
                     },
                     grid: {
                         drawBorder: false,
@@ -98,7 +104,10 @@
     };
 
     $('.chart-js-property-prewiew-graph').each(function(index) {
-        var chart = new Chart($(this), options);
-        ajax_chart(chart, $(this).data("dataUrl"), );
+        let chartStatus = Chart.getChart($(this).attr('id')); // <canvas> id
+        if (chartStatus == undefined) {
+            var chart = new Chart($(this), options);
+            ajax_chart(chart, $(this).data("dataUrl"), $(this).data("dataMax"), $(this).data("dataMin"));
+        }
     });
 </script>
