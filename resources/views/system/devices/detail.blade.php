@@ -47,11 +47,11 @@
             @if (isset($device->data->network->mac))
                 {{ __('Mac Address') }}: {{ $device->data->network->mac }}</br>
             @endif
-            @if (isset($device->data->firmware_hash))
-                {{ __('Firmware') }}: {{ $device->data->firmware_hash }}</br>
+            @if (isset($device->data->firmware->hash))
+                {{ __('Firmware') }}: {{ $device->data->firmware->hash }}</br>
             @endif
-            @if (isset($device->data->firmware_version))
-                {{ __('Firmware') }}: {{ $device->data->firmware_version }}</br>
+            @if (isset($device->data->firmware->ver))
+                {{ __('Firmware v') }}: {{ $device->data->firmware->ver }}</br>
             @endif
 
 
