@@ -14,16 +14,16 @@
             {{ __('simplehome.controls') }}
         </div>
         <div class="card-body">
-            {!!  form_start($deviceForm) !!}
-            {!!  form_until($deviceForm, 'integration') !!}
-            @if (!empty ($integrations))
+            {!! form_start($deviceForm) !!}
+            {!! form_until($deviceForm, 'integration') !!}
+            @if (!empty($integrations))
                 <datalist id="integrations">
                     @foreach ($integrations as $value)
                         <option value="{{ $value }}"></option>
                     @endforeach
                 </datalist>
             @endif
-            {!!  form_end($deviceForm) !!}
+            {!! form_end($deviceForm) !!}
         </div>
     </div>
     <div class="card mb-3">
@@ -49,6 +49,9 @@
             @endif
             @if (isset($device->data->firmware_hash))
                 {{ __('Firmware') }}: {{ $device->data->firmware_hash }}</br>
+            @endif
+            @if (isset($device->data->firmware_version))
+                {{ __('Firmware') }}: {{ $device->data->firmware_version }}</br>
             @endif
 
 
