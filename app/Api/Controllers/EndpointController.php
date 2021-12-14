@@ -138,7 +138,7 @@ class EndpointController extends Controller
         $data = $request->json()->all();
         $device = Devices::with('properties:id,type,device_id')->where('token', '=', $data['token'])->first();
         if (!$device) {
-            if (empty ($data['token'])) {
+            if (empty($data['token'])) {
                 \Log::error($data);
             }
             $this->createDevice($data);
@@ -175,7 +175,7 @@ class EndpointController extends Controller
                         unset($preparationForCache[$type]);
                         $preparationForCache["on/off"] = (int) $value;
                         break;
-                        
+
                     case 'temperature_control':
                         unset($preparationForCache[$type]);
                         $preparationForCache["temp_cont"] = (int) $value;
@@ -183,36 +183,41 @@ class EndpointController extends Controller
                 }
             }
             return $preparationForCache;
-        });  
+        });
 
         if (isset($data['values'])) {
             $device = $this->depricatedCreateProperty($data['values'], $device, $data['token']);
-            
+
             foreach ($properties as $type => $latestValue) {
-                if (!isset( $data['values'])) {
+                if (!isset($data['values'])) {
                     continue;
                 }
-                
-                if (!isset($data['values'][$type]) || $latestValue == $data['values'][$type]){
+
+                if (!isset($data['values'][$type]) || $latestValue == $data['values'][$type]) {
                     continue;
                 }
-                
+
+                if ($data['values'][$type] != 999) {
+                    //Error Values Filterring 
+                    continue;
+                }
+
                 // if (isset($latestRecordLocale)) {
                 //     $property->latestRecord->setAsDone();
                 // }
-                
+
                 Cache::forget('api.enpoint.device' . $device->id);
-                $this->createRecord($device->properties->where("type",($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
+                $this->createRecord($device->properties->where("type", ($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
                 $properties[$type] = (int) $data['values'][$type]['value'];
-                
+
                 // TODO: Set all records Before to true
                 // if (!$latestRecor->done) {
                 //     $latestRecord->setAsDone();
                 // }
-            
+
             }
         }
-        
+
         $sleepTime = (int) (($device->sleep / 1000) / 60);
         //$sleepTime = ($sleepTime > 0 ? $sleepTime : 1 );
 

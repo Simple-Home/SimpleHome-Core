@@ -54,7 +54,7 @@ class Location extends Properties
 
     public function getLocation()
     {
-        if (null == $this->latestRecord) {
+        if (null === $this->latestRecord) {
             return false;
         }
 
