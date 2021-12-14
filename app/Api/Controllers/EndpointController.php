@@ -17,6 +17,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -156,6 +157,18 @@ class EndpointController extends Controller
                 [
                     'approved' => false
                 ],
+                JsonResponse::HTTP_OK,
+                [],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            );
+        }
+
+        if (isset($data['logs'])) {
+            foreach ($data['logs'] as $log) {
+                Log::error($log);
+            }
+            return response()->json(
+                "logs Saved",
                 JsonResponse::HTTP_OK,
                 [],
                 JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
