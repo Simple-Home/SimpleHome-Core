@@ -40,10 +40,10 @@
 
     </style>
 
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 
-    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 
     <script>
@@ -235,8 +235,16 @@
                 <div class="modal-dialog modal-fullscreen-md-down">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
-                            </h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notifications') }}</h5>
+                            <div class="pull-end">
+                                <a id="notification-control-load" class="btn btn-primary ms-1"
+                                    data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                    <i class="fas fa-tasks"></i>
+                                </a>
+                                <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                             {{-- <div class="btn-group">
                                 <a data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-ellipsis-h"></i>
@@ -256,12 +264,8 @@
                                     </li>
                                 </ul>
                             </div> --}}
-                            <a id="notification-control-load" class="btn btn-primary ms-1"
-                                data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
-                                <i class="fas fa-tasks"></i>
-                            </a>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+
+
                         </div>
                         <div class="modal-body">
                             <div id="notifications-list" data-url="{{ route('notifications.list') }}"></div>
@@ -278,17 +282,19 @@
             </script>
         @endif
         <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script
-                src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        <script src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+                defer>
         </script>
-        <script
-                src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        <script src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+                defer>
         </script>
-        <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+                defer>
         </script>
 
         @if (strpos(Route::currentRouteName(), 'controls') > -1)
-            <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+            <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+                        defer>
             </script>
         @endif
         @yield('beforeBodyEnd')
