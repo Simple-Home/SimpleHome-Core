@@ -299,14 +299,15 @@ class EndpointController extends Controller
         }
 
         $device = Devices::where('data->network->mac', $request->header('x-esp8266-sta-mac'))->first();
-        $device->setHeartbeat();
 
         if (null == $device) {
             return response()->json(
                 "ESP MAC not configured for updates",
-                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+                JsonResponse::HTTP_FORBIDDEN
             );
         }
+
+        $device->setHeartbeat();
 
         if (!$device->approved) {
             return response()->json(
