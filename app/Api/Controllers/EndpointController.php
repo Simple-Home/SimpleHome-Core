@@ -303,7 +303,6 @@ class EndpointController extends Controller
         }
 
         $device = Devices::where('data->network->mac', $request->header('x-esp8266-sta-mac'))->first();
-
         if (null == $device) {
             return response()->json(
                 "ESP MAC not configured for updates",
