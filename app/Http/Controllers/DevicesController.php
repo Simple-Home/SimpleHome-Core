@@ -41,7 +41,7 @@ class DevicesController extends Controller
 
 
         #https://www.metageek.com/training/resources/understanding-rssi.html
-        
+
         foreach ($devices as $key => $device) {
             $device->connection_error = true;
 
@@ -115,7 +115,7 @@ class DevicesController extends Controller
             ]);
         }
 
-        return view('devices.detail', compact("device", "deviceForm", "propertyForms"));
+        return view('devices.detail', compact("device", "deviceForm", "propertyForms", "logfile"));
     }
 
     public function info($device_id)
@@ -184,7 +184,7 @@ class DevicesController extends Controller
         if (!empty($request->input('room_id'))) {
             $room_id = $request->input('room_id');
             $properties = $device->properties;
-            if (!empty ($properties)) {
+            if (!empty($properties)) {
                 foreach ($properties as $property) {
                     $property->room_id = $room_id;
                     $property->save();
@@ -221,7 +221,7 @@ class DevicesController extends Controller
         if (!empty($request->input('room_id'))) {
             $room_id = $request->input('room_id');
             $properties = $device->properties;
-            if (!empty ($properties)) {
+            if (!empty($properties)) {
                 foreach ($properties as $property) {
                     $property->room_id = $room_id;
                     $property->save();

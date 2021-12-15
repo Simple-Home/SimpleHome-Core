@@ -138,11 +138,14 @@ class EndpointController extends Controller
     {
         $data = $request->json()->all();
         $device = Devices::with('properties:id,type,device_id')->where('token', '=', $data['token'])->first();
+
+
         if (!$device) {
             if (empty($data['token'])) {
-                \Log::error($data);
+                Log::error($data);
             }
             $this->createDevice($data);
+
             return response()->json(
                 [
                     'setup' => true
@@ -153,6 +156,7 @@ class EndpointController extends Controller
 
         $device->setHeartbeat();
         if (!$device->approved) {
+            $this->deviceLog($device->id, "device not approved");
             return response()->json(
                 [
                     'approved' => false
@@ -165,7 +169,7 @@ class EndpointController extends Controller
 
         if (isset($data['logs'])) {
             foreach ($data['logs'] as $log) {
-                Log::error($log);
+                $this->deviceLog($device->id, $log);
             }
             return response()->json(
                 "logs Saved",
@@ -318,6 +322,7 @@ class EndpointController extends Controller
 
         $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . '.bin');
         if (!file_exists($localBinary)) {
+            $this->deviceLog($device->id, "Firmware Image not found");
             return response()->json(
                 "Firmware Image not found",
                 JsonResponse::HTTP_NOT_FOUND
@@ -325,6 +330,7 @@ class EndpointController extends Controller
         }
 
         if ($request->header('x-esp8266-sketch-md5') == md5_file($localBinary)) {
+            $this->deviceLog($device->id, "Same Image Found");
             return response()->json(
                 "Same Image Found",
                 JsonResponse::HTTP_NOT_MODIFIED
@@ -442,5 +448,11 @@ class EndpointController extends Controller
             return false;
         }
         return true;
+    }
+
+    private function deviceLog(int $deviceId, string $data)
+    {
+        $logFile = storage_path('logs/device:' . $deviceId . "-" . date("Y-m-d") . '.log');
+        file_put_contents($logFile, "[" . date("Y-m-d H:m:s") . "]" . $data . PHP_EOL, FILE_APPEND);
     }
 }

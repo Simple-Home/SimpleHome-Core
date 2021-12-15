@@ -68,6 +68,21 @@
             @endif
         </div>
     </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ __('simplehomedevice.latest.logs') }} {{ $logfile }}
+        </div>
+        <div class="card-body">
+            @if (!empty($logfileContent))
+                <pre>
+                        @php
+                            echo $logfileContent;
+                        @endphp
+                    </pre>
+            @endif
+        </div>
+    </div>
+
     @if (!empty($device->getProperties) && count($device->getProperties) > 0)
         <div class="card mb-3">
             <div class="card-header">
