@@ -27,8 +27,13 @@ class DeviceForm extends Form
             ])
             ->add('sleep', Field::NUMBER, [
                 'value' => '0',
-                'rules' => 'required|max:1',
+                'rules' => 'required',
                 'label' => "Sleep time (ms)"
+            ])
+            ->add('firmware_source', Field::SELECT, [
+                'choices' => array("mac" => "Mac", "type" => "Type"),
+                'rules' => 'required',
+                'label' => "Firmware source"
             ])
             ->add('room_id', Field::SELECT, [
                 'choices' => (!empty($this->getData('rooms')) ? $this->getData('rooms') : array(0 => "Nothing")),

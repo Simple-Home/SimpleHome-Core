@@ -214,7 +214,7 @@ class EndpointController extends Controller
                     continue;
                 }
 
-                if ($data['values'][$type] != 999) {
+                if ($data['values'][$type] == 999 && (is_float($data['values'][$type]) || is_int($data['values'][$type]))) {
                     //Error Values Filterring 
                     continue;
                 }
