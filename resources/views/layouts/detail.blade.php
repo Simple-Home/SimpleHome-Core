@@ -10,18 +10,15 @@
     <title>@yield('title') - {{ config('app.name', 'Simple Home') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        defer></script>
     <script type="text/javascript"
-        src="{{ asset('js/bootstrap-iconpicker.bundle.min.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
-        defer></script>
+        src="{{ asset('js/bootstrap-iconpicker.bundle.min.js', Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
 
     <!-- Styles -->
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
@@ -40,13 +37,22 @@
         }
 
     </style>
-    <!-- PWA Manifest -->
-    @laravelPWA
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 
     <script
-        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
+    </script>
+
+    <!-- PWA Manifest -->
+    @laravelPWA
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
+    </script>
+
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
         refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 
@@ -127,7 +133,17 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
                         </h5>
-                        <div class="btn-group">
+                        <div class="pull-end">
+                            <a id="notification-control-load" class="btn btn-primary ms-1"
+                                data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                <i class="fas fa-tasks"></i>
+                            </a>
+                            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        {{-- <div class="btn-group">
                             <a data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-ellipsis-h"></i>
                             </a>
@@ -146,7 +162,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                     </div>
                     <div class="modal-body">
                         <div id="notifications-list" data-url="{{ route('notifications.list') }}"></div>
@@ -157,10 +173,12 @@
     @endauth
 
     @yield('beforeBodyEnd')
-    <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/controls.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
     </script>
     <script
-        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
     </script>
 </body>
 

@@ -15,7 +15,8 @@
                             <input class="form-check-input" type="checkbox" name="properties_selection[]"
                                 value="{{ $property->id }}" id="checkbox-{{ $property->id }}">
                             <label class="form-check-label" for="checkbox-{{ $property->id }}">
-                                {{ $property->room->name }}{{ $property->nick_name }}
+                                {{ $property->room->name }} - [{{ $property->type }}]{{ $property->nick_name }}
+
                             </label>
                         </div>
                     @endforeach

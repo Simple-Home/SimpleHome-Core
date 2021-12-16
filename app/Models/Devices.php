@@ -118,7 +118,7 @@ class Devices extends Model
         $sleep = empty($this->sleep) ? 1000 : $this->sleep;
 
         $heartbeat->modify("+" . $sleep . " ms");
-        $heartbeat->modify("+10 seconds");
+        $heartbeat->modify("+15 seconds");
 
         $now = new DateTime();
         if ($heartbeat->getTimestamp() < $now->getTimestamp()) {
@@ -209,7 +209,7 @@ class Devices extends Model
     {
         $settingsCount = Cache::remember('device-' . $this->id . '-settings-count', 900, function () {
             $settings = Settings::where('group', '=', 'device-' . $this->id)->get();
-            if (null == $settings){
+            if (null == $settings) {
                 return false;
             }
             return $settings->count();

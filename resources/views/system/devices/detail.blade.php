@@ -34,18 +34,25 @@
             <div>
                 <h3 class="mb-0">{{ $device->hostname }}</h3>
                 <p class="mb-0">{{ $device->heartbeat }}
-                    {{ $device->heartbeat->diffForHumans() }}
+
                 </p>
             </div>
             @if (!empty(round($device->created)))
                 {{ __('First Seen') }}: {{ $device->createdat }}</br>
             @endif
-            {{ __('Last Seen') }}: {{ $device->heartbeat }}</br>
+            {{ __('Last Seen') }}: <p class="mb-0" data-time="{{ $device->heartbeat }}">
+                {{ $device->heartbeat->diffForHumans() }}</p>
             @if (isset($device->data->network->ip))
                 {{ __('Ip Address') }}: {{ $device->data->network->ip }}</br>
             @endif
             @if (isset($device->data->network->mac))
                 {{ __('Mac Address') }}: {{ $device->data->network->mac }}</br>
+            @endif
+            @if (isset($device->data->firmware->sub))
+                {{ __('Firmware') }}: {{ $device->data->firmware->sub }}</br>
+            @endif
+            @if (isset($device->data->firmware->gate))
+                {{ __('Firmware v') }}: {{ $device->data->firmware->gate }}</br>
             @endif
             @if (isset($device->data->firmware->hash))
                 {{ __('Firmware') }}: {{ $device->data->firmware->hash }}</br>
@@ -53,14 +60,9 @@
             @if (isset($device->data->firmware->ver))
                 {{ __('Firmware v') }}: {{ $device->data->firmware->ver }}</br>
             @endif
-
-
-            {{ __('Gateway') }}:</br>
-            {{ __('subnet') }}:</br>
             @if (!empty(round($device->signal_strength)))
                 {{ __('Signal') }}: {{ $device->signal_strength }} dbm
-                ({{ $device->signal_strength_percent }} %)
-                </br>
+                ({{ $device->signal_strength_percent }} %)</br>
             @endif
             @if (!empty(round($device->battery_level)))
                 {{ __('Battery') }}: {{ round($device->battery_level, 2) }} v
@@ -68,20 +70,18 @@
             @endif
         </div>
     </div>
-    <div class="card mb-3">
-        <div class="card-header">
-            {{ __('simplehomedevice.latest.logs') }} {{ $logfile }}
-        </div>
-        <div class="card-body">
-            @if (!empty($logfileContent))
+    @if (!empty($logfileContent))
+        <div class="card mb-3">
+            <div class="card-header">
+                {{ __('simplehomedevice.latest.logs') }} {{ $logfile }}
+            </div>
+            <div class="card-body">
                 <pre>
-                        @php
-                            echo $logfileContent;
-                        @endphp
-                    </pre>
-            @endif
+                                                                @php  echo $logfileContent;@endphp
+                                                            </pre>
+            </div>
         </div>
-    </div>
+    @endif
 
     @if (!empty($device->getProperties) && count($device->getProperties) > 0)
         <div class="card mb-3">

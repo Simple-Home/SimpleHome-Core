@@ -26,7 +26,9 @@ class Automations extends Model
     //ATTRIBUTES
     public function setConditionsAttribute($value)
     {
-        $this->attributes['conditions'] = json_encode($value);
+        $this->attributes['conditions'] = null;
+        if ($value != null)
+            $this->attributes['conditions'] = json_encode($value);
     }
 
     public function setActionsAttribute($value)

@@ -166,5 +166,7 @@ return [
     //NOTIFICATIONS
     "notifications" => "Notifications",
     'notifications.nothing' => "No automation found",
+    //PWA
+    "pwa" => "PWA"
 
 ];
