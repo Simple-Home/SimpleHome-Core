@@ -188,8 +188,9 @@ class EndpointsController extends Controller
         } else {
             $logfileContent = file_get_contents(storage_path('logs/device:' . $device_id . "-" . date("Y-m-d") . '.log'));
         }
+        $logFileShort = 'logs/device:' . $device_id . "-" . date("Y-m-d") . '.log';
 
-        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms", "integrations", "logfile", "logfileContent"));
+        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms", "integrations", "logfileContent", "logFileShort"));
     }
 
     public function devicesEdit(int $device_id, FormBuilder $formBuilder)

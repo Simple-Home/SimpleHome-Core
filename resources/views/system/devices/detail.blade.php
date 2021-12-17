@@ -40,8 +40,12 @@
             @if (!empty(round($device->created)))
                 {{ __('First Seen') }}: {{ $device->createdat }}</br>
             @endif
-            {{ __('Last Seen') }}: <p class="mb-0" data-time="{{ $device->heartbeat }}">
+            <p class="mb-0" data-time="{{ $device->heartbeat }}">{{ __('Last Seen') }}:
                 {{ $device->heartbeat->diffForHumans() }}</p>
+            <p class="mb-0">{{ __('Sleep') }}: {{ $device->sleep / 1000 }}s</p>
+            @if ($device->delay > config('simplehome.device_timeout'))
+                <p class="text-warning mb-0">{{ __('Delayed by') }}: {{ $device->delay }}s</p>
+            @endif
             @if (isset($device->data->network->ip))
                 {{ __('Ip Address') }}: {{ $device->data->network->ip }}</br>
             @endif
@@ -70,25 +74,19 @@
             @endif
         </div>
     </div>
-    @if (!empty($logfileContent))
-        <div class="card mb-3">
-            <div class="card-header">
-                {{ __('simplehomedevice.latest.logs') }} {{ $logfile }}
-            </div>
-            <div class="card-body">
-                <pre>
-                                                                @php  echo $logfileContent;@endphp
-                                                            </pre>
-            </div>
-        </div>
-    @endif
-
     @if (!empty($device->getProperties) && count($device->getProperties) > 0)
         <div class="card mb-3">
             <div class="card-header">
-                {{ __('simplehome.controls') }}
+                <div class="d-flex justify-content-between">
+                    <p class="my-auto">{{ __('simplehome.controls') }}</p>
+                    <button type="button" class="btn btn-primary ms-1" data-bs-toggle="collapse"
+                        href="#propertiesContentCollapse" role="button" aria-expanded="false"
+                        aria-controls="propertiesContentCollapse">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
             </div>
-            <div class="card-body">
+            <div class="card-body  collapse" id="propertiesContentCollapse">
                 <div class="table-responsive">
                     <table class="table table-sm mb-0">
                         <thead>
@@ -133,6 +131,22 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    @endif
+    @if (!empty($logfileContent))
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <p class="my-auto">{{ __('simplehomedevice.latest.logs') }} <br> {{ $logFileShort }}</p>
+                    <button type="button" class="btn btn-primary ms-1" data-bs-toggle="collapse" href="#logContentCollapse"
+                        role="button" aria-expanded="false" aria-controls="logContentCollapse">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body collapse" id="logContentCollapse">
+                <pre>{!! $logfileContent !!}</pre>
             </div>
         </div>
     @endif

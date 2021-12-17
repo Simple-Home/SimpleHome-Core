@@ -95,7 +95,7 @@
             document.body.removeAttribute("data-theme");
         }
     </script>
-    <div class="container-fluid">
+    <div class="container-fluid nav-bar-padding">
         <div class="row justify-content-between header ms-md-2">
             <div class="col-auto p-md-0 my-auto ">
                 <h1 class="mb-0 header-title">@yield('title')</h1>
