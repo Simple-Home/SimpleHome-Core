@@ -124,7 +124,7 @@ class Devices extends Model
         $offline = false;
         try {
             if ($this->delay > config('simplehome.device_timeout')) {
-                if ($this->delay < 3600){
+                if ($this->delay < 3600) {
                     $this->deviceLog("device is offline, delaied by " . $this->delay);
                 }
                 $offline = true;
@@ -136,7 +136,7 @@ class Devices extends Model
         return $offline;
     }
 
-       /**
+    /**
      * check device delay in seconds
      *
      * @return int
@@ -144,11 +144,10 @@ class Devices extends Model
 
     public function getDelayAttribute()
     {
-
         $sleep = empty($this->sleep) ? 1 : $this->sleep / 1000;
-        
+
         $hearbeathForComparison = $this->heartbeat->addSecond($sleep);
-        $now = Carbon::now();   
+        $now = Carbon::now();
 
         return  $hearbeathForComparison->diffInSeconds($now, false);
     }

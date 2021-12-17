@@ -78,7 +78,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <p class="my-auto">{{ __('simplehome.controls') }}</p>
+                    <p class="my-auto">{{ __('simplehome.properties') }}</p>
                     <button type="button" class="btn btn-primary ms-1" data-bs-toggle="collapse"
                         href="#propertiesContentCollapse" role="button" aria-expanded="false"
                         aria-controls="propertiesContentCollapse">

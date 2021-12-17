@@ -73,8 +73,8 @@
                                     ticks: {
                                         beginAtZero: true,
                                         display: false,
-                                        {{ is_int($property->min_value) ? 'min: ' . ($property->min_value - 5) . ',' : '' }}
-                                        {{ is_int($property->max_value) ? 'max: ' . ($property->max_value + 5) . ',' : '' }}
+                                        {{ is_int($property->min_value) && isset($property->min_value) ? 'min: ' . ($property->min_value - 5) . ',' : '' }}
+                                        {{ is_int($property->max_value) && isset($property->max_value) ? 'max: ' . ($property->max_value + 5) . ',' : '' }}
                                     },
                                     grid: {
                                         drawBorder: false,
@@ -98,6 +98,7 @@
                     var ctx = $('#chartJSContainer-{{ $property->id }}');
                     var chart = new Chart(ctx, options);
                 </script>
+
                 @if (!$property->device->offline)
                     <script>
                         ajax_chart(chart);
