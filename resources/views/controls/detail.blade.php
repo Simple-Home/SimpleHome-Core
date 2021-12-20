@@ -94,116 +94,135 @@
                 @endif
             </div>
         </div>
-        @if ($property->type != 'event' || $property->graphSupport == true)
-            <div class="row">
-                <div class="col">
-                    @if ($property->type != 'location')
-                        @if ($propertyDetailChart)
-                            <div class="h-30">
-                                {!! $propertyDetailChart->render() !!}
-                                <script>
-                                </script>
-                            </div>
-                        @endif
-                    @else
-                        @php
-                            $lat = explode(',', $property->latestRecord->value)[0];
-                            $long = explode(',', $property->latestRecord->value)[1];
-                        @endphp
+        <div class="row">
+            <div class="col">
+                @if ($property->getGraphSupport())
+                    @if ($propertyDetailChart)
+                        <div class="h-30">
+                            {!! $propertyDetailChart->render() !!}
+                        </div>
+                    @endif
+                @elseif ($property->type == 'location')
+                    <p>Loation</p>
 
-                        <link rel="stylesheet"
-                            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css"
-                            type="text/css">
-                        <style>
-                            .map {
-                                height: 400px;
-                                width: 100%;
-                            }
+                    @php
+                        $lat = explode(',', $property->latestRecord->value)[0];
+                        $long = explode(',', $property->latestRecord->value)[1];
+                    @endphp
 
-                        </style>
-                        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
-                        <div id="map" class="map"></div>
-                        <script type="text/javascript">
-                            const iconFeature = new ol.Feature({
-                                geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ $long }}, {{ $lat }}])),
-                                name: 'Somewhere near Nottingham',
-                            });
+                    <link rel="stylesheet"
+                        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/css/ol.css"
+                        type="text/css">
+                    <style>
+                        .map {
+                            height: 400px;
+                            width: 100%;
+                        }
 
-                            const map = new ol.Map({
-                                target: 'map',
-                                layers: [
-                                    new ol.layer.Tile({
-                                        source: new ol.source.OSM(),
+                    </style>
+                    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.8.1/build/ol.js"></script>
+                    <div id="map" class="map"></div>
+                    <script type="text/javascript">
+                        const iconFeature = new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ $long }}, {{ $lat }}])),
+                            name: 'Somewhere near Nottingham',
+                        });
+
+                        const map = new ol.Map({
+                            target: 'map',
+                            layers: [
+                                new ol.layer.Tile({
+                                    source: new ol.source.OSM(),
+                                }),
+                                new ol.layer.Vector({
+                                    source: new ol.source.Vector({
+                                        features: [iconFeature]
                                     }),
-                                    new ol.layer.Vector({
-                                        source: new ol.source.Vector({
-                                            features: [iconFeature]
-                                        }),
-                                        style: new ol.style.Style({
-                                            image: new ol.style.Icon({
-                                                anchor: [0.5, 46],
-                                                anchorXUnits: 'fraction',
-                                                anchorYUnits: 'pixels',
-                                                src: 'https://openlayers.org/en/latest/examples/data/icon.png'
-                                            })
+                                    style: new ol.style.Style({
+                                        image: new ol.style.Icon({
+                                            anchor: [0.5, 46],
+                                            anchorXUnits: 'fraction',
+                                            anchorYUnits: 'pixels',
+                                            src: 'https://openlayers.org/en/latest/examples/data/icon.png'
                                         })
                                     })
-                                ],
-                                view: new ol.View({
-                                    center: ol.proj.fromLonLat([{{ $long }}, {{ $lat }}]),
-                                    zoom: 18
                                 })
-                            });
-                        </script>
-                    @endif
-                </div>
-            </div>
+                            ],
+                            view: new ol.View({
+                                center: ol.proj.fromLonLat([{{ $long }}, {{ $lat }}]),
+                                zoom: 18
+                            })
+                        });
+                    </script>
 
 
-        @endif
-        @if ($property->type == 'event')
-            @if (!empty($table) && count($table) > 0)
-                <div class="row">
-                    <div class="col d-flex justify-content-md-around justify-content-after">
-                        <div>
-                            @foreach ($table as $value)
-                                <!-- Timeline item start -->
-                                <div class="row">
-                                    <div class="col-auto text-center">
-                                        <div class="row h-33">
-                                            <div class="col {{ !$loop->first ? 'border-end border-secondary' : '' }}">
-                                                &nbsp;</div>
-                                            <div class="col">&nbsp;</div>
+                @elseif ($property->type == 'relay' || $property->type == 'event')
+                    <p>Relay</p>
+
+                    {{-- Timeline --}}
+                    @if (!empty($table) && count($table) > 0)
+                        <div class="row">
+                            <div class="col d-flex justify-content-md-around justify-content-after">
+                                <div>
+                                    @foreach ($table as $value)
+                                        <!-- Timeline item start -->
+                                        <div class="row">
+                                            <div class="col-auto text-center">
+                                                <div class="row h-33">
+                                                    <div
+                                                        class="col {{ !$loop->first ? 'border-end border-secondary' : '' }}">
+                                                        &nbsp;</div>
+                                                    <div class="col">&nbsp;</div>
+                                                </div>
+                                                <h5 class="row h-33 m-1">
+                                                    <span class="badge rounded-circle bg-primary border">&nbsp;
+                                                    </span>
+                                                </h5>
+                                                <div class="row h-33">
+                                                    <div
+                                                        class="col {{ !$loop->last ? 'border-end border-secondary' : '' }}">
+                                                        &nbsp;</div>
+                                                    <div class="col">&nbsp;</div>
+                                                </div>
+                                            </div>
+                                            <div class="col my-auto">
+                                                <div class="d-inline">
+                                                    <h4 class="text-muted">
+                                                        {{-- TODO: ADD Translation to Visual state if possible :) --}}
+                                                        {{--  --}}
+
+                                                        @if ($property->type == 'relay')
+                                                            @if ($value->value == 1)
+                                                                <i class="fas fa-toggle-on text-primary"></i>
+                                                            @else
+                                                                <i class="fas fa-toggle-off"></i>
+                                                            @endif
+                                                        @else
+                                                            {{ $value->value }}{{ $property->units }}
+                                                        @endif
+                                                    </h4>
+                                                    <p class="mb-0">{{ $value->origin }}</p>
+                                                    <p class="mb-0"
+                                                        data-time="{{ $value->created_at->format(config('ui.datetime_format_short')) }}">
+                                                        {{ $value->created_at->diffForHumans() }}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h5 class="row h-33 m-1">
-                                            <span class="badge rounded-circle bg-primary border">&nbsp;
-                                            </span>
-                                        </h5>
-                                        <div class="row h-33">
-                                            <div class="col {{ !$loop->last ? 'border-end border-secondary' : '' }}">
-                                                &nbsp;</div>
-                                            <div class="col">&nbsp;</div>
-                                        </div>
-                                    </div>
-                                    <div class="col my-auto">
-                                        <div>
-                                            <h4 class="text-muted">{{ $value->value }}</h4>
-                                            <p class="mb-0">{{ $value->origin }}</p>
-                                            <p class="mb-0"
-                                                data-time="{{ $value->created_at->format(config('ui.datetime_format_short')) }}">
-                                                {{ $value->created_at->diffForHumans() }}</p>
-                                        </div>
-                                    </div>
+                                        <!-- Timeline item end -->
+                                    @endforeach
                                 </div>
-                                <!-- Timeline item end -->
-                            @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div>
-            @endif
-        @else
-            <div class="row">
-                <div class="col">
+                    @endif
+                @endif
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                @if ($property->getGraphSupport())
+                    {{-- Table --}}
                     @if (!empty($table) && count($table) > 0)
                         <table class="table">
                             <thead>
@@ -228,14 +247,7 @@
                                         </td>
                                         <td>{{ $value->origin }}</td>
                                         {{-- TODO: ADD Translation to Visual state if possible :) --}}
-                                        {{-- <div class="control-relay h3 m-0"
-        data-url="{{ route($integration . '.set', ['properti_id' => $property->id, 'value' => ((int) !$lastValue)]) }}">
-        @if ($lastValue == 1)
-            <i class="fas fa-toggle-on text-primary"></i>
-        @else
-            <i class="fas fa-toggle-off"></i>
-        @endif
-    </div> --}}
+                                        {{--  --}}
                                         @if ($property->type != 'event' || $property->graphSupport == true)
                                             <td>({{ $value->min }} {{ $property->units }}/{{ $value->value }}
                                                 {{ $property->units }}/{{ $value->max }}
@@ -258,9 +270,9 @@
                     @else
                         <p class="text-center">{{ __('Nothing Found') }}</p>
                     @endif
-                </div>
+                @endif
             </div>
-        @endif
+        </div>
     </div>
     <script>
         $('body').on('click', '[data-time]', function(event) {

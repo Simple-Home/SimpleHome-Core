@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Properties;
+use Illuminate\Database\Eloquent\Model;
 
 class Relay extends Properties
 {

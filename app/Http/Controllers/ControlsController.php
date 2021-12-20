@@ -68,7 +68,7 @@ class ControlsController extends Controller
         $property = Properties::find($property_id);
         $property->period = $period;
 
-        if ($property->type != 'event' || $property->graphSupport == true) {
+        if ($property->getGraphSupport()) {
 
             $labels = [];
             $values = [];
