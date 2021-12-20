@@ -1,13 +1,33 @@
 <div class="btn btn-info p-1">
+    @php
+        $icon = 'fa-upload';
+        $color = '';
+        //Todo: move to controller of component Laravell Componnents
+        //Firmware Status
+        if (!empty($device->data->network->mac)) {
+            $localBinary = storage_path('app/firmware/' . $device->id . '-' . md5($device->data->network->mac) . '.bin');
+        
+            if (!empty($device->data->firmware->hash) && file_exists($localBinary)) {
+                $hash = md5_file($localBinary);
+                if ($hash == $device->data->firmware->hash) {
+                    $icon = 'fa-check-circle';
+                    $color = 'green';
+                } else {
+                    $icon = 'fa-arrow-circle-up';
+                    $color = '#6495ED';
+                }
+            }
+        }
+    @endphp
+
     @if ($device->integration == '0' || $device->integration == 'others')
         <div class="btn btn-primary">
-            <form method="POST" id="firmware-form-{{ $device->id }}"
-                action="{{ route('system.devices.firmware') }}"
+            <form method="POST" id="firmware-form-{{ $device->id }}" action="{{ route('system.devices.firmware') }}"
                 accept-charset="UTF-8" class="d-flex justify-content-between ml-auto" enctype="multipart/form-data">
                 <input name="_token" type="hidden" value="{{ csrf_token() }}">
                 <input required="required" name="id" type="hidden" value="{{ $device->id }}">
                 <label for="firmware-{{ $device->id }}" aria-hidden="true">
-                    <i class="fas fa-upload"></i>
+                    <i class="fas <?php echo $icon; ?>" style="color: <?php echo $color; ?>;"></i>
                 </label>
                 <input class="" id="firmware-{{ $device->id }}" style="display:none"
                     onchange="$('form#firmware-form-{{ $device->id }}').submit();" required="required" name="firmware"
