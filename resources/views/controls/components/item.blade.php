@@ -1,29 +1,28 @@
 <div class="card m-0 rounded-5 {{ $property->device->offline ? 'is-offline' : 'is-online' }} position-relative"
     style="height: 100px; cursor: pointer;">
-    <div class="container pt-2 py-2 device-container" style="z-index:1;">
+    <div class="pt-2 px-2 device-container" style="z-index:1;">
         <div class="d-flex justify-content-between">
             <a class="h2 my-auto device-icon" href="{{ route('controls.detail', $property->id) }}">
-                <i class="fas {{ $property->icon }}"></i>
+                <i class="fas {{ $property->icon ? $property->icon : 'fa-microchip' }}"></i>
             </a>
-            <div class="text-right text-nowrap">
-                <div class="d-flex justify-content-start device-value">
-                    @if (View::exists('controls.components.types.' . $property->type))
+            <div class="d-flex flex-wrap">
+                @if (View::exists('controls.components.types.' . $property->type))
+                    <div class="device-value  ms-auto">
                         @include('controls.components.types.' . $property->type, $property)
-                    @else
-                        @if (isset($property->latestRecord))
-                            @if (is_numeric($property->latestRecord->value))
-                                {{ round($property->latestRecord->value, 2) }}
-                            @else
-                                {{ $property->latestRecord->value }}
-                            @endif
-                            <small style="color: #686e73;">
-                                {{ $property->units }}
-                            </small>
+                    </div>
+                @else
+                    @if (isset($property->latestRecord))
+                        @if (is_numeric($property->latestRecord->value))
+                            <div class="device-value  ms-auto">{{ round($property->latestRecord->value, 2) }}</div>
+                        @else
+                            <div class="device-value  ms-auto">{{ $property->latestRecord->value }}</div>
                         @endif
+                        <small class="ms-auto" style="color: #686e73;">{{ $property->units }}</small>
                     @endif
-                </div>
+                @endif
             </div>
         </div>
+
         <p class="m-0">{{ ucwords($property->nick_name) }}</p>
     </div>
     @if (method_exists($property, 'getGraphSupport') && $property->getGraphSupport())
