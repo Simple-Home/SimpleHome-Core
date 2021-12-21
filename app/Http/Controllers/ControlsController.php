@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SettingManager;
+use App\Models\Devices;
 use App\Models\Properties;
 use App\Models\Records;
+
 use App\Models\Rooms;
 use App\Models\User;
+use App\Notifications\DeviceRebootNotification;
 use App\Notifications\NewDeviceNotification;
 use App\Types\GraphPeriod;
 use Illuminate\Http\Request;
@@ -62,6 +65,9 @@ class ControlsController extends Controller
 
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
+        $user = Auth::user();
+        $user->notify(new DeviceRebootNotification(Devices::find(6)));
+
         $propertyDetailChart = null;
         $tableData = [];
 

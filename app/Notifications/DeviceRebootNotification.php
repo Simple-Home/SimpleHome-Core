@@ -3,8 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Devices;
-use App\Notifications\Channels\FirebaseChannel;
-use App\Notifications\Messages\FirebaseMessage;
+use App\Notifications\FirebaseChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
