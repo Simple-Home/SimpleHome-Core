@@ -38,7 +38,7 @@ class DeviceRebootNotification extends Notification implements ShouldQueue
         ];
         $parsedChannels = [];
 
-        foreach ((array)$notifiable->notifications_preferencies as $channel) {
+        foreach ((array)$notifiable->notification_preferences as $channel) {
             if (in_array($channel, array_keys($channels))) {
                 $parsedChannels[] = $channels[$channel];
             } else {
