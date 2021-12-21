@@ -65,8 +65,8 @@ class ControlsController extends Controller
 
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
-        $user = Auth::user();
-        $user->notify(new DeviceRebootNotification(Devices::find(6)));
+        // $user = Auth::user();
+        // $user->notify(new DeviceRebootNotification(Devices::find(6)));
 
         $propertyDetailChart = null;
         $tableData = [];
