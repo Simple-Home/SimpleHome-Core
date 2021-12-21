@@ -61,6 +61,9 @@ class AutomationsController extends Controller
     {
         $automation = Automations::find($automation_id);
         $automation->is_enabled = !$automation->is_enabled;
+        if ($automation->is_locked) {
+            $automation->is_locked = false;
+        }
         $automation->save();
 
         if (!$request->ajax()) {
