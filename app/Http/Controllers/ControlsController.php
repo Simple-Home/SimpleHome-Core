@@ -68,7 +68,7 @@ class ControlsController extends Controller
         $property = Properties::find($property_id);
         $property->period = $period;
 
-        if ($property->getGraphSupport()) {
+        if (!method_exists($property, 'getGraphSupport') || $property->getGraphSupport()) {
 
             $labels = [];
             $values = [];

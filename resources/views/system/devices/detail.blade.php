@@ -111,20 +111,35 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        <div class="btn btn-info p-1">
-                                            <a href="{{ route('controls.detail', $property->id) }}"
-                                                class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
-                                            <a href="{{ route('controls.edit', $property->id) }}"
-                                                class="btn btn-primary"><i class="fa fa-cog"></i></a>
-                                            <a href="{{ route('controls.hide.toggle', $property->id) }}"
-                                                class="btn btn-primary">
-                                                {!! $property->is_hidden ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>' !!}
-                                            </a>
-                                            <a href="{{ route('controls.enable.toggle', $property->id) }}"
-                                                class="btn btn-danger"><i class="fas fa-ban"></i></a>
-                                            <a href="{{ route('controls.remove', $property->id) }}"
-                                                class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <div class="dropdown d-inline d-md-none">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Dropdown button
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
                                         </div>
+
+                                        <div class="dropdown d-none d-md-inline">
+                                            <div class="btn btn-info p-1">
+                                                <a href="{{ route('controls.detail', $property->id) }}"
+                                                    class="btn btn-primary"><i class="fa fa-chart-area"></i></a>
+                                                <a href="{{ route('controls.edit', $property->id) }}"
+                                                    class="btn btn-primary"><i class="fa fa-cog"></i></a>
+                                                <a href="{{ route('controls.hide.toggle', $property->id) }}"
+                                                    class="btn btn-primary">
+                                                    {!! $property->is_hidden ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>' !!}
+                                                </a>
+                                                <a href="{{ route('controls.enable.toggle', $property->id) }}"
+                                                    class="btn btn-danger"><i class="fas fa-ban"></i></a>
+                                                <a href="{{ route('controls.remove', $property->id) }}"
+                                                    class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
                             @endforeach

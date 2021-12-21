@@ -9,9 +9,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class CleanLogs implements ShouldQueue
 {
@@ -35,7 +35,7 @@ class CleanLogs implements ShouldQueue
      */
     public function handle()
     {
-       $active = SettingManager::get('logs_cleaning_active', 'housekeeping');
+        $active = SettingManager::get('logs_cleaning_active', 'housekeeping');
         if ($active->value) {
             $intervalInDays = SettingManager::get('logs_cleaning_interval', 'housekeeping');
 
@@ -47,10 +47,10 @@ class CleanLogs implements ShouldQueue
                 }
                 $fileNameFull = storage_path('logs/' . $file);
                 if (file_exists($fileNameFull)) {
+                    //TODO: Parse Time form Fileanme 
                     $oldInDays = Carbon::createFromTimestamp(filemtime($fileNameFull))->diffInDays();
-                    if ($oldInDays >= $intervalInDays->value){
-                        dd($fileNameFull);
-                         unlink($fileNameFull);
+                    if ($oldInDays >= $intervalInDays->value) {
+                        unlink($fileNameFull);
                     }
                 }
             }
