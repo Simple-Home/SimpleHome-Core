@@ -124,18 +124,18 @@ class EndpointsController extends Controller
         foreach ($rooms as $room) {
             $sortRooms[$room->id] = $room->name;
         }
-        
+
         $device['room_id'] = 0;
         $lastRoom = -1;
         $properties = $device->properties;
-        if (!empty ($properties)) {
+        if (!empty($properties)) {
             foreach ($properties as $property) {
                 if ($lastRoom == $property->room_id || $lastRoom == -1) {
                     $lastRoom = $property->room_id;
                     $device['room_id'] = $lastRoom;
                 } else {
                     $device['room_id'] = 0;
-                    break;  
+                    break;
                 }
             }
         }
@@ -150,7 +150,7 @@ class EndpointsController extends Controller
         $integrations = [];
         foreach ($devices as $lDevice) {
             $value = str_replace(" ", "-", strtolower($lDevice->integration));
-            if (!empty ($value)) {
+            if (!empty($value)) {
                 $integrations[$value] = $value;
             }
         }
@@ -171,7 +171,26 @@ class EndpointsController extends Controller
             ]);
         }
 
-        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms", "integrations"));
+        $memory_limit = ini_get('memory_limit');
+        if (preg_match('/^(\d+)(.)$/', $memory_limit, $matches)) {
+            if ($matches[2] == 'M') {
+                $memory_limit = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
+            } else if ($matches[2] == 'K') {
+                $memory_limit = $matches[1] * 1024; // nnnK -> nnn KB
+            }
+        }
+
+        $logfile = storage_path('logs/device:' . $device_id . "-" . date("Y-m-d") . '.log');
+        if (!file_exists($logfile)) {
+            $logfileContent = "";
+        } else if (filesize($logfile) > $memory_limit) {
+            $logfileContent = "Too Large File!";
+        } else {
+            $logfileContent = file_get_contents(storage_path('logs/device:' . $device_id . "-" . date("Y-m-d") . '.log'));
+        }
+        $logFileShort = 'logs/device:' . $device_id . "-" . date("Y-m-d") . '.log';
+
+        return view('system.devices.detail', compact("device", "deviceForm", "propertyForms", "integrations", "logfileContent", "logFileShort"));
     }
 
     public function devicesEdit(int $device_id, FormBuilder $formBuilder)
@@ -188,14 +207,14 @@ class EndpointsController extends Controller
         $device['room_id'] = 0;
         $lastRoom = -1;
         $properties = $device->properties;
-        if (!empty ($properties)) {
+        if (!empty($properties)) {
             foreach ($properties as $property) {
                 if ($lastRoom == $property->room_id || $lastRoom == -1) {
                     $lastRoom = $property->room_id;
                     $device['room_id'] = $lastRoom;
                 } else {
                     $device['room_id'] = 0;
-                    break;  
+                    break;
                 }
             }
         }
@@ -210,7 +229,7 @@ class EndpointsController extends Controller
         $integrations = [];
         foreach ($devices as $lDevice) {
             $value = str_replace(" ", "-", strtolower($lDevice->integration));
-            if (!empty ($value)) {
+            if (!empty($value)) {
                 $integrations[$value] = $value;
             }
         }

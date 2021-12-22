@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 
 class Properties extends Model
 {
+
+
     protected $fillable = [
         'id',
         'units',

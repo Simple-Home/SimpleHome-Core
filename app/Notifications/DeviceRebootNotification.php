@@ -3,34 +3,33 @@
 namespace App\Notifications;
 
 use App\Models\Devices;
+use App\Notifications\FirebaseChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Notifications\Channels\FirebaseChannel;
-use App\Notifications\Messages\FirebaseMessage;
 
 class DeviceRebootNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $device;
-    
+
     /**
-    * Create a new notification instance.
-    *
-    * @return void
-    */
+     * Create a new notification instance.
+     *
+     * @return void
+     */
     public function __construct(Devices $device)
     {
         $this->device = $device;
     }
-    
+
     /**
-    * Get the notification's delivery channels.
-    *
-    * @param  mixed  $notifiable
-    * @return array
-    */
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
     public function via($notifiable)
     {
         $channels = [
@@ -38,28 +37,28 @@ class DeviceRebootNotification extends Notification implements ShouldQueue
         ];
         $parsedChannels = [];
 
-        foreach (['database', 'mail', 'firebase'] as $channel){
-            if(in_array($channel, array_keys($channels))){
+        foreach ((array)$notifiable->notification_preferences as $channel) {
+            if (in_array($channel, array_keys($channels))) {
                 $parsedChannels[] = $channels[$channel];
             } else {
                 $parsedChannels[] = $channel;
             }
         }
-        
+
         return $parsedChannels;
     }
-    
+
     /**
-    * Get the mail representation of the notification.
-    *
-    * @param  mixed  $notifiable
-    * @return \Illuminate\Notifications\Messages\MailMessage
-    */
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
     public function toMail($notifiable)
     {
         return (new MailMessage)->line($this->device->hostname . ' was rebooted!');
     }
-    
+
     public function toFirebase($notifiable)
     {
         return [
@@ -69,11 +68,11 @@ class DeviceRebootNotification extends Notification implements ShouldQueue
         ];
     }
     /**
-    * Get the array representation of the notification.
-    *
-    * @param  mixed  $notifiable
-    * @return array
-    */
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
     public function toArray($notifiable)
     {
         return [

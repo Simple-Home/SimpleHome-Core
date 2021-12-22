@@ -17,6 +17,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -137,11 +138,14 @@ class EndpointController extends Controller
     {
         $data = $request->json()->all();
         $device = Devices::with('properties:id,type,device_id')->where('token', '=', $data['token'])->first();
+
+
         if (!$device) {
-            if (empty ($data['token'])) {
-                \Log::error($data);
+            if (empty($data['token'])) {
+                Log::error($data);
             }
             $this->createDevice($data);
+
             return response()->json(
                 [
                     'setup' => true
@@ -152,10 +156,23 @@ class EndpointController extends Controller
 
         $device->setHeartbeat();
         if (!$device->approved) {
+            $this->deviceLog($device->id, "device not approved");
             return response()->json(
                 [
                     'approved' => false
                 ],
+                JsonResponse::HTTP_OK,
+                [],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            );
+        }
+
+        if (isset($data['logs'])) {
+            foreach ($data['logs'] as $log) {
+                $this->deviceLog($device->id, $log);
+            }
+            return response()->json(
+                "logs Saved",
                 JsonResponse::HTTP_OK,
                 [],
                 JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
@@ -175,7 +192,7 @@ class EndpointController extends Controller
                         unset($preparationForCache[$type]);
                         $preparationForCache["on/off"] = (int) $value;
                         break;
-                        
+
                     case 'temperature_control':
                         unset($preparationForCache[$type]);
                         $preparationForCache["temp_cont"] = (int) $value;
@@ -183,36 +200,41 @@ class EndpointController extends Controller
                 }
             }
             return $preparationForCache;
-        });  
+        });
 
         if (isset($data['values'])) {
             $device = $this->depricatedCreateProperty($data['values'], $device, $data['token']);
-            
+
             foreach ($properties as $type => $latestValue) {
-                if (!isset( $data['values'])) {
+                if (!isset($data['values'])) {
                     continue;
                 }
-                
-                if (!isset($data['values'][$type]) || $latestValue == $data['values'][$type]){
+
+                if (!isset($data['values'][$type]) || $latestValue == $data['values'][$type]) {
                     continue;
                 }
-                
+
+                if ($data['values'][$type] == 999 && (is_float($data['values'][$type]) || is_int($data['values'][$type]))) {
+                    //Error Values Filterring 
+                    continue;
+                }
+
                 // if (isset($latestRecordLocale)) {
                 //     $property->latestRecord->setAsDone();
                 // }
-                
+
                 Cache::forget('api.enpoint.device' . $device->id);
-                $this->createRecord($device->properties->where("type",($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
+                $this->createRecord($device->properties->where("type", ($type == "on/off" ? "relay" : ($type == "temp_cont" ? "temperature_control" : $type)))->first(), $data['values'][$type]['value']);
                 $properties[$type] = (int) $data['values'][$type]['value'];
-                
+
                 // TODO: Set all records Before to true
                 // if (!$latestRecor->done) {
                 //     $latestRecord->setAsDone();
                 // }
-            
+
             }
         }
-        
+
         $sleepTime = (int) (($device->sleep / 1000) / 60);
         //$sleepTime = ($sleepTime > 0 ? $sleepTime : 1 );
 
@@ -281,14 +303,14 @@ class EndpointController extends Controller
         }
 
         $device = Devices::where('data->network->mac', $request->header('x-esp8266-sta-mac'))->first();
-        $device->setHeartbeat();
-
         if (null == $device) {
             return response()->json(
                 "ESP MAC not configured for updates",
-                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+                JsonResponse::HTTP_FORBIDDEN
             );
         }
+
+        $device->setHeartbeat();
 
         if (!$device->approved) {
             return response()->json(
@@ -299,6 +321,7 @@ class EndpointController extends Controller
 
         $localBinary = storage_path('app/firmware/' . $device->id . "-" . md5($device->data->network->mac) . '.bin');
         if (!file_exists($localBinary)) {
+            $this->deviceLog($device->id, "Firmware Image not found");
             return response()->json(
                 "Firmware Image not found",
                 JsonResponse::HTTP_NOT_FOUND
@@ -306,6 +329,7 @@ class EndpointController extends Controller
         }
 
         if ($request->header('x-esp8266-sketch-md5') == md5_file($localBinary)) {
+            $this->deviceLog($device->id, "Same Image Found");
             return response()->json(
                 "Same Image Found",
                 JsonResponse::HTTP_NOT_MODIFIED
@@ -423,5 +447,11 @@ class EndpointController extends Controller
             return false;
         }
         return true;
+    }
+
+    private function deviceLog(int $deviceId, string $data)
+    {
+        $logFile = storage_path('logs/device:' . $deviceId . "-" . date("Y-m-d") . '.log');
+        file_put_contents($logFile, "[" . date("Y-m-d H:m:s") . "]" . $data . PHP_EOL, FILE_APPEND);
     }
 }

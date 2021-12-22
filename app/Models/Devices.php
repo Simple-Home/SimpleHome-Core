@@ -7,6 +7,7 @@ use App\Notifications\NewDeviceNotification;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use app\Models\Properties;
@@ -104,6 +105,14 @@ class Devices extends Model
         $this->save();
     }
 
+    private function deviceLog($data)
+    {
+        $logFile = storage_path('logs/device:' . $this->id . "-" . date("Y-m-d") . '.log');
+        file_put_contents($logFile, "[" . date("Y-m-d H:m:s") . "]" . $data . PHP_EOL, FILE_APPEND);
+    }
+
+
+
     /**
      * check if device if offline
      *
@@ -113,18 +122,34 @@ class Devices extends Model
     public function getOfflineAttribute()
     {
         $offline = false;
-
-        $heartbeat = new DateTime($this->heartbeat);
-        $sleep = empty($this->sleep) ? 1000 : $this->sleep;
-
-        $heartbeat->modify("+" . $sleep . " ms");
-        $heartbeat->modify("+10 seconds");
-
-        $now = new DateTime();
-        if ($heartbeat->getTimestamp() < $now->getTimestamp()) {
-            $offline = true;
+        try {
+            if ($this->delay > config('simplehome.device_timeout')) {
+                if ($this->delay < 3600) {
+                    $this->deviceLog("device is offline, delaied by " . $this->delay);
+                }
+                $offline = true;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
+
         return $offline;
+    }
+
+    /**
+     * check device delay in seconds
+     *
+     * @return int
+     */
+
+    public function getDelayAttribute()
+    {
+        $sleep = empty($this->sleep) ? 1 : $this->sleep / 1000;
+
+        $hearbeathForComparison = $this->heartbeat->addSecond($sleep);
+        $now = Carbon::now();
+
+        return  $hearbeathForComparison->diffInSeconds($now, false);
     }
 
     public function getHostname()
@@ -209,7 +234,7 @@ class Devices extends Model
     {
         $settingsCount = Cache::remember('device-' . $this->id . '-settings-count', 900, function () {
             $settings = Settings::where('group', '=', 'device-' . $this->id)->get();
-            if (null == $settings){
+            if (null == $settings) {
                 return false;
             }
             return $settings->count();

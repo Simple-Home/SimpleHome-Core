@@ -163,4 +163,10 @@ return [
     "rooms.page.title" => "Users",
     //PROPERTIES
     "properties" => "Properties",
+    //NOTIFICATIONS
+    "notifications" => "Notifications",
+    'notifications.nothing' => "No automation found",
+    //PWA
+    "pwa" => "PWA"
+
 ];

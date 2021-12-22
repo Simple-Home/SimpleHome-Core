@@ -69,8 +69,27 @@ class AutomationsRanNotification extends Notification
     {
         return [
             'title' => 'Automation!',
-            'message' => 'Ran ' . $this->automation->name . " at " . $this->automation->run_at,
+            'message' => 'Ran ' . $this->automation->name . " at " . $this->automation->run_at->format(
+                config('ui.datetime_format_short')
+            ),
             'type' => 'info'
+        ];
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toFirebase($notifiable)
+    {
+        return [
+            'title' => "Automation",
+            'body' => 'automation ' . $this->automation->name . " triggered at " . $this->automation->run_at->format(
+                config('ui.datetime_format_short')
+            ),
+            "icon" => "https:" . env('APP_URL') . '\images\icons\icon-192x192.png',
         ];
     }
 }

@@ -50,8 +50,6 @@ var filesToCache = [
     'images/icons/icon-192x192.png',
     'images/icons/icon-384x384.png',
     'images/icons/icon-512x512.png',
-    'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800&display=swap&subset=latin-ext',
-    'https://fonts.googleapis.com/css?family=Nunito',
     // 'img/icons/android-chrome-192x192.png',
     // 'img/icons/android-chrome-512x512.png',
     // 'img/icons/apple-touch-icon.png',
@@ -114,7 +112,7 @@ addEventListener('fetch', event => {
         return
     }
 
-    event.respondWith(async function() {
+    event.respondWith(async function () {
         const cachedResponse = await caches.match(event.request);
         if (cachedResponse) return cachedResponse;
         return fetch(event.request).catch(error => {
@@ -126,7 +124,7 @@ addEventListener('fetch', event => {
 });
 
 // Push Recive
-self.addEventListener("push", function(event) {
+self.addEventListener("push", function (event) {
     if (event.data) {
         var Content = event.data.json().notification;
         var Data = event.data.json().data;
@@ -148,7 +146,7 @@ self.addEventListener("push", function(event) {
 });
 
 // Message Reciev
-self.addEventListener('message', function(event) {
+self.addEventListener('message', function (event) {
     if (event.data.action === 'skipWaiting') {
         self.skipWaiting();
         event.waitUntil(
@@ -163,7 +161,7 @@ self.addEventListener('message', function(event) {
             })
         )
     } else if (event.data.action === 'refreshCache') {
-        caches.keys().then(function(staticCacheName) {
+        caches.keys().then(function (staticCacheName) {
             for (let name of staticCacheName)
                 caches.delete(name);
         });
@@ -177,8 +175,8 @@ self.addEventListener('message', function(event) {
             );
         })
         console.log("Cache - Created")
-        self.clients.matchAll().then(function(clients) {
-            clients.forEach(function(client) {
+        self.clients.matchAll().then(function (clients) {
+            clients.forEach(function (client) {
                 client.postMessage({
                     action: "refresh",
                 });

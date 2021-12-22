@@ -21,19 +21,19 @@
     @endif
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/manifest.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/vendor.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/app.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/refresh-csrf.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
-    <script defer>
+    <script>
         refreshCSRF('{{ route('system.refresh.csrf') }}');
     </script>
 
-    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/utillities.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}">
     </script>
 
     <!-- Styles -->
@@ -95,7 +95,7 @@
             document.body.removeAttribute("data-theme");
         }
     </script>
-    <div class="container-fluid">
+    <div class="container-fluid nav-bar-padding">
         <div class="row justify-content-between header ms-md-2">
             <div class="col-auto p-md-0 my-auto ">
                 <h1 class="mb-0 header-title">@yield('title')</h1>
@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <div class="flex-grow-1 nav-bar-padding">
+                <div class="flex-grow-1">
                     <div class="col m-0">
                         @auth
                             @yield('content')
@@ -165,28 +165,37 @@
             <div class="modal-dialog modal-fullscreen-md-down">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notification') }}
-                        </h5>
-                        <div class="btn-group">
-                            <a data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('simplehome.notifications') }}</h5>
+                        <div class="pull-end">
+                            <a id="notification-control-load" class="btn btn-primary ms-1"
+                                data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                <i class="fas fa-tasks"></i>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a id="notification-control-load" class="btn btn-primary dropdown-item"
-                                        data-url="{{ route('notifications.read', ['notification_id' => 'all']) }}">
-                                        readAll
-                                    </a>
-                                </li>
-                                <li>
-                                    <a id="notification-control-load" class="btn btn-primary dropdown-item"
-                                        data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
-                                        deleteAll
-                                    </a>
-                                </li>
-                            </ul>
+                            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        {{-- <div class="btn-group">
+                                <a data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                            data-url="{{ route('notifications.read', ['notification_id' => 'all']) }}">
+                                            readAll
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="notification-control-load" class="btn btn-primary dropdown-item"
+                                            data-url="{{ route('notifications.delete', ['notification_id' => 'all']) }}">
+                                            deleteAll
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div> --}}
+
+
                     </div>
                     <div class="modal-body">
                         <div id="notifications-list" data-url="{{ route('notifications.list') }}"></div>
@@ -198,12 +207,15 @@
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script
-        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        src="{{ asset(mix('js/notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
     </script>
     <script
-        src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+        src="{{ asset(mix('js/push-notifications.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
     </script>
-    <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}" defer>
+    <script src="{{ asset(mix('js/locators.js'), Request::server('HTTP_X_FORWARDED_PROTO') != 'http' ? true : '') }}"
+        defer>
     </script>
     @yield('beforeBodyEnd')
 </body>

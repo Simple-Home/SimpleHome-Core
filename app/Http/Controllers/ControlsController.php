@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SettingManager;
+use App\Models\Devices;
 use App\Models\Properties;
 use App\Models\Records;
+
 use App\Models\Rooms;
 use App\Models\User;
+use App\Notifications\DeviceRebootNotification;
 use App\Notifications\NewDeviceNotification;
 use App\Types\GraphPeriod;
 use Illuminate\Http\Request;
@@ -62,13 +65,16 @@ class ControlsController extends Controller
 
     public function detail($property_id, $period = GraphPeriod::DAY)
     {
+        // $user = Auth::user();
+        // $user->notify(new DeviceRebootNotification(Devices::find(6)));
+
         $propertyDetailChart = null;
         $tableData = [];
 
         $property = Properties::find($property_id);
         $property->period = $period;
 
-        if ($property->type != 'event' || $property->graphSupport == true) {
+        if (!method_exists($property, 'getGraphSupport') || $property->getGraphSupport()) {
 
             $labels = [];
             $values = [];
@@ -274,7 +280,6 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-
             $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_disabled', false)->whereHas('device', function ($query) {
                 return $query->where('approved', 1);
             })->with(['device' => function ($query) {

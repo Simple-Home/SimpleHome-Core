@@ -31,7 +31,20 @@ class NewPropertyNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        $channels = [
+            'firebase' => FirebaseChannel::class,
+        ];
+        $parsedChannels = [];
+
+        foreach ((array)$notifiable->notification_preferences as $channel) {
+            if (in_array($channel, array_keys($channels))) {
+                $parsedChannels[] = $channels[$channel];
+            } else {
+                $parsedChannels[] = $channel;
+            }
+        }
+
+        return $parsedChannels;
     }
 
     /**
@@ -43,9 +56,9 @@ class NewPropertyNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**

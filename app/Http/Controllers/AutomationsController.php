@@ -40,7 +40,7 @@ class AutomationsController extends Controller
             if ($type == "automations") {
                 $automations = Automations::where("conditions", "!=", "")->get(["id", "name", "is_enabled", "run_at", "is_locked"]);
             } elseif ($type == "scenes") {
-                $automations = Automations::where("conditions", "")->get(["id", "name", "is_enabled", "run_at", "is_locked"]);
+                $automations = Automations::orWhereNull("conditions")->get(["id", "name", "is_enabled", "run_at", "is_locked"]);
             } else {
                 $automations = Automations::all(["id", "name", "is_enabled", "run_at"]);
             }
@@ -61,6 +61,9 @@ class AutomationsController extends Controller
     {
         $automation = Automations::find($automation_id);
         $automation->is_enabled = !$automation->is_enabled;
+        if ($automation->is_locked) {
+            $automation->is_locked = false;
+        }
         $automation->save();
 
         if (!$request->ajax()) {
@@ -172,7 +175,7 @@ class AutomationsController extends Controller
 
             $automationSessionStore = session('automation_creation');
             $nextUrl = 'automations.form.actions.set.ajax';
-            $properties = Properties::whereIn("type", ["relay", "light", "temperature_control"])->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
+            $properties = Properties::whereIn("type", ["relay", "light", "temperature_control"])->orderBy('room_id', 'DESC')->get(["id", "device_id", "nick_name", "units", "icon", "type", "room_id"]);
             return View::make("automations.modal.properties_selection")->with("properties", $properties)->with("nextUrl", $nextUrl)->render();
         }
         return redirect()->back();
@@ -302,12 +305,12 @@ class AutomationsController extends Controller
             $automation->name = $request->input('automation_name');
             $automation->conditions = $request->input('automation_triggers');
             $automation->actions = $request->input('automation_actions');
+
             if ($request->has('automation_notifiy')) {
                 $automation->is_notified = True;
             } else {
                 $automation->is_notified = False;
             }
-
             $automation->save();
         }
         session()->forget('automation_creation');
