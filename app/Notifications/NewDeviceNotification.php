@@ -36,7 +36,7 @@ class NewDeviceNotification extends Notification implements ShouldQueue
         ];
         $parsedChannels = [];
 
-        foreach (['database', 'mail', 'firebase'] as $channel) {
+        foreach ((array)$notifiable->notification_preferences as $channel) {
             if (in_array($channel, array_keys($channels))) {
                 $parsedChannels[] = $channels[$channel];
             } else {
