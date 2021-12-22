@@ -31,7 +31,20 @@ class NewDeviceNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        $channels = [
+            'firebase' => FirebaseChannel::class,
+        ];
+        $parsedChannels = [];
+
+        foreach (['database', 'mail', 'firebase'] as $channel) {
+            if (in_array($channel, array_keys($channels))) {
+                $parsedChannels[] = $channels[$channel];
+            } else {
+                $parsedChannels[] = $channel;
+            }
+        }
+
+        return $parsedChannels;
     }
 
     /**

@@ -130,9 +130,9 @@ class ControlsController extends Controller
                 scales: {
                     y: {
                         ticks: {
+                            display: false,
                             " . (is_int($property->min_value) ? "min: " . ($property->min_value - 5) . "," : "") . "
                             " . (is_int($property->max_value) ? "max: " . ($property->max_value + 5) . "," : "") . "
-                            display: false,
                         },
                         grid:{
                             drawBorder: false,
@@ -274,15 +274,14 @@ class ControlsController extends Controller
     public function listAjax($room_id = 0, Request $request)
     {
         if ($request->ajax()) {
-         
-                $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_disabled', false)->whereHas('device', function ($query) {
-                    return $query->where('approved', 1);
-                })->with(['device' => function ($query) {
-                    return $query->where('approved', 1)->get(["integration"]);
-                }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
 
-                return View::make("controls.controls")->with(['propertyes'=>$propertyes])->render();
-        
+            $propertyes = Properties::where("room_id", $room_id)->where("is_hidden", false)->where('is_disabled', false)->whereHas('device', function ($query) {
+                return $query->where('approved', 1);
+            })->with(['device' => function ($query) {
+                return $query->where('approved', 1)->get(["integration"]);
+            }, 'latestRecord'])->get(["id", "device_id", "nick_name", "units", "icon", "type"]);
+
+            return View::make("controls.controls")->with(['propertyes' => $propertyes])->render();
         }
         return redirect()->back();
     }
