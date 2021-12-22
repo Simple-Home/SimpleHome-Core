@@ -61,6 +61,7 @@ class Devices extends Model
         return $command;
     }
 
+    //TODO: Remove one of those Functions
     public function executeCommand()
     {
         $command = $this->command;
