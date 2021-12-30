@@ -7,16 +7,21 @@
         if (!empty($device->data->network->mac)) {
             $localBinary = storage_path('app/firmware/' . $device->id . '-' . md5($device->data->network->mac) . '.bin');
         
-            if (!empty($device->data->firmware->hash) && file_exists($localBinary)) {
-                $hash = md5_file($localBinary);
-                if ($hash == $device->data->firmware->hash) {
-                    $icon = 'fa-check-circle';
-                    $color = 'green';
-                } else {
-                    $icon = 'fa-arrow-circle-up';
-                    $color = '#6495ED';
+            if (file_exists($localBinary)) {
+                $icon = 'fa-question-circle';
+                $color = '#646bed';
+
+                if (!empty($device->data->firmware->hash)) {
+                    $hash = md5_file($localBinary);
+                    if ($hash == $device->data->firmware->hash) {
+                        $icon = 'fa-check-circle';
+                        $color = 'green';
+                    } else {
+                        $icon = 'fa-arrow-circle-up';
+                        $color = '#6495ED';
+                    }
                 }
-            }
+            } 
         }
     @endphp
 
